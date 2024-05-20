@@ -60,7 +60,6 @@
                                     <a href="HomeControl">CLB(Của tôi)</a>
                                     <c:forEach items="${sessionScope.myclub}" var="x">   
                                         <p>${x}</p>  
-                                        
                                     </c:forEach>
                                 </li>
                             </c:if>

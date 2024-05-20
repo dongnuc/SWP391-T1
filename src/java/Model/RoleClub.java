@@ -4,13 +4,12 @@
  */
 package Model;
 
-import Controller.Student.*;
-import Controller.Admin.*;
-
 /**
  *
- * @author Admin
+ * @author 84358
  */
-public class Test {
+public class RoleClub {
     
+    private int id;
+    private int name;
 }

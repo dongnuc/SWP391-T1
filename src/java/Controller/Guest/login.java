@@ -107,20 +107,20 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        AccountDao acc=new AccountDao();
-        StudentClubDao st=new StudentClubDao();
-        AccountDao db=new AccountDao();
-        HttpSession session=request.getSession();
-        List<Accounts> list=acc.getAll();
-        Cookie[] cookies = request.getCookies();
-        String email=request.getParameter("email");
-        String passwords=request.getParameter("password");
-        String mahoa=password.getMd5(passwords);
-        String remember="";
-        
-        try {
-            remember=request.getParameter("remember");
-            if(remember.equalsIgnoreCase("1")){
+         AccountDao acc = new AccountDao();
+    StudentClubDao st = new StudentClubDao();
+    AccountDao db = new AccountDao();
+    HttpSession session = request.getSession();
+    List<Accounts> list = acc.getAll();
+    Cookie[] cookies = request.getCookies();
+    String email = request.getParameter("email");
+    String passwords = request.getParameter("password");
+    String mahoa = password.getMd5(passwords);
+    String remember = "";
+
+    try {
+        remember = request.getParameter("remember");
+        if ("1".equalsIgnoreCase(remember)) {
             Cookie accountx = new Cookie("account", email);
             Cookie Passwordx = new Cookie("password", passwords);
             accountx.setMaxAge(1000);
@@ -128,21 +128,29 @@ public class login extends HttpServlet {
             response.addCookie(accountx);
             response.addCookie(Passwordx);
         }
-        } catch (Exception e) {
+    } catch (Exception e) {
+        // Log exception (optional)
+    }
+
+    boolean loginSuccessful = false;
+    for (Accounts ac : list) {
+        if (email.equals(ac.getAccount()) && mahoa.equals(ac.getPassword())) {
+            session.setAttribute("account", email);
+            session.setAttribute("id", ac.getId());
+            List<String> listclub = st.getclubbtid(ac.getId());
+            session.setAttribute("myclub", listclub);
+            session.setAttribute("password", mahoa);
+            loginSuccessful = true;
+            break;
         }
-        for (Accounts ac : list) {
-        if (email.equals(ac.getAccount()) && mahoa.equals(ac.getPassword())) 
-        {
-        session.setAttribute("account", email);
-        session.setAttribute("id", ac.getId());
-        List<String> listclub=st.getclubbtid(ac.getId());
-        session.setAttribute("myclub", listclub);
-        session.setAttribute("password", mahoa);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-                   }
-        }
-        request.setAttribute("error", "Account or Password not Correct");
+    }
+
+    if (loginSuccessful) {
+        response.sendRedirect("Home.jsp");
+    } else {
+        session.setAttribute("error", "Account or Password not Correct");
         request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
+    }
     }
 
     /** 

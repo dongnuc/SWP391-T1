@@ -1,70 +1,89 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        form {
-            text-align: center;
-        }
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Enter Email</h2>
-        <form action="<%= request.getContextPath() %>/forgot">
-            <input type="text" name="email" placeholder="Enter your email">
-            <div class="error-message">${error}</div>
-            <input type="submit" value="Send OTP">
-        </form>
-    </div>
-</body>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title>Doctris - Doctor Appointment Booking System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
+        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
+        <meta name="author" content="Shreethemes" />
+        <meta name="email" content="support@shreethemes.in" />
+        <meta name="website" content="https://shreethemes.in" />
+        <meta name="Version" content="v1.2.0" />
+        <!-- favicon -->
+        <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
+        <!-- Bootstrap -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- Icons -->
+        <link href="../../css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
+        <!-- Css -->
+        <link href="../../css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
+    </head>
+
+    <body>
+        <!-- Loader -->
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Loader -->
+        
+        <div class="back-to-home rounded d-none d-sm-block">
+            <a href="index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+        </div>
+
+        <!-- Hero Start -->
+        <section class="bg-home d-flex bg-light align-items-center" style="background: url('../assets/images/bg/bg-lines-one.png') center;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-md-8">
+                        <img src="../assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                        <div class="card login-page bg-white shadow mt-4 rounded border-0">
+                            <div class="card-body">
+                                <h4 class="text-center">Recover Account</h4>  
+                                <form class="login-form mt-4">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p class="text-muted">Please enter your email address. You will receive a link to create a new password via email.</p>
+                                            <div class="mb-3">
+                                                <label class="form-label">Email address <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" placeholder="Enter Your Email Address" name="email" required="">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="d-grid">
+                                                <button class="btn btn-primary">Send</button>
+                                            </div>
+                                        </div>
+                                        <div class="mx-auto">
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Remember your password ?</small> <a href="login.html" class="text-dark h6 mb-0">Sign in</a></p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!---->
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+        <!-- Hero End -->
+        
+        <!-- javascript -->
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <!-- Icons -->
+        <script src="../../js/feather.min.js"></script>
+        <!-- Main Js -->
+        <script src="../../js/app.js"></script>
+        
+    </body>
+
 </html>
