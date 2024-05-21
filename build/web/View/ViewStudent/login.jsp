@@ -2,7 +2,24 @@
 
 <!DOCTYPE html>
 
-    <html lang="en">
+<html lang="en">
+    <%
+Cookie[] cookies = request.getCookies();
+String accountValue = "";  // Giá tr? m?c ??nh n?u cookie không t?n t?i
+String passwordValue="";
+if (cookies != null) {
+    for (Cookie cookie : cookies) {
+        if (cookie.getName().equals("account")) {
+            accountValue = cookie.getValue();     
+        }
+        if (cookie.getName().equals("password")) {
+            passwordValue = cookie.getValue();     
+        }
+    }
+}
+    
+    %>
+    
 
     <head>
         <meta charset="utf-8" />
@@ -15,15 +32,15 @@
         <meta name="website" content="https://shreethemes.in" />
         <meta name="Version" content="v1.2.0" />
         <!-- favicon -->
-        <link rel="shortcut icon" href="../assets/images/favicon.ico.png">
+        <link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/images/favicon.ico.png">
         <!-- Bootstrap -->
-        <link href="../../css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="<%= request.getContextPath() %>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <!-- Icons -->
-        <link href="../../css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="../../css/remixicon.css" rel="stylesheet" type="text/css" />
+        <link href="<%= request.getContextPath() %>/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+        <link href="<%= request.getContextPath() %>/css/remixicon.css" rel="stylesheet" type="text/css" />
         <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css"  rel="stylesheet">
         <!-- Css -->
-        <link href="../../css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+        <link href="<%= request.getContextPath() %>/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
 
     </head>
 
@@ -38,7 +55,7 @@
             </div>
         </div>
         <!-- Loader -->
-        
+
         <div class="back-to-home rounded d-none d-sm-block">
             <a href="index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>
@@ -52,7 +69,7 @@
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Sign In</h4>  
-                                <form action="index.html" class="login-form mt-4">
+                                <form action="<%= request.getContextPath() %>/login" method="post" class="login-form mt-4">
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="mb-3">
@@ -64,19 +81,20 @@
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="">
+                                                <input type="password" class="form-control" placeholder="Password" required="" name="password">
                                             </div>
+                                            <h6 style="color: red;">${requestScope.error}</h6>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <div class="d-flex justify-content-between">
                                                 <div class="mb-3">
                                                     <div class="form-check">
-                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check">
+                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check" name="r">
                                                         <label class="form-check-label" for="remember-check">Remember me</label>
                                                     </div>
                                                 </div>
-                                                <a href="forgot-password.html" class="text-dark h6 mb-0">Forgot password ?</a>
+                                                <a href="forgot.jsp" class="text-dark h6 mb-0">Forgot password ?</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-0">
@@ -88,16 +106,24 @@
                                         <div class="col-lg-12 mt-3 text-center">
                                             <h6 class="text-muted">Or</h6>
                                         </div><!--end col-->
-                                        
-                                       
+
+
                                         <div class="col-12 mt-3">
                                             <div class="d-grid">
-                                                <a href="#" class="btn btn-soft-primary"><i class="uil uil-google"></i> Google</a>
+                                                <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid
+
+&redirect_uri=http://localhost:9999/SWP391/login
+
+&response_type=code
+
+&client_id=922042633116-oh0la2guu6nt3bgmk0b77l9q2urlm6d0.apps.googleusercontent.com
+
+&approval_prompt=force" class="btn btn-soft-primary"><i class="uil uil-google"></i> Google</a>
                                             </div>
                                         </div><!--end col-->
 
                                         <div class="col-12 text-center">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small> <a href="signup.html" class="text-dark fw-bold">Sign Up</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Don't have an account ?</small> <a href="register.jsp" class="text-dark fw-bold">Sign Up</a></p>
                                         </div>
                                     </div>
                                 </form>
@@ -108,14 +134,15 @@
             </div> <!--end container-->
         </section><!--end section-->
         <!-- Hero End -->
-        
+
         <!-- javascript -->
-        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script src="<%= request.getContextPath() %>/js/bootstrap.bundle.min.js"></script>
         <!-- Icons -->
-        <script src="../../js/feather.min.js"></script>
+        <script src="<%= request.getContextPath() %>/js/feather.min.js"></script>
         <!-- Main Js -->
-        <script src="../../js/app.js"></script>
-        
+        <script src="<%= request.getContextPath() %>/js/app.js"></script>
+
     </body>
+    
 
 </html>

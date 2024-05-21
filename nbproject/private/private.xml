@@ -3,9 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
             <file>file:/D:/SWP391/SWP391-T1/web/WEB-INF/web.xml</file>
-            <file>file:/D:/SWP391/SWP391-T1/src/java/Model/AccountsReal.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/index.html</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/checkotp.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/password.java</file>
@@ -15,11 +13,10 @@
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/Test.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/password.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/constant/Iconstant.java</file>
-            <file>file:/D:/SWP391/SWP391-T1/src/java/DAO/Test.java</file>
+            <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/checkotp_1.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/DAO/StudentClubDao.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Student/Test.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/forgot.jsp</file>
-            <file>file:/D:/SWP391/SWP391-T1/src/java/Model/Blog.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Model/CategoryClub.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/forgot.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Model/Form.java</file>
@@ -34,26 +31,13 @@
             <file>file:/D:/SWP391/SWP391-T1/src/java/Model/RoleClub.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Model/GoogleAccount.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/NewServlet.java</file>
+            <file>file:/D:/SWP391/SWP391-T1/src/java/Model/Role.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Model/Clubs.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/newpassword.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/changepassword.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/register.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/Home.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/getrole.java</file>
-=======
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/web/View/ViewAdmin/Event.jsp</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/web/View/ViewAdmin/Mail.jsp</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/DAO/FormDao.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/DAO/StudentDao.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/web/View/ViewAdmin/css/Mail.css</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/Model/TypeClub.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/Model/Role.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/Model/FormAdmin.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/web/View/ViewAdmin/MailDetail.jsp</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/web/View/ViewAdmin/SideBar.jsp</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/Model/Club.java</file>
-            <file>file:/D:/Summer2024/SWP391/Code/SWP391/src/java/Model/Student.java</file>
->>>>>>> 763082049da682026b2e36bea8b8955f07259877
         </group>
     </open-files>
 </project-private>

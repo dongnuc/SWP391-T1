@@ -19,6 +19,14 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/responsive.css">
     </head>
+    <style>
+        .user-profile{
+            margin-right: 200px;
+        }
+        .profile-info{
+            margin-left: 200px;
+        }
+    </style>
    <div id="wallpaper">
             <header>
                 <div class="top">
@@ -43,7 +51,7 @@
                                 <li>
                                     <a href="HomeControl">Trang chủ</a>
                                 </li>
-                                <</li>
+                                </li>
             <li class="dropdown" onclick="toggleClubTable()">
                 <a href="#">Các CLB</a>
                 <div class="dropdown-content" id="club-table">
@@ -54,15 +62,7 @@
                     <a class="chu" href="#">CLB Tiếng Hàn</a>
                 </div>
             </li>
-                                </li>
-                                <c:if test="${sessionScope.account!=null}">
-                                <li>
-                                    <a href="HomeControl">CLB(Của tôi)</a>
-                                    <c:forEach items="${sessionScope.myclub}" var="x">   
-                                        <p>${x}</p>  
-                                    </c:forEach>
-                                </li>
-                            </c:if>
+                                
                                 <li>
                                     <a href="HomeControl">Sự kiện</a>
                                 </li>
@@ -78,22 +78,29 @@
     <div class="profile-picture">
         <img src="images/avatar.png" alt="">
         <div class="profile-info" id="profile-info">
-            <h6>Xin chao ${sessionScope.account}</h6>
-                                <a href="" id="logout-link">Edit profile</a>
-                                <c:if test="${sessionScope.password==null}">
-                                    <a href="View/ViewStudent/password.jsp" id="logout-link">Setting password</a>
-                                </c:if>
-                                <c:if test="${sessionScope.password!=null}">
-                                    <a href="View/ViewStudent/changepassword.jsp" id="logout-link">Change Password</a>
-                                </c:if>
-                                <a href="logout" id="logout-link">Đăng Xuất</a>
-        </div>
+    <h6>${sessionScope.account}</h6>
+    <a href="profile/edit" id="edit-profile-link">Edit Profile</a><br>
+    
+    <c:if test="${sessionScope.password == null}">
+        <a href="View/ViewStudent/password.jsp" id="set-password-link">Set Password</a><br>
+    </c:if>
+    
+    <c:if test="${sessionScope.password != null}">
+        <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
+    </c:if>
+        <c:if test="${sessionScope.role == 2}">
+        <a href="#" id="change-password-link">Dashboard</a><br>
+    </c:if>
+        <c:if test="${sessionScope.role == 1}">
+        <a href="#" id="change-password-link">My Club</a><br>
+    </c:if>
+    
+    <a href="logout" id="logout-link">Log Out</a>
+</div>
     </div>
     </c:if>
 </div>
  </div>
-                
-                
                                              <div class="main-header">
                     <div class="container">
                         <div class="row">

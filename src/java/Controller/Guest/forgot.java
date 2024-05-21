@@ -80,7 +80,7 @@ public class forgot extends HttpServlet {
         AccountDao db=new AccountDao();
         List<Accounts>list= db.getAll();
         for(Accounts ac: list){
-        if(email.equals(ac.getAccount())){
+        if(email.equals(ac.getEmail())){
         Properties prop=new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -112,7 +112,7 @@ public class forgot extends HttpServlet {
             }
         }
         request.setAttribute("error", "Account not Exsit");
-        request.getRequestDispatcher("forgot.jsp").forward(request, response);
+        request.getRequestDispatcher("View/ViewStudent/forgot.jsp").forward(request, response);
     } 
 
     /** 
