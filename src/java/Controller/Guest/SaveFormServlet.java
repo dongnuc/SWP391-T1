@@ -3,10 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Admin;
+package Controller.Guest;
 
-import DAO.ClubDao;
-import Model.Clubs;
+import DAO.FormDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Date;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="DashBoardServlet", urlPatterns={"/dashboardAdmin"})
-public class DashBoardServlet extends HttpServlet {
+@WebServlet(name="SaveFormServlet", urlPatterns={"/saveForm"})
+public class SaveFormServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +37,10 @@ public class DashBoardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DashBoardServlet</title>");  
+            out.println("<title>Servlet SaveFormServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DashBoardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SaveFormServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,11 +57,7 @@ public class DashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        List<Clubs> getAllClub = dao.getClubAll();
-        HttpSession session = request.getSession();
-        session.setAttribute("listClub", getAllClub);
-       request.getRequestDispatcher("View/ViewAdmin/Dashboard.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 
@@ -76,7 +70,17 @@ public class DashBoardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        String fullName = request.getParameter("fullName");
+        String email = request.getParameter("email");
+        String tittle = request.getParameter("tittle");
+        String content = request.getParameter("content");
+        Date dateNow = new Date();
+        String idClub = request.getParameter("idClub");
+        FormDao dao = new FormDao();
+        byte handle = 0;
+        byte status = 1;
+        dao.insertForm(fullName, email, tittle, content, dateNow, handle, handle, idClub, handle);
     }
 
     /** 

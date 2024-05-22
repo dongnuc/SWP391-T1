@@ -41,6 +41,28 @@ public class Form {
         this.handle = handle;
         this.status = status;
     }
+
+    public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, String email, int idClub, byte handle, byte status, byte isRead) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.dateCreate = dateCreate;
+        this.email = email;
+        this.idClub = idClub;
+        this.handle = handle;
+        this.status = status;
+        this.isRead = isRead;
+    }
+
+    public byte getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(byte isRead) {
+        this.isRead = isRead;
+    }
+    
     
     
     

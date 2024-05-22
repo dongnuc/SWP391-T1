@@ -94,7 +94,7 @@ if (cookies != null) {
                                                         <label class="form-check-label" for="remember-check">Remember me</label>
                                                     </div>
                                                 </div>
-                                                <a href="forgot.jsp" class="text-dark h6 mb-0">Forgot password ?</a>
+                                                <a href="<%= request.getContextPath() %>/forgot" class="text-dark h6 mb-0">Forgot password ?</a>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 mb-0">

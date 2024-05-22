@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Admin;
+package Controller.Guest;
 
 import DAO.ClubDao;
 import Model.Clubs;
@@ -14,15 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author Admin
+ * @author 84358
  */
-@WebServlet(name="DashBoardServlet", urlPatterns={"/dashboardAdmin"})
-public class DashBoardServlet extends HttpServlet {
+@WebServlet(name="contactus", urlPatterns={"/contactus"})
+public class contactus extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +38,10 @@ public class DashBoardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DashBoardServlet</title>");  
+            out.println("<title>Servlet contactus</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DashBoardServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet contactus at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,10 +59,10 @@ public class DashBoardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         ClubDao dao = new ClubDao();
-        List<Clubs> getAllClub = dao.getClubAll();
-        HttpSession session = request.getSession();
-        session.setAttribute("listClub", getAllClub);
-       request.getRequestDispatcher("View/ViewAdmin/Dashboard.jsp").forward(request, response);
+        List<Clubs> getClub = dao.getClubAll();
+        request.setAttribute("listClub", getClub);
+        request.getRequestDispatcher("View/ViewStudent/ContactUs.jsp").forward(request, response);
+                
     } 
 
     /** 

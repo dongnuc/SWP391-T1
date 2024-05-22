@@ -10,7 +10,7 @@
     </servlet-mapping>
     
     <welcome-file-list>
-        <welcome-file>Home.jsp</welcome-file>
+        <welcome-file>home</welcome-file>
     </welcome-file-list>
       
     

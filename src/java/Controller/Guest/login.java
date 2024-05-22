@@ -47,6 +47,7 @@ String accesstoken = gg.getToken(code);
 System.out.println(accesstoken);
 GoogleAccount acc = gg.getUserInfo(accesstoken);
 String account = acc.getEmail();
+String name=acc.getName();
 System.out.println(acc.toString());
 AccountDao ab=new AccountDao();
 
@@ -65,7 +66,7 @@ if (!account.endsWith("@fpt.edu.vn")) {
     }
     if (check == 0) {
         Date date=new Date();
-        db.insertAccountGoogle(account, date);
+        db.insertAccountGoogle(account, date,name);
         String password = db.getoldpassword(account);
         session.setAttribute("password", password);
     } else {

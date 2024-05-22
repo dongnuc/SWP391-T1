@@ -9,6 +9,7 @@ import Model.Form;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,8 +52,8 @@ public class FormDao extends DBContext {
         }
         return null;
     }
-    
-    public List<Form> getFormDelete(){
+
+    public List<Form> getFormDelete() {
         List<Form> listForm = new ArrayList<>();
         String sql = "select * from form where status = 0;";
         try {
@@ -90,7 +91,7 @@ public class FormDao extends DBContext {
         }
         return listForm;
     }
-    
+
     public List<Form> searchByTittleNoExist(String tittle) {
         List<Form> listForm = new ArrayList<>();
         String query = "SELECT * FROM swp391.form where status = 0";
@@ -122,6 +123,29 @@ public class FormDao extends DBContext {
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+//    Insert 
+    public void insertForm(String fullName, String email, String tittle, String content, Date dateCreate,
+            byte handle, byte status, String idClub,byte isRead) {
+        String query = "INSERT INTO `swp391`.`form`\n"
+                + "(`FullName`,`Email`,`TittleForm`,`Content`,`DateCreate`,`Handle`,`Status`,`IdClub`,`isRead`)\n"
+                + "VALUES(?,?,?,?,?,?,?,?,?);";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, fullName);
+            st.setString(2, email);
+            st.setString(3, tittle);
+            st.setString(4, content);
+            java.sql.Date sqlDate = new java.sql.Date(dateCreate.getTime());
+            st.setDate(5, sqlDate);
+            st.setByte(6, handle);
+            st.setByte(7, status);
+            st.setString(8, idClub);
+            st.setByte(9, isRead);
+            st.executeUpdate();
+        } catch (Exception e) {
         }
     }
 

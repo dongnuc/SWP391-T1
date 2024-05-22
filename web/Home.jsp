@@ -64,10 +64,7 @@
             </li>
                                 
                                 <li>
-                                    <a href="HomeControl">Sự kiện</a>
-                                </li>
-                                   <li>
-                                    <a href="HomeControl">Tuyển sinh</a>
+                                    <a href="contactus">CONTACT US</a>
                                 </li>
                             </ul>
                             <div class="clear"></div>

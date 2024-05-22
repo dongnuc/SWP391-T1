@@ -66,9 +66,9 @@ public class AccountDao extends DBContext{
         } catch (Exception e) {
         }
     }
-    public void insertAccountGoogle(String account,Date date) {
-        String sql = "INSERT INTO Student (Email,role,DateCreate,status) VALUES"
-                + " (?,?,?,?);";
+    public void insertAccountGoogle(String account,Date date,String Name) {
+        String sql = "INSERT INTO Student (Email,role,DateCreate,status,NameStudent) VALUES"
+                + " (?,?,?,?,?);";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, account);
@@ -76,6 +76,7 @@ public class AccountDao extends DBContext{
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             st.setDate(3, sqlDate);
             st.setInt(4, 1);
+            st.setString(5, Name);
             st.executeUpdate();
 
         } catch (Exception e) {
