@@ -157,8 +157,9 @@
     <!-- Loader -->
     
     <div class="back-to-home rounded d-none d-sm-block">
-        <a href="<%= request.getContextPath() %>/index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+        <a href="<%= request.getContextPath() %>/home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
     </div>
+    
 
     <!-- Hero Start -->
     <section class="bg-half-150 d-table w-100 bg-light" style="background: url('<%= request.getContextPath() %>/assets/images/bg/bg-lines-one.png') center;">

@@ -8,6 +8,7 @@
             <file>file:/D:/Summer2024/SWP391/SWP391-T1/web/View/ViewAdmin/FeedbackForm.jsp</file>
 =======
             <file>file:/D:/SWP391/SWP391-T1/web/WEB-INF/web.xml</file>
+            <file>file:/D:/SWP391/SWP391-T1/src/java/DAO/ClubDao.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/index.html</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/checkotp.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/password.java</file>
@@ -40,7 +41,10 @@
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/Test.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/newpassword.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/changepassword.jsp</file>
+            <file>file:/D:/SWP391/SWP391-T1/web/View/ViewStudent/ContactUs.jsp</file>
+            <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/home.java</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/register.java</file>
+            <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/contactus.java</file>
             <file>file:/D:/SWP391/SWP391-T1/web/Home.jsp</file>
             <file>file:/D:/SWP391/SWP391-T1/src/java/Controller/Guest/getrole.java</file>
 >>>>>>> c6b0d351fbe62e20ebff74ecfd157a70d59a6a31
