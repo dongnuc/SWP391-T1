@@ -57,13 +57,14 @@
                                             <input type="email" class="form-control" placeholder="Enter Your Email Address" name="email" required="">
                                         </div>
                                     </div>
+                                    <h6 style="color: red;">${requestScope.error}</h6>
                                     <div class="col-lg-12">
                                         <div class="d-grid">
                                             <button class="btn btn-primary">Send</button>
                                         </div>
                                     </div>
                                     <div class="mx-auto">
-                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Remember your password?</small> <a href="<%= request.getContextPath() %>/login.html" class="text-dark h6 mb-0">Sign in</a></p>
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Remember your password?</small> <a href="View/ViewStudent/login.jsp" class="text-dark h6 mb-0">Sign in</a></p>
                                     </div>
                                 </div>
                             </form>

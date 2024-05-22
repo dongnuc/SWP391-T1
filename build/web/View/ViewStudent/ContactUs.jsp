@@ -59,9 +59,6 @@
                             <div class="form-group">
                                 <div class="input-wrapper">
                                     <label for="clubId">ID Club</label>
-                                      
-                        
-                                    
                                     <select id="clubId" class="input-field">
                                         <c:forEach items="${requestScope.listclub}" var="x"> 
                                         <option value="1">${x}</option>

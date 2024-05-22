@@ -57,7 +57,7 @@ if (cookies != null) {
         <!-- Loader -->
 
         <div class="back-to-home rounded d-none d-sm-block">
-            <a href="index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+            <a href="<%= request.getContextPath() %>/home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
         </div>
 
         <!-- Hero Start -->
@@ -74,14 +74,14 @@ if (cookies != null) {
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" required="">
+                                                <input type="email" class="form-control" placeholder="Email" name="email" required="" value="<%= accountValue %>">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="" name="password">
+                                                <input type="password" class="form-control" placeholder="Password" required="" name="password" value="<%= passwordValue %>">
                                             </div>
                                             <h6 style="color: red;">${requestScope.error}</h6>
                                         </div>
@@ -90,7 +90,7 @@ if (cookies != null) {
                                             <div class="d-flex justify-content-between">
                                                 <div class="mb-3">
                                                     <div class="form-check">
-                                                        <input class="form-check-input align-middle" type="checkbox" value="" id="remember-check" name="r">
+                                                        <input class="form-check-input align-middle" type="checkbox" value="1" id="remember-check" name="remember">
                                                         <label class="form-check-label" for="remember-check">Remember me</label>
                                                     </div>
                                                 </div>
