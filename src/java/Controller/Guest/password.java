@@ -60,7 +60,6 @@ public class password extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
         HttpSession session=request.getSession();
         int otp1=(int) session.getAttribute("otp");
         String otp2_raw=request.getParameter("otp");
@@ -95,8 +94,8 @@ public class password extends HttpServlet {
         AccountDao db=new AccountDao();   
         String mahoa=getMd5(password);
         db.Resetpassword(mahoa, account);
-        session.setAttribute("View/ViewStudent/password", mahoa);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        session.setAttribute("password", mahoa);
+        request.getRequestDispatcher("Home.jsp").forward(request, response);
         }
         
         

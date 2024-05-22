@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,50 +37,47 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        StudentClubDao scb=new StudentClubDao();
-        HttpSession session=request.getSession();
-        Cookie[] cookies = request.getCookies();
-        String code=request.getParameter("code");
-        PrintWriter out = response.getWriter();
-        googlelogin gg=new googlelogin();
-        String accesstoken= gg.getToken(code);
-        System.out.println(accesstoken);
-        GoogleAccount acc= gg.getUserInfo(accesstoken);
-        String account=acc.getEmail();
-        System.out.println(acc.toString());
-//        if(!account.endsWith("@fpt.edu.vn")){
-//            request.setAttribute("error", "Account not permit login with web");
-//            request.getRequestDispatcher("login.jsp").forward(request, response);
-//        }
-        session.setAttribute("account", account);
-        AccountDao db=new AccountDao();
-        List<Accounts> listaccount=db.getAll();
-        
-        int check=0;
-        for(Accounts ac: listaccount){
-            if(account.equals(ac.getAccount())){
-                check++;
-            }
+response.setContentType("text/html;charset=UTF-8");
+StudentClubDao scb = new StudentClubDao();
+HttpSession session = request.getSession();
+Cookie[] cookies = request.getCookies();
+String code = request.getParameter("code");
+googlelogin gg = new googlelogin();
+String accesstoken = gg.getToken(code);
+System.out.println(accesstoken);
+GoogleAccount acc = gg.getUserInfo(accesstoken);
+String account = acc.getEmail();
+String name=acc.getName();
+System.out.println(acc.toString());
+AccountDao ab=new AccountDao();
+
+if (!account.endsWith("@fpt.edu.vn")) {
+    request.setAttribute("error", "Tài khoản không được phép đăng nhập với trang web");
+    request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
+} else {
+    AccountDao db = new AccountDao();
+    List<Accounts> listaccount = db.getAll();
+    int check = 0;
+    for (Accounts ac : listaccount) {
+        if (account.equals(ac.getEmail())) {
+            check++;
+            break; // Không cần tiếp tục vòng lặp khi đã tìm thấy
         }
-        int id=0;
-        if(check==0){
-            id=db.getidaccount()+1;
-            db.insertAccountGoogle(id, account, 1);
-            String password=db.getoldpassword(account);
-            session.setAttribute("id", id);
-            session.setAttribute("password", password);
-        }
-        if(check!=0){
-            String password=db.getoldpassword(account);
-            id =db.getidofaccount(account);
-            session.setAttribute("password", password);
-            session.setAttribute("id", id);
-        }
-        List<String> listclub=scb.getclubbtid(id);
-        session.setAttribute("myclub", listclub);
-        session.setAttribute("account", account);      
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+    }
+    if (check == 0) {
+        Date date=new Date();
+        db.insertAccountGoogle(account, date,name);
+        String password = db.getoldpassword(account);
+        session.setAttribute("password", password);
+    } else {
+        String password = db.getoldpassword(account);
+        session.setAttribute("password", password);
+        int role=ab.getrole(account);
+        session.setAttribute("role", role);
+    }
+    session.setAttribute("account", account);      
+    request.getRequestDispatcher("Home.jsp").forward(request, response);
+    }
     }
     
 
@@ -107,7 +105,7 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         AccountDao acc = new AccountDao();
+    AccountDao acc = new AccountDao();
     StudentClubDao st = new StudentClubDao();
     AccountDao db = new AccountDao();
     HttpSession session = request.getSession();
@@ -131,15 +129,14 @@ public class login extends HttpServlet {
     } catch (Exception e) {
         // Log exception (optional)
     }
-
     boolean loginSuccessful = false;
     for (Accounts ac : list) {
-        if (email.equals(ac.getAccount()) && mahoa.equals(ac.getPassword())) {
+        if (email.equals(ac.getEmail()) && mahoa.equals(ac.getPassword())) {
             session.setAttribute("account", email);
             session.setAttribute("id", ac.getId());
-            List<String> listclub = st.getclubbtid(ac.getId());
-            session.setAttribute("myclub", listclub);
             session.setAttribute("password", mahoa);
+            int role=acc.getrole(email);
+            session.setAttribute("role", role);
             loginSuccessful = true;
             break;
         }
@@ -148,7 +145,7 @@ public class login extends HttpServlet {
     if (loginSuccessful) {
         response.sendRedirect("Home.jsp");
     } else {
-        session.setAttribute("error", "Account or Password not Correct");
+        request.setAttribute("error", "Account or Password not Correct");
         request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
     }
     }

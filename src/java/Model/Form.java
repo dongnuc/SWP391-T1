@@ -18,6 +18,7 @@ public class Form {
     private Date dateCreate;
     private String email;
     private int idClub;
+    private byte handle, status,isRead;
 
     public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, String email, int idClub) {
         this.idForm = idForm;
@@ -29,6 +30,44 @@ public class Form {
         this.idClub = idClub;
     }
 
+    public Form(int idForm, String fullName , String email, String titleForm, String contentForm, Date dateCreate, byte handle, byte status, int idClub) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.dateCreate = dateCreate;
+        this.email = email;
+        this.idClub = idClub;
+        this.handle = handle;
+        this.status = status;
+    }
+
+    public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, String email, int idClub, byte handle, byte status, byte isRead) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.dateCreate = dateCreate;
+        this.email = email;
+        this.idClub = idClub;
+        this.handle = handle;
+        this.status = status;
+        this.isRead = isRead;
+    }
+
+    public byte getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(byte isRead) {
+        this.isRead = isRead;
+    }
+    
+    
+    
+    
+    
+    
     public int getIdForm() {
         return idForm;
     }
@@ -84,6 +123,24 @@ public class Form {
     public void setIdClub(int idClub) {
         this.idClub = idClub;
     }
+
+    public byte getHandle() {
+        return handle;
+    }
+
+    public void setHandle(byte handle) {
+        this.handle = handle;
+    }
+
+    public byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(byte status) {
+        this.status = status;
+    }
+    
+    
 
     public Form() {
     }

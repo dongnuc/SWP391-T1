@@ -97,20 +97,27 @@ public class newpassword extends HttpServlet {
         String confirm=request.getParameter("confirm").trim();
         String account=(String) session.getAttribute("account");
         String x=db.getoldpassword(account);
+        int check=0;
+
         if(!mahoa1.equalsIgnoreCase(x)){
             request.setAttribute("error", "Mật khẩu cũ không chính xác");
+            check++;
             request.getRequestDispatcher("View/ViewStudent/changepassword.jsp").forward(request, response);
         }
         if(!new_raw.equalsIgnoreCase(confirm)){
             request.setAttribute("error", "Mật khẩu mới không khớp");
+            check++;
             request.getRequestDispatcher("View/ViewStudent/changepassword.jsp").forward(request, response);
         }
         if(new_raw.length()<6){
+            check++;
             request.setAttribute("error", "Mật Khẩu mới phải lớn hơn 6 kí tự");
             request.getRequestDispatcher("View/ViewStudent/changepassword.jsp").forward(request, response);
         }
+        if(check==0){
         db.Resetpassword(mahoa2, account);
         response.sendRedirect("View/ViewStudent/login.jsp");
+        }
     }
 
     /** 

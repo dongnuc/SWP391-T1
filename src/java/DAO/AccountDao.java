@@ -9,6 +9,7 @@ import Model.Accounts;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,15 +19,17 @@ import java.util.List;
 public class AccountDao extends DBContext{
     public  List<Accounts> getAll() {
         List<Accounts> list=new ArrayList<>();
-        String sql = "select *from Account ";
-
+        String sql = "select *from Student ";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts c = new Accounts(rs.getInt("id"), rs.getInt("role"),
-                        rs.getString("account"), rs.getString("password"));
-
+//               //int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role
+                 Accounts c= new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                         rs.getString("Email"), rs.getString("password"),
+                         rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
+                         rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                         rs.getInt("Status"), rs.getInt("role"));
                 list.add(c);
             }
         } catch (Exception e) {
@@ -34,7 +37,7 @@ public class AccountDao extends DBContext{
         return list;
     }
     public int getidaccount() {
-        String sql = "select count(*)from Account";
+        String sql = "select count(*)from Student";
         int x = 0;
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -46,35 +49,41 @@ public class AccountDao extends DBContext{
         }
         return x;
     }
-    public void insertAccount(int id, String account, String password, int role) {
-        String sql = "INSERT INTO Account (id, account, password,role) VALUES"
-                + " (?,?,?,?);";
+    public void insertAccount(String account, String password, Date date,String name) {
+        String sql = "INSERT INTO Student (Email,password,role,status,DateCreate,NameStudent) VALUES"
+                + " (?,?,?,?,?,?);";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id);
-            st.setString(2, account);
-            st.setString(3, password);
-            st.setInt(4, role);
+            st.setString(1, account);
+            st.setString(2, password);
+            st.setInt(3, 1);
+            st.setInt(4, 1);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            st.setDate(5, sqlDate);
+            st.setString(6, name);
             st.executeUpdate();
 
         } catch (Exception e) {
         }
     }
-    public void insertAccountGoogle(int id, String account, int role) {
-        String sql = "INSERT INTO Account (id, account,role) VALUES"
-                + " (?,?,?);";
+    public void insertAccountGoogle(String account,Date date,String Name) {
+        String sql = "INSERT INTO Student (Email,role,DateCreate,status,NameStudent) VALUES"
+                + " (?,?,?,?,?);";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id);
-            st.setString(2, account);
-            st.setInt(3, role);
+            st.setString(1, account);
+            st.setInt(2, 1);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            st.setDate(3, sqlDate);
+            st.setInt(4, 1);
+            st.setString(5, Name);
             st.executeUpdate();
 
         } catch (Exception e) {
         }
     }
     public void Resetpassword(String password, String account) {
-        String sql = "UPDATE Account SET password = ? WHERE account = ?";
+        String sql = "UPDATE Student SET password = ? WHERE email = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, password);
@@ -86,7 +95,7 @@ public class AccountDao extends DBContext{
     }
         public String getoldpassword(String account) {
         String password = "";
-        String sql = "select *from account where account= ?";
+        String sql = "select *from Student where Email= ?";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -113,6 +122,26 @@ public class AccountDao extends DBContext{
         } catch (Exception e) {
         }
         return id;
+    }
+        public int getrole(String account) {
+        int id=0;
+        String sql = "select *from Student where Email= ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, account);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("role");
+            }
+        } catch (Exception e) {
+        }
+        return id;
+    }
+        public static void main(String[] args) {
+        AccountDao db=new AccountDao();
+        int y=db.getrole("huynhe170275@fpt.edu.vn");
+        System.out.println(y);
     }
     
 }

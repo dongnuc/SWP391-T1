@@ -15,7 +15,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -60,9 +68,14 @@ public class register extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String account=request.getParameter("taikhoan").trim();
-        String passwords=request.getParameter("matkhau").trim();
-        String confirm=request.getParameter("confirm").trim();
+        String lastname=request.getParameter("lastname");
+        String firstname=request.getParameter("firstname");
+        String name=firstname+" "+lastname;
+        String account=request.getParameter("email").trim();
+        String passwords=request.getParameter("password").trim();
+        session.setAttribute("account", account);
+        session.setAttribute("password", passwords);
+        session.setAttribute("name", name);
         String error="";
         int check=0;
         if(!account.endsWith("@fpt.edu.vn")){
@@ -72,7 +85,7 @@ public class register extends HttpServlet {
         }
         AccountDao db=new AccountDao();
         if(account.length()<6||passwords.length()<6){
-            error="Tài khoản và mật khẩu phải có ít nhất 3 kí tự";
+            error="Tài khoản và mật khẩu phải có ít nhất 6 kí tự";
             request.setAttribute("error", error);
             check++;
             request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
@@ -80,26 +93,61 @@ public class register extends HttpServlet {
         }
         List<Accounts> list=db.getAll();
         for(Accounts k:list){
-            if(account.equalsIgnoreCase(k.getAccount())){
+            if(account.equalsIgnoreCase(k.getEmail())){
             error="Tài khoản đã tồn tại";
             request.setAttribute("error", error);
             check++;
             request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
             }
         }
-        if(!passwords.equalsIgnoreCase(confirm)){
-            error="Mật khẩu mới không khớp";
-            request.setAttribute("error", error);
-            check++;
-            request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
-        }
         if(check==0){
-        int k=db.getidaccount()+1;
-        String mahoa =password.getMd5(passwords);
-        db.insertAccount(k, account, mahoa, 1);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        String email=request.getParameter("email");
+        final String from="huytestnguyen@gmail.com";
+        final String password="rcjmvvsweiaeuwdt";
+        Random random = new Random();
+        int randomNumber = random.nextInt(1000);
+        session.setAttribute("otp", randomNumber);
+        Properties prop=new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth","true");
+        prop.put("mail.smtp.starttls.enable","true");
+        javax.mail.Authenticator authenticator;
+        authenticator = new javax.mail.Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return  new PasswordAuthentication(from,password);
+            }
+        };
+         Session session1 =Session.getInstance(prop, authenticator);
+         MimeMessage msg=new MimeMessage(session1);
+         try {
+            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+            msg.setFrom(from);
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(account,false));
+            msg.setSubject("Test Email");
+            msg.setSentDate(new Date());
+            msg.setText(""+randomNumber);
+            javax.mail.Transport.send(msg);
+            session.setAttribute("account", email);
+            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
+            
+        } catch (Exception e) {
+            
+        }    
+            }
         }
-    } 
+        
+        
+        
+    
+////        if(check==0){
+////        int k=db.getidaccount()+1;
+////        String mahoa =password.getMd5(passwords);
+////        db.insertAccount(k, account, mahoa, 1);
+////        request.getRequestDispatcher("Home.jsp").forward(request, response);
+////        }
+//    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -111,7 +159,24 @@ public class register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session=request.getSession();
+        AccountDao ac=new AccountDao();
+        int otp1=(int) session.getAttribute("otp");
+        String otp2_raw=request.getParameter("otp");
+        int otp2=0;
+        otp2=Integer.parseInt(otp2_raw);
+        if(otp1==otp2){
+            String account=(String) session.getAttribute("account");
+            String passwords=(String) session.getAttribute("password");
+            String passwordmahoa=password.getMd5(passwords);
+            String name=(String) session.getAttribute("name");
+            Date date=new Date();
+            ac.insertAccount(account, passwordmahoa, date,name);
+            request.getRequestDispatcher("Home.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "OTP Wrong");
+            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
+        }
     }
 
     /** 
