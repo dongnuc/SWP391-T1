@@ -59,6 +59,7 @@ public class RemoveFormServlet extends HttpServlet {
         String idForm = request.getParameter("idForm");
         FormDao dao = new FormDao();
         dao.deleteFormById(idForm);
+        request.getRequestDispatcher("loadForm").forward(request, response);
     } 
 
     /** 

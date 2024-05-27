@@ -78,9 +78,8 @@ public class SaveFormServlet extends HttpServlet {
         Date dateNow = new Date();
         String idClub = request.getParameter("idClub");
         FormDao dao = new FormDao();
-        byte handle = 0;
-        byte status = 1;
-        dao.insertForm(fullName, email, tittle, content, dateNow, handle, handle, idClub, handle);
+        dao.insertForm(fullName, tittle, content, dateNow, email);
+        response.sendRedirect("home");
     }
 
     /** 

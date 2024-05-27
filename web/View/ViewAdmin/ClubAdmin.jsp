@@ -4,6 +4,7 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +58,79 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/ClubAdmin.css">-->
+        <style>
+            /* Reset một số thuộc tính mặc định của bảng */
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 20px 0;
+                font-size: 18px;
+                text-align: left;
+            }
 
+            /* Kiểu dáng cho bảng */
+            .styled-table {
+                border: 1px solid #dddddd;
+                font-family: Arial, sans-serif;
+                border-radius: 5px;
+                overflow: hidden;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            }
+
+            /* Kiểu dáng cho hàng đầu tiên (thead) */
+            .styled-table thead tr {
+                background-color: #009879;
+                color: #ffffff;
+                text-align: left;
+                font-weight: bold;
+            }
+
+            /* Kiểu dáng cho các hàng dữ liệu (tbody) */
+            .styled-table tbody tr {
+                border-bottom: 1px solid #dddddd;
+            }
+
+            .styled-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+
+            .styled-table tbody tr:last-of-type {
+                border-bottom: 2px solid #009879;
+            }
+
+            /* Thêm hiệu ứng hover */
+            .styled-table tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            /* Kiểu dáng cho các ô (th, td) */
+            .styled-table th,
+            .styled-table td {
+                padding: 12px 15px;
+            }
+
+            .data-option {
+                display: flex;
+                align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+            }
+
+            .data-option input[type="text"] {
+                height: 36px;
+                margin-right: 10px; /* Khoảng cách giữa input và select */
+                padding: 5px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .select-role select {
+                padding: 5px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -406,10 +479,66 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Basic Calendar</h4>
+                                <h4>Student Club</h4>
                             </div>
-                            <div class="widget-inner">
-                                <div id="calendar"></div>
+
+                            <div class="card-body">
+                                <div class="data-option">
+                                    <input type="text" placeholder="Search name here">
+                                    <div class="select-role">
+                                        <select class="no">
+                                            <option>Role</option>
+                                            <c:forEach var="roleList" items="${listRole}">
+                                                <option>${roleList.nameRole}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <table class="styled-table" id="datatablesSimple" border="1px">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Gender</th>
+                                            <th>Day of birth</th>
+                                            <th>Point</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="listacc" items="${listAcc}">
+                                            <tr>
+                                                <td>1</td>
+                                                <td>${listacc.name}</td>
+                                                <c:if test="${listacc.gender != 1}">
+                                                    <td>Female</td>
+                                                </c:if>
+
+                                                <c:if test="${listacc.gender == 1}">
+                                                    <td>Male</td>
+                                                </c:if>
+                                                <td>${listacc.date}</td>
+                                                <td>${listacc.points}</td>
+                                                <td>Member</td>
+
+                                                <c:if test="${listacc.status != 1}">
+                                                    <td>Unactive</td>
+                                                </c:if>
+
+                                                <c:if test="${listacc.status == 1}">
+                                                    <td>Active</td>
+                                                </c:if>
+                                                <td>
+                                                    <a href="#" style="margin-right: 5px"><i class="fa fa-edit"> Edit</i></a>
+                                                    <a href="#" style="margin-right: 5px"><i class="fa fa-trash-o"> Remove</i></a>
+                                                </td>
+                                            </c:forEach>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -438,85 +567,19 @@
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
-        <script>
-            $(document).ready(function () {
-
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: '2019-03-12',
-                    navLinks: true, // can click day/week names to navigate views
-
-                    weekNumbers: true,
-                    weekNumbersWithinDays: true,
-                    weekNumberCalculation: 'ISO',
-
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: '2019-03-01'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2019-03-07',
-                            end: '2019-03-10'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-09T16:00:00'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2019-03-11',
-                            end: '2019-03-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T10:30:00',
-                            end: '2019-03-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2019-03-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2019-03-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2019-03-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2019-03-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2019-03-28'
+        <!--        <script>
+                    window.addEventListener('DOMContentLoaded', event => {
+                        // Simple-DataTables
+                        // https://github.com/fiduswriter/Simple-DataTables/wiki
+        
+                        const datatablesSimple = document.getElementById('datatablesSimple');
+                        if (datatablesSimple) {
+                            new simpleDatatables.DataTable(datatablesSimple);
                         }
-                    ]
-                });
-
-            });
-
-        </script>
+                    });
+                    
+                </script>
+        -->
     </body>
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->

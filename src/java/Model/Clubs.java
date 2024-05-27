@@ -5,6 +5,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,7 +19,19 @@ public class Clubs {
     private Date modify;
     private int type;
     private int status;
+    private Role listRole;
 
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int status) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.status = status;
+    }
+    
+    
+// 
     public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status) {
         this.club = club;
         this.nameclub = nameclub;
@@ -28,6 +41,10 @@ public class Clubs {
         this.type = type;
         this.status = status;
     }
+
+
+    
+    
 
     public Clubs() {
     }
@@ -87,6 +104,16 @@ public class Clubs {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Role getListRole() {
+        return listRole;
+    }
+
+    public void setListRole(Role listRole) {
+        this.listRole = listRole;
+    }
+    
+    
     
     
     

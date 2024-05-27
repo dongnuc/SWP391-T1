@@ -25,9 +25,9 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getDate(6),
-                        rs.getByte(7), rs.getByte(8), rs.getInt(9));
+                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(6),
+                        rs.getString(3), rs.getString(4), rs.getDate(5),
+                        rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
         } catch (Exception e) {
@@ -43,9 +43,9 @@ public class FormDao extends DBContext {
             st.setString(1, idForm);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Form(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getDate(6),
-                        rs.getByte(7), rs.getByte(8), rs.getInt(9));
+                return new Form(rs.getInt(1), rs.getString(2), rs.getString(6),
+                        rs.getString(3), rs.getString(4), rs.getDate(5),
+                        rs.getInt(7), rs.getInt(8));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -60,9 +60,10 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getDate(6),
-                        rs.getByte(7), rs.getByte(8), rs.getInt(9));
+
+                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(6),
+                        rs.getString(3), rs.getString(4), rs.getDate(5),
+                        rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
         } catch (Exception e) {
@@ -81,9 +82,9 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getDate(6),
-                        rs.getByte(7), rs.getByte(8), rs.getInt(9));
+                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(6),
+                        rs.getString(3), rs.getString(4), rs.getDate(5),
+                        rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
         } catch (Exception e) {
@@ -102,15 +103,45 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getString(5), rs.getDate(6),
-                        rs.getByte(7), rs.getByte(8), rs.getInt(9));
+
+                Form form = new Form(rs.getInt(1), rs.getString(2), rs.getString(6),
+                        rs.getString(3), rs.getString(4), rs.getDate(5),
+                        rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return listForm;
+    }
+
+    public int countFormNoRead() {
+        String query = "select count(isRead) from form where isRead = 0 and Status = 1;";
+        int number = -1;
+        try {
+            PreparedStatement ps = connection.prepareCall(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                number = rs.getInt(1);
+                return number;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return number;
+    }
+
+    //Update
+    public void readForm(String idForm) {
+        String query = "UPDATE `swp391`.`form`\n"
+                + "SET `isRead` = 1 where IdForm = ?;";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, idForm);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     //delete Form
@@ -127,26 +158,31 @@ public class FormDao extends DBContext {
     }
 
 //    Insert 
-    public void insertForm(String fullName, String email, String tittle, String content, Date dateCreate,
-            byte handle, byte status, String idClub,byte isRead) {
+
+
+    public void insertForm(String fullName, String titleForm, String content, Date dateCreate, String email) {
         String query = "INSERT INTO `swp391`.`form`\n"
-                + "(`FullName`,`Email`,`TittleForm`,`Content`,`DateCreate`,`Handle`,`Status`,`IdClub`,`isRead`)\n"
-                + "VALUES(?,?,?,?,?,?,?,?,?);";
+                + "(\n"
+                + "`FullName`,\n"
+                + "`TittleForm`,\n"
+                + "`Content`,\n"
+                + "`DateCreate`,\n"
+                + "`Email`)\n"
+                + "VALUES (?,?,?,?,?);";
         try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setString(1, fullName);
-            st.setString(2, email);
-            st.setString(3, tittle);
-            st.setString(4, content);
-            java.sql.Date sqlDate = new java.sql.Date(dateCreate.getTime());
-            st.setDate(5, sqlDate);
-            st.setByte(6, handle);
-            st.setByte(7, status);
-            st.setString(8, idClub);
-            st.setByte(9, isRead);
-            st.executeUpdate();
+            PreparedStatement ps = connection.prepareStatement(query);
+                ps.setString(1, fullName);
+                ps.setString(2, titleForm);
+                ps.setString(3, content);
+                java.sql.Date sqlDate = new java.sql.Date(dateCreate.getTime());
+                ps.setDate(4, sqlDate);
+                ps.setString(5, email);
+                ps.executeUpdate();         
         } catch (Exception e) {
+            System.out.println(e);
         }
+        
+
     }
 
     public static void main(String[] args) {
@@ -154,9 +190,12 @@ public class FormDao extends DBContext {
 
         Form form = dao.getFormByID("1");
 //        System.out.println(form.getEmail());
-        dao.deleteFormById("2");
-        List<Form> listForm = dao.searchByTittleExist("Event");
-        System.out.println(listForm.size());
+//        dao.deleteFormById("2");
+//        List<Form> listForm = dao.searchByTittleExist("Event");
+//        System.out.println(listForm.size());
+//        System.out.println(dao.countFormNoRead());
+        Date dateNow = new Date();
+        dao.insertForm("Dong", "Bao cao su kiện", "Sự Kiện lỗi", dateNow, "dongnuc2k3@gmail.com");
     }
 
 }

@@ -5,6 +5,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -20,8 +21,10 @@ public class Accounts {
     private Date date;
     private Date datecreate;
     private Date datemodify;
+    private int points;
     private int status;
     private int role;
+    List<Clubs> myClubs;
 
     public Accounts() {
     }
@@ -40,12 +43,55 @@ public class Accounts {
         this.role = role;
     }
 
-    public Accounts(int id, String email, String password, int role) {
+    public Accounts(int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role, List<Clubs> myClubs) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
+        this.sdt = sdt;
+        this.gender = gender;
+        this.date = date;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+        this.status = status;
+        this.role = role;
+        this.myClubs = myClubs;
+    }
+
+    public Accounts(int id, String name, int gender, Date date, int points, int status, int role) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.date = date;
+        this.points = points;
+        this.status = status;
         this.role = role;
     }
+
+    public Accounts(int id, String name, int gender, Date date, int points, int status, List<Clubs> myClubs) {
+        this.id = id;
+        this.name = name;
+        this.gender = gender;
+        this.date = date;
+        this.points = points;
+        this.status = status;
+        this.myClubs = myClubs;
+    }
+    
+    
+
+   
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    
+    
+    
 
     public String getPassword() {
         return password;
@@ -54,10 +100,15 @@ public class Accounts {
     public void setPassword(String password) {
         this.password = password;
     }
-    
 
+    public List<Clubs> getMyClubs() {
+        return myClubs;
+    }
+
+    public void setMyClubs(List<Clubs> myClubs) {
+        this.myClubs = myClubs;
+    }
    
-    
 
     public int getRole() {
         return role;

@@ -89,7 +89,13 @@
                                     </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
-                                            <li class="active"><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox <span class="badge badge-success">8</span></a></li>
+                                            <li class="active"><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
+                                                    <c:if test="${noRead > 0}">
+                                                        <span class="badge badge-success">
+                                                            ${noRead}
+                                                        </span></a></li>
+                                                    </c:if>
+
                                             <li><a href=""><i class="fa fa-send-o"></i>Sent</a></li>
                                             <li><a href="formdelete"><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>
@@ -111,7 +117,7 @@
                                     </div>
                                     <div class="mail-box-list" id="mail-box-list">
                                         <c:forEach var="listform" items="${listForm}">
-                                            <div class="mail-list-info">
+                                            <div class="mail-list-info" id="idForm${listform.idForm}">
                                                 <div class="checkbox-list">
                                                     <div class="custom-control custom-checkbox checkbox-st1">
                                                         <input type="checkbox" class="custom-control-input" id="check2">
@@ -122,7 +128,15 @@
                                                     <span><i class="fa fa-star-o"></i></span>
                                                 </div>
                                                 <div class="mail-list-title">
-                                                    <a href="formdetail?idForm=${listform.idForm}"><h6>${listform.fullName}</h6></a>
+                                                    <a href="formdetail?idForm=${listform.idForm}">
+                                                        <c:if test="${listform.isRead == 0}">
+                                                            <h6>${listform.fullName}</h6>
+                                                        </c:if>
+                                                        <c:if test="${listform.isRead == 1}">
+                                                            <span>${listform.fullName}</span>
+                                                        </c:if>   
+
+                                                    </a>
                                                 </div>
                                                 <div class="mail-list-title-info">
                                                     <p>${listform.titleForm}</p>
@@ -131,7 +145,7 @@
                                                     <span>${listform.dateCreate}</span>
                                                 </div>
                                                 <ul class="mailbox-toolbar">
-                                                    <li data-toggle="tooltip" title="Delete"><a href="#"></a><i class="fa fa-trash-o"></i></li>
+                                                    <li data-toggle="tooltip" title="Delete"><a onclick="removeForm(${listform.idForm})"><i class="fa fa-trash-o"></i></a></li>
                                                     <li data-toggle="tooltip" title="Archive"><i class="fa fa-arrow-down"></i></li>
                                                     <li data-toggle="tooltip" title="Snooze"><i class="fa fa-clock-o"></i></li>
                                                     <li data-toggle="tooltip" title="Mark as unread"><i class="fa fa-envelope-open"></i></li>
@@ -170,29 +184,46 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-            
-            function searchByTittle(txtInput) {
-            var valueInput = txtInput.value;
-            console.log(valueInput);
-            $.ajax({
-                url: "/SWP391/searchForm",
-                type: "get", //send it through get method
-                data: {
-                    search: valueInput
-                },
-                success: function (response) {
-                    var row = document.getElementById("mail-box-list");
-                    row.innerHTML = response;
-                },
-                error: function (xhr) {
-                    //Do Something to handle error
+                                                        $(document).ready(function () {
+                                                            $('[data-toggle="tooltip"]').tooltip();
+                                                        });
 
-                }
-            });
-        }
+                                                        function searchByTittle(txtInput) {
+                                                            var valueInput = txtInput.value;
+                                                            console.log(valueInput);
+                                                            $.ajax({
+                                                                url: "/SWP391/searchForm",
+                                                                type: "get", //send it through get method
+                                                                data: {
+                                                                    search: valueInput
+                                                                },
+                                                                success: function (response) {
+                                                                    var row = document.getElementById("mail-box-list");
+                                                                    row.innerHTML = response;
+                                                                },
+                                                                error: function (xhr) {
+                                                                    //Do Something to handle error
+                                                                }
+                                                            });
+                                                        }
+
+                                                        function removeForm(idForm) {
+                                                            var element = document.getElementById("idForm" + idForm);
+                                                            $.ajax({
+                                                                url: "/SWP391/removeForm",
+                                                                type: "get", //send it through get method
+                                                                data: {
+                                                                    idForm: idForm
+                                                                },
+                                                                success: function (response) {
+                                                                    element.remove();
+                                                                },
+                                                                error: function (xhr) {
+                                                                    //Do Something to handle error
+                                                                }
+                                                            });
+                                                        }
+
         </script>
     </body>
 

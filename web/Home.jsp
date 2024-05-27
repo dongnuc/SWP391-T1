@@ -64,22 +64,11 @@
             </li>
                                 
                                 <li>
-<<<<<<< HEAD
-                                    <a href="HomeControl">CLB(Của tôi)</a>
-                                    <c:forEach items="${sessionScope.myclub}" var="x">   
-                                        <p>${x}</p>  
-                                    </c:forEach>
-                                </li>
-                            </c:if>
-                                <li>
                                    
                                     <a href="View/ViewBlog/Upload_Homepage.jsp">Sự kiện</a>
                                 </li>
                                    <li>
-                                    <a href="HomeControl">Tuyển sinh</a>
-=======
                                     <a href="contactus">CONTACT US</a>
->>>>>>> a937313c36f24afc4cfc60197044e7de2c99093a
                                 </li>
                                 
                             </ul>
@@ -101,8 +90,8 @@
     <c:if test="${sessionScope.password != null}">
         <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
     </c:if>
-        <c:if test="${sessionScope.role == 2}">
-        <a href="#" id="change-password-link">Dashboard</a><br>
+        <c:if test="${sessionScope.role == 1}">
+        <a href="dashboardAdmin" id="change-password-link">Dashboard</a><br>
     </c:if>
         <c:if test="${sessionScope.role == 1}">
         <a href="#" id="change-password-link">My Club</a><br>

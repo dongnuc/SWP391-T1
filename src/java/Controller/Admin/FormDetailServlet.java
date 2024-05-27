@@ -60,6 +60,9 @@ public class FormDetailServlet extends HttpServlet {
         String idForm = request.getParameter("idForm");
         FormDao dao = new FormDao();
         Form getFormById = dao.getFormByID(idForm);
+        dao.readForm(idForm);
+        int noRead = dao.countFormNoRead();
+        request.setAttribute("noRead", noRead);
         request.setAttribute("formDetail", getFormById);
         request.getRequestDispatcher("View/ViewAdmin/MailDetail.jsp").forward(request, response);
     } 

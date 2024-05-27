@@ -89,7 +89,12 @@
                                     </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
-                                            <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox <span class="badge badge-success">8</span></a></li>
+                                            <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
+                                                    <c:if test="${noRead > 0}">
+                                                        <span class="badge badge-success">
+                                                            ${noRead}
+                                                        </span></a></li>
+                                                    </c:if>
                                             <li><a href=""><i class="fa fa-send-o"></i>Sent</a></li>
                                             <li class="active"><a href=""><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>

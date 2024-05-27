@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Blog;
+package Controller.Admin;
 
-import DAO.*;
-import Model.*;
+import DAO.AccountDao;
+import DAO.ClubDao;
+import Model.Accounts;
+import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +16,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
- * @author 10t1q
+ * @author Admin
  */
-@WebServlet(name="Upload_ContentServlet", urlPatterns={"/UploadContent"})
-public class Upload_ContentServlet extends HttpServlet {
+@WebServlet(name="ManagerClubServlet", urlPatterns={"/managerClub"})
+public class ManagerClubServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +40,10 @@ public class Upload_ContentServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Upload_ContentServlet</title>");  
+            out.println("<title>Servlet ManagerClubServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Upload_ContentServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ManagerClubServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,21 +60,24 @@ public class Upload_ContentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-        
-        String ID = request.getParameter("idBlog");
-                  
-        int xId = Integer.parseInt(ID);
-   
-        BlogDAO postDAO = new BlogDAO();
-        Blog post = postDAO.getPost(xId);
-        
-        request.setAttribute("x", post);
-        request.getRequestDispatcher("/View/ViewBlog/Upload_Content.jsp").forward(request, response);
+        String idClub = request.getParameter("idClub");
+        ClubDao clubDao = new ClubDao();
+        List<Role> listRole = clubDao.getAllRole(idClub);
+        AccountDao daoAcc = new AccountDao();
+        List<Accounts> getAccount = daoAcc.getAllAccByIdClub(idClub);
+        request.setAttribute("listRole", listRole);
+        request.setAttribute("listAcc", getAccount);
+        request.getRequestDispatcher("View/ViewAdmin/ClubAdmin.jsp").forward(request, response);
+//        System.out.println(getAccount.size());
     } 
-    
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {

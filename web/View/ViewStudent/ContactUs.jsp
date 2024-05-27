@@ -57,25 +57,17 @@
                     <form class="form-section" action="saveForm" method="POST">
                         <div class="form-title">
                             <div class="form-group">
-                                <div class="input-wrapper">
-<<<<<<< HEAD
+<!--                                <div class="input-wrapper">
                                     <label for="clubId">Name Club</label>                                                                                              
                                     <select id="clubId" name="idClub" class="input-field">
                                         <option>Select club</option>
                                         <c:forEach items="${listClub}" var="listclub"> 
                                         <option value="${listclub.club}">${listclub.nameclub}</option>
                                         </c:forEach>                                  
-=======
-                                    <label for="clubId">ID Club</label>
-                                    <select id="clubId" class="input-field">
-                                        <c:forEach items="${requestScope.listclub}" var="x"> 
-                                        <option value="1">${x}</option>
-                                        </c:forEach>
-                                   
->>>>>>> 306ba7247fdb990e781bcde1c70a509d1b3e7fa7
-                                        <!-- Thêm các tùy chọn khác nếu cần -->
+
+                                                                           Thêm các tùy chọn khác nếu cần 
                                     </select>                                    
-                                </div>
+                                </div>-->
                             </div>
                             <div class="name-group">
                                 <div class="input-wrapper">

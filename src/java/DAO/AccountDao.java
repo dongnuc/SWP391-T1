@@ -138,10 +138,37 @@ public class AccountDao extends DBContext{
         }
         return id;
     }
+    
+        // 
+        
+        public List<Accounts> getAllAccByIdClub(String idClub){
+            String query = "select * from Student s join studentclub sc on s.IdStudent = sc.IdStudent where sc.IdClub = ?";
+            List<Accounts> listAccount = new ArrayList<>();
+            ClubDao clubDao = new ClubDao();
+            try {
+                PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, idClub);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                String idRole = rs.getString(19);
+                
+                Accounts acc = new Accounts(rs.getInt(1), rs.getString(2), rs.getInt(6), rs.getDate(7), rs.getInt(13), rs.getInt("sc.Status"), rs.getInt(19));
+                listAccount.add(acc);
+            }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return listAccount;
+        }
+        
+        
         public static void main(String[] args) {
         AccountDao db=new AccountDao();
         int y=db.getrole("huynhe170275@fpt.edu.vn");
-        System.out.println(y);
+//        System.out.println(y);
+        List<Accounts> getAll = db.getAllAccByIdClub("1");
+            System.out.println(getAll.size());
+
     }
     
 }

@@ -58,9 +58,6 @@ public class contactus extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        List<Clubs> getClub = dao.getClubAll();
-        request.setAttribute("listClub", getClub);
         request.getRequestDispatcher("View/ViewStudent/ContactUs.jsp").forward(request, response);
                 
     } 
