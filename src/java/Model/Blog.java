@@ -18,13 +18,11 @@ public class Blog {
     private Date dateCreate;
     private Date dateModify;
     private int idClub;
-    private String show;
-    private String status;
+    private int show;
+    private int status;
 
-    public Blog() {
-    }
-
-    public Blog(String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, String show, String status) {
+    public Blog(int idBlog, String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, int show, int status) {
+        this.idBlog = idBlog;
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
@@ -35,8 +33,10 @@ public class Blog {
         this.status = status;
     }
 
-    public Blog(int idBlog, String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, String show, String status) {
-        this.idBlog = idBlog;
+    public Blog() {
+    }
+
+    public Blog(String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, int show, int status) {
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
@@ -103,19 +103,19 @@ public class Blog {
         this.idClub = idClub;
     }
 
-    public String getShow() {
+    public int getShow() {
         return show;
     }
 
-    public void setShow(String show) {
+    public void setShow(int show) {
         this.show = show;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

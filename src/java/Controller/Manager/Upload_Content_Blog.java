@@ -3,10 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Blog;
+package Controller.Manager;
 
-import DAO.*;
-import Model.*;
+import DAO.BlogDAO;
+import Model.Blog;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author 10t1q
  */
-@WebServlet(name="Upload_ContentServlet", urlPatterns={"/UploadContent"})
-public class Upload_ContentServlet extends HttpServlet {
+@WebServlet(name="Upload_Content_Blog", urlPatterns={"/UploadContentBlog"})
+public class Upload_Content_Blog extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class Upload_ContentServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Upload_ContentServlet</title>");  
+            out.println("<title>Servlet Upload_Content_Blog</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Upload_ContentServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Upload_Content_Blog at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,7 +54,7 @@ public class Upload_ContentServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
@@ -69,7 +69,7 @@ public class Upload_ContentServlet extends HttpServlet {
         Blog post = postDAO.getPost(xId);
         
         request.setAttribute("x", post);
-        request.getRequestDispatcher("/View/ViewBlog/Upload_Content.jsp").forward(request, response);
+        request.getRequestDispatcher("/View/ViewManager/Upload_Content.jsp").forward(request, response);
     } 
     
     @Override

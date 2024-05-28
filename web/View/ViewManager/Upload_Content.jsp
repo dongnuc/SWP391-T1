@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Post Details</title>
+        <title>Blog Details</title>
         <style>
         img{
             width: 150px;

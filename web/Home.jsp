@@ -65,7 +65,11 @@
                                 
                                 <li>
                                    
-                                    <a href="View/ViewBlog/Upload_Homepage.jsp">Sự kiện</a>
+                                    <a href="View/ViewManager/Upload_Homepage.jsp">Blog</a>
+                                </li>
+                                <li>
+                                   
+                                    <a href="View/ViewManager/Event_Homepage.jsp">Sự Kiện</a>
                                 </li>
                                    <li>
                                     <a href="contactus">CONTACT US</a>

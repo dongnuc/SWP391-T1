@@ -33,8 +33,8 @@ public class BlogDAO extends DBContext{
             stmt.setDate(5, sqlDateCreate);
             java.sql.Date sqlDateModify = new java.sql.Date(blog.getDateModify().getTime());
             stmt.setDate(6, sqlDateModify);
-            stmt.setString(7, blog.getShow());
-            stmt.setString(8, blog.getStatus());
+            stmt.setInt(7, blog.getShow());
+            stmt.setInt(8, blog.getStatus());
             stmt.setInt(9, blog.getIdClub());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -56,8 +56,8 @@ public class BlogDAO extends DBContext{
                 post.setDescription(rs.getString("Description"));
                 post.setDateCreate(rs.getDate("DateCreate"));
                 post.setDateModify(rs.getDate("DateModify"));
-                post.setShow(rs.getString("Show"));
-                post.setStatus(rs.getString("Status"));
+                post.setShow(rs.getInt("Show"));
+                post.setStatus(rs.getInt("Status"));
                 post.setIdClub(rs.getInt("IdClub"));
                 posts.add(post);
             }
@@ -82,8 +82,8 @@ public class BlogDAO extends DBContext{
                 post.setDescription(rs.getString("Description"));
                 post.setDateCreate(rs.getDate("DateCreate"));
                 post.setDateModify(rs.getDate("DateModify"));
-                post.setShow(rs.getString("Show"));
-                post.setStatus(rs.getString("Status"));
+                post.setShow(rs.getInt("Show"));
+                post.setStatus(rs.getInt("Status"));
                 post.setIdClub(rs.getInt("IdClub"));
             }
         } catch (SQLException e) {

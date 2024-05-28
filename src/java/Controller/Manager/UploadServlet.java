@@ -1,13 +1,9 @@
-package Controller;
-
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-
+package Controller.Manager;
 
 import DAO.*;
 import Model.*;
@@ -33,11 +29,13 @@ import java.text.SimpleDateFormat;
                  maxRequestSize=1024*1024*50)   // 50MB
 public class UploadServlet extends HttpServlet {
 
-    private static final String SAVE_DIR = "img";
+    private static final String SAVE_DIR = "web/images";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String appPath = request.getServletContext().getRealPath("");
+        String xappPath = request.getServletContext().getRealPath("");
+        String appPath = xappPath.substring(0, xappPath.length() - 11);
+        System.out.println(appPath);
         String savePath = appPath + File.separator + SAVE_DIR;
         
         File fileSaveDir = new File(savePath);
@@ -62,16 +60,18 @@ public class UploadServlet extends HttpServlet {
             
             java.util.Date date = new java.util.Date();
             
-            String Show = request.getParameter("visibility");
-            String Status = request.getParameter("status");
+            String xShow = request.getParameter("visibility");
+            int Show = Integer.parseInt(xShow);
+            String xStatus = request.getParameter("status");
+            int Status =Integer.parseInt(xStatus);
             String xIDClub = request.getParameter("idclub");
             int IDClub = Integer.parseInt(xIDClub);
             
-            Blog post = new Blog( Tittle,SAVE_DIR + "/" + fileName,Description,date,date,IDClub,Show,Status);
+            Blog post = new Blog( Tittle,"images" + "/" + fileName,Description,date,date,IDClub,Show,Status);
             BlogDAO postDAO = new BlogDAO();
             postDAO.insertPost(post);
             
-            getServletContext().getRequestDispatcher("/View/ViewBlog/Upload_Noti.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/View/ViewManager/Upload_Noti.jsp").forward(request, response);
         } else {
             response.getWriter().println("Error: File upload failed.");
         }
@@ -84,7 +84,7 @@ public class UploadServlet extends HttpServlet {
         for (String s : items) {
             if (s.trim().startsWith("filename")) {
                 String filename = s.substring(s.indexOf("=") + 2, s.length() - 1);
-                return filename + postDAO.getAllPosts().size();
+                return postDAO.getAllPosts().size()+filename ;
             }
         }
         return null;

@@ -3,9 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Guest;
+package Controller.Manager;
 
-import DAO.StudentClubDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author 84358
+ * @author 10t1q
  */
-@WebServlet(name="getrole", urlPatterns={"/getrole"})
-public class getrole extends HttpServlet {
+@WebServlet(name="Event_Upload_Servlet", urlPatterns={"/EventUploadServlet"})
+public class Event_Upload_Servlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +35,10 @@ public class getrole extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet getrole</title>");  
+            out.println("<title>Servlet Event_Upload_Servlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet getrole at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Event_Upload_Servlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,14 +55,7 @@ public class getrole extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String roleofclub =request.getParameter("myclub");
-        HttpSession session=request.getSession();
-        int id =(int) session.getAttribute("id");
-        StudentClubDAO db=new StudentClubDAO();
-        String role=db.getroleofclub(id, roleofclub);
-        request.setAttribute("role", role);
-        request.setAttribute("myclub", roleofclub);
-        request.getRequestDispatcher("View/ViewStudent/checkrole.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

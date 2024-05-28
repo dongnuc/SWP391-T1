@@ -160,7 +160,33 @@ public class AccountDao extends DBContext{
             }
             return listAccount;
         }
-        
+        public Accounts getAccountEmail(String email) {
+        String sql = "select * from Student where Email = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("IdStudent");
+                String name = rs.getString("NameStudent");
+                email = rs.getString("Email");
+                String password = rs.getString("password");
+                String sdt = rs.getString("Phone");
+                int gender = rs.getInt("Gender");
+                Date date = rs.getDate("Dob");
+                Date datecreate = rs.getDate("DateCreate");
+                Date datemodify = rs.getDate("DateModify");
+                int status = rs.getInt("Status");
+                int role = rs.getInt("role");
+
+                Accounts acc = new Accounts(id, name, email, password, sdt, gender, date, datecreate, datemodify, status, role);
+                return acc;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
         
         public static void main(String[] args) {
         AccountDao db=new AccountDao();
