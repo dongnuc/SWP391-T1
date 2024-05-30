@@ -49,7 +49,6 @@ public class UploadServlet extends HttpServlet {
                 fileName = extractFileName(part);
                 if (fileName != null && !fileName.isEmpty()) {
                     part.write(savePath + File.separator + fileName);
-                    request.getSession().setAttribute("uploadedFilePath", SAVE_DIR + File.separator + fileName);
                 }
             }
         }
