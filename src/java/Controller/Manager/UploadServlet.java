@@ -56,17 +56,20 @@ public class UploadServlet extends HttpServlet {
         if (fileName != null) {
             String Tittle = request.getParameter("tittle");
             String Description = request.getParameter("description");
+            String Content = request.getParameter("content");
             
             java.util.Date date = new java.util.Date();
             
             String xShow = request.getParameter("visibility");
             int Show = Integer.parseInt(xShow);
+            String xBlogtype = request.getParameter("blogtype");
+            int Blogtype = Integer.parseInt(xBlogtype);
             String xStatus = request.getParameter("status");
             int Status =Integer.parseInt(xStatus);
             String xIDClub = request.getParameter("idclub");
             int IDClub = Integer.parseInt(xIDClub);
             
-            Blog post = new Blog( Tittle,"images" + "/" + fileName,Description,date,date,IDClub,Show,Status);
+            Blog post = new Blog( Tittle,"images" + "/" + fileName,Description,Content,date,date,Blogtype,IDClub,Show,Status);
             BlogDAO postDAO = new BlogDAO();
             postDAO.insertPost(post);
             

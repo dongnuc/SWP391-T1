@@ -22,20 +22,22 @@ import Model.*;
 public class BlogDAO extends DBContext{
 
     public void insertPost(Blog blog) {
-        String sql = "INSERT INTO blog(IdBlog,TittleBlog,Image,Description,DateCreate,DateModify,`Show`,Status,IdClub) VALUES (?, ?, ?, ?, ?, ?,?,?,?)";
+        String sql = "INSERT INTO blog(IdBlog,TittleBlog,Image,Description,Content,DateCreate,DateModify,IdBlogType,`Show`,Status,IdClub) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, blog.getIdBlog());
             stmt.setString(2, blog.getTitleBlog());
             stmt.setString(3, blog.getImage());
             stmt.setString(4, blog.getDescription());
+            stmt.setString(5, blog.getContent());
             java.sql.Date sqlDateCreate = new java.sql.Date(blog.getDateCreate().getTime());
-            stmt.setDate(5, sqlDateCreate);
+            stmt.setDate(6, sqlDateCreate);
             java.sql.Date sqlDateModify = new java.sql.Date(blog.getDateModify().getTime());
-            stmt.setDate(6, sqlDateModify);
-            stmt.setInt(7, blog.getShow());
-            stmt.setInt(8, blog.getStatus());
-            stmt.setInt(9, blog.getIdClub());
+            stmt.setDate(7, sqlDateModify);
+            stmt.setInt(9, blog.getShow());
+            stmt.setInt(8,blog.getIdBlogType());
+            stmt.setInt(10, blog.getStatus());
+            stmt.setInt(11, blog.getIdClub());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,8 +56,10 @@ public class BlogDAO extends DBContext{
                 post.setTitleBlog(rs.getString("TittleBlog"));
                 post.setImage(rs.getString("Image"));
                 post.setDescription(rs.getString("Description"));
+                post.setContent(rs.getString("Content"));
                 post.setDateCreate(rs.getDate("DateCreate"));
                 post.setDateModify(rs.getDate("DateModify"));
+                post.setIdBlogType(rs.getInt("IdBlogType"));
                 post.setShow(rs.getInt("Show"));
                 post.setStatus(rs.getInt("Status"));
                 post.setIdClub(rs.getInt("IdClub"));
@@ -80,8 +84,10 @@ public class BlogDAO extends DBContext{
                 post.setTitleBlog(rs.getString("TittleBlog"));
                 post.setImage(rs.getString("Image"));
                 post.setDescription(rs.getString("Description"));
+                post.setContent(rs.getString("Content"));
                 post.setDateCreate(rs.getDate("DateCreate"));
                 post.setDateModify(rs.getDate("DateModify"));
+                post.setIdBlogType(rs.getInt("IdBlogType"));
                 post.setShow(rs.getInt("Show"));
                 post.setStatus(rs.getInt("Status"));
                 post.setIdClub(rs.getInt("IdClub"));

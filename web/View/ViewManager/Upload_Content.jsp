@@ -14,31 +14,8 @@
     <meta charset="UTF-8">
     <title>Blog Details</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        img {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-        }
-
-        p {
-            text-align: justify;
+        img{
+            width: 150px;
         }
     </style>
 </head>
@@ -50,7 +27,7 @@
     %>
     <h1><%= post.getTitleBlog()%></h1>
     <img src="<%= request.getContextPath() %>/<%= post.getImage() %>" alt="Uploaded Image"><br>
-    <p><%= post.getDescription() %></p>
+    <p><%= post.getContent() %></p>
     <%
         } else {
     %>

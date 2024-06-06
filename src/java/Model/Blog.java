@@ -15,33 +15,39 @@ public class Blog {
     private String titleBlog;
     private String image;
     private String description;
+    private String content;
     private Date dateCreate;
     private Date dateModify;
+    private int idBlogType;
     private int idClub;
     private int show;
     private int status;
 
-    public Blog(int idBlog, String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, int show, int status) {
-        this.idBlog = idBlog;
+    public Blog() {
+    }
+
+    public Blog(String titleBlog, String image, String description, String content, Date dateCreate, Date dateModify, int idBlogType, int idClub, int show, int status) {
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
+        this.content = content;
         this.dateCreate = dateCreate;
         this.dateModify = dateModify;
+        this.idBlogType = idBlogType;
         this.idClub = idClub;
         this.show = show;
         this.status = status;
     }
 
-    public Blog() {
-    }
-
-    public Blog(String titleBlog, String image, String description, Date dateCreate, Date dateModify, int idClub, int show, int status) {
+    public Blog(int idBlog, String titleBlog, String image, String description, String content, Date dateCreate, Date dateModify, int idBlogType, int idClub, int show, int status) {
+        this.idBlog = idBlog;
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
+        this.content = content;
         this.dateCreate = dateCreate;
         this.dateModify = dateModify;
+        this.idBlogType = idBlogType;
         this.idClub = idClub;
         this.show = show;
         this.status = status;
@@ -79,6 +85,14 @@ public class Blog {
         this.description = description;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Date getDateCreate() {
         return dateCreate;
     }
@@ -93,6 +107,14 @@ public class Blog {
 
     public void setDateModify(Date dateModify) {
         this.dateModify = dateModify;
+    }
+
+    public int getIdBlogType() {
+        return idBlogType;
+    }
+
+    public void setIdBlogType(int idBlogType) {
+        this.idBlogType = idBlogType;
     }
 
     public int getIdClub() {

@@ -121,6 +121,23 @@ public class ClubDao extends DBContext{
         return null;
     }
     
+    public String getNameById(int idClub) {
+    String nameClub = null;
+    String sql = "SELECT NameClub FROM Club WHERE IdClub = ?";
+    try {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, idClub);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            nameClub = rs.getString("NameClub");
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+    return nameClub;
+}
+
+    
     
     public static void main(String[] args) {
         ClubDao clubdao=new ClubDao();

@@ -17,11 +17,12 @@ import java.util.List;
  * @author 84358
  */
 public class StudentClubDAO extends DBContext {
-    public List<String> getclubbtid(int id ) {
+
+    public List<String> getclubbtid(int id) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
-                + " Student_Club.IdStudent="+id;
-        List<String> listclub=new ArrayList<>();
-        String x ="";
+                + " Student_Club.IdStudent=" + id;
+        List<String> listclub = new ArrayList<>();
+        String x = "";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -33,12 +34,13 @@ public class StudentClubDAO extends DBContext {
         }
         return listclub;
     }
-    public String getroleofclub(int id,String NameClub ) {
+
+    public String getroleofclub(int id, String NameClub) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
-                + " Student_Club.IdStudent="+id
-                + " and NameClub ='"+NameClub+"'";
-        String role="";
-        
+                + " Student_Club.IdStudent=" + id
+                + " and NameClub ='" + NameClub + "'";
+        String role = "";
+
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -49,29 +51,32 @@ public class StudentClubDAO extends DBContext {
         }
         return role;
     }
-    
+
     public List<StudentClub> getStudentClubs(int idStudent) {
-    List<StudentClub> studentClubList = new ArrayList<>();
-    String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
-    try {
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, idStudent);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            StudentClub studentClub = new StudentClub();
-            studentClub.setPoint(rs.getInt("Point"));
-            studentClub.setDateCreate(rs.getDate("DateCreate"));
-            studentClub.setDateModify(rs.getDate("DateModify"));
-            studentClub.setStatus(rs.getInt("Status"));
-            studentClub.setIdStudent(rs.getInt("IdStudent"));
-            studentClub.setIdClub(rs.getInt("IdClub"));
-            studentClubList.add(studentClub);
+        List<StudentClub> studentClubList = new ArrayList<>();
+        String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idStudent);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                StudentClub studentClub = new StudentClub();
+                studentClub.setPoint(rs.getInt("Point"));
+                studentClub.setDateCreate(rs.getDate("DateCreate"));
+                studentClub.setDateModify(rs.getDate("DateModify"));
+                studentClub.setStatus(rs.getInt("Status"));
+                studentClub.setIdStudent(rs.getInt("IdStudent"));
+                studentClub.setIdClub(rs.getInt("IdClub"));
+                studentClub.setRole(rs.getInt("IdRole"));
+                studentClubList.add(studentClub);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return studentClubList;
     }
-    return studentClubList;
-}
 
     
+
+
 }
