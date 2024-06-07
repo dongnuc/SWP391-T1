@@ -5,8 +5,8 @@
 
 package Controller.Manager;
 
-import DAO.BlogDAO;
-import Model.Blog;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author 10t1q
  */
-@WebServlet(name="Upload_Content_Blog", urlPatterns={"/UploadContentBlog"})
-public class Upload_Content_Blog extends HttpServlet {
+@WebServlet(name="Blog_TypeServlet", urlPatterns={"/BlogTypeServlet"})
+public class Blog_TypeServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class Upload_Content_Blog extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Upload_Content_Blog</title>");  
+            out.println("<title>Servlet Blog_TypeServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Upload_Content_Blog at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Blog_TypeServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,28 +54,35 @@ public class Upload_Content_Blog extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
+         
         PrintWriter pr = response.getWriter();
         
-        String ID = request.getParameter("idBlog");
+        String ID = request.getParameter("idBlogType");
                   
         int xId = Integer.parseInt(ID);
    
-        BlogDAO postDAO = new BlogDAO();
-        Blog post = postDAO.getPost(xId);
+        BlogTypeDAO postDAO = new BlogTypeDAO();
+        BlogType post = postDAO.getBlogTypeByID(xId);
         
         request.setAttribute("x", post);
-        request.getRequestDispatcher("/View/ViewManager/Blog_Detail.jsp").forward(request, response);
+        request.getRequestDispatcher("/View/ViewManager/BlogType_List.jsp").forward(request, response);
     } 
-    
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         
     }
 
     /** 

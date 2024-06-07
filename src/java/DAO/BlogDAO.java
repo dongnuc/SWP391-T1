@@ -97,4 +97,32 @@ public class BlogDAO extends DBContext{
         }
         return post;
     }
+     
+     public List<Blog> getBlogListByType(int idBlogType) {
+    List<Blog> blogList = new ArrayList<>();
+    String sql = "SELECT * FROM blog WHERE IdBlogType = ?";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, idBlogType);
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            Blog blog = new Blog();
+            blog.setIdBlog(rs.getInt("IdBlog"));
+            blog.setTitleBlog(rs.getString("TittleBlog"));
+            blog.setImage(rs.getString("Image"));
+            blog.setDescription(rs.getString("Description"));
+            blog.setContent(rs.getString("Content"));
+            blog.setDateCreate(rs.getDate("DateCreate"));
+            blog.setDateModify(rs.getDate("DateModify"));
+            blog.setShow(rs.getInt("Show"));
+            blog.setStatus(rs.getInt("Status"));
+            blog.setIdClub(rs.getInt("IdClub"));
+            blogList.add(blog);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return blogList;
+}
+
   }

@@ -20,7 +20,6 @@
     </style>
 </head>
 <body>
-<div class="container">
     <%
         Blog post = (Blog) request.getAttribute("x");
         if (post != null) {
@@ -35,6 +34,5 @@
     <%
         }
     %>
-</div>
 </body>
 </html>

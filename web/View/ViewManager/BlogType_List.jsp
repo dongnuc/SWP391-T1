@@ -10,11 +10,11 @@
 <%@ page import = "java.util.*" %>
 <!DOCTYPE html>
 <%  
-    BlogDAO postDAO = new BlogDAO();
+    BlogDAO blogDAO = new BlogDAO();
     ClubDao clubDAO = new ClubDao();
     BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
     List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-    List<Blog> postList = postDAO.getAllPosts();
+    BlogType post = (BlogType) request.getAttribute("x");
     Accounts acc = (Accounts) session.getAttribute("curruser");
     List<StudentClub> StudentClubList = null;
     if (acc != null) {
@@ -261,37 +261,40 @@
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
                                     <%
-                                    for (Blog showBlog : postList) {
-                                    boolean canSeeBlog = showBlog.getShow() == 1; 
-                                    if (!canSeeBlog && acc != null) { 
-                                        for (StudentClub studentClub : StudentClubList) {
-                                            if (studentClub.getIdClub() == showBlog.getIdClub()) { 
+                                    if (post != null) {
+                                        List<Blog> blogListByID = blogDAO.getBlogListByType(post.getIdBlogType());
+                                        for(Blog blog : blogListByID){
+                                        boolean canSeeBlog = blog.getShow() == 1;
+                                        if (!canSeeBlog && acc != null) {
+                                            for (StudentClub studentClub : StudentClubList) {
+                                            if (studentClub.getIdClub() == blog.getIdClub()) { 
                                                 canSeeBlog = true;
                                                 break;
                                             }
                                         }
                                     }
-                                    if (canSeeBlog) { 
+                                    if (canSeeBlog) {
                                     %>
                                     <div class="blog-post blog-md clearfix">
                                         <div class="ttr-post-media"> 
-                                            <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><img src="<%= request.getContextPath() %>/<%= showBlog.getImage() %>" alt="Uploaded Image"></a><br></a> 
+                                            <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= blog.getIdBlog() %>"><img src="<%= request.getContextPath() %>/<%= blog.getImage() %>" alt="Uploaded Image"></a><br></a> 
                                         </div>
                                         <div class="ttr-post-info">
                                             <ul class="media-post">
-                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><i class="fa fa-calendar"></i><%= showBlog.getDateCreate()%></a></li>
-                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><i class="fa fa-user"></i><%= clubDAO.getNameById(showBlog.getIdClub())%></a></li>
+                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= blog.getIdBlog() %>"><i class="fa fa-calendar"></i><%= blog.getDateCreate()%></a></li>
+                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= blog.getIdBlog() %>"><i class="fa fa-user"></i><%= clubDAO.getNameById(blog.getIdClub())%></a></li>
 
                                             </ul>
-                                            <h5 class="post-title"><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><%= showBlog.getTitleBlog()%></a></h5>
-                                            <p><%= showBlog.getDescription()%></p>
+                                            <h5 class="post-title"><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= blog.getIdBlog() %>"><%= blog.getTitleBlog()%></a></h5>
+                                            <p><%= blog.getDescription()%></p>
                                             <div class="post-extra">
-                                                <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>" class="btn-link">READ MORE</a>
+                                                <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= blog.getIdBlog() %>" class="btn-link">READ MORE</a>
                                             </div>
                                         </div>
                                     </div>
                                     <%      }
                                         }
+                                    }
                                     %>
                                     <!-- Pagination start -->
                                     <div class="pagination-bx rounded-sm gray clearfix">

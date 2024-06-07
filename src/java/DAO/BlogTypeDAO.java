@@ -36,4 +36,23 @@ public class BlogTypeDAO extends DBContext {
         }
         return posts;
     }
+    
+    public BlogType getBlogTypeByID(int id) {
+    String sql = "SELECT * FROM BlogType WHERE IdBlogType = ?";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            BlogType blogType = new BlogType();
+            blogType.setIdBlogType(rs.getInt("IdBlogType"));
+            blogType.setNameBlogType(rs.getString("NameBlogType"));
+            return blogType;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null; // Return null if no matching record is found
+}
+
 }
