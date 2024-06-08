@@ -9,23 +9,71 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="css/contactus.css">
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css ">
+        <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+
+        <!-- REVOLUTION SLIDER CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/layers.css">
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/settings.css">
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
 
+         <%@ include file="Header.jsp" %>
+        <div class="page-banner ovbl-dark" style="background-image:url(images/banner.png);">
+                    <div class="container">
+                        <div class="page-banner-entry">
+                            <h1 class="text-white">Our Courses</h1>
+                        </div>
+                    </div>
+                </div>
         <section class="contact-section">
 
-            <div class="contact-info-box">
-                <div class="background">
-                    <img src="images/contactus.png" alt="">
-                </div>
-                <a href="Home.jsp" class="home-link">
-                    <img src="images/logo3.png" alt="Logo" class="logo">
-                </a>
-                <p class="contact-subheading">Any question or remarks? Just write us a message!</p>
-            </div>
+            
 
             <div class="contact-container">
                 <div class="contact-inner">
@@ -57,7 +105,8 @@
                     <form class="form-section" action="saveForm" method="POST">
                         <div class="form-title">
                             <div class="form-group">
-<!--                                <div class="input-wrapper">
+                                <div class="input-wrapper">
+
                                     <label for="clubId">Name Club</label>                                                                                              
                                     <select id="clubId" name="idClub" class="input-field">
                                         <option>Select club</option>
@@ -65,9 +114,16 @@
                                         <option value="${listclub.club}">${listclub.nameclub}</option>
                                         </c:forEach>                                  
 
-                                                                           Thêm các tùy chọn khác nếu cần 
+                                    <label for="clubId">ID Club</label>
+                                    <select id="clubId" class="input-field">
+                                        <c:forEach items="${requestScope.listclub}" var="x"> 
+                                        <option value="1">${x}</option>
+                                        </c:forEach>
+                                   
+
+                                        <!-- Thêm các tùy chọn khác nếu cần -->
                                     </select>                                    
-                                </div>-->
+                                </div>
                             </div>
                             <div class="name-group">
                                 <div class="input-wrapper">
@@ -94,6 +150,310 @@
                 </div>
             </div>
         </section>
+        <%@ include file="Footer.jsp" %>
+         <style>.contact-info-box {
+    width: 100%;
+    background-position: center;
+   margin-bottom: 40px;
+   
+}  
+.contact-info-box .background img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    object-fit: cover;
+    opacity: 0.8;
+}
+.contact-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 20px;
+  }
+.home-link {
+    display: inline-block; /* Đảm bảo liên kết và ảnh được hiển thị theo hàng ngang */
+}
 
+  .contact-subheading {
+      color: #fff;
+      text-align: center;
+      margin-top: 32px;
+      font: 500 35px Poppins, sans-serif;
+      font-weight: bold;
+      
+  }
+  @media (max-width: 991px) {
+      .contact-subheading {
+          max-width: 100%;
+      }
+  }
+  .contact-container {
+      border-radius: 10px;
+      box-shadow: 0px 0px 60px 30px rgba(0, 0, 0, 0.03);
+      background-color: #fff;
+      width: 100%;
+      margin-top: 52px;
+      padding: 20px 50px;
+  }
+  @media (max-width: 991px) {
+      .contact-container {
+          max-width: 100%;
+          padding-right: 20px;
+      }
+  }
+  .contact-inner {
+      display: flex;
+      gap: 20px;
+  }
+  @media (max-width: 991px) {
+      .contact-inner {
+          flex-direction: column;
+          gap: 0;
+      }
+  }
+  .contact-info {
+      background-color: #FFA500;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      width: 45%;
+      padding: 0 39px ;
+      margin-top: -10px;
+  }
+  @media (max-width: 991px) {
+      .contact-info {
+          width: 100%;
+          margin-top: 40px;
+      }
+  }
+  .contact-info-title {
+      color: #fff;
+      font: 600 28px Poppins, sans-serif;
+  }
+  .contact-info-description {
+      color: #c9c9c9;
+      margin-top: 23px;
+      font: 400 18px Poppins, sans-serif;
+  }
+  .contact-info-details {
+      display: flex;
+      flex-direction: column;
+      margin-top: 40px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: 400;
+  }
+  .detail-item {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      gap: 20px;
+  }
+  .detail-item img {
+      aspect-ratio: 1;
+      width: 24px;
+  }
+  .social-icons {
+      margin-top: 48px;
+  }
+  .social-icons-inner {
+      display: flex;
+      gap: 20px;
+  }
+  .social-icons-inner img {
+      width: 30px;
+      aspect-ratio: 1;
+  }
+  .form-section {
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+  }
+  @media (max-width: 991px) {
+      .form-section {
+          width: 100%;
+      }
+  }
+  .form-title {
+      margin-top: 55px;
+      font-weight: 500;
+  }
+  @media (max-width: 991px) {
+      .form-title {
+          margin-top: 40px;
+      }
+  }
+  .form-group {
+      display: flex;
+      gap: 20px;
+  }
+  @media (max-width: 991px) {
+      .form-group {
+          flex-wrap: wrap;
+      }
+  }
+  .input-wrapper {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      color: #8d8d8d;
+      flex-grow: 1;
+ 
+  }
+  .input-wrapper label {
+      font-family: Poppins, sans-serif;
+ 
+  }
+  
+  .name-group *{
+    margin-top: 20px; /* Đặt khoảng cách 20px giữa phần name-group và phần form-group bên trên */
+}
+  
+  
+  .input-field {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #8d8d8d;
+      border-radius: 5px;
+  }
+  .input-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 49px;
+  }
+  .input-info {
+      display: flex;
+      flex-direction: column;
+      color: #000;
+  }
+  .input-info label {
+      font: 12px/167% Poppins, sans-serif;
+  }
+  .input-info div {
+      margin-top: 16px;
+      font: 14px/143% Poppins, sans-serif;
+  }
+  .option-item {
+      display: flex;
+      gap: 10px;
+  }
+  .option-item img {
+      aspect-ratio: 1;
+      width: 13px;
+  }
+  .message-label {
+      margin-top: 54px;
+      font: 12px/167% Poppins, sans-serif;
+      color: #8d8d8d;
+  }
+  .message-field {
+      margin-top: 13px;
+      padding: 15px;
+      border: 1px solid #8d8d8d;
+      border-radius: 5px;
+      font: 14px/143% Poppins, sans-serif;
+      color: #8d8d8d;
+      margin-bottom: 40px;
+      width: 510px;
+  }
+  .send-button {
+    margin-top: 20px; /* Khoảng cách từ phía trên */
+    margin-left: auto; /* Căn giữa theo trục ngang */
+    margin-right: auto; /* Căn giữa theo trục ngang */
+    padding: 15px 48px;
+    background-color: #FFA500;
+    color: #fff;
+    text-align: center;
+    font: 16px Poppins, sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.12);
+    margin-right: 100px;
+  }
+  .send-button:focus {
+      outline: none;
+  }
+  @media (max-width: 991px) {
+      .send-button {
+          margin-top: 40px;
+          padding: 0 20px;
+      }
+  }
+</style>
+<script>
+
+            // Function thay đổi trang
+            function changePage(page) {
+                // Ẩn tất cả các trang thông tin hot
+                var hotInfos = document.querySelectorAll('.hot-info');
+                for (var i = 0; i < hotInfos.length; i++) {
+                    hotInfos[i].style.display = 'none';
+                }
+                // Hiển thị trang được chọn
+                document.getElementById('page' + page).style.display = 'block';
+            }
+            // Mặc định hiển thị trang 1 khi trang được tải
+            changePage(1);
+        </script>
+        <script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var paginationLinks = document.querySelectorAll('.pagination a');
+                paginationLinks.forEach(function (link) {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(this.textContent);
+                        setActivePage(currentPage);
+                    });
+                });
+
+                function setActivePage(pageNumber) {
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    paginationLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    paginationLinks[pageNumber - 1].classList.add('active');
+
+                    // Do something here to load data for the selected page
+                }
+            });
+        </script>
     </body>
 </html>

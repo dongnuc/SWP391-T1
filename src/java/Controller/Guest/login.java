@@ -7,7 +7,7 @@ package Controller.Guest;
 import Model.Accounts;
 import Model.GoogleAccount;
 import DAO.AccountDao;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -39,7 +39,8 @@ public class login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        StudentClubDAO scb = new StudentClubDAO();
+        
+        StudentClubDao scb = new StudentClubDao();
         HttpSession session = request.getSession();
         Cookie[] cookies = request.getCookies();
         String code = request.getParameter("code");
@@ -108,7 +109,8 @@ public class login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDao acc = new AccountDao();
-        StudentClubDAO st = new StudentClubDAO();
+        
+        StudentClubDao st = new StudentClubDao();
         AccountDao db = new AccountDao();
         HttpSession session = request.getSession();
         List<Accounts> list = acc.getAll();
