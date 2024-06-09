@@ -69,7 +69,7 @@ public class Upload_Content_Blog extends HttpServlet {
         Blog post = postDAO.getPost(xId);
         
         request.setAttribute("x", post);
-        request.getRequestDispatcher("/View/ViewManager/Upload_Content.jsp").forward(request, response);
+        request.getRequestDispatcher("/View/ViewManager/Blog_Detail.jsp").forward(request, response);
     } 
     
     @Override

@@ -5,7 +5,9 @@
         <group>
             <file>file:/D:/Test_Blog/SWP391-T1/src/java/Services/Validation.java</file>
             <file>file:/D:/Test_Blog/SWP391-T1/src/java/DAO/FormDao.java</file>
+            <file>file:/D:/Test_Blog/SWP391-T1/web/View/ViewStudent/ContactUs.jsp</file>
             <file>file:/D:/Test_Blog/SWP391-T1/src/java/Context/DBContext.java</file>
+            <file>file:/D:/Test_Blog/SWP391-T1/src/java/Controller/Admin/DashBoardServlet.java</file>
         </group>
     </open-files>
 </project-private>
