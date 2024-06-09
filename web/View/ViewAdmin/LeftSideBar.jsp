@@ -52,23 +52,14 @@
                     <a href="#" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-calendar"></i></span>
                         <span class="ttr-label">List Club</span>
-                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
                     </a>
-                    <ul>
-                        <c:forEach var="listclub" items="${sessionScope.listClub}">
-                            <li>
-                                <a href="managerClub?idClub=${listclub.club}" class="ttr-material-button"><span class="ttr-label">${listclub.nameclub}</span></a>
-                            </li>
-                        </c:forEach>                       
-                    </ul>
                 </li>
                 <li>
                     <a href="#" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-user"></i></span>
                         <span class="ttr-label">User Account</span>
                         <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                    </a>
-                    
+                    </a>                    
                 </li>
                 <li class="ttr-seperate"></li>
             </ul>

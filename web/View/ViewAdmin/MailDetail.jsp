@@ -57,7 +57,7 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
-
+       
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -89,21 +89,26 @@
                                     </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
-                                            <li class=""><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox <span class="badge badge-success">8</span></a></li>
+                                            <li class=""><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
+                                                    <c:if test="${noRead > 0}">
+                                                        <span class="badge badge-success">
+                                                            ${noRead}
+                                                        </span></a></li>
+                                                    </c:if>
                                             <li><a href="mailbox.html"><i class="fa fa-send-o"></i>Sent</a></li>
                                             <li><a href="formdelete"><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="mail-list-container">
-                                    <div class="mail-toolbar" style="margin-top: 40px;">
-                                        
+                                    <div class="mail-toolbar next-prev-btn" >                                      
+                                        <a href="loadForm"><i class="fa fa-angle-left"></i></a>                           
                                     </div>
                                     <div class="mailbox-view">
                                         <div class="mailbox-view-title">
                                             <h5 class="send-mail-title">${formDetail.titleForm}</h5>
                                         </div>
-                                        <div class="send-mail-details">
+                                        <div id="send-mail-details" class="send-mail-details">
                                             <div class="d-flex">
                                                 <div class="send-mail-user">
                                                     <div class="send-mail-user-pic">
@@ -116,46 +121,32 @@
                                                 </div>
                                                 <div class="ml-auto send-mail-full-info">
                                                     <div class="time"><span>${formDetail.dateCreate}</span></div>
-                                                    <span class="btn btn-info-icon">Reply</span>
                                                     <div class="dropdown all-msg-toolbar ml-auto">
                                                         <span class="btn btn-info-icon" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></span>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             <c:if test="${formDetail.status == 1}">
                                                                 <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                            </c:if>
-                                                            <c:if test="${formDetail.status == 0}">
+                                                                </c:if>
+                                                                <c:if test="${formDetail.status == 0}">
                                                                 <li><a href="#"><i class="fa fa-trash-o"></i> Recover</a></li>
-                                                            </c:if>
-                                                            <li><a href="#"><i class="fa fa-arrow-down"></i> Archive</a></li>
-                                                            <li><a href="#"><i class="fa fa-clock-o"></i> Snooze</a></li>
-                                                            <li><a href="#"><i class="fa fa-envelope-open"></i> Mark as unread</a></li>
+                                                                </c:if>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="read-content-body">
-                                                <h5 class="read-content-title">Hi,Ingredia,</h5>
-                                                <p>${formDetail.contentForm}</p>
-                                                <hr>
-                                                <h6> <i class="fa fa-download m-r5"></i> Attachments <span>(3)</span></h6>
-                                                <div class="mailbox-download-file">
-                                                    <a href="#"><i class="fa fa-file-image-o"></i> photo.png</a>
-                                                    <a href="#"><i class="fa fa-file-text-o"></i> dec.text</a>
-                                                    <a href="#"><i class="fa fa-file"></i> video.mkv</a>
-                                                </div>
-                                                <hr>
-                                                <c:if test="${formDetail.status == 1}">
-                                                    <div class="form-group">
-                                                    <h6>Reply Message</h6>
-                                                    <div class="m-b15">
-                                                        <textarea class="form-control"> </textarea>
-                                                    </div>
-                                                    <button class="btn">Reply Now</button>
-                                                </div>
-                                                </c:if>
-                                                
-                                            </div>
+                                                <p>${formDetail.contentForm}</p>                                                
+                                            </div>                                                                                      
                                         </div>
+                                        <c:if test="${formDetail.status == 1}">
+                                            <div class="form-group">
+                                                <h6>Reply Message</h6>                                                      
+                                                <div class="m-b15">
+                                                    <textarea id="replyForm" name="contentReply" class="form-control"> </textarea>
+                                                </div>
+                                                <input onclick="reply()" type="button" class="btn" value="Reply Now">                                                      
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +155,7 @@
                     <!-- Your Profile Views Chart END-->
                 </div>
             </div>
+           
         </main>
         <div class="ttr-overlay"></div>
 
@@ -186,9 +178,41 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
         <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
+                                                    $(document).ready(function () {
+                                                        $('[data-toggle="tooltip"]').tooltip();
+                                                    });
+
+
+                                                    function reply() {
+                                                        var element = document.getElementById("replyForm");
+                                                        var elementContent = element.value;
+                                                        var elementIns = document.getElementById('send-mail-details');
+                                                        var replyEmail = "${formDetail.email}";
+//                                                        console.log(emailReply);
+//                                                        console.log(elementIns);
+//                                                        console.log(elementContent);
+//                                                        elementIns.insertAdjacentHTML('beforeend', '<h4>Hello guy</h4>');
+
+                                                        $.ajax({
+                                                            url: "/SWP391/replyForm",
+                                                            type: "get", //send it through get method
+                                                            data: {
+                                                                sendToEmail: replyEmail,
+                                                                contentReply: elementContent
+                                                            },
+                                                            success: function (response) {
+                                                                 var elementIns = document.getElementById('send-mail-details');
+                                                                 elementIns.in
+                                                            },
+                                                            error: function (xhr) {
+                                                                //Do Something to handle error
+                                                            }
+                                                        });
+
+                                                    }
+
+
+
         </script>
     </body>
 

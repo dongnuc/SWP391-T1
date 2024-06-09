@@ -64,35 +64,11 @@ public class SearchFormServlet extends HttpServlet {
         String search = request.getParameter("search");
         FormDao dao = new FormDao();
         List<Form> getFormSearch = dao.searchByTittleExist(search);
+         int noRead = dao.countFormNoRead();
+        request.setAttribute("noRead", noRead);
         request.setAttribute("namesearch", search);
-        for (int i = 0; i < getFormSearch.size(); i++) {
-            out.println("<div class=\"mail-list-info\">\n"
-                    + "                                                <div class=\"checkbox-list\">\n"
-                    + "                                                    <div class=\"custom-control custom-checkbox checkbox-st1\">\n"
-                    + "                                                        <input type=\"checkbox\" class=\"custom-control-input\" id=\"check2\">\n"
-                    + "                                                        <label class=\"custom-control-label\" for=\"check2\"></label>\n"
-                    + "                                                    </div>\n"
-                    + "                                                </div>\n"
-                    + "                                                <div class=\"mail-rateing\">\n"
-                    + "                                                    <span><i class=\"fa fa-star-o\"></i></span>\n"
-                    + "                                                </div>\n"
-                    + "                                                <div class=\"mail-list-title\">\n"
-                    + "                                                    <a href=\"formdetail?idForm=" + getFormSearch.get(i).getIdForm() + "\"><h6>" + getFormSearch.get(i).getFullName() + "</h6></a>\n"
-                    + "                                                </div>\n"
-                    + "                                                <div class=\"mail-list-title-info\">\n"
-                    + "                                                    <p>" + getFormSearch.get(i).getTitleForm() + "</p>\n"
-                    + "                                                </div>\n"
-                    + "                                                <div class=\"mail-list-time\">\n"
-                    + "                                                    <span>" + getFormSearch.get(i).getContentForm() + "</span>\n"
-                    + "                                                </div>\n"
-                    + "                                                <ul class=\"mailbox-toolbar\">\n"
-                    + "                                                    <li data-toggle=\"tooltip\" title=\"Delete\"><i class=\"fa fa-trash-o\"></i></li>\n"
-                    + "                                                    <li data-toggle=\"tooltip\" title=\"Archive\"><i class=\"fa fa-arrow-down\"></i></li>\n"
-                    + "                                                    <li data-toggle=\"tooltip\" title=\"Snooze\"><i class=\"fa fa-clock-o\"></i></li>\n"
-                    + "                                                    <li data-toggle=\"tooltip\" title=\"Mark as unread\"><i class=\"fa fa-envelope-open\"></i></li>\n"
-                    + "                                                </ul>\n"
-                    + "                                            </div>");
-        }
+        request.setAttribute("listForm", getFormSearch);
+        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
     }
 
     /**

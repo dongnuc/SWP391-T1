@@ -124,9 +124,18 @@
                                                 <div class="mail-rateing">
                                                     <span><i class="fa fa-star-o"></i></span>
                                                 </div>
+                                                
                                                 <div class="mail-list-title">
-                                                    <a href="formdetail?idForm=${listformdelete.idForm}"><h6>${listformdelete.fullName}</h6></a>
+                                                    <a href="formdetail?idForm=${listformdelete.idForm}">
+                                                        <c:if test="${listformdelete.isRead == 0}">
+                                                            <h6>${listformdelete.fullName}</h6>
+                                                        </c:if>
+                                                        <c:if test="${listformdelete.isRead == 1}">
+                                                            <span>${listformdelete.fullName}</span>
+                                                        </c:if>   
+                                                    </a>
                                                 </div>
+                                                
                                                 <div class="mail-list-title-info">
                                                     <p>${listformdelete.titleForm}</p>
                                                 </div>

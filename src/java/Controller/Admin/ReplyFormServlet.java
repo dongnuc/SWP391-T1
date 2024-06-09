@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Admin;
 
-import DAO.FormDao;
-import Model.Form;
+import Model.Accounts;
+import Services.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,42 +13,45 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="FormDeleteServlet", urlPatterns={"/formdelete"})
-public class FormDeleteServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "ReplyFormServlet", urlPatterns = {"/replyForm"})
+public class ReplyFormServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FormDeleteServlet</title>");  
+            out.println("<title>Servlet ReplyFormServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FormDeleteServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ReplyFormServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -57,17 +59,20 @@ public class FormDeleteServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        FormDao dao = new FormDao();
-        List<Form> getFormDelete = dao.getFormDelete();
-          int noRead = dao.countFormNoRead();
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listFormDelete", getFormDelete);
-        request.getRequestDispatcher("View/ViewAdmin/MailDelete.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        String contentReply = request.getParameter("contentReply");
+        String emailString = request.getParameter("sendToEmail");
+        SendMail replyMail = new SendMail();
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        Accounts acc = (Accounts) session.getAttribute("acc");
+        SendMail sendMail = new SendMail();
+        
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -75,12 +80,13 @@ public class FormDeleteServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

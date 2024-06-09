@@ -57,7 +57,27 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+         <style>
+             .success-message {
+                background-color: #4CAF50; /* Màu nền */
+                color: white; /* Màu chữ */
+                text-align: center; /* Căn giữa văn bản */
+                padding: 10px; /* Khoảng cách padding */
+                position: fixed; /* Vị trí cố định */
+                top: 0; /* Ở phía trên cùng */
+                left: 50%; /* Căn giữa theo chiều ngang */
+                transform: translateX(-50%); /* Dịch chuyển về trái 50% */
+                z-index: 1000; /* Độ sâu */
+                width: 300px; /* Độ rộng */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Hiệu ứng đổ bóng */
+                border-radius: 5px; /* Bo góc */
+            }
 
+            /* CSS để ẩn thông báo ban đầu */
+            .hidden {
+                display: none; /* Ẩn đi */
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -105,9 +125,15 @@
                                     <div class="mail-toolbar">
 
                                         <div class="mail-search-bar">
-                                            <form action="searchForm">
-                                                <input type="text" oninput="searchByTittle(this)" value="" class="form-control" placeholder="Search"/>
+                                            <form action="searchForm" style="display: flex;">
+                                                <input type="text" name="search" value="${namesearch}" class="form-control"
+                                                       placeholder="Search by content"
+                                                       style="font-size: 16px;"/>    
+                                                <input type="submit" value="Search"
+                                                       style="margin-left: 10px;
+                                                       padding: 0px 12px;">
                                             </form>
+
                                         </div>
 
                                         <div class="next-prev-btn">
@@ -162,6 +188,9 @@
                     <!-- Your Profile Views Chart END-->
                 </div>
             </div>
+            <div id="success-message" class="success-message hidden">
+                Delete successfully!
+            </div>
         </main>
         <div class="ttr-overlay"></div>
 
@@ -188,24 +217,7 @@
                                                             $('[data-toggle="tooltip"]').tooltip();
                                                         });
 
-                                                        function searchByTittle(txtInput) {
-                                                            var valueInput = txtInput.value;
-                                                            console.log(valueInput);
-                                                            $.ajax({
-                                                                url: "/SWP391/searchForm",
-                                                                type: "get", //send it through get method
-                                                                data: {
-                                                                    search: valueInput
-                                                                },
-                                                                success: function (response) {
-                                                                    var row = document.getElementById("mail-box-list");
-                                                                    row.innerHTML = response;
-                                                                },
-                                                                error: function (xhr) {
-                                                                    //Do Something to handle error
-                                                                }
-                                                            });
-                                                        }
+
 
                                                         function removeForm(idForm) {
                                                             var element = document.getElementById("idForm" + idForm);
@@ -216,6 +228,10 @@
                                                                     idForm: idForm
                                                                 },
                                                                 success: function (response) {
+                                                                    $('#success-message').removeClass('hidden');
+                                                                    setTimeout(function () {
+                                                                        $('#success-message').addClass('hidden');
+                                                                    }, 1000);
                                                                     element.remove();
                                                                 },
                                                                 error: function (xhr) {

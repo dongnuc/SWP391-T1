@@ -20,7 +20,7 @@ public class FormDao extends DBContext {
 
     public List<Form> getAllForm() {
         List<Form> listForm = new ArrayList<>();
-        String sql = "SELECT * FROM swp391.form where status = 1;";
+        String sql = "SELECT * FROM swp392.form where status = 1;";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
@@ -37,7 +37,7 @@ public class FormDao extends DBContext {
     }
 
     public Form getFormByID(String idForm) {
-        String query = "SELECT * FROM swp391.form where IdForm = ?";
+        String query = "SELECT * FROM swp392.form where IdForm = ?";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, idForm);
@@ -74,7 +74,7 @@ public class FormDao extends DBContext {
 
     public List<Form> searchByTittleExist(String tittle) {
         List<Form> listForm = new ArrayList<>();
-        String query = "SELECT * FROM swp391.form where status = 1";
+        String query = "SELECT * FROM swp392.form where status = 1";
         if (!tittle.isEmpty()) {
             query += " and TittleForm like '%" + tittle + "%'";
         }
@@ -95,7 +95,7 @@ public class FormDao extends DBContext {
 
     public List<Form> searchByTittleNoExist(String tittle) {
         List<Form> listForm = new ArrayList<>();
-        String query = "SELECT * FROM swp391.form where status = 0";
+        String query = "SELECT * FROM swp392.form where status = 0";
         if (!tittle.isEmpty()) {
             query += " and TittleForm like '%" + tittle + "%'";
         }
@@ -133,7 +133,7 @@ public class FormDao extends DBContext {
 
     //Update
     public void readForm(String idForm) {
-        String query = "UPDATE `swp391`.`form`\n"
+        String query = "UPDATE `swp392`.`form`\n"
                 + "SET `isRead` = 1 where IdForm = ?;";
         try {
             PreparedStatement st = connection.prepareStatement(query);
@@ -146,7 +146,7 @@ public class FormDao extends DBContext {
 
     //delete Form
     public void deleteFormById(String idForm) {
-        String query = "UPDATE `swp391`.`form`\n"
+        String query = "UPDATE `swp392`.`form`\n"
                 + "SET `Status` = 0 where IdForm = ?;";
         try {
             PreparedStatement st = connection.prepareStatement(query);
@@ -161,7 +161,7 @@ public class FormDao extends DBContext {
 
 
     public void insertForm(String fullName, String titleForm, String content, Date dateCreate, String email) {
-        String query = "INSERT INTO `swp391`.`form`\n"
+        String query = "INSERT INTO `swp392`.`form`\n"
                 + "(\n"
                 + "`FullName`,\n"
                 + "`TittleForm`,\n"

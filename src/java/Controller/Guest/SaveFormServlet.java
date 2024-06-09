@@ -79,6 +79,7 @@ public class SaveFormServlet extends HttpServlet {
         String idClub = request.getParameter("idClub");
         FormDao dao = new FormDao();
         dao.insertForm(fullName, tittle, content, dateNow, email);
+        
         response.sendRedirect("home");
     }
 
