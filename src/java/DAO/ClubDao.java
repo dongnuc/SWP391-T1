@@ -327,6 +327,6 @@ public class ClubDao extends DBContext {
 //        for (Clubs club : list) {
 //            System.out.println(club.getNameclub());
 //        }
-            System.out.println(dao.getNumberOfClub());
+            System.out.println(dao.getClubbyId(34).getImg());
     }
 }

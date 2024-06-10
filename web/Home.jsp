@@ -96,7 +96,7 @@
                                     data-param9="" data-param10="" 
                                     data-description="Science says that Women are generally happier">
                                     <!-- MAIN IMAGE -->
-                                    <img src="assets/images/slider/slide1.jpg" alt="" 
+                                    <img src="images/trg.png" alt="" 
                                          data-bgposition="center center" 
                                          data-bgfit="cover" 
                                          data-bgrepeat="no-repeat" 
@@ -252,7 +252,7 @@
                                     data-param9="" data-param10="" 
                                     data-description="Science says that Women are generally happier">
                                     <!-- MAIN IMAGE -->
-                                    <img src="assets/images/slider/slide2.jpg" alt="" 
+                                    <img src="images/banner.png" alt="" 
                                          data-bgposition="center center" 
                                          data-bgfit="cover" 
                                          data-bgrepeat="no-repeat" 
@@ -302,7 +302,7 @@
                                          data-paddingbottom="[10,10,10,10]"
                                          data-paddingleft="[0,0,0,0]"
                                          style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;text-transform:uppercase;">
-                                        Welcome To University
+                                        Welcome To FPT University
                                     </div>
 
                                     <!-- LAYER NR. 3 -->
@@ -671,7 +671,7 @@
                     </div>
 
                     <!-- Testimonials -->
-                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(assets/images/background/bg1.jpg);">
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(images/banner.png);">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12 text-white heading-bx left">

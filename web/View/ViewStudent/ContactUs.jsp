@@ -142,7 +142,7 @@
                                 </div>
                             </div>
                             <label class="message-label" for="message"></label>
-                            <textarea name="content" id="message" class="message-field" placeholder="Write your message.." rows="5"></textarea>
+                            <textarea name="content" id="message" class="message-field" placeholder="Write your message.." rows="5" style="width: 100%"></textarea>
 
                             <button type="submit" class="send-button">Send Message</button>
                         </div>

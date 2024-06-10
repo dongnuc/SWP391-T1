@@ -4,14 +4,18 @@
  */
 package Model;
 
+import DAO.AccountDao;
+
 /**
  *
  * @author Nguyen Hau
  */
 public class StudentClub {
+
     private int point;
     private String datecreate;
     private String datemodify;
+    private int status;
     private int idrole;
     private int idstudent;
     private int idclub;
@@ -19,10 +23,11 @@ public class StudentClub {
     public StudentClub() {
     }
 
-    public StudentClub(int point, String datecreate, String datemodify, int idrole, int idstudent, int idclub) {
+    public StudentClub(int point, String datecreate, String datemodify, int status, int idrole, int idstudent, int idclub) {
         this.point = point;
         this.datecreate = datecreate;
         this.datemodify = datemodify;
+        this.status = status;
         this.idrole = idrole;
         this.idstudent = idstudent;
         this.idclub = idclub;
@@ -52,6 +57,14 @@ public class StudentClub {
         this.datemodify = datemodify;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public int getIdrole() {
         return idrole;
     }
@@ -75,5 +88,17 @@ public class StudentClub {
     public void setIdclub(int idclub) {
         this.idclub = idclub;
     }
-    
+    AccountDao dao = new AccountDao();
+
+    public String getNamebyId() {
+        return dao.getNamebyID(idstudent);
+    }
+
+    public String getRole() {
+        if (getIdrole() == 1) {
+            return "Manager";
+        } else {
+            return "Member";
+        }
+    }
 }
