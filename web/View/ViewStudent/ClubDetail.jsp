@@ -36,10 +36,10 @@
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
+        <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
-
+        <![endif]-->
 
         <!-- All PLUGINS CSS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
@@ -53,20 +53,7 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            th, td {
-                border: 1px solid black;
-                padding: 8px;
-                text-align: left;
-            }
-            th {
-                background-color: #f2f2f2;
-            }
-        </style>
+
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -78,7 +65,7 @@
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(images/banner.png);">
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
                             <h1 class="text-white">Club Details</h1>
@@ -103,7 +90,7 @@
                             <div class="row d-flex flex-row-reverse">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
-
+                                        
                                         <div class="course-buy-now text-center">
                                             <a href="#" class="btn radius-xl text-uppercase">Managerment</a>
                                         </div>
@@ -112,10 +99,9 @@
                                                 <div class="teacher-thumb">
                                                     <img src="assets/images/testimonials/pic1.jpg" alt=""/>
                                                 </div>
-                                                <c:set var="acc" value="${requestScope.acc}"/>
                                                 <div class="teacher-name">
-                                                    <h5>${acc.getName()}</h5>
-                                                    <span>${acc.getDatecreate()}</span>
+                                                    <h5>Hinata Hyuga</h5>
+                                                    <span>Science Teacher</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -131,32 +117,32 @@
                                                 </ul>
                                             </div>
                                             <div class="price categories">
-                                                <span>${acc.getDatemodify()}</span>
-                                                <h5 class="text-primary">Create</h5>
+                                                <span>Categories</span>
+                                                <h5 class="text-primary">Frontend</h5>
                                             </div>
                                         </div>
-                                        <div class="course-info-list scroll-pag">
+                                        <div class="course-info-list scroll-page">
                                             <ul class="navbar">
                                                 <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
-
-                                                <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Member</a></li>
+                                                
+                                                <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Instructor</a></li>
 
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <c:set var="club" value="${requestScope.club}"/>
+
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="${club.getImg()}" alt="" style="width: 950px;height: 600px"></a>
+                                            <a href="#"><img src="assets/images/blog/default/thum1.jpg" alt=""></a>
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
-                                                <h2 class="post-title">${club.getNameclub()}</h2>
+                                                <h2 class="post-title">Nvidia and UE4 Technologies Practice</h2>
                                             </div>
                                             <div class="ttr-post-text">
-                                                <p>Welcome to the ${club.getNameclub()} Our club is a vibrant community dedicated to [brief description of the club’s focus, e.g., promoting environmental awareness, exploring the arts, developing tech skills]. We offer a range of activities, events, and projects designed to engage, inspire, and empower our members. Whether you’re a seasoned enthusiast or just starting out, you’ll find a supportive and dynamic environment here. Join us to learn, grow, and make a positive impact together!</p>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -166,18 +152,18 @@
                                             <div class="col-md-12 col-lg-4">
                                                 <ul class="course-features">
                                                     <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
-                                                    <li><i class="ti-help-alt"></i> <span class="label">${acc.getPassword()}</span> <span class="value"></span></li>
-                                                    <li><i class="ti-time"></i> <span class="label">Date create</span> <span class="value">${club.getDatecreate()}</span></li>
+                                                    <li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
+                                                    <li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
                                                     <li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
                                                     <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
-                                                    <li><i class="ti-user"></i> <span class="label">Member</span> <span class="value">${club.getSizeClub()}</span></li>
-
+                                                    <li><i class="ti-user"></i> <span class="label">Students</span> <span class="value">32</span></li>
+                                                    <li><i class="ti-check-box"></i> <span class="label">Assessments</span> <span class="value">Yes</span></li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-12 col-lg-8">
-                                                <h5 class="m-b5">Club Description</h5>
-                                                <p>${club.getDescription()}</p>
-                                                <h5 class="m-b5">Clubs Rule</h5>
+                                                <h5 class="m-b5">Course Description</h5>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+                                                <h5 class="m-b5">Learning Outcomes</h5>
                                                 <ul class="list-checked primary">
                                                     <li>Respect all members and their opinions.</li>
                                                     <li>Attend meetings regularly and punctually.</li>
@@ -191,25 +177,41 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="" id="instructor">
-                                        <h4>Member</h4>
-                                        
-                                        <table>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Date Create</th>
-                                                <th>Point</th>
-                                            </tr>
-                                            <c:forEach var="student" items="${requestScope.list}">
-                                                <tr>
-                                                    <td>${student.getNamebyId()}</td>
-                                                    <td>${student.getDatecreate()}</td>
-                                                    <td>${student.getPoint()}</td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                       
+                                        <h4>Instructor</h4>
+                                        <div class="instructor-bx">
+                                            <div class="instructor-author">
+                                                <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                            </div>
+                                            <div class="instructor-info">
+                                                <h6>Keny White </h6>
+                                                <span>Professor</span>
+                                                <ul class="list-inline m-tb10">
+                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
+                                                </ul>
+                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+                                            </div>
+                                        </div>
+                                        <div class="instructor-bx">
+                                            <div class="instructor-author">
+                                                <img src="assets/images/testimonials/pic2.jpg" alt="">
+                                            </div>
+                                            <div class="instructor-info">
+                                                <h6>Keny White </h6>
+                                                <span>Professor</span>
+                                                <ul class="list-inline m-tb10">
+                                                    <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
+                                                    <li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
+                                                </ul>
+                                                <p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -227,7 +229,110 @@
     </div>
     <!-- Content END-->
     <!-- Footer ==== -->
-    <%@include file="Footer.jsp" %>
+    <footer>
+        <div class="footer-top">
+            <div class="pt-exebar">
+                <div class="container">
+                    <div class="d-flex align-items-stretch">
+                        <div class="pt-logo mr-auto">
+                            <a href="index.html"><img src="assets/images/logo-white.png" alt=""/></a>
+                        </div>
+                        <div class="pt-social-link">
+                            <ul class="list-inline m-a0">
+                                <li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="pt-btn-join">
+                            <a href="#" class="btn ">Join Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
+                        <div class="widget">
+                            <h5 class="footer-title">Sign Up For A Newsletter</h5>
+                            <p class="text-capitalize m-b20">Weekly Breaking news analysis and cutting edge advices on job searching.</p>
+                            <div class="subscribe-form m-b20">
+                                <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
+                                    <div class="ajax-message"></div>
+                                    <div class="input-group">
+                                        <input name="email" required="required"  class="form-control" placeholder="Your Email Address" type="email">
+                                        <span class="input-group-btn">
+                                            <button name="submit" value="Submit" type="submit" class="btn"><i class="fa fa-arrow-right"></i></button>
+                                        </span> 
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5 col-md-7 col-sm-12">
+                        <div class="row">
+                            <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                <div class="widget footer_widget">
+                                    <h5 class="footer-title">Company</h5>
+                                    <ul>
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="about-1.html">About</a></li>
+                                        <li><a href="faq-1.html">FAQs</a></li>
+                                        <li><a href="contact-1.html">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                <div class="widget footer_widget">
+                                    <h5 class="footer-title">Get In Touch</h5>
+                                    <ul>
+                                        <li><a href="http://educhamp.themetrades.com/admin/index.html">Dashboard</a></li>
+                                        <li><a href="blog-classic-grid.html">Blog</a></li>
+                                        <li><a href="portfolio.html">Portfolio</a></li>
+                                        <li><a href="event.html">Event</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                <div class="widget footer_widget">
+                                    <h5 class="footer-title">Courses</h5>
+                                    <ul>
+                                        <li><a href="courses.html">Courses</a></li>
+                                        <li><a href="courses-details.html">Details</a></li>
+                                        <li><a href="membership.html">Membership</a></li>
+                                        <li><a href="profile.html">Profile</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
+                        <div class="widget widget_gallery gallery-grid-4">
+                            <h5 class="footer-title">Our Gallery</h5>
+                            <ul class="magnific-image">
+                                <li><a href="assets/images/gallery/pic1.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic1.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic2.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic2.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic3.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic3.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic4.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic4.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic5.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic5.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic6.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic6.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic7.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic7.jpg" alt=""></a></li>
+                                <li><a href="assets/images/gallery/pic8.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic8.jpg" alt=""></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 text-center"> <a target="_blank" href="https://www.templateshub.net">Templates Hub</a></div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <!-- Footer END ==== -->
     <button class="back-to-top fa fa-chevron-up" ></button>
 </div>
@@ -298,26 +403,26 @@
             isProfileVisible = false;
         }
     });
-//            document.addEventListener("DOMContentLoaded", function () {
-//                var paginationLinks = document.querySelectorAll('.pagination a');
-//                paginationLinks.forEach(function (link) {
-//                    link.addEventListener('click', function (event) {
-//                        event.preventDefault();
-//                        var currentPage = parseInt(this.textContent);
-//                        setActivePage(currentPage);
-//                    });
-//                });
-//
-//                function setActivePage(pageNumber) {
-//                    var paginationLinks = document.querySelectorAll('.pagination a');
-//                    paginationLinks.forEach(function (link) {
-//                        link.classList.remove('active');
-//                    });
-//                    paginationLinks[pageNumber - 1].classList.add('active');
-//
-//                    // Do something here to load data for the selected page
-//                }
-//            });
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationLinks = document.querySelectorAll('.pagination a');
+        paginationLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var currentPage = parseInt(this.textContent);
+                setActivePage(currentPage);
+            });
+        });
+
+        function setActivePage(pageNumber) {
+            var paginationLinks = document.querySelectorAll('.pagination a');
+            paginationLinks.forEach(function (link) {
+                link.classList.remove('active');
+            });
+            paginationLinks[pageNumber - 1].classList.add('active');
+
+            // Do something here to load data for the selected page
+        }
+    });
 </script>
 </body>
 </html>

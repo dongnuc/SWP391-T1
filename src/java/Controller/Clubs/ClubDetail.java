@@ -5,11 +5,8 @@
 
 package Controller.Clubs;
 
-import DAO.AccountDao;
 import DAO.ClubDao;
-import DAO.StudentClubDao;
 import Model.Clubs;
-import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -61,17 +58,9 @@ public class ClubDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        StudentClubDao scdao = new StudentClubDao();
-        ClubDao clubdao = new ClubDao();
-        AccountDao accdao = new AccountDao();
-        if(request.getParameter("id")!=null){
-            int id = Integer.parseInt(request.getParameter("id"));
-            List<StudentClub> list = scdao.getStudentClubbyId(id);
-            request.setAttribute("list", list);
-            request.setAttribute("club", clubdao.getClubbyId(id));
-            request.setAttribute("acc", accdao.getAccountbyID(scdao.getIdStudentByRole(id)));
-        }
-      
+        ClubDao dao = new ClubDao();
+        List<Clubs> list = dao.getClubAll();
+        request.setAttribute("list", list);
         request.getRequestDispatcher("View/ViewStudent/ClubDetail.jsp").forward(request, response);
     } 
 

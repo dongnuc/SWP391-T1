@@ -4,36 +4,32 @@
  */
 package Model;
 
-import DAO.AccountDao;
 import java.util.Date;
+
 /**
  *
  * @author 10t1q
  */
 public class StudentClub {
-
-
-    private int point;
-    private String datecreate;
-    private String datemodify;
+    private int point ;
+    private Date dateCreate;
+    private Date dateModify;
     private int status;
+    private int idStudent;
+    private int idClub;
     private int role;
-    private int idstudent;
-    private int idclub;
-
-    public StudentClub(int point, String datecreate, String datemodify, int status, int role, int idstudent, int idclub) {
-        this.point = point;
-        this.datecreate = datecreate;
-        this.datemodify = datemodify;
-        this.status = status;
-        this.role = role;
-        this.idstudent = idstudent;
-        this.idclub = idclub;
-    }
-    
-    
 
     public StudentClub() {
+    }
+
+    public StudentClub(int point, Date dateCreate, Date dateModify, int status, int idStudent, int idClub, int role) {
+        this.point = point;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.status = status;
+        this.idStudent = idStudent;
+        this.idClub = idClub;
+        this.role = role;
     }
 
     public int getPoint() {
@@ -44,20 +40,20 @@ public class StudentClub {
         this.point = point;
     }
 
-    public String getDatecreate() {
-        return datecreate;
+    public Date getDateCreate() {
+        return dateCreate;
     }
 
-    public void setDatecreate(String datecreate) {
-        this.datecreate = datecreate;
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
-    public String getDatemodify() {
-        return datemodify;
+    public Date getDateModify() {
+        return dateModify;
     }
 
-    public void setDatemodify(String datemodify) {
-        this.datemodify = datemodify;
+    public void setDateModify(Date dateModify) {
+        this.dateModify = dateModify;
     }
 
     public int getStatus() {
@@ -68,6 +64,22 @@ public class StudentClub {
         this.status = status;
     }
 
+    public int getIdStudent() {
+        return idStudent;
+    }
+
+    public void setIdStudent(int idStudent) {
+        this.idStudent = idStudent;
+    }
+
+    public int getIdClub() {
+        return idClub;
+    }
+
+    public void setIdClub(int idClub) {
+        this.idClub = idClub;
+    }
+
     public int getRole() {
         return role;
     }
@@ -75,43 +87,6 @@ public class StudentClub {
     public void setRole(int role) {
         this.role = role;
     }
-
-    public int getIdstudent() {
-        return idstudent;
-    }
-
-    public void setIdstudent(int idstudent) {
-        this.idstudent = idstudent;
-    }
-
-    public int getIdclub() {
-        return idclub;
-    }
-
-    public void setIdclub(int idclub) {
-        this.idclub = idclub;
-    }
-
-    public AccountDao getDao() {
-        return dao;
-    }
-
-    public void setDao(AccountDao dao) {
-        this.dao = dao;
-    }
-  
-    AccountDao dao = new AccountDao();
-
-    public String getNamebyId() {
-        return dao.getNamebyID(idstudent);
-    }
-
-    public String getNameRole() {
-        if (getRole() == 1) {
-            return "Manager";
-        } else {
-            return "Member";
-        }
-    }
-
+    
+    
 }

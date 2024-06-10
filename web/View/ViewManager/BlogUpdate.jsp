@@ -22,6 +22,9 @@
     <body>
         <%        Blog post = (Blog) request.getAttribute("x"); 
         %>
-        
+        <form method="POST" action="BlogUpdateServlet">
+            Tittle : <input type="text" name="tittle" value="<%= post.getTitleBlog()%>">
+            Tittle : <input type="text" name="tittle" value="<%= post.getTitleBlog()%>">
+        </form>
     </body>
 </html>

@@ -35,59 +35,6 @@ public class StudentClubDAO extends DBContext {
         return listclub;
     }
 
-
-    public int getSizeClub(int id) {
-        String query = "SELECT  count(*) AS numberOfMember FROM StudentClub where IdClub=?";
-        List<Integer> list = new ArrayList();
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                list.add(rs.getInt("numberOfMember"));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return list.get(0);
-    }
- public int getIdStudentByRole(int idclub) {
-    int idStudent =0; 
-    
-    String query = "SELECT IdStudent FROM StudentClub WHERE IdRole = ? and IdClub=?";
-    
-    try (PreparedStatement st = connection.prepareStatement(query)) {
-        st.setInt(1, 1);
-        st.setInt(2, idclub);
-        try (ResultSet rs = st.executeQuery()) {
-            if (rs.next()) {
-                idStudent = rs.getInt("IdStudent");
-            }
-        }
-    } catch (Exception e) {
-        System.out.println(e);
-    }
-    
-    return idStudent;
-}
-    
-    public List<StudentClub> getStudentClubbyId(int id){
-        List<StudentClub> list = new ArrayList<>();
-        String query ="SELECT * FROM StudentClub where IdClub=?";
-        try (PreparedStatement st = connection.prepareStatement(query)) {
-        st.setInt(1, id);
-        try (ResultSet rs = st.executeQuery()) {
-            while(rs.next()){
-                
-                StudentClub studentclub = new StudentClub(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getInt(6),rs.getInt(7));
-                list.add(studentclub);
-            }
-        }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        return list;
-    }
     public String getroleofclub(int id, String NameClub) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
                 + " Student_Club.IdStudent=" + id
@@ -115,11 +62,11 @@ public class StudentClubDAO extends DBContext {
             while (rs.next()) {
                 StudentClub studentClub = new StudentClub();
                 studentClub.setPoint(rs.getInt("Point"));
-                studentClub.setDatecreate(rs.getString("DateCreate"));
-                studentClub.setDatemodify(rs.getString("DateModify"));
+                studentClub.setDateCreate(rs.getDate("DateCreate"));
+                studentClub.setDateModify(rs.getDate("DateModify"));
                 studentClub.setStatus(rs.getInt("Status"));
-                studentClub.setIdstudent(rs.getInt("IdStudent"));
-                studentClub.setIdclub(rs.getInt("IdClub"));
+                studentClub.setIdStudent(rs.getInt("IdStudent"));
+                studentClub.setIdClub(rs.getInt("IdClub"));
                 studentClub.setRole(rs.getInt("IdRole"));
                 studentClubList.add(studentClub);
             }

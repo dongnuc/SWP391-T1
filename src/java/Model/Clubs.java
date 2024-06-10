@@ -19,20 +19,14 @@ public class Clubs {
     private Date modify;
     private int type;
     private int status;
-    private Role listRole;
+    private String image;
+    private String description;
+    private Role listRole ;
 
-    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int status) {
-        this.club = club;
-        this.nameclub = nameclub;
-        this.point = point;
-        this.datecreate = datecreate;
-        this.modify = modify;
-        this.status = status;
+    public Clubs() {
     }
-    
-    
-// 
-    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status) {
+
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description, Role listRole) {
         this.club = club;
         this.nameclub = nameclub;
         this.point = point;
@@ -40,13 +34,9 @@ public class Clubs {
         this.modify = modify;
         this.type = type;
         this.status = status;
-    }
-
-
-    
-    
-
-    public Clubs() {
+        this.image = image;
+        this.description = description;
+        this.listRole = listRole;
     }
 
     public int getClub() {
@@ -105,6 +95,22 @@ public class Clubs {
         this.status = status;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Role getListRole() {
         return listRole;
     }
@@ -112,8 +118,7 @@ public class Clubs {
     public void setListRole(Role listRole) {
         this.listRole = listRole;
     }
-    
-    
+
     
     
     
