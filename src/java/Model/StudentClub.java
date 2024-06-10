@@ -4,28 +4,32 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
- * @author Nguyen Hau
+ * @author 10t1q
  */
 public class StudentClub {
-    private int point;
-    private String datecreate;
-    private String datemodify;
-    private int idrole;
-    private int idstudent;
-    private int idclub;
+    private int point ;
+    private Date dateCreate;
+    private Date dateModify;
+    private int status;
+    private int idStudent;
+    private int idClub;
+    private int role;
 
     public StudentClub() {
     }
 
-    public StudentClub(int point, String datecreate, String datemodify, int idrole, int idstudent, int idclub) {
+    public StudentClub(int point, Date dateCreate, Date dateModify, int status, int idStudent, int idClub, int role) {
         this.point = point;
-        this.datecreate = datecreate;
-        this.datemodify = datemodify;
-        this.idrole = idrole;
-        this.idstudent = idstudent;
-        this.idclub = idclub;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.status = status;
+        this.idStudent = idStudent;
+        this.idClub = idClub;
+        this.role = role;
     }
 
     public int getPoint() {
@@ -36,44 +40,53 @@ public class StudentClub {
         this.point = point;
     }
 
-    public String getDatecreate() {
-        return datecreate;
+    public Date getDateCreate() {
+        return dateCreate;
     }
 
-    public void setDatecreate(String datecreate) {
-        this.datecreate = datecreate;
+    public void setDateCreate(Date dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
-    public String getDatemodify() {
-        return datemodify;
+    public Date getDateModify() {
+        return dateModify;
     }
 
-    public void setDatemodify(String datemodify) {
-        this.datemodify = datemodify;
+    public void setDateModify(Date dateModify) {
+        this.dateModify = dateModify;
     }
 
-    public int getIdrole() {
-        return idrole;
+    public int getStatus() {
+        return status;
     }
 
-    public void setIdrole(int idrole) {
-        this.idrole = idrole;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public int getIdstudent() {
-        return idstudent;
+    public int getIdStudent() {
+        return idStudent;
     }
 
-    public void setIdstudent(int idstudent) {
-        this.idstudent = idstudent;
+    public void setIdStudent(int idStudent) {
+        this.idStudent = idStudent;
     }
 
-    public int getIdclub() {
-        return idclub;
+    public int getIdClub() {
+        return idClub;
     }
 
-    public void setIdclub(int idclub) {
-        this.idclub = idclub;
+    public void setIdClub(int idClub) {
+        this.idClub = idClub;
     }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+    
     
 }

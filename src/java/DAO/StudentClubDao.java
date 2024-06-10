@@ -74,4 +74,28 @@ public class StudentClubDao extends DBContext {
         
     }
 
+    public List<StudentClub> getStudentClubs(int idStudent) {
+        List<StudentClub> studentClubList = new ArrayList<>();
+        String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idStudent);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                StudentClub studentClub = new StudentClub();
+                studentClub.setPoint(rs.getInt("Point"));
+                studentClub.setDateCreate(rs.getDate("DateCreate"));
+                studentClub.setDateModify(rs.getDate("DateModify"));
+                studentClub.setStatus(rs.getInt("Status"));
+                studentClub.setIdStudent(rs.getInt("IdStudent"));
+                studentClub.setIdClub(rs.getInt("IdClub"));
+                studentClub.setRole(rs.getInt("IdRole"));
+                studentClubList.add(studentClub);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return studentClubList;
+    }
+
 }

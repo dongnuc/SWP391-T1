@@ -29,7 +29,7 @@
             boolean hasRole1 = false;
             if (acc != null ) {
             for(StudentClub studentClubcheckRole : StudentClubList){
-                if(studentClubcheckRole.getRole() <= 2 && studentClubcheckRole.getStatus() == 1 ){
+                if(studentClubcheckRole.getRole() == 1 && studentClubcheckRole.getStatus() == 1 ){
                 hasRole1 = true;
                     }
                 }
@@ -41,7 +41,7 @@
             Title:
             <input type="text" id="title" name="tittle" value=""><br>
             Image:
-            <input type="file" id="file" name="file" accept="image/*" ><br>
+            <input type="file" id="file" name="file" accept="image/*" value="12.png" ><br>
             Description : <input type="text" name="description"><br>
             Content:
             <div id="editor">

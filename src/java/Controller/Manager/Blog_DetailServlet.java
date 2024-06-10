@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author 10t1q
  */
 @WebServlet(name="Upload_Content_Blog", urlPatterns={"/UploadContentBlog"})
-public class Upload_Content_Blog extends HttpServlet {
+public class Blog_DetailServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
