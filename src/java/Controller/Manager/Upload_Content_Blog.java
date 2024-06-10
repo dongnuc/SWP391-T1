@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Guest;
+package Controller.Manager;
 
-import DAO.StudentClubDAO;
+import DAO.BlogDAO;
+import Model.Blog;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +14,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
- * @author 84358
+ * @author 10t1q
  */
-@WebServlet(name="getrole", urlPatterns={"/getrole"})
-public class getrole extends HttpServlet {
+@WebServlet(name="Upload_Content_Blog", urlPatterns={"/UploadContentBlog"})
+public class Upload_Content_Blog extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class getrole extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet getrole</title>");  
+            out.println("<title>Servlet Upload_Content_Blog</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet getrole at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Upload_Content_Blog at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,26 +54,24 @@ public class getrole extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String roleofclub =request.getParameter("myclub");
-        HttpSession session=request.getSession();
-        int id =(int) session.getAttribute("id");
-        StudentClubDAO db=new StudentClubDAO();
-        String role=db.getroleofclub(id, roleofclub);
-        request.setAttribute("role", role);
-        request.setAttribute("myclub", roleofclub);
-        request.getRequestDispatcher("View/ViewStudent/checkrole.jsp").forward(request, response);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter pr = response.getWriter();
+        
+        String ID = request.getParameter("idBlog");
+                  
+        int xId = Integer.parseInt(ID);
+   
+        BlogDAO postDAO = new BlogDAO();
+        Blog post = postDAO.getPost(xId);
+        
+        request.setAttribute("x", post);
+        request.getRequestDispatcher("/View/ViewManager/Blog_Detail.jsp").forward(request, response);
     } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {

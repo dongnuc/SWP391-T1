@@ -5,10 +5,10 @@
 package DAO;
 
 import Context.DBContext;
-import Model.Clubs;
-import Model.StudentClub;
+import Model.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author 84358
  */
-public class StudentClubDao extends DBContext {
+public class StudentClubDAO extends DBContext {
 
     public List<String> getclubbtid(int id) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
@@ -35,22 +35,6 @@ public class StudentClubDao extends DBContext {
         return listclub;
     }
 
-    public int getSizeClub(int id) {
-        String query = "SELECT  count(*) AS numberOfMember FROM StudentClub where IdClub=?";
-        List<Integer> list = new ArrayList();
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                list.add(rs.getInt("numberOfMember"));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return list.get(0);
-    }
-
     public String getroleofclub(int id, String NameClub) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
                 + " Student_Club.IdStudent=" + id
@@ -66,12 +50,6 @@ public class StudentClubDao extends DBContext {
         } catch (Exception e) {
         }
         return role;
-    }
-    
-    public static void main(String[] args) {
-        StudentClubDao dao = new StudentClubDao();
-        System.out.println(dao.getSizeClub(34));
-        
     }
 
     public List<StudentClub> getStudentClubs(int idStudent) {
@@ -92,10 +70,13 @@ public class StudentClubDao extends DBContext {
                 studentClub.setRole(rs.getInt("IdRole"));
                 studentClubList.add(studentClub);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return studentClubList;
     }
+
+    
+
 
 }

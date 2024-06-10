@@ -47,7 +47,7 @@
         <link rel="shortcut icon" type="image/x-icon"  href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title><%= post.getNameBlogType()%> </title>
+        <title>EduChamp : Education HTML Template </title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -248,7 +248,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(${pageContext.request.contextPath}/images_t/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white"><%= post.getNameBlogType()%></h1>
+                            <h1 class="text-white">Blog List </h1>
                         </div>
                     </div>
                 </div>
