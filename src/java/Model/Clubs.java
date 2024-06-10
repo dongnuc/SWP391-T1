@@ -4,9 +4,8 @@
  */
 package Model;
 
-import DAO.ClubDao;
-import DAO.StudentClubDao;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -16,27 +15,38 @@ public class Clubs {
     private int club;
     private String nameclub;
     private int point;
-    private String datecreate;
-    private String modify;
-    private int status;
+    private Date datecreate;
+    private Date modify;
     private int type;
-    private String img;
-    private String description;
+    private int status;
+    private Role listRole;
 
-    ClubDao dao = new ClubDao();
-    public Clubs() {
-    }
-
-    public Clubs(int club, String nameclub, int point, String datecreate, String modify, int status, int type, String img, String description) {
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int status) {
         this.club = club;
         this.nameclub = nameclub;
         this.point = point;
         this.datecreate = datecreate;
         this.modify = modify;
         this.status = status;
+    }
+    
+    
+// 
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
         this.type = type;
-        this.img = img;
-        this.description = description;
+        this.status = status;
+    }
+
+
+    
+    
+
+    public Clubs() {
     }
 
     public int getClub() {
@@ -63,28 +73,20 @@ public class Clubs {
         this.point = point;
     }
 
-    public String getDatecreate() {
+    public Date getDatecreate() {
         return datecreate;
     }
 
-    public void setDatecreate(String datecreate) {
+    public void setDatecreate(Date datecreate) {
         this.datecreate = datecreate;
     }
 
-    public String getModify() {
+    public Date getModify() {
         return modify;
     }
 
-    public void setModify(String modify) {
+    public void setModify(Date modify) {
         this.modify = modify;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getType() {
@@ -95,43 +97,24 @@ public class Clubs {
         this.type = type;
     }
 
-    public String getImg() {
-        return img;
+    public int getStatus() {
+        return status;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-    public String getDescription() {
-        return description;
+    public Role getListRole() {
+        return listRole;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setListRole(Role listRole) {
+        this.listRole = listRole;
     }
-
-    public ClubDao getDao() {
-        return dao;
-    }
-
-    public void setDao(ClubDao dao) {
-        this.dao = dao;
-    }
-StudentClubDao stdao = new StudentClubDao();
-   public int getSizeClub(){
-       return stdao.getSizeClub(getClub());
-   }
-
-    public String getStringType() {
-        TypeClub typeclub = dao.gettypeclubbyID(type);
-        String nametype = typeclub.getNameTypeClub();
-        return nametype;
-    }
-
-   
-  
-
-  
-
+    
+    
+    
+    
+    
 }

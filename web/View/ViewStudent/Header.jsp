@@ -1,161 +1,103 @@
-  <head>
+<%-- 
+    Document   : Header
+    Created on : May 21, 2024, 7:25:43 PM
+    Author     : Admin
+--%>
 
-        <!-- META ============================================= -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="keywords" content="" />
-        <meta name="author" content="" />
-        <meta name="robots" content="" />
-
-        <!-- DESCRIPTION -->
-        <meta name="description" content="EduChamp : Education HTML Template" />
-
-        <!-- OG -->
-        <meta property="og:title" content="EduChamp : Education HTML Template" />
-        <meta property="og:description" content="EduChamp : Education HTML Template" />
-        <meta property="og:image" content="" />
-        <meta name="format-detection" content="telephone=no">
-
-        <!-- FAVICONS ICON ============================================= -->
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
-        <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
-
-        <!-- PAGE TITLE HERE ============================================= -->
-
-
-        <!-- MOBILE SPECIFIC ============================================= -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <!--[if lt IE 9]>
-        <script src="assets/js/html5shiv.min.js"></script>
-        <script src="assets/js/respond.min.js"></script>
-        <![endif]-->
-
-        <!-- All PLUGINS CSS ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
-
-        <!-- TYPOGRAPHY ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
-
-        <!-- SHORTCODES ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
-
-        <!-- STYLESHEETS ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css ">
-        <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
-
-        <!-- REVOLUTION SLIDER CSS ============================================= -->
-        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/layers.css">
-        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/settings.css">
-        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
-        <!-- REVOLUTION SLIDER END -->	
-    </head>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>  
-<header class="header rs-nav header-transparent">
-                <div class="top-bar">
+<header>
+                <div class="top">
                     <div class="container">
-                        <div class="row d-flex justify-content-between">
-                            <div class="topbar-left">
-                                <ul>
-                                    <li><a href="faq-1.html"><i class="fa fa-question-circle"></i>Ask a Question</a></li>
-                                    <li><a href="javascript:;"><i class="fa fa-envelope-o"></i>Support@website.com</a></li>
-                                </ul>
-                            </div>
-                            <c:if test="${sessionScope.account==null}">
-                                <div class="topbar-right">
-                                    <ul>
-
-                                        <li><a href="View/ViewStudent/login.jsp">Login</a></li>
-                                        <li><a href="register">Register</a></li>
-
-                                    </ul>
-                                </div>
+                        <c:if test="${sessionScope.account==null}">
+                               <div class="top-menu">
+                            <a href="View/ViewStudent/login.jsp" class="icon-login">
+                             <i class="fa fa-sign-in"></i> ??ng nh?p
+                                </a>
+                           <span class="separator">|</span>
+                            <a href="View/ViewStudent/register.jsp" class="icon-register">
+                                <i class="fa fa-user-plus"></i> ??ng ký</a>
+ 
+                        </div>
+                               </c:if>
+                    </div>
+                </div>
+                <div class="main-menu-header">
+                    <div class="container">   
+                        <div id="nav-menu">
+                            <ul>
+                                <li>
+                                    <a href="HomeControl">Trang ch?</a>
+                                </li>
+                                <</li>
+            <li class="dropdown" onclick="toggleClubTable()">
+                <a href="#">Các CLB</a>
+                <div class="dropdown-content" id="club-table">
+                    <!-- Thêm các CLB vào ?ây -->
+                    <a class="chu" href="#">CLB Ti?ng Anh</a>
+                    <a class="chu" href="#">CLB Ti?ng Nh?t</a>
+                    <a class="chu" href="#">CLB Ti?ng Trung</a>
+                    <a class="chu" href="#">CLB Ti?ng Hàn</a>
+                </div>
+            </li>
+                                </li>
+                                <c:if test="${sessionScope.account!=null}">
+                                <li>
+                                    <a href="HomeControl">CLB(C?a tôi)</a>
+                                    <c:forEach items="${sessionScope.myclub}" var="x">   
+                                        <p>${x}</p>  
+                                    </c:forEach>
+                                </li>
                             </c:if>
+                                <li>
+                                    <a href="HomeControl">S? ki?n</a>
+                                </li>
+                                   <li>
+                                    <a href="HomeControl">Tuy?n sinh</a>
+                                </li>
+                            </ul>
+                            <div class="clear"></div>
                         </div>
                     </div>
-                </div>
-                <div class="sticky-header navbar-expand-lg">
-                    <div class="menu-bar clearfix">
-                        <div class="container clearfix">
-                            <!-- Header Logo ==== -->
-                            
-                            
-                            <div class="menu-logo">
-                                <a href="Home.jsp"><img src="images/logo3.png" alt=""></a>
+    <div class="user-profile" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()">
+        <c:if test="${sessionScope.account!=null}">
+    <div class="profile-picture">
+        <img src="images/avatar.png" alt="">
+        <div class="profile-info" id="profile-info">
+            <h6>Xin chao ${sessionScope.account}</h6>
+                                <a href="" id="logout-link">Edit profile</a>
+                                <c:if test="${sessionScope.password==null}">
+                                    <a href="View/ViewStudent/password.jsp" id="logout-link">Setting password</a>
+                                </c:if>
+                                <c:if test="${sessionScope.password!=null}">
+                                    <a href="View/ViewStudent/changepassword.jsp" id="logout-link">Change Password</a>
+                                </c:if>
+                                <a href="logout" id="logout-link">??ng Xu?t</a>
+        </div>
+    </div>
+    </c:if>
+</div>
+ </div>
+                
+                
+                                             <div class="main-header">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 order-md-0 order-0">
+                                <div class="logo">
+                                    <a href="HomeControl"><img src="images/logo3.png" alt=""></a>
+                                </div>
                             </div>
-                            <!-- Mobile Nav Button ==== -->
-                            <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </button>
-                            <!-- Author Nav ==== -->
-                            <div class="secondary-menu">
-                                <div class="secondary-inner">
-
-                                    <c:if test="${sessionScope.account!=null}">
-                                        <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
-                                            <img src="images/avatar.png" alt="">
-                                            <div class="profile-info" id="profile-info">
-                                                <h6>${sessionScope.account}</h6>
-                                                <a href="profile/edit" id="edit-profile-link">Edit Profile</a><br>
-
-                                                <c:if test="${sessionScope.password == null}">
-                                                    <a href="View/ViewStudent/password.jsp" id="set-password-link">Set Password</a><br>
-                                                </c:if>
-
-                                                <c:if test="${sessionScope.password != null}">
-                                                    <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
-                                                </c:if>
-                                                <c:if test="${sessionScope.role == 2}">
-                                                    <a href="dashboardAdmin" id="change-password-link">Dashboard</a><br>
-                                                </c:if>
-                                                <c:if test="${sessionScope.role == 1}">
-                                                    <a href="#" id="change-password-link">My Club</a><br>
-                                                </c:if>
-
-                                                <a href="logout" id="logout-link">Log Out</a>
-                                            </div>
+                            <div class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6 order-md-1 order-2">
+                                <div class="form-seach-product">
+                                    <form action="SearchProduct" method="post" role="form">
+                                        <div class="input-seach">
+                                            <input type="text" name="search" id="" class="form-control">
+                                            <button type="submit" class="btn-search-pro"><i class="fa fa-search"></i></button>
                                         </div>
-                                    </c:if>
-
-
-
+                                        <div class="clear"></div>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- Search Box ==== -->
-                            <div class="nav-search-bar">
-                                <form action="#">
-                                    <input name="search" value="" type="text" class="form-control" placeholder="Type to search">
-                                    <span><i class="ti-search"></i></span>
-                                </form>
-                                <span id="search-remove"><i class="ti-close"></i></span>
-                            </div>
-                            <!-- Navigation Menu ==== -->
-                            <div class="menu-links navbar-collapse collapse justify-content-start" id="menuDropdown">
-                                <div class="menu-logo">
-                                    <a href="index.html"><img src="assets/images/logo.png" alt=""></a>
-                                </div>
-                                <ul class="nav navbar-nav">	
-                                    <li><a href="Home.jsp">Home</a></li>
-                                    <li><a href="View/ViewBlog/Upload_Homepage.jsp">Events</a></li>
-                                    <li><a href="PublicClubs">Clubs</a></li>
-                                     <c:if test="${sessionScope.account!=null}"> 
-                                        <li><a href="registerclub">REGISTER CLUB</a></li>
-                                        </c:if> 
-
-
-                                </ul>
-                                <div class="nav-social-link">
-                                    <a href="javascript:;"><i class="fa fa-facebook"></i></a>
-                                    <a href="javascript:;"><i class="fa fa-google-plus"></i></a>
-                                    <a href="javascript:;"><i class="fa fa-linkedin"></i></a>
-                                </div>
-                            </div>
-                            <!-- Navigation Menu END ==== -->
                         </div>
                     </div>
                 </div>
-                                        
-            </header>
+</header>

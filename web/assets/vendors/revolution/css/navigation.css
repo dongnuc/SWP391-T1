@@ -758,7 +758,7 @@ opacity:1
     font-size:13px;
     font-weight:700;
     text-transform:uppercase;
-    font-family:"Roboto Slab"
+    font-family:"Roboto Slab";
     margin-bottom:5px;
 }
 
@@ -1392,7 +1392,7 @@ website:    http://www.themepunch.com
   transition:all 0.3s;
   -webkit-transform-style:flat;
   transform-style:flat;
-  perspective:600;
+ 
   -webkit-perspective:600;
   transform: scale(0);
   -webkit-transform: scale(0);
@@ -1419,7 +1419,7 @@ border-radius:6px;
     font-size:13px;
     font-weight:700;
     text-transform:uppercase;
-    font-family:"Roboto Slab"
+    font-family:"Roboto Slab";
     margin-bottom:5px;
 }
 

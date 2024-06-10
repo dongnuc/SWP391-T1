@@ -5,32 +5,35 @@
 package Model;
 
 import DAO.AccountDao;
-
+import java.util.Date;
 /**
  *
- * @author Nguyen Hau
+ * @author 10t1q
  */
 public class StudentClub {
+
 
     private int point;
     private String datecreate;
     private String datemodify;
     private int status;
-    private int idrole;
+    private int role;
     private int idstudent;
     private int idclub;
 
-    public StudentClub() {
-    }
-
-    public StudentClub(int point, String datecreate, String datemodify, int status, int idrole, int idstudent, int idclub) {
+    public StudentClub(int point, String datecreate, String datemodify, int status, int role, int idstudent, int idclub) {
         this.point = point;
         this.datecreate = datecreate;
         this.datemodify = datemodify;
         this.status = status;
-        this.idrole = idrole;
+        this.role = role;
         this.idstudent = idstudent;
         this.idclub = idclub;
+    }
+    
+    
+
+    public StudentClub() {
     }
 
     public int getPoint() {
@@ -65,12 +68,12 @@ public class StudentClub {
         this.status = status;
     }
 
-    public int getIdrole() {
-        return idrole;
+    public int getRole() {
+        return role;
     }
 
-    public void setIdrole(int idrole) {
-        this.idrole = idrole;
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public int getIdstudent() {
@@ -88,17 +91,27 @@ public class StudentClub {
     public void setIdclub(int idclub) {
         this.idclub = idclub;
     }
+
+    public AccountDao getDao() {
+        return dao;
+    }
+
+    public void setDao(AccountDao dao) {
+        this.dao = dao;
+    }
+  
     AccountDao dao = new AccountDao();
 
     public String getNamebyId() {
         return dao.getNamebyID(idstudent);
     }
 
-    public String getRole() {
-        if (getIdrole() == 1) {
+    public String getNameRole() {
+        if (getRole() == 1) {
             return "Manager";
         } else {
             return "Member";
         }
     }
+
 }
