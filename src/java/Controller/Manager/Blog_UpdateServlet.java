@@ -63,7 +63,7 @@ public class Blog_UpdateServlet extends HttpServlet {
 
         
         request.setAttribute("x", blog);
-        request.getRequestDispatcher("/View/ViewManager/BlogUpdate.jsp").forward(request, response);
+        request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
         
     } 
 

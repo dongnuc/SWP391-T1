@@ -9,16 +9,11 @@
 <%@ page import = "DAO.*" %>
 <%@ page import = "java.util.*" %>
 <!DOCTYPE html>
-<%
-    BlogDAO postDAO = new BlogDAO();
-    List<Blog> postList = postDAO.getAllPosts();
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    List<StudentClub> StudentClubList = null;
-    if (acc != null) {
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
-        StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-    }
-%>
+ <%        Blog post = (Blog) request.getAttribute("x");
+                  Accounts acc = (Accounts) session.getAttribute("curruser");
+                  StudentClubDAO studentClubDAO = new StudentClubDAO();
+                  List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        %>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
@@ -45,7 +40,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>Blog Upload </title>
+        <title>Blog Update </title>
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -358,7 +353,7 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Upload Blog</h4>
+                    <h4 class="breadcrumb-title">Update Blog</h4>
 
                 </div>	
                 <div class="row">
@@ -366,35 +361,36 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Information Blog</h4>
+                                <h4>Information Update Blog</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/UploadServlet" method="post" enctype="multipart/form-data">
+                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/BlogUpdateServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
 
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Tittle</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="tittle"></textarea>
+                                                <textarea class="form-control" name="tittle"><%= post.getTitleBlog()%></textarea>
                                                 </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="description"></textarea>
+                                                <textarea class="form-control" name="description"><%= post.getDescription()%></textarea>
                                                 </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
                                             <div>
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                                <img id="imagePreview" class="preview" src="#" alt="Image Preview">
+                                                <img id="imagePreview" class="preview" src="<%= request.getContextPath() %>/<%= post.getImage() %>" alt="Image Preview">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"></textarea>
+                                                <textarea class="form-control" name="content"><%= post.getContent()%></textarea>
+                                                </div>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -421,22 +417,22 @@
                                                         }
                                                     }
                                                 </script>
-                                            </div>
+                                            
                                         </div>
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-3">
 
                                             <label class="col-form-label">Show : </label>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="1">
+                                                <input  type="radio" id="public" name="visibility" value="1"  <%= post.getShow() == 1 ? "checked" : "" %>>
                                                 <label> Public </label>
                                             </div>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="0">
+                                                <input  type="radio" id="public" name="visibility" value="0" <%= post.getShow() == 0 ? "checked" : "" %>>
                                                 <label> Private </label>
                                             </div>
                                         </div>
                                         <input type="hidden" name="status" value="1">
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Club : </label>
                                             <%
                     ClubDao clubDAO = new ClubDao();
@@ -444,13 +440,13 @@
                         if (studentClub.getStatus() == 1 ) {
                                             %>
                                             <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>"> <%= clubDAO.getNameById(studentClub.getIdClub()) %>
+                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= post.getIdClub() == studentClub.getIdClub() ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>
                                             </div>
                                             <%      }
                 }
                                             %>
                                         </div>
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Blog's type : </label>
                                             <%
                 BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
@@ -458,12 +454,19 @@
                 for (BlogType blogType : blogTypeList) {
                                             %>
                                             <div>
-                                                <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType() %>
+                                                <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"<%= post.getIdBlogType() == blogType.getIdBlogType() ? "checked" : "" %>><%= blogType.getNameBlogType() %>
                                             </div>
                                             <% } %>
                                         </div>
+                                        <div class="form-group col-3">
+                                            <label class="col-form-label">Status</label>
+                                            <div>
+                                                <input type="radio" name="status" value="1" <%= post.getStatus() == 1 ? "checked" : "" %> >Active <br> 
+                                                <input type="radio" name="status" value="0" <%= post.getStatus() == 0 ? "checked" : "" %> >Stop 
+                                            </div>
+                                        </div>
                                         <div class="col-12">
-                                            <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>
+                                            <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Blog</button>
                                         </div>
                                     </div>
                                 </form>
