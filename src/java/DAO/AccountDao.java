@@ -49,6 +49,36 @@ public class AccountDao extends DBContext{
         }
         return x;
     }
+     public Accounts getAccountbyID(int id) {
+        Accounts account = null;
+        String query = "select * from Student where IdStudent=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return account;
+    }
+ public String getNamebyID(int id) {
+        Accounts account = null;
+        String query = "select * from Student where IdStudent=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return account.getName();
+    }
     public void insertAccount(String account, String password, Date date,String name) {
         String sql = "INSERT INTO Student (Email,password,role,status,DateCreate,NameStudent) VALUES"
                 + " (?,?,?,?,?,?);";
@@ -190,10 +220,7 @@ public class AccountDao extends DBContext{
         
         public static void main(String[] args) {
         AccountDao db=new AccountDao();
-        int y=db.getrole("huynhe170275@fpt.edu.vn");
-//        System.out.println(y);
-        List<Accounts> getAll = db.getAllAccByIdClub("1");
-            System.out.println(getAll.size());
+            System.out.println(db.getNamebyID(1));
 
     }
     

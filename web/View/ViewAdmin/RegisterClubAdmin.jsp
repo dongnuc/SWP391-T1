@@ -286,16 +286,16 @@
                                             <td>${clubRegister.getIdStudent() }</td>
                                             <c:if test="${clubRegister.getStatus()==0}">
                                                 <td><a href="SetStatusClubController?id=${clubRegister.getIdRegister()}" >
-                                                        <button class="accept-button">Accept</button></a></td>
+                                                        <button class="accept-button" style="background-color: red;width: 90px;">Accept</button></a></td>
                                                     </c:if>
                                                     <c:if test="${clubRegister.getStatus()==1}">
                                                 <td>
-                                                    <button class="approved-button">Approved</button>
+                                                    <button class="approved-button" style="background-color: green;width: 90px;">Approved</button>
                                                 </td>
                                             </c:if>
                                                 <c:if test="${clubRegister.getStatus()==0}">
                                                 <td><a href="Refuseclub?id=${clubRegister.getIdRegister()}" >
-                                                        <button class="accept-button">Refuse</button></a></td>
+                                                        <button class="accept-button" style="background-color: red;width: 90px;">Refuse</button></a></td>
                                                     </c:if>
                                                    
                                         </tr>

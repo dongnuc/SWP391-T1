@@ -1,428 +1,988 @@
-    <%-- 
+<%-- 
     Document   : HomePage
-    Created on : May 15, 2024, 10:18:35 AM
+    Created on : Jun 5, 2024, 1:32:20 PM
     Author     : Nguyen Hau
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- META ============================================= -->
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+
+
+        <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>HomePage</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/responsive.css">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css ">
+        <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+
+        <!-- REVOLUTION SLIDER CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/layers.css">
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/settings.css">
+        <link rel="stylesheet" type="text/css" href="assets/vendors/revolution/css/navigation.css">
+        <!-- REVOLUTION SLIDER END -->	
     </head>
-    <style>
-        .user-profile{
-            margin-right: 200px;
-        }
-        .profile-info{
-            margin-left: 200px;
-        }
-    </style>
-   <div id="wallpaper">
-            <header>
-                <div class="top">
-                    <div class="container">
-                        <c:if test="${sessionScope.account==null}">
-                               <div class="top-menu">
-                            <a href="View/ViewStudent/login.jsp" class="icon-login">
-                             <i class="fa fa-sign-in"></i> Đăng nhập
-                                </a>
-                           <span class="separator">|</span>
-                            <a href="View/ViewStudent/register.jsp" class="icon-register">
-                                <i class="fa fa-user-plus"></i> Đăng ký</a>
- 
-                        </div>
-                               </c:if>
-                    </div>
-                </div>
-                <div class="main-menu-header">
-                    <div class="container">   
-                        <div id="nav-menu">
-                            <ul>
-                                <li>
-                                    <a href="HomeControl">Trang chủ</a>
+    <body id="bg">
+        <div class="page-wraper">
+            <div id="loading-icon-bx"></div>
+            <!-- Header Top ==== -->
+            <%@ include file="View/ViewStudent/Header.jsp" %>
+            <!-- Header Top END ==== -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- Main Slider -->
+                <div class="rev-slider">
+                    <div id="rev_slider_486_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="news-gallery36" data-source="gallery" style="margin:0px auto;background-color:#ffffff;padding:0px;margin-top:0px;margin-bottom:0px;">
+                        <!-- START REVOLUTION SLIDER 5.3.0.2 fullwidth mode -->
+                        <div id="rev_slider_486_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.3.0.2">
+                            <ul>	<!-- SLIDE  -->
+                                <li data-index="rs-100" 
+                                    data-transition="parallaxvertical" 
+                                    data-slotamount="default" 
+                                    data-hideafterloop="0" 
+                                    data-hideslideonmobile="off" 
+                                    data-easein="default" 
+                                    data-easeout="default" 
+                                    data-masterspeed="default" 
+                                    data-thumb="error-404.html" 
+                                    data-rotate="0" 
+                                    data-fstransition="fade" 
+                                    data-fsmasterspeed="1500" 
+                                    data-fsslotamount="7" 
+                                    data-saveperformance="off" 
+                                    data-title="A STUDY ON HAPPINESS" 
+                                    data-param1="" data-param2="" 
+                                    data-param3="" data-param4="" 
+                                    data-param5="" data-param6="" 
+                                    data-param7="" data-param8="" 
+                                    data-param9="" data-param10="" 
+                                    data-description="Science says that Women are generally happier">
+                                    <!-- MAIN IMAGE -->
+                                    <img src="images/trg.png" alt="" 
+                                         data-bgposition="center center" 
+                                         data-bgfit="cover" 
+                                         data-bgrepeat="no-repeat" 
+                                         data-bgparallax="10" 
+                                         class="rev-slidebg" 
+                                         data-no-retina />
+
+                                    <!-- LAYER NR. 1 -->
+                                    <div class="tp-caption tp-shape tp-shapewrapper " 
+                                         id="slide-100-layer-1" 
+                                         data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" 
+                                         data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" 
+                                         data-width="full"
+                                         data-height="full"
+                                         data-whitespace="nowrap"
+                                         data-type="shape" 
+                                         data-basealign="slide" 
+                                         data-responsive_offset="off" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"opacity:0;","speed":1,"to":"o:1;","delay":0,"ease":"Power4.easeOut"},{"delay":"wait","speed":1,"to":"opacity:0;","ease":"Power4.easeOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 5;background-color:rgba(2, 0, 11, 0.80);border-color:rgba(0, 0, 0, 0);border-width:0px;"> </div>	
+                                    <!-- LAYER NR. 2 -->
+                                    <div class="tp-caption Newspaper-Title   tp-resizeme" 
+                                         id="slide-100-layer-2" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['250','250','250','240']" 
+                                         data-fontsize="['50','50','50','30']"
+                                         data-lineheight="['55','55','55','35']"
+                                         data-width="full"
+                                         data-height="none"
+                                         data-whitespace="normal"
+                                         data-type="text" 
+                                         data-responsive_offset="on" 
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[10,10,10,10]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;">
+                                        Welcome To FPT University
+                                    </div>
+
+                                    <!-- LAYER NR. 3 -->
+                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
+                                         id="slide-100-layer-3" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['210','210','210','210']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="text" 
+                                         data-responsive_offset="on"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 7; white-space: nowrap; color:#fff; font-family:rubik; font-size:18px; font-weight:400;">
+                                        Batter Education For A Better 
+                                    </div>
+
+                                    <!-- LAYER NR. 3 -->
+                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
+                                         id="slide-100-layer-4" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['320','320','320','290']" 
+                                         data-width="['800','800','700','420']"
+                                         data-height="['100','100','100','120']"
+                                         data-whitespace="unset"
+                                         data-type="text" 
+                                         data-responsive_offset="on"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 7; text-transform:capitalize; white-space: unset; color:#fff; font-family:rubik; font-size:18px; line-height:28px; font-weight:400;">
+                                       Established in 2006, FPT University excels in technology and business education with modern facilities and innovative programs.
+                                    </div>
+                                    <!-- LAYER NR. 4 -->
+                                    <div class="tp-caption Newspaper-Button rev-btn " 
+                                         id="slide-100-layer-5" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['90','80','75','90']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['400','400','400','420']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="button" 
+                                         data-responsive_offset="on" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0, 0, 0, 1.00);bg:rgba(255, 255, 255, 1.00);bc:rgba(255, 255, 255, 1.00);bw:1px 1px 1px 1px;"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[12,12,12,12]"
+                                         data-paddingright="[30,35,35,15]"
+                                         data-paddingbottom="[12,12,12,12]"
+                                         data-paddingleft="[30,35,35,15]"
+                                         style="z-index: 8; white-space: nowrap; outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; background-color:var(--primary) !important; border:0; border-radius:30px; margin-right:5px;">READ MORE </div>
+                                     <a href="contactus" class="tp-caption Newspaper-Button rev-btn"  
+                                         id="slide-100-layer-6" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['-90','-80','-75','-90']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['400','400','400','420']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="button" 
+                                         data-responsive_offset="on" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0, 0, 0, 1.00);bg:rgba(255, 255, 255, 1.00);bc:rgba(255, 255, 255, 1.00);bw:1px 1px 1px 1px;"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[12,12,12,12]"
+                                         data-paddingright="[30,35,35,15]"
+                                         data-paddingbottom="[12,12,12,12]"
+                                         data-paddingleft="[30,35,35,15]"
+                                         style="z-index: 8; white-space: nowrap; outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius:30px;">CONTACT US</a>
                                 </li>
-                                </li>
-            <li class="dropdown" onclick="toggleClubTable()">
-                <a href="#">Các CLB</a>
-                <div class="dropdown-content" id="club-table">
-                    <!-- Thêm các CLB vào đây -->
-                    <a class="chu" href="#">CLB Tiếng Anh</a>
-                    <a class="chu" href="#">CLB Tiếng Nhật</a>
-                    <a class="chu" href="#">CLB Tiếng Trung</a>
-                    <a class="chu" href="#">CLB Tiếng Hàn</a>
-                </div>
-            </li>
-                                
-                                <li>
-                                   
-                                    <a href="View/ViewManager/Upload_Homepage.jsp">Blog</a>
-                                </li>
-                                <li>
-                                   
-                                    <a href="View/ViewManager/Event_Homepage.jsp">Sự Kiện</a>
-                                </li>
-                                   <li>
-                                    <a href="contactus">CONTACT US</a>
-                                </li>
-                                
+                                <li data-index="rs-200" 
+                                    data-transition="parallaxvertical" 
+                                    data-slotamount="default" 
+                                    data-hideafterloop="0" 
+                                    data-hideslideonmobile="off" 
+                                    data-easein="default" 
+                                    data-easeout="default" 
+                                    data-masterspeed="default" 
+                                    data-thumb="images/slider/slide1.jpg" 
+                                    data-rotate="0" 
+                                    data-fstransition="fade" 
+                                    data-fsmasterspeed="1500" 
+                                    data-fsslotamount="7" 
+                                    data-saveperformance="off" 
+                                    data-title="A STUDY ON HAPPINESS" 
+                                    data-param1="" data-param2="" 
+                                    data-param3="" data-param4="" 
+                                    data-param5="" data-param6="" 
+                                    data-param7="" data-param8="" 
+                                    data-param9="" data-param10="" 
+                                    data-description="Science says that Women are generally happier">
+                                    <!-- MAIN IMAGE -->
+                                    <img src="images/banner.png" alt="" 
+                                         data-bgposition="center center" 
+                                         data-bgfit="cover" 
+                                         data-bgrepeat="no-repeat" 
+                                         data-bgparallax="10" 
+                                         class="rev-slidebg" 
+                                         data-no-retina />
+
+                                    <!-- LAYER NR. 1 -->
+                                    <div class="tp-caption tp-shape tp-shapewrapper " 
+                                         id="slide-200-layer-1" 
+                                         data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" 
+                                         data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" 
+                                         data-width="full"
+                                         data-height="full"
+                                         data-whitespace="nowrap"
+                                         data-type="shape" 
+                                         data-basealign="slide" 
+                                         data-responsive_offset="off" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"opacity:0;","speed":1,"to":"o:1;","delay":0,"ease":"Power4.easeOut"},{"delay":"wait","speed":1000,"to":"opacity:1;","ease":"Power4.easeOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 5;background-color:rgba(2, 0, 11, 0.80);border-color:rgba(0, 0, 0, 0);border-width:0px;"> 
+                                    </div>
+
+                                    <!-- LAYER NR. 2 -->
+                                    <div class="tp-caption Newspaper-Title   tp-resizeme" 
+                                         id="slide-200-layer-2" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['250','250','250','240']" 
+                                         data-fontsize="['50','50','50','30']"
+                                         data-lineheight="['55','55','55','35']"
+                                         data-width="full"
+                                         data-height="none"
+                                         data-whitespace="normal"
+                                         data-type="text" 
+                                         data-responsive_offset="on" 
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[10,10,10,10]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 6; font-family:rubik; font-weight:700; text-align:center; white-space: normal;text-transform:uppercase;">
+                                        Welcome To FPT University
+                                    </div>
+
+                                    <!-- LAYER NR. 3 -->
+                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
+                                         id="slide-200-layer-3" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['210','210','210','210']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="text" 
+                                         data-responsive_offset="on"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['left','left','left','left']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 7; white-space: nowrap;text-transform:uppercase; color:#fff; font-family:rubik; font-size:18px; font-weight:400;">
+                                        Batter Education For A Better 
+                                    </div>
+
+                                    <!-- LAYER NR. 3 -->
+                                    <div class="tp-caption Newspaper-Subtitle   tp-resizeme" 
+                                         id="slide-200-layer-4" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['0','0','0','0']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['320','320','320','290']" 
+                                         data-width="['800','800','700','420']"
+                                         data-height="['100','100','100','120']"
+                                         data-whitespace="unset"
+                                         data-type="text" 
+                                         data-responsive_offset="on"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;s:inherit;e:inherit;","ease":"Power3.easeInOut"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[0,0,0,0]"
+                                         data-paddingright="[0,0,0,0]"
+                                         data-paddingbottom="[0,0,0,0]"
+                                         data-paddingleft="[0,0,0,0]"
+                                         style="z-index: 7; text-transform:capitalize; white-space: unset; color:#fff; font-family:rubik; font-size:18px; line-height:28px; font-weight:400;">
+                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                                    </div>
+                                    <!-- LAYER NR. 4 -->
+                                    <div class="tp-caption Newspaper-Button rev-btn " 
+                                         id="slide-200-layer-5" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['90','80','75','90']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['400','400','400','420']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="button" 
+                                         data-responsive_offset="on" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0, 0, 0, 1.00);bg:rgba(255, 255, 255, 1.00);bc:rgba(255, 255, 255, 1.00);bw:1px 1px 1px 1px;"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[12,12,12,12]"
+                                         data-paddingright="[30,35,35,15]"
+                                         data-paddingbottom="[12,12,12,12]"
+                                         data-paddingleft="[30,35,35,15]"
+                                         style="z-index: 8; white-space: nowrap; outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; background-color:var(--primary) !important; border:0; border-radius:30px; margin-right:5px;">READ MORE </div>
+                                    
+                                         <a href="contactus" class="tp-caption Newspaper-Button rev-btn" 
+                                          
+                                         id="slide-200-layer-6" 
+                                         data-x="['center','center','center','center']" 
+                                         data-hoffset="['-90','-80','-75','-90']" 
+                                         data-y="['top','top','top','top']" 
+                                         data-voffset="['400','400','400','420']" 
+                                         data-width="none"
+                                         data-height="none"
+                                         data-whitespace="nowrap"
+                                         data-type="button" 
+                                         data-responsive_offset="on" 
+                                         data-responsive="off"
+                                         data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power3.easeInOut"},{"delay":"wait","speed":1000,"to":"auto:auto;","mask":"x:0;y:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0, 0, 0, 1.00);bg:rgba(255, 255, 255, 1.00);bc:rgba(255, 255, 255, 1.00);bw:1px 1px 1px 1px;"}]'
+                                         data-textAlign="['center','center','center','center']"
+                                         data-paddingtop="[12,12,12,12]"
+                                         data-paddingright="[30,35,35,15]"
+                                         data-paddingbottom="[12,12,12,12]"
+                                         data-paddingleft="[30,35,35,15]"
+                                         style="z-index: 8; white-space: nowrap; outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; border-radius:30px;">CONTACT US
+                                         </a>
+                                    
+                                    </li>
+                                <!-- SLIDE  -->
                             </ul>
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-    <div class="user-profile" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()">
-        <c:if test="${sessionScope.account!=null}">
-    <div class="profile-picture">
-        <img src="images/avatar.png" alt="">
-        <div class="profile-info" id="profile-info">
-    <h6>${sessionScope.account}</h6>
-    <a href="profile/edit" id="edit-profile-link">Edit Profile</a><br>
-    
-    <c:if test="${sessionScope.password == null}">
-        <a href="View/ViewStudent/password.jsp" id="set-password-link">Set Password</a><br>
-    </c:if>
-    
-    <c:if test="${sessionScope.password != null}">
-        <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
-    </c:if>
-        <c:if test="${sessionScope.role == 1}">
-        <a href="dashboardAdmin" id="change-password-link">Dashboard</a><br>
-    </c:if>
-        <c:if test="${sessionScope.role == 1}">
-        <a href="#" id="change-password-link">My Club</a><br>
-    </c:if>
-    
-    <a href="logout" id="logout-link">Log Out</a>
-</div>
-    </div>
-    </c:if>
-</div>
- </div>
-                                             <div class="main-header">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6 col-xs-6 col-sm-6 col-md-3 col-lg-3 order-md-0 order-0">
-                                <div class="logo">
-                                    <a href="HomeControl"><img src="images/logo3.png" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6 order-md-1 order-2">
-                                <div class="form-seach-product">
-                                    <form action="SearchProduct" method="post" role="form">
-                                        <div class="input-seach">
-                                            <input type="text" name="search" id="" class="form-control">
-                                            <button type="submit" class="btn-search-pro"><i class="fa fa-search"></i></button>
+                        </div><!-- END REVOLUTION SLIDER -->  
+                    </div>  
+                </div>  
+                <!-- Main Slider -->
+                <div class="content-block">
+
+                    <!-- Our Services -->
+                    <div class="section-area content-inner service-info-bx">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="service-bx">
+                                        <div class="action-box">
+                                            <img src="assets/images/our-services/pic1.jpg" alt="">
                                         </div>
-                                        <div class="clear"></div>
-                                    </form>
+                                        <div class="info-bx text-center">
+                                            <div class="feature-box-sm radius bg-white">
+                                                <i class="fa fa-bank text-primary"></i>
+                                            </div>
+                                            <h4><a href="#">Best Industry Leaders</a></h4>
+                                            <a href="#" class="btn radius-xl">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="service-bx">
+                                        <div class="action-box">
+                                            <img src="assets/images/our-services/pic2.jpg" alt="">
+                                        </div>
+                                        <div class="info-bx text-center">
+                                            <div class="feature-box-sm radius bg-white">
+                                                <i class="fa fa-book text-primary"></i>
+                                            </div>
+                                            <h4><a href="#">Learn Courses Online</a></h4>
+                                            <a href="#" class="btn radius-xl">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="service-bx m-b0">
+                                        <div class="action-box">
+                                            <img src="assets/images/our-services/pic3.jpg" alt="">
+                                        </div>
+                                        <div class="info-bx text-center">
+                                            <div class="feature-box-sm radius bg-white">
+                                                <i class="fa fa-file-text-o text-primary"></i>
+                                            </div>
+                                            <h4><a href="#">Book Library & Store</a></h4>
+                                            <a href="#" class="btn radius-xl">View More</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-</header>
-       
-       
-            <div id="content">
-              <div class="container-fluid">
-    <div id="carouselExampleControls" class="carousel slide vw-95" style="height: 800px;" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleControls" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleControls" data-slide-to="1"></li>
-            <li data-target="#carouselExampleControls" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" style="height: 100%;">
-            <div class="carousel-item active" style="height: 100%;">
-                <img class="d-block w-100" src="images/123.png" alt="First slide">
-            </div>
-            <div class="carousel-item" style="height: 100%;">
-                <img class="d-block w-100" src="images/1234.png" alt="Second slide">
-            </div>
-            <div class="carousel-item" style="height: 100%;">
-                <img class="d-block w-100" src="images/123456.png" alt="Third slide">
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-</div>    
- </div>
-           
-       
-       
-       <div class="container">
-        <div class="row">
-            <!-- Khung chứa thông báo (nửa bên trái) -->
-            <div class="col-md-6">
-               <div class="table-container" id="table-container">
-                   <h2>Thông báo chung</h2>
-    <table class="table">
-        <!-- Nội dung của bảng -->
-        <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 1</span></td>
-        </tr>
-        <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 2</span></td>
-        </tr>
-        <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 3</span></td>
-        </tr>
-        <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 4</span></td>
-        </tr>
-        <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 5</span></td>
-        </tr>
-         <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 6</span></td>
-        </tr>
-         <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 7</span></td>
-        </tr>
-         <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 8</span></td>
-        </tr>
-         <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 9</span></td>
-        </tr>
-         <tr>
-            <td><span class="bullet"></span><span class="content">Thông báo 10</span></td>
-        </tr>
-        <tr>
-            <td colspan="1">
-                <div class="pagination">
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
-            </div>
-            <!-- Khung chứa thông tin hot (nửa bên phải) -->
-            <div class="col-md-6">
-                <!-- Thông tin hot -->
-                <div class="hot-info" id="page1">
-                    <!-- Các thông tin hot của trang 1 -->
-                    <div class="blog-item">
-                        <h2>Thông tin hot 1</h2>
-                        <p>Nhập nội dung</p>
+                    <!-- Our Services END -->
+
+                    <!-- Popular Courses -->
+                    <div class="section-area section-sp2 popular-courses-bx">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 heading-bx left">
+                                    <h2 class="title-head">Popular <span>Blogs</span></h2>
+                                    <p>Discover FPT University's vibrant student life through our club blogs. Stay updated on activities, events, and achievements across various interests.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                                    <div class="item">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/courses/pic1.jpg" alt="">
+                                                <a href="#" class="btn">Read More</a>
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                <span>Programming</span>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review">
+                                                    <span>3 Review</span>
+                                                    <ul class="cours-star">
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="price">
+                                                    <del>$190</del>
+                                                    <h5>$120</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/courses/pic2.jpg" alt="">
+                                                <a href="#" class="btn">Read More</a>
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                <span>Programming</span>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review">
+                                                    <span>3 Review</span>
+                                                    <ul class="cours-star">
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="price">
+                                                    <del>$190</del>
+                                                    <h5>$120</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/courses/pic3.jpg" alt="">
+                                                <a href="#" class="btn">Read More</a>
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                <span>Programming</span>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review">
+                                                    <span>3 Review</span>
+                                                    <ul class="cours-star">
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="price">
+                                                    <del>$190</del>
+                                                    <h5>$120</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="cours-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/courses/pic4.jpg" alt="">
+                                                <a href="#" class="btn">Read More</a>
+                                            </div>
+                                            <div class="info-bx text-center">
+                                                <h5><a href="#">Introduction EduChamp – LMS plugin</a></h5>
+                                                <span>Programming</span>
+                                            </div>
+                                            <div class="cours-more-info">
+                                                <div class="review">
+                                                    <span>3 Review</span>
+                                                    <ul class="cours-star">
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                        <li><i class="fa fa-star"></i></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="price">
+                                                    <del>$190</del>
+                                                    <h5>$120</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="blog-item">
-                        <h2>Thông tin hot 2</h2>
-                        <p>Nhập nội dung</p>
-                    </div>    
-                    <div class="blog-item">
-                        <h2>Thông tin hot 3</h2>
-                        <p>Nhập nội dung</p>
-                    </div>
-                    <div class="blog-item">
-                        <h2>Thông tin hot 4</h2>
-                        <p>Nhập nội dung</p>
-                    </div>
+                    <!-- Popular Courses END -->
+
+                    <!-- Form -->
                     
-                </div>
-            </div>
-        </div>
-    </div>
-       
-       
-       
-      <div class="white-frame">
-    <div class="button1">
-        <div class="button-container">
-            <a href="/path/to/all" class="view-all-button">Xem tất cả</a>
-        </div>
-    </div>
-</div>
-       
-<div class="full-screen-container">
-    <h1 class="title">Sự kiện nổi bật qua các tháng</h1>
-    <div class="background">
-    <img src="images/banner.png" alt="">
-    </div>
-     <div class="events-container">
-        <div class="event">
-            <img src="images/11.png" alt="Tháng 1" class="event-image">
-            <h2>Tháng 1</h2>
-            <p>Sự kiện A, Sự kiện B, Sự kiện C...</p>
-        </div>
-        <div class="event">
-            <img src="images/22.png" alt="Tháng 2" class="event-image">
-            <h2>Tháng 2</h2>
-            <p>Sự kiện D, Sự kiện E, Sự kiện F...</p>
-        </div>
-        <div class="event">
-            <img src="images/33.png" alt="Tháng 3" class="event-image">
-            <h2>Tháng 3</h2>
-            <p>Sự kiện G, Sự kiện H, Sự kiện I...</p>
-        </div>
-        <div class="event">
-            <img src="images/44.png" alt="Tháng 4" class="event-image">
-            <h2>Tháng 4</h2>
-            <p>Sự kiện J, Sự kiện K, Sự kiện L...</p>
-        </div>
-        <!-- Thêm các tháng khác theo định dạng tương tự -->
-    </div>
-</div>
-       
-       <div class="full-height-container">
-            <div class="inner-container">
-           <table>
-        <tr>
-            <td class="left-column" >
-                <div class="left-content">
-                    <h3>CÙNG NHAU CHIA SẺ, CÙNG NHAU PHÁT TRIỂN.</h3>
-                    <img src="images/bannercuoi.png" alt="">
-                </div>
-            </td>
-            <td class="right-column">
-                <div class="right-content">
-                    <h2>NỘI QUY CHUNG:</h2>
-                    <ul s>
-                         <li><span class="bold-before-colon">Tôn trọng và hợp tác:</span> Tôn trọng lẫn nhau và hỗ trợ đồng nghiệp.</li>
-                         <li><span class="bold-before-colon">Đạo đức học thuật:</span> Tuân thủ nguyên tắc không gian lận và gian lận.</li>
-                         <li><span class="bold-before-colon">Tuân thủ quy định trường:</span> Tuân thủ các quy định và chính sách của trường.</li>
-                         <li><span class="bold-before-colon">An toàn và bảo mật:</span> Đảm bảo an toàn cho bản thân và người khác.</li>
-                         <li><span class="bold-before-colon">Tham gia và xây dựng cộng đồng:</span> Tham gia tích cực xây dựng cộng đồng.</li>
-                         <li><span class="bold-before-colon">Trách nhiệm tài chính:</span> Chịu trách nhiệm về tài chính cá nhân.</li>
-                         <li><span class="bold-before-colon">Quản lý thời gian:</span> Quản lý thời gian và công việc hiệu quả.</li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    </table>
-    </div>
-</div>
-       
-       
-            <footer>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                            <div class="box-footer info-contact">
-                                <h3>Thông tin khác</h3>
-                                <div class="content-list">
-                                    <ul>
-                                        <li><a href="#"><i class="fa fa-angle-double-right"></i>Tổng đài: 024 7300 5588</a></li>
-                                        <li><a href="#"><i class="fa fa-angle-double-right"></i>Chỉ dùng với mail : @fpt.edu.vn </a></li>
-                                       <li><a href="https://www.facebook.com/DaihocFPTHaNoi" target="_blank"><i class="fa fa-angle-double-right"></i>Fanpage</a></li>
-                                        <h2>We Accept:</h2>
-                            <img src="images/logo.png" alt="Payment Method" />
-                                    </ul>
+                    <!-- Form END -->
+                    <div class="section-area section-sp2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 text-center heading-bx">
+                                    <h2 class="title-head m-b0">Upcoming <span>Events</span></h2>
+                                    <p class="m-b0">Upcoming Education Events To Feed Brain. </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="upcoming-event-carousel owl-carousel owl-btn-center-lr owl-btn-1 col-12 p-lr0  m-b30">
+                                    <div class="item">
+                                        <div class="event-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/event/pic4.jpg" alt="">
+                                            </div>
+                                            <div class="info-bx d-flex">
+                                                <div>
+                                                    <div class="event-time">
+                                                        <div class="event-date">29</div>
+                                                        <div class="event-month">October</div>
+                                                    </div>
+                                                </div>
+                                                <div class="event-info">
+                                                    <h4 class="event-title"><a href="#">Education Autumn Tour 2019</a></h4>
+                                                    <ul class="media-post">
+                                                        <li><a href="#"><i class="fa fa-clock-o"></i> 7:00am 8:00am</a></li>
+                                                        <li><a href="#"><i class="fa fa-map-marker"></i> Berlin, Germany</a></li>
+                                                    </ul>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the..</p>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="event-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/event/pic3.jpg" alt="">
+                                            </div>
+                                            <div class="info-bx d-flex">
+                                                <div>
+                                                    <div class="event-time">
+                                                        <div class="event-date">29</div>
+                                                        <div class="event-month">October</div>
+                                                    </div>
+                                                </div>
+                                                <div class="event-info">
+                                                    <h4 class="event-title"><a href="#">Education Autumn Tour 2019</a></h4>
+                                                    <ul class="media-post">
+                                                        <li><a href="#"><i class="fa fa-clock-o"></i> 7:00am 8:00am</a></li>
+                                                        <li><a href="#"><i class="fa fa-map-marker"></i> Berlin, Germany</a></li>
+                                                    </ul>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the..</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="event-bx">
+                                            <div class="action-box">
+                                                <img src="assets/images/event/pic2.jpg" alt="">
+                                            </div>
+                                            <div class="info-bx d-flex">
+                                                <div>
+                                                    <div class="event-time">
+                                                        <div class="event-date">29</div>
+                                                        <div class="event-month">October</div>
+                                                    </div>
+                                                </div>
+                                                <div class="event-info">
+                                                    <h4 class="event-title"><a href="#">Education Autumn Tour 2019</a></h4>
+                                                    <ul class="media-post">
+                                                        <li><a href="#"><i class="fa fa-clock-o"></i> 7:00am 8:00am</a></li>
+                                                        <li><a href="#"><i class="fa fa-map-marker"></i> Berlin, Germany</a></li>
+                                                    </ul>
+                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the..</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="btn">View All Event</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div class="section-area section-sp2 bg-fix ovbl-dark" style="background-image:url(images/banner.png);">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 text-white heading-bx left">
+                                    <h2 class="title-head text-uppercase">what people <span>say</span></h2>
+                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+                                </div>
+                            </div>
+                            <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                                <div class="item">
+                                    <div class="testimonial-bx">
+                                        <div class="testimonial-thumb">
+                                            <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                        </div>
+                                        <div class="testimonial-info">
+                                            <h5 class="name">Peter Packer</h5>
+                                            <p>-Art Director</p>
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="testimonial-bx">
+                                        <div class="testimonial-thumb">
+                                            <img src="assets/images/testimonials/pic2.jpg" alt="">
+                                        </div>
+                                        <div class="testimonial-info">
+                                            <h5 class="name">Peter Packer</h5>
+                                            <p>-Art Director</p>
+                                        </div>
+                                        <div class="testimonial-content">
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type...</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Testimonials END -->
+
+                    <!-- Recent News -->
+                    <div class="section-area section-sp2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12 heading-bx left">
+                                    <h2 class="title-head">Recent <span>News</span></h2>
+                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+                                </div>
+                            </div>
+                            <div class="recent-news-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                                <div class="item">
+                                    <div class="recent-news">
+                                        <div class="action-box">
+                                            <img src="assets/images/blog/latest-blog/pic1.jpg" alt="">
+                                        </div>
+                                        <div class="info-bx">
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>Jan 02 2019</a></li>
+                                                <li><a href="#"><i class="fa fa-user"></i>By William</a></li>
+                                            </ul>
+                                            <h5 class="post-title"><a href="blog-details.html">This Story Behind Education Will Haunt You Forever.</a></h5>
+                                            <p>Knowing that, you’ve optimised your pages countless amount of times, written tons.</p>
+                                            <div class="post-extra">
+                                                <a href="#" class="btn-link">READ MORE</a>
+                                                <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 Comment</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="recent-news">
+                                        <div class="action-box">
+                                            <img src="assets/images/blog/latest-blog/pic2.jpg" alt="">
+                                        </div>
+                                        <div class="info-bx">
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>Feb 05 2019</a></li>
+                                                <li><a href="#"><i class="fa fa-user"></i>By John</a></li>
+                                            </ul>
+                                            <h5 class="post-title"><a href="blog-details.html">What Will Education Be Like In The Next 50 Years?</a></h5>
+                                            <p>As desperate as you are right now, you have done everything you can on your.</p>
+                                            <div class="post-extra">
+                                                <a href="#" class="btn-link">READ MORE</a>
+                                                <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>14 Comment</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="recent-news">
+                                        <div class="action-box">
+                                            <img src="assets/images/blog/latest-blog/pic3.jpg" alt="">
+                                        </div>
+                                        <div class="info-bx">
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>April 14 2019</a></li>
+                                                <li><a href="#"><i class="fa fa-user"></i>By George</a></li>
+                                            </ul>
+                                            <h5 class="post-title"><a href="blog-details.html">Master The Skills Of Education And Be.</a></h5>
+                                            <p>You will see in the guide all my years of valuable experience together with.</p>
+                                            <div class="post-extra">
+                                                <a href="#" class="btn-link">READ MORE</a>
+                                                <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>23 Comment</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Recent News End -->
+
                 </div>
-            </footer>
-
+                <!-- contact area END -->
+            </div>
+            <!-- Content END-->
+            <!-- Footer ==== -->
+            <%@include file="View/ViewStudent/Footer.jsp" %>
+            <!-- Footer END ==== -->
+            <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
-    
-    
-    
-    
-    
-    
-    <script>
-        function toggleClubTable() {
-    var clubTable = document.getElementById("club-table");
-    if (clubTable.style.display === "block") {
-        clubTable.style.display = "none";
-    } else {
-        clubTable.style.display = "block";
-    }
-}
-                    // Function thay đổi trang
-                    function changePage(page) {
-                        // Ẩn tất cả các trang thông tin hot
-                        var hotInfos = document.querySelectorAll('.hot-info');
-                        for (var i = 0; i < hotInfos.length; i++) {
-                            hotInfos[i].style.display = 'none';
-                        }
-                        // Hiển thị trang được chọn
-                        document.getElementById('page' + page).style.display = 'block';
-                    }
-                    // Mặc định hiển thị trang 1 khi trang được tải
-                    changePage(1);
-                </script>
-            <script>
-    // JavaScript functions
-   var isProfileVisible = false;
 
-function showProfileInfo() {
-    var profileInfo = document.getElementById("profile-info");
-    if (!isProfileVisible) {
-        profileInfo.style.display = "block";
-    }
-}
+        <!-- External JavaScripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="assets/vendors/counter/waypoints-min.js"></script>
+        <script src="assets/vendors/counter/counterup.min.js"></script>
+        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="assets/vendors/masonry/masonry.js"></script>
+        <script src="assets/vendors/masonry/filter.js"></script>
+        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src="assets/js/functions.js"></script>
+        <script src="assets/js/contact.js"></script>
+        <script src='assets/vendors/switcher/switcher.js'></script>
+        <!-- Revolution JavaScripts Files -->
+        <script src="assets/vendors/revolution/js/jquery.themepunch.tools.min.js"></script>
+        <script src="assets/vendors/revolution/js/jquery.themepunch.revolution.min.js"></script>
+        <!-- Slider revolution 5.0 Extensions  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+        <script src="assets/vendors/revolution/js/extensions/revolution.extension.video.min.js"></script>
+        <script>
+                            jQuery(document).ready(function () {
+                                var ttrevapi;
+                                var tpj = jQuery;
+                                if (tpj("#rev_slider_486_1").revolution == undefined) {
+                                    revslider_showDoubleJqueryError("#rev_slider_486_1");
+                                } else {
+                                    ttrevapi = tpj("#rev_slider_486_1").show().revolution({
+                                        sliderType: "standard",
+                                        jsFileLocation: "assets/vendors/revolution/js/",
+                                        sliderLayout: "fullwidth",
+                                        dottedOverlay: "none",
+                                        delay: 9000,
+                                        navigation: {
+                                            keyboardNavigation: "on",
+                                            keyboard_direction: "horizontal",
+                                            mouseScrollNavigation: "off",
+                                            mouseScrollReverse: "default",
+                                            onHoverStop: "on",
+                                            touch: {
+                                                touchenabled: "on",
+                                                swipe_threshold: 75,
+                                                swipe_min_touches: 1,
+                                                swipe_direction: "horizontal",
+                                                drag_block_vertical: false
+                                            }
+                                            ,
+                                            arrows: {
+                                                style: "uranus",
+                                                enable: true,
+                                                hide_onmobile: false,
+                                                hide_onleave: false,
+                                                tmp: '',
+                                                left: {
+                                                    h_align: "left",
+                                                    v_align: "center",
+                                                    h_offset: 10,
+                                                    v_offset: 0
+                                                },
+                                                right: {
+                                                    h_align: "right",
+                                                    v_align: "center",
+                                                    h_offset: 10,
+                                                    v_offset: 0
+                                                }
+                                            },
 
-function hideProfileInfo() {
-    var profileInfo = document.getElementById("profile-info");
-    if (!isProfileVisible) {
-        profileInfo.style.display = "none";
-    }
-}
+                                        },
+                                        viewPort: {
+                                            enable: true,
+                                            outof: "pause",
+                                            visible_area: "80%",
+                                            presize: false
+                                        },
+                                        responsiveLevels: [1240, 1024, 778, 480],
+                                        visibilityLevels: [1240, 1024, 778, 480],
+                                        gridwidth: [1240, 1024, 778, 480],
+                                        gridheight: [768, 600, 600, 600],
+                                        lazyType: "none",
+                                        parallax: {
+                                            type: "scroll",
+                                            origo: "enterpoint",
+                                            speed: 400,
+                                            levels: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 46, 47, 48, 49, 50, 55],
+                                            type: "scroll",
+                                        },
+                                        shadow: 0,
+                                        spinner: "off",
+                                        stopLoop: "off",
+                                        stopAfterLoops: -1,
+                                        stopAtSlide: -1,
+                                        shuffle: "off",
+                                        autoHeight: "off",
+                                        hideThumbsOnMobile: "off",
+                                        hideSliderAtLimit: 0,
+                                        hideCaptionAtLimit: 0,
+                                        hideAllCaptionAtLilmit: 0,
+                                        debugMode: false,
+                                        fallbacks: {
+                                            simplifyAll: "off",
+                                            nextSlideOnWindowFocus: "off",
+                                            disableFocusListener: false,
+                                        }
+                                    });
+                                }
+                            });
+        </script>
+        <script>
 
-function toggleProfileInfo() {
-    var profileInfo = document.getElementById("profile-info");
-    if (!isProfileVisible) {
-        profileInfo.style.display = "block";
-        isProfileVisible = true;
-    } else {
-        isProfileVisible = false;
-    }
-}
+            // Function thay đổi trang
+            function changePage(page) {
+                // Ẩn tất cả các trang thông tin hot
+                var hotInfos = document.querySelectorAll('.hot-info');
+                for (var i = 0; i < hotInfos.length; i++) {
+                    hotInfos[i].style.display = 'none';
+                }
+                // Hiển thị trang được chọn
+                document.getElementById('page' + page).style.display = 'block';
+            }
+            // Mặc định hiển thị trang 1 khi trang được tải
+            changePage(1);
+        </script>
+        <script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
 
 // Ẩn thông tin người dùng khi click ra ngoài
-document.addEventListener("click", function(event) {
-    var profileInfo = document.getElementById("profile-info");
-    if (!event.target.closest(".user-profile") && isProfileVisible) {
-        profileInfo.style.display = "none";
-        isProfileVisible = false;
-    }
-});
-document.addEventListener("DOMContentLoaded", function() {
-    var paginationLinks = document.querySelectorAll('.pagination a');
-    paginationLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
-            var currentPage = parseInt(this.textContent);
-            setActivePage(currentPage);
-        });
-    });
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var paginationLinks = document.querySelectorAll('.pagination a');
+                paginationLinks.forEach(function (link) {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(this.textContent);
+                        setActivePage(currentPage);
+                    });
+                });
 
-    function setActivePage(pageNumber) {
-        var paginationLinks = document.querySelectorAll('.pagination a');
-        paginationLinks.forEach(function(link) {
-            link.classList.remove('active');
-        });
-        paginationLinks[pageNumber - 1].classList.add('active');
+                function setActivePage(pageNumber) {
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    paginationLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    paginationLinks[pageNumber - 1].classList.add('active');
 
-        // Do something here to load data for the selected page
-    }
-});
-</script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
-        <script src="js/main.js"></script>
-        <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v6.0"></script>
+                    // Do something here to load data for the selected page
+                }
+            });
+        </script>
     </body>
+
 </html>

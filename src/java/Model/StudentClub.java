@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.AccountDao;
 import java.util.Date;
 
 /**
@@ -83,10 +84,21 @@ public class StudentClub {
     public int getRole() {
         return role;
     }
-
+ public String getNamebyId() {
+        return dao.getNamebyID(idStudent);
+    }
     public void setRole(int role) {
         this.role = role;
     }
-    
+    AccountDao dao = new AccountDao();
+
+
+    public String getNameRole() {
+        if (getRole() == 1) {
+            return "Manager";
+        } else {
+            return "Member";
+        }
+    }
     
 }

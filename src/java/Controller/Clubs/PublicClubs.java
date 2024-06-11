@@ -67,7 +67,7 @@ public class PublicClubs extends HttpServlet {
             pageNumber = Integer.parseInt(page);
         }
         ClubDao dao = new ClubDao();
-        List<Clubs> list = dao.getNineClubs(2);
+        List<Clubs> list = dao.getNineClubs(pageNumber);
         request.setAttribute("list", list);
         request.setAttribute("numberOfPage", (int) Math.ceil(dao.getNumberOfClub() * 1.0 / 9));
         request.getRequestDispatcher("View/ViewStudent/Clubs.jsp").forward(request, response);

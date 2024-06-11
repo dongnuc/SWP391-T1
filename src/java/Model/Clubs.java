@@ -4,6 +4,8 @@
  */
 package Model;
 
+import DAO.ClubDao;
+import DAO.StudentClubDAO;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,20 @@ public class Clubs {
     }
 
     public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description, Role listRole) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.type = type;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.listRole = listRole;
+    }
+
+   
+ public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description) {
         this.club = club;
         this.nameclub = nameclub;
         this.point = point;
@@ -119,7 +135,15 @@ public class Clubs {
         this.listRole = listRole;
     }
 
+    StudentClubDAO stdao = new StudentClubDAO();
+   public int getSizeClub(){
+       return stdao.getSizeClub(getClub());
+   }
+    ClubDao dao = new ClubDao();
+    public String getStringType() {
+        TypeClub typeclub = dao.gettypeclubbyID(status);
+        String nametype = typeclub.getNameTypeClub();
+        return nametype;
     
-    
-    
+    }
 }
