@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Admin;
 
 import DAO.AccountDao;
 import DAO.ClubDao;
 import Model.Accounts;
+import Model.Clubs;
 import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,36 +22,39 @@ import java.util.List;
  *
  * @author Admin
  */
-@WebServlet(name="ManagerClubServlet", urlPatterns={"/managerClub"})
+@WebServlet(name = "ManagerClubServlet", urlPatterns = {"/managerClub"})
 public class ManagerClubServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ManagerClubServlet</title>");  
+            out.println("<title>Servlet ManagerClubServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ManagerClubServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ManagerClubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,20 +62,33 @@ public class ManagerClubServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        String idClub = request.getParameter("idClub");
+            throws ServletException, IOException {
+        String nameSearch = request.getParameter("nameSearch");
+        String option = request.getParameter("typeClub");
+        if(nameSearch == null){
+            nameSearch = "";
+        }
+        if(option == null){
+            option = "";
+        }
+        
         ClubDao clubDao = new ClubDao();
-        List<Role> listRole = clubDao.getAllRole(idClub);
-        AccountDao daoAcc = new AccountDao();
-        List<Accounts> getAccount = daoAcc.getAllAccByIdClub(idClub);
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("listAcc", getAccount);
+        List<String> nameType = clubDao.getTypeClub();
+        List<Clubs> getAllClubs = clubDao.getClubAll(option, nameSearch);
+        request.setAttribute("listClub", getAllClubs);
+        request.setAttribute("listType", nameType);
+         System.out.println(option);
+         request.setAttribute("nameSearch", nameSearch);
+         request.setAttribute("option", option);
         request.getRequestDispatcher("View/ViewAdmin/ClubAdmin.jsp").forward(request, response);
+//         response.sendRedirect("managerClub");
 //        System.out.println(getAccount.size());
-    } 
+       
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -80,12 +96,13 @@ public class ManagerClubServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -15,10 +15,10 @@ public class Form {
     private String fullName;
     private String titleForm;
     private String contentForm;
-    private Date dateCreate;
+    private Date dateCreate, dateModify;
     private String email;
     private int status,isRead;
-
+    private String phoneNumber;
     
 
     public Form(int idForm, String fullName , String email, String titleForm, String contentForm, Date dateCreate, int status, int isRead) {
@@ -31,6 +31,49 @@ public class Form {
         this.status = status;
         this.isRead = isRead;
     }
+
+    public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, Date dateModify, String email, int status, int isRead) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.email = email;
+        this.status = status;
+        this.isRead = isRead;
+    }
+
+    public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, String email, int status, int isRead, String phoneNumber) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.email = email;
+        this.status = status;
+        this.isRead = isRead;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Date getDateModify() {
+        return dateModify;
+    }
+
+    public void setDateModify(Date dateModify) {
+        this.dateModify = dateModify;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    
+    
+    
 
 
     public int getIsRead() {

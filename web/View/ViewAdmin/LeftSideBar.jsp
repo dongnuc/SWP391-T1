@@ -49,7 +49,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="ttr-material-button">
+                    <a href="managerClub" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-calendar"></i></span>
                         <span class="ttr-label">List Club</span>
                     </a>

@@ -22,6 +22,10 @@ public class Clubs {
     private int type;
     private String img;
     private String description;
+    private String typeClub;
+    private Date dateCreate, dateModify;
+    
+    
 
     ClubDao dao = new ClubDao();
     public Clubs() {
@@ -38,6 +42,29 @@ public class Clubs {
         this.img = img;
         this.description = description;
     }
+
+    public Clubs(int club, String nameclub, int point, Date dateCreate, Date dateModify, String typeClub,int status) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.status = status;
+        this.typeClub = typeClub;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+    }
+
+    
+
+    public String getTypeClub() {
+        return typeClub;
+    }
+
+    public void setTypeClub(String typeClub) {
+        this.typeClub = typeClub;
+    }
+    
+    
+    
 
     public int getClub() {
         return club;

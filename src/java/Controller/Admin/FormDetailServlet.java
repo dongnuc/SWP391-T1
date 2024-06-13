@@ -6,6 +6,7 @@
 package Controller.Admin;
 
 import DAO.FormDao;
+import Model.Accounts;
 import Model.Form;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -57,11 +59,14 @@ public class FormDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Accounts acc = (Accounts) session.getAttribute("curruser");
+        String idAcc = String.valueOf(acc.getId());
         String idForm = request.getParameter("idForm");
         FormDao dao = new FormDao();
         Form getFormById = dao.getFormByID(idForm);
         dao.readForm(idForm);
-        int noRead = dao.countFormNoRead();
+        int noRead = dao.countFormNoRead(idAcc);
         request.setAttribute("noRead", noRead);
         request.setAttribute("formDetail", getFormById);
         request.getRequestDispatcher("View/ViewAdmin/MailDetail.jsp").forward(request, response);

@@ -78,6 +78,7 @@ public class login extends HttpServlet {
                 session.setAttribute("role", role);
             }
             session.setAttribute("account", account);
+            System.out.println("process");
             request.getRequestDispatcher("Home.jsp").forward(request, response);
         }
     }
@@ -123,7 +124,6 @@ public class login extends HttpServlet {
         AccountDao ab = new AccountDao();
         Accounts curruser = ab.getAccountEmail(email);
         session.setAttribute("curruser", curruser);
-        System.out.println(curruser.getEmail());
 
         try {
             remember = request.getParameter("remember");
@@ -142,16 +142,17 @@ public class login extends HttpServlet {
         for (Accounts ac : list) {
             if (email.equals(ac.getEmail()) && mahoa.equals(ac.getPassword())) {
                 session.setAttribute("account", email);
-                session.setAttribute("id", ac.getId());
+                session.setAttribute("id", ac.getId()); 
                 session.setAttribute("password", mahoa);
                 int role = acc.getrole(email);
                 session.setAttribute("role", role);
-                loginSuccessful = true;
+                loginSuccessful = true;               
                 break;
             }
         }
 
         if (loginSuccessful) {
+            System.out.println("Do posst");
             response.sendRedirect("Home.jsp");
         } else {
             request.setAttribute("error", "Account or Password not Correct");

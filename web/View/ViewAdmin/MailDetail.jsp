@@ -136,7 +136,11 @@
                                             </div>
                                             <div class="read-content-body">
                                                 <p>${formDetail.contentForm}</p>                                                
-                                            </div>                                                                                      
+                                            </div>
+                                            
+                                            <div class="read-content-body">
+                                                <p>Contact other: ${formDetail.phoneNumber}</p>                                                
+                                            </div>
                                         </div>
                                         <c:if test="${formDetail.status == 1}">
                                             <div class="form-group">

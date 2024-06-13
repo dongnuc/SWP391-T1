@@ -5,6 +5,7 @@
 package Controller.Admin;
 
 import DAO.FormDao;
+import Model.Accounts;
 import Model.Form;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -60,9 +62,13 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Accounts acc = (Accounts) session.getAttribute("curruser");
+        System.out.println("Hello: "+acc);
         FormDao dao = new FormDao();
-        List<Form> getFormAll = dao.getAllForm();
-        int noRead = dao.countFormNoRead();
+        String idAcc = String.valueOf(acc.getId());
+        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
+        int noRead = dao.countFormNoRead(idAcc);
         request.setAttribute("noRead", noRead);
         request.setAttribute("listForm", getFormAll);
         request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);

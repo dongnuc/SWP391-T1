@@ -6,6 +6,7 @@
 package Controller.Admin;
 
 import DAO.FormDao;
+import Model.Accounts;
 import Model.Form;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -58,9 +60,13 @@ public class FormDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+         HttpSession session = request.getSession();
+        Accounts acc = (Accounts) session.getAttribute("curruser");
+        String idAcc = String.valueOf(acc.getId());
+       
         FormDao dao = new FormDao();
-        List<Form> getFormDelete = dao.getFormDelete();
-          int noRead = dao.countFormNoRead();
+        List<Form> getFormDelete = dao.getAllFormByAcc(idAcc, 0);
+          int noRead = dao.countFormNoRead(idAcc);
         request.setAttribute("noRead", noRead);
         request.setAttribute("listFormDelete", getFormDelete);
         request.getRequestDispatcher("View/ViewAdmin/MailDelete.jsp").forward(request, response);

@@ -60,9 +60,8 @@ public class DashBoardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         ClubDao dao = new ClubDao();
-        List<Clubs> getAllClub = dao.getClubAll();
+        
         HttpSession session = request.getSession();
-        session.setAttribute("listClub", getAllClub);
        request.getRequestDispatcher("View/ViewAdmin/Dashboard.jsp").forward(request, response);
     } 
 

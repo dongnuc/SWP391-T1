@@ -1,128 +1,182 @@
-<%-- 
-    Document   : UpdateClub
-    Created on : Jun 2, 2024, 4:02:25 PM
-    Author     : Nguyen Hau
---%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
+    <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
     <head>
-        <meta charset="utf-8" />
-        <title>Doctris - Doctor Appointment Booking System</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Premium Bootstrap 4 Landing Page Template" />
-        <meta name="keywords" content="Appointment, Booking, System, Dashboard, Health" />
-        <meta name="author" content="Shreethemes" />
-        <meta name="email" content="support@shreethemes.in" />
-        <meta name="website" content="https://shreethemes.in" />
-        <meta name="Version" content="v1.2.0" />
-        <!-- favicon -->
-        <link rel="shortcut icon" href="<%= request.getContextPath() %>/assets/images/favicon.ico.png">
-        <!-- Bootstrap -->
-        <link href="<%= request.getContextPath() %>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- Icons -->
-        <link href="<%= request.getContextPath() %>/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
-        <link href="<%= request.getContextPath() %>/css/remixicon.css" rel="stylesheet" type="text/css" />
-        <link href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" rel="stylesheet">
-        <!-- Css -->
-        <link href="<%= request.getContextPath() %>/css/style.min.css" rel="stylesheet" type="text/css" id="theme-opt" />
+
+        <!-- META ============================================= -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="../error-404.html" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+        <title>EduChamp : Education HTML Template </title>
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/assets.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/shortcodes/shortcodes.css">
+
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <!--<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/ClubAdmin.css">-->
+        
     </head>
+    <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
-    <body>
-        <!-- Loader -->
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Loader -->
+        <!-- header start -->
+        <jsp:include page="Navigation.jsp"/>
 
-        <div class="back-to-home rounded d-none d-sm-block">
-            <a href="SWP392/ClubController" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
-        </div>
+        <!-- header end -->
+        <!-- Left sidebar menu start -->
+        <jsp:include page="LeftSideBar.jsp"/>
 
+        <!-- Left sidebar menu end -->
 
-        <!-- Hero Start -->
-        <section class="bg-half-150 d-table w-100 bg-light" style="background: url('<%= request.getContextPath() %>/assets/images/bg/bg-lines-one.png') center;">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-5 col-md-8">
-                        <img src="<%= request.getContextPath() %>/assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
-                        <div class="card login-page bg-white shadow mt-4 rounded border-0">
-                            <div class="card-body">
-                                <h4 class="text-center">Update Club</h4>  
-                                <c:set var="club" value="${requestScope.Club}"/>
-                                <c:set var="type" value="${requestScope.type}"/>
-                                <form action="<%= request.getContextPath() %>/UpdateClub" method="post">
+        <!--Main container start -->
+        <main class="ttr-wrapper">
+            <div class="container-fluid">
+                <div class="db-breadcrumb">
+                    <h4 class="breadcrumb-title">Add Club</h4>
+                    <ul class="db-breadcrumb-list">
+                        <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+                        <li>Add Club</li>
+                    </ul>
+                </div>	
+                <div class="row">
+                    <!-- Your Profile Views Chart -->
+                    <div class="col-lg-6 m-b30">
+                        <div class="widget-box">
+                            <div class="wc-title">
+                                <h4>Add Club</h4>
+                            </div>
+                            <div class="widget-inner">
+                                <form class="edit-profile m-b30">
                                     <div class="row">
-                                        <input type="hidden" name="id" value="${club.getClub()}">
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Name Club <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control"  name="nameclub" value="${club.getNameclub()}">
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Name Club</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="">
                                             </div>
                                         </div>
-
-                                        <div class="col-md-6">
-                                            <div class="mb-3">                                               
-                                                <label class="form-label">Date create <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" value="${club.getDatecreate()}" name="datecreate" >
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Points</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">                                                
-                                                <label class="form-label">Point <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" value="${club.getPoint()}" name="point" >
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Date Create</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="">
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label class="form-label">Select type club <span class="text-danger">*</span></label>
-                                                <select id="clubId" name="idypleclub" class="input-field">
-
-                                                    <option>${club.getStringType()}</option>
-                                                    <c:forEach items="${requestScope.listtypeclub}" var="getTypeClub"> 
-                                                        <option value="${getTypeClub.getIdTypeClub()}">${getTypeClub.getNameTypeClub()}</option>
-                                                    </c:forEach> 
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Date Modify</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Status</label>
+                                            <div>
+                                                <input class="form-control" type="text" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Teacher name</label>
+                                            <div>
+                                                <select class="form-control">
+                                                    <option>Hello</option>
                                                 </select>
                                             </div>
-                                            <h6 style="color: red;">${requestScope.error}</h6>
                                         </div>
+                                        <div class="seperator"></div>
 
-
-                                        <div class="col-md-12">
-                                            <div class="d-grid"> 
-
-                                                <button type="submit" class="btn btn-primary">Update</button>
-
-                                            </div>
+                                        <div class="col-12">
+                                            <button type="button" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Item</button>
+                                            <button type="reset" class="btn">Save changes</button>
                                         </div>
-
-
                                     </div>
                                 </form>
                             </div>
-                        </div><!---->
-                    </div> <!--end col-->
-                </div><!--end row-->
-            </div> <!--end container-->
-        </section><!--end section-->
-        <!-- Hero End -->
+                        </div>
+                    </div>
+                    <!-- Your Profile Views Chart END-->
+                </div>
+            </div>
+        </main>
+        <div class="ttr-overlay"></div>
 
-        <!-- javascript -->
-        <script src="<%= request.getContextPath() %>/js/bootstrap.bundle.min.js"></script>
-        <!-- Icons -->
-        <script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>
-        <!-- Main Js -->
-        <script src="<%= request.getContextPath() %>/js/app.js"></script>
-
+        <!-- External JavaScripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="assets/vendors/counter/waypoints-min.js"></script>
+        <script src="assets/vendors/counter/counterup.min.js"></script>
+        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="assets/vendors/masonry/masonry.js"></script>
+        <script src="assets/vendors/masonry/filter.js"></script>
+        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src='assets/vendors/scroll/scrollbar.min.js'></script>
+        <script src="assets/js/functions.js"></script>
+        <script src="assets/vendors/chart/chart.min.js"></script>
+        <script src="assets/js/admin.js"></script>
+        <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
+        <script>
+            // Pricing add
+            function newMenuItem() {
+                var newElem = $('tr.list-item').first().clone();
+                newElem.find('input').val('');
+                newElem.appendTo('table#item-add');
+            }
+            if ($("table#item-add").is('*')) {
+                $('.add-item').on('click', function (e) {
+                    e.preventDefault();
+                    newMenuItem();
+                });
+                $(document).on("click", "#item-add .delete", function (e) {
+                    e.preventDefault();
+                    $(this).parent().parent().parent().parent().remove();
+                });
+            }
+        </script>
     </body>
 
-
+    <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
 </html>
