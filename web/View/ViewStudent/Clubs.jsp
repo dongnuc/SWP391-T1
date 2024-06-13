@@ -67,7 +67,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Courses Details</h1>
+                            <h1 class="text-white">Club Details</h1>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                     <div class="container">
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
-                            <li>Our Courses</li>
+                            <li>Our Club</li>
                         </ul>
                     </div>
                 </div>
@@ -110,21 +110,20 @@
                                         <a href="#"><img src="assets/images/adv/adv.jpg" alt=""/></a>
                                     </div>
                                     <div class="widget recent-posts-entry widget-courses">
-                                        <h5 class="widget-title style-1">Recent Courses</h5>
+                                        <h5 class="widget-title style-1">Recent blog</h5>
                                         <div class="widget-post-bx">
                                             <div class="widget-post clearfix">
                                                 <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
                                                 <div class="ttr-post-info">
                                                     <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">Introduction EduChamp</a></h6>
+                                                        <h6 class="post-title"><a href="#">name blog</a></h6>
                                                     </div>
                                                     <div class="ttr-post-meta">
                                                         <ul>
                                                             <li class="price">
-                                                                <del>$190</del>
-                                                                <h5>$120</h5>
+                                                                <h5 class="free">Datecreate</h5>
                                                             </li>
-                                                            <li class="review">03 Review</li>
+                                                            <li class="review">09-06-2024</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -133,14 +132,14 @@
                                                 <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
                                                 <div class="ttr-post-info">
                                                     <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">English For Tommorow</a></h6>
+                                                        <h6 class="post-title"><a href="#">Name Blog</a></h6>
                                                     </div>
                                                     <div class="ttr-post-meta">
                                                         <ul>
                                                             <li class="price">
-                                                                <h5 class="free">Free</h5>
+                                                                <h5 class="free">Datecreate</h5>
                                                             </li>
-                                                            <li class="review">07 Review</li>
+                                                            <li class="review">09-06-2024</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -150,16 +149,16 @@
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="row">
-                                        <c:forEach var="club" items="${requestScope.list}"	>
+                                        <c:forEach var="club" items="${requestScope.list}">
                                             <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                                 <div class="cours-bx">
                                                     <div class="action-box">
-                                                        <img src="assets/images/courses/pic1.jpg" alt="">
-                                                        <a href="View/ViewStudent/ClubDetail.jsp" class="btn">Read More</a>
+                                                        <img src="${club.getImage()}" style="width: 350px;height: 200px">
+                                                        <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
                                                     </div>
-                                                    <div class="info-bx text-center">
-                                                        <h5><a href="#">${club.getNameclub() }</a></h5>
-                                                        <span>${club.getDescription()}</span>
+                                                    <div class="info-bx text-center" style="text-align: right;">
+                                                        <h5><a href="#">${club.getNameclub()}</a></h5>
+                                                        <span >${club.getDescription()}</span>
                                                     </div>
                                                     <div class="cours-more-info">
                                                         <div c lass="review">
@@ -200,110 +199,7 @@
         </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-            <footer>
-                <div class="footer-top">
-                    <div class="pt-exebar">
-                        <div class="container">
-                            <div class="d-flex align-items-stretch">
-                                <div class="pt-logo mr-auto">
-                                    <a href="index.html"><img src="assets/images/logo-white.png" alt=""/></a>
-                                </div>
-                                <div class="pt-social-link">
-                                    <ul class="list-inline m-a0">
-                                        <li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
-                                        <li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
-                                        <li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
-                                        <li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="pt-btn-join">
-                                    <a href="#" class="btn ">Join Now</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
-                                <div class="widget">
-                                    <h5 class="footer-title">Sign Up For A Newsletter</h5>
-                                    <p class="text-capitalize m-b20">Weekly Breaking news analysis and cutting edge advices on job searching.</p>
-                                    <div class="subscribe-form m-b20">
-                                        <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
-                                            <div class="ajax-message"></div>
-                                            <div class="input-group">
-                                                <input name="email" required="required"  class="form-control" placeholder="Your Email Address" type="email">
-                                                <span class="input-group-btn">
-                                                    <button name="submit" value="Submit" type="submit" class="btn"><i class="fa fa-arrow-right"></i></button>
-                                                </span> 
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-5 col-md-7 col-sm-12">
-                                <div class="row">
-                                    <div class="col-4 col-lg-4 col-md-4 col-sm-4">
-                                        <div class="widget footer_widget">
-                                            <h5 class="footer-title">Company</h5>
-                                            <ul>
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about-1.html">About</a></li>
-                                                <li><a href="faq-1.html">FAQs</a></li>
-                                                <li><a href="contact-1.html">Contact</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-lg-4 col-md-4 col-sm-4">
-                                        <div class="widget footer_widget">
-                                            <h5 class="footer-title">Get In Touch</h5>
-                                            <ul>
-                                                <li><a href="http://educhamp.themetrades.com/admin/index.html">Dashboard</a></li>
-                                                <li><a href="blog-classic-grid.html">Blog</a></li>
-                                                <li><a href="portfolio.html">Portfolio</a></li>
-                                                <li><a href="event.html">Event</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-lg-4 col-md-4 col-sm-4">
-                                        <div class="widget footer_widget">
-                                            <h5 class="footer-title">Courses</h5>
-                                            <ul>
-                                                <li><a href="courses.html">Courses</a></li>
-                                                <li><a href="courses-details.html">Details</a></li>
-                                                <li><a href="membership.html">Membership</a></li>
-                                                <li><a href="profile.html">Profile</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
-                                <div class="widget widget_gallery gallery-grid-4">
-                                    <h5 class="footer-title">Our Gallery</h5>
-                                    <ul class="magnific-image">
-                                        <li><a href="assets/images/gallery/pic1.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic1.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic2.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic2.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic3.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic3.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic4.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic4.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic5.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic5.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic6.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic6.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic7.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic7.jpg" alt=""></a></li>
-                                        <li><a href="assets/images/gallery/pic8.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic8.jpg" alt=""></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 text-center"> <a target="_blank" href="https://www.templateshub.net">Templates Hub</a></div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+           <%@include file="Footer.jsp" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>

@@ -5,8 +5,9 @@
 package Model;
 
 import DAO.ClubDao;
-import DAO.StudentClubDao;
+import DAO.StudentClubDAO;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -16,31 +17,49 @@ public class Clubs {
     private int club;
     private String nameclub;
     private int point;
-    private String datecreate;
-    private String modify;
-    private int status;
+    private Date datecreate;
+    private Date modify;
     private int type;
-    private String img;
+    private int status;
+    private String image;
     private String description;
+<<<<<<< HEAD
     private String typeClub;
     private Date dateCreate, dateModify;
     
     
+=======
+    private Role listRole ;
+>>>>>>> 8d31409bbc7395d019269cc4072bfe83377cdc3c
 
-    ClubDao dao = new ClubDao();
     public Clubs() {
     }
 
-    public Clubs(int club, String nameclub, int point, String datecreate, String modify, int status, int type, String img, String description) {
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description, Role listRole) {
         this.club = club;
         this.nameclub = nameclub;
         this.point = point;
         this.datecreate = datecreate;
         this.modify = modify;
-        this.status = status;
         this.type = type;
-        this.img = img;
+        this.status = status;
+        this.image = image;
         this.description = description;
+        this.listRole = listRole;
+    }
+
+   
+ public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.type = type;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.listRole = listRole;
     }
 
     public Clubs(int club, String nameclub, int point, Date dateCreate, Date dateModify, String typeClub,int status) {
@@ -90,28 +109,20 @@ public class Clubs {
         this.point = point;
     }
 
-    public String getDatecreate() {
+    public Date getDatecreate() {
         return datecreate;
     }
 
-    public void setDatecreate(String datecreate) {
+    public void setDatecreate(Date datecreate) {
         this.datecreate = datecreate;
     }
 
-    public String getModify() {
+    public Date getModify() {
         return modify;
     }
 
-    public void setModify(String modify) {
+    public void setModify(Date modify) {
         this.modify = modify;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public int getType() {
@@ -122,12 +133,20 @@ public class Clubs {
         this.type = type;
     }
 
-    public String getImg() {
-        return img;
+    public int getStatus() {
+        return status;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getDescription() {
@@ -138,27 +157,23 @@ public class Clubs {
         this.description = description;
     }
 
-    public ClubDao getDao() {
-        return dao;
+    public Role getListRole() {
+        return listRole;
     }
 
-    public void setDao(ClubDao dao) {
-        this.dao = dao;
+    public void setListRole(Role listRole) {
+        this.listRole = listRole;
     }
-StudentClubDao stdao = new StudentClubDao();
+
+    StudentClubDAO stdao = new StudentClubDAO();
    public int getSizeClub(){
        return stdao.getSizeClub(getClub());
    }
-
+    ClubDao dao = new ClubDao();
     public String getStringType() {
-        TypeClub typeclub = dao.gettypeclubbyID(type);
+        TypeClub typeclub = dao.gettypeclubbyID(status);
         String nametype = typeclub.getNameTypeClub();
         return nametype;
+    
     }
-
-   
-  
-
-  
-
 }

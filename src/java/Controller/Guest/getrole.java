@@ -5,7 +5,7 @@
 
 package Controller.Guest;
 
-import DAO.StudentClubDao;
+import DAO.StudentClubDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -60,8 +60,7 @@ public class getrole extends HttpServlet {
         String roleofclub =request.getParameter("myclub");
         HttpSession session=request.getSession();
         int id =(int) session.getAttribute("id");
-        
-        StudentClubDao db = new StudentClubDao();
+        StudentClubDAO db=new StudentClubDAO();
         String role=db.getroleofclub(id, roleofclub);
         request.setAttribute("role", role);
         request.setAttribute("myclub", roleofclub);

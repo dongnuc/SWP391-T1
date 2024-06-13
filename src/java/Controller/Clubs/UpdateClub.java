@@ -104,11 +104,11 @@ public class UpdateClub extends HttpServlet {
                 idtype = club.getType();
             }
             Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String datemodify = formatter.format(date);
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            String datemodify = formatter.format(date);
             String img="";
             String description="";
-            dao.updateClub(new Clubs(id, nameclub, point, datecreate, datemodify, 0, idtype,img,description));
+            dao.updateClub(new Clubs(id, nameclub, point, date, date, 0, idtype,img,description));
         
         
         response.sendRedirect("ClubController");

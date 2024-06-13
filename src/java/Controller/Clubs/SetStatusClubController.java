@@ -73,12 +73,12 @@ public class SetStatusClubController extends HttpServlet {
             dao.setStatusClub(id);
             RegisterClub registerclub = dao.getRegisterClubbyId(id);
             Date date1 = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String datecreate = formatter.format(date1);
-            String datemodify = formatter.format(date1);
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            String datecreate = formatter.format(date1);
+//            String datemodify = formatter.format(date1);
             String img="";
             String description="";
-            dao.insertClub(new Clubs(0, registerclub.getNameclub(), 0, datecreate, datemodify, 0, registerclub.getIdtypeclub(),img,description));
+            dao.insertClub(new Clubs(0, registerclub.getNameclub(), 0, date1, date1, 0, registerclub.getIdtypeclub(),img,description));
            
             
             Accounts acc = db.getAccountbyID(registerclub.getIdStudent());
