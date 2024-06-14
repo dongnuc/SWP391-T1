@@ -39,6 +39,19 @@ public class Blog {
         this.status = status;
     }
 
+    public Blog(String titleBlog, String image, String description, String content, Date dateModify, int idBlogType, int idClub, int show, int status , int idBlog) {
+        this.titleBlog = titleBlog;
+        this.image = image;
+        this.description = description;
+        this.content = content;
+        this.dateModify = dateModify;
+        this.idBlogType = idBlogType;
+        this.idClub = idClub;
+        this.show = show;
+        this.status = status;
+         this.idBlog = idBlog;
+    }
+
     public Blog(int idBlog, String titleBlog, String image, String description, String content, Date dateCreate, Date dateModify, int idBlogType, int idClub, int show, int status) {
         this.idBlog = idBlog;
         this.titleBlog = titleBlog;

@@ -125,4 +125,36 @@ public class BlogDAO extends DBContext{
     return blogList;
 }
 
+    public void updatePost(Blog post) {
+        String sql = "UPDATE blog SET TittleBlog = ?, Image = ?, Description = ?, Content = ?, DateModify = ?, IdBlogType = ?, `Show` = ?, Status = ?, IdClub = ? WHERE IdBlog = ?";
+    try {
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, post.getTitleBlog());
+        stmt.setString(2, post.getImage());
+        stmt.setString(3, post.getDescription());
+        stmt.setString(4, post.getContent());
+        java.sql.Date sqlDateModify = new java.sql.Date(post.getDateModify().getTime());
+        stmt.setDate(5, sqlDateModify);
+        stmt.setInt(6, post.getIdBlogType());
+        stmt.setInt(7, post.getShow());
+        stmt.setInt(8, post.getStatus());
+        stmt.setInt(9, post.getIdClub());
+        stmt.setInt(10, post.getIdBlog());
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
   }
+    public void deletePost(int idBlog) {
+    String sql = "DELETE FROM blog WHERE IdBlog = ?";
+    try {
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, idBlog);
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
+}

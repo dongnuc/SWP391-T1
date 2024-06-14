@@ -264,9 +264,7 @@
                                    <%
                         boolean showTagCloud = false;
                         if (acc != null) {
-                            if (acc.getRole() == 1) {
-                                showTagCloud = true;
-                            } else {
+                            
                                 for (StudentClub studentClub : StudentClubList) {
                                     if (post.getIdClub() == studentClub.getIdClub() &&
                                         studentClub.getStatus() == 1 &&
@@ -274,20 +272,23 @@
                                         showTagCloud = true;
                                         break; 
                                     }
-                                }
+                                
                         }
                         if (showTagCloud) {
                     %>
                                     <div class="widget_tag_cloud">
                                         <div class="tagcloud"> 
                                             <a href="<%= request.getContextPath() %>/BlogUpdateServlet?idBlog=<%= post.getIdBlog() %>">Update</a> 
-                                            <a href="#">Delete</a> 
+                                            <a href="<%= request.getContextPath() %>/BlogDeleteServlet?idBlog=<%= post.getIdBlog() %>">Delete</a> 
                                         </div>
                                     </div>
                                      <% 
                                 }
                         } 
+                            if(post.getStatus() == 0 ){
                     %>
+                                <p>Event was stopped</p>
+                    <% }%>
                                     <div class="recent-news blog-lg">
                                         <div class="action-box blog-lg">
                                             <img src="${pageContext.request.contextPath}/<%= post.getImage() %>" alt="">

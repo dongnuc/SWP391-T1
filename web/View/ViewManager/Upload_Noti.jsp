@@ -40,7 +40,7 @@
 </head>
 <body>
 <div class="container">
-    <p>Upload successful. <a href="View/ViewManager/Upload_Homepage.jsp">Click here</a> to return to the Blog homepage.</p>
+     <p>Upload successful. <a href="View/ViewManager/Blog_List.jsp">Click here</a> to return to the Blog homepage.</p>
 </div>
 </body>
 </html>

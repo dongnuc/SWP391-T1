@@ -366,17 +366,17 @@
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/BlogUpdateServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
-
+                                        <input type="hidden" name="idblog" value="<%=post.getIdBlog() %>">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Tittle</label>
-                                            <div id="editor">
-                                                <textarea class="form-control" name="tittle"><%= post.getTitleBlog()%></textarea>
+                                            <div>
+                                                <input type="text"class="form-control" name="tittle" value="<%= post.getTitleBlog()%>">
                                                 </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
-                                            <div id="editor">
-                                                <textarea class="form-control" name="description"><%= post.getDescription()%></textarea>
+                                           <div>
+                                                <input type="text"class="form-control" name="description" value="<%= post.getDescription()%>">
                                                 </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -384,6 +384,7 @@
                                             <div>
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
                                                 <img id="imagePreview" class="preview" src="<%= request.getContextPath() %>/<%= post.getImage() %>" alt="Image Preview">
+                                                <input type="hidden" name="img" value="<%=post.getImage()%>">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -431,7 +432,6 @@
                                                 <label> Private </label>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="status" value="1">
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Club : </label>
                                             <%
