@@ -5,7 +5,6 @@
 
 package Controller.Guest;
 
-import DAO.AccountDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author 84358
  */
-@WebServlet(name="newpassword", urlPatterns={"/newpassword"})
-public class newpassword extends HttpServlet {
+@WebServlet(name="loginf", urlPatterns={"/loginf"})
+public class loginf extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +35,10 @@ public class newpassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newpassword</title>");  
+            out.println("<title>Servlet loginf</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet newpassword at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet loginf at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,32 +55,7 @@ public class newpassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        String passwords=request.getParameter("newpassword");
-        String confirm=request.getParameter("confirm");
-        try {
-            request.setAttribute("newpassword", passwords);
-        } catch (Exception e) {
-        }
-        try {
-            request.setAttribute("confirm", confirm);
-        } catch (Exception e) {
-        }
-        if(!passwords.equals(confirm)){
-            request.setAttribute("error", "Password and Confirm should same");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        if(passwords.length()<6){
-            request.setAttribute("error", "Password more than 6 characters");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        String mahoa=password.getMd5(confirm);
-        HttpSession session=request.getSession();
-        String email=(String) session.getAttribute("accounts");
-        AccountDao db=new AccountDao();
-        db.Resetpassword(mahoa, email);
         request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
-        
     } 
 
     /** 
@@ -95,7 +68,7 @@ public class newpassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     /** 

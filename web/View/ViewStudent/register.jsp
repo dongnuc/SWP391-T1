@@ -162,38 +162,36 @@
     
 
     <!-- Hero Start -->
-    <section class="bg-half-150 d-table w-100 bg-light" style="background: url('<%= request.getContextPath() %>/assets/images/bg/bg-lines-one.png') center;">
+    <section class="bg-half-150 d-table w-100 bg-light" style="background: url('<%= request.getContextPath() %>/images/bg/bg-lines-one.png') center;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-5 col-md-8">
-                    <img src="<%= request.getContextPath() %>/assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                    <img src="<%= request.getContextPath() %>/images/logo.png" height="24" class="mx-auto d-block" alt="">
                     <div class="card login-page bg-white shadow mt-4 rounded border-0">
                         <div class="card-body">
                             <h4 class="text-center">Sign Up</h4>  
-                            <form action="<%= request.getContextPath() %>/register" class="login-form mt-4">
+                            <form action="<%= request.getContextPath() %>/register" class="login-form mt-4" method="post">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="mb-3">                                               
-                                            <label class="form-label">First name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="First Name" name="firstname" required="">
+                                            <label class="form-label">Name <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" placeholder="First Name" name="firstname" value="${firstname}">
+                                            <div style="color: red">${errorname}</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">                                                
-                                            <label class="form-label">Last name <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="Last Name" name="lastname" required="">
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" placeholder="Email" name="email" required="">
+                                            <input type="text" class="form-control" placeholder="Email" name="email" value="${email}">
+                                            <div style="color: red">${erroremail}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label class="form-label">Password <span class="text-danger">*</span></label>
-                                            <input type="password" class="form-control" placeholder="Password" name="password" required="">
+                                            <input type="password" class="form-control" placeholder="Password" name="password" value="${password}">
+                                            <div style="color: red">${errorpassword}</div>
                                         </div>
                                         <h6 style="color: red;">${requestScope.error}</h6>
                                     </div>
@@ -205,6 +203,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-12">
                                         <div class="d-grid">
                                             <button class="btn btn-primary">Register</button>
@@ -233,7 +232,7 @@
     <!-- javascript -->
     <script src="<%= request.getContextPath() %>/js/bootstrap.bundle.min.js"></script>
     <!-- Icons -->
-    <script src="<%= request.getContextPath() %>/assets/js/feather.min.js"></script>
+    <script src="<%= request.getContextPath() %>/js/feather.min.js"></script>
     <!-- Main Js -->
     <script src="<%= request.getContextPath() %>/js/app.js"></script>
     

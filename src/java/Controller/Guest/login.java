@@ -121,8 +121,6 @@ public class login extends HttpServlet {
         AccountDao ab = new AccountDao();
         Accounts curruser = ab.getAccountEmail(email);
         session.setAttribute("curruser", curruser);
-        System.out.println(curruser.getEmail());
-
         try {
             remember = request.getParameter("remember");
             if ("1".equalsIgnoreCase(remember)) {

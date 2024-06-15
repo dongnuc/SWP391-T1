@@ -66,7 +66,7 @@
                                 <div class="topbar-right">
                                     <ul>
 
-                                        <li><a href="View/ViewStudent/login.jsp">Login</a></li>
+                                        <li><a href="loginf">Login</a></li>
                                         <li><a href="register">Register</a></li>
 
                                     </ul>
@@ -99,19 +99,17 @@
                                             <img src="images/avatar.png" alt="">
                                             <div class="profile-info" id="profile-info">
                                                 <h6>${sessionScope.account}</h6>
-                                                <a href="profile/edit" id="edit-profile-link">Edit Profile</a><br>
+                                                <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
 
-                                                <c:if test="${sessionScope.password == null}">
-                                                    <a href="View/ViewStudent/password.jsp" id="set-password-link">Set Password</a><br>
-                                                </c:if>
+                                                
 
                                                 <c:if test="${sessionScope.password != null}">
-                                                    <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
-                                                </c:if>
-                                                <c:if test="${sessionScope.role == 2}">
-                                                    <a href="dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                                    <a href="<%= request.getContextPath() %>/changepassword" id="change-password-link">Change Password</a><br>
                                                 </c:if>
                                                 <c:if test="${sessionScope.role == 1}">
+                                                    <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                                </c:if>
+                                                <c:if test="${sessionScope.role == 0}">
                                                     <a href="#" id="change-password-link">My Club</a><br>
                                                 </c:if>
 

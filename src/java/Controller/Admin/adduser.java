@@ -3,11 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Guest;
+package Controller.Admin;
 
-import Model.Accounts;
-import com.sun.jdi.connect.Transport;
+import Controller.Guest.password;
 import DAO.AccountDao;
+import Model.Accounts;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.net.Authenticator;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -31,8 +30,8 @@ import javax.mail.internet.MimeMessage;
  *
  * @author 84358
  */
-@WebServlet(name="forgot", urlPatterns={"/forgot"})
-public class forgot extends HttpServlet {
+@WebServlet(name="adduser", urlPatterns={"/adduser"})
+public class adduser extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -49,10 +48,10 @@ public class forgot extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet forgot</title>");  
+            out.println("<title>Servlet adduser</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet forgot at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet adduser at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,51 +68,7 @@ public class forgot extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        String email=request.getParameter("email");
-//        final String from="huytestnguyen@gmail.com";
-//        final String password="rcjmvvsweiaeuwdt";
-//        final String to =email;
-//        Random random = new Random();
-//        int randomNumber = random.nextInt(1000);
-//        HttpSession session1=request.getSession();
-//        session1.setAttribute("otp", randomNumber);
-//        AccountDao db=new AccountDao();
-//        List<Accounts>list= db.getAll();
-//        for(Accounts ac: list){
-//        if(email.equals(ac.getEmail())){
-//        Properties prop=new Properties();
-//        prop.put("mail.smtp.host", "smtp.gmail.com");
-//        prop.put("mail.smtp.port", "587");
-//        prop.put("mail.smtp.auth","true");
-//        prop.put("mail.smtp.starttls.enable","true");
-//        javax.mail.Authenticator authenticator;
-//        authenticator = new javax.mail.Authenticator(){
-//            @Override
-//            protected PasswordAuthentication getPasswordAuthentication(){
-//                return  new PasswordAuthentication(from,password);
-//            }
-//        };
-//         Session session =Session.getInstance(prop, authenticator);
-//         MimeMessage msg=new MimeMessage(session);
-//         try {
-//            msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-//            msg.setFrom(from);
-//            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to,false));
-//            msg.setSubject("Test Email");
-//            msg.setSentDate(new Date());
-//            msg.setText(""+randomNumber);
-//            javax.mail.Transport.send(msg);
-//            session1.setAttribute("account", email);
-//            request.getRequestDispatcher("View/ViewStudent/checkotp.jsp").forward(request, response);
-//            
-//        } catch (Exception e) {
-//            
-//        }    
-//            }
-//        }
-//        request.setAttribute("error", "Account not Exsit");
-        request.getRequestDispatcher("View/ViewStudent/forgot.jsp").forward(request, response);
-          
+        request.getRequestDispatcher("View/ViewAdmin/adduser.jsp").forward(request, response);
     } 
 
     /** 
@@ -126,19 +81,66 @@ public class forgot extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String email=request.getParameter("email");
-        request.setAttribute("email", email);
+        HttpSession session=request.getSession();
+        String name_raw=request.getParameter("name");
+        String email_raw=request.getParameter("email");
+        String phone_raw=request.getParameter("phone");
+        String status_raw=request.getParameter("status");
+        String role_raw=request.getParameter("role");
+        String gender_raw=request.getParameter("gender");
+        int check=0;
+        AccountDao acc=new AccountDao();
+        if(!email_raw.endsWith("@gmail.com")){
+            request.setAttribute("erroremail", "Please input Email end with @gmail.com");
+            check++;
+        }
+        List<Accounts> list=acc.getAll();
+        for(Accounts a:list){
+            if(a.getEmail().equals(email_raw)){
+                check++;
+            request.setAttribute("erroremail", "Email is exsit");
+            }
+        }
+        if(phone_raw.length()!=10){
+            request.setAttribute("errorphone", "Phone must 10 digits");
+            check++;
+        }
+        try {
+            request.setAttribute("name", name_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("email", email_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("phone", phone_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("status", status_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("role", role_raw);
+        } catch (Exception e) {
+        }
+        
+        
+        if(name_raw.isEmpty()||email_raw.isEmpty()||phone_raw.isEmpty()){
+            check++;
+            request.setAttribute("error", "Please input full Information");
+        }
+        if(check!=0){
+        request.getRequestDispatcher("View/ViewAdmin/adduser.jsp").forward(request, response);
+        }
+        if(check==0){
         final String from="huytestnguyen@gmail.com";
-        final String password="rcjmvvsweiaeuwdt";
-        final String to =email;
+        final String passwords="rcjmvvsweiaeuwdt";
         Random random = new Random();
-        int randomNumber = 1000 + random.nextInt(9000);
-        HttpSession session1=request.getSession();
-        session1.setAttribute("otp", randomNumber);
-        AccountDao db=new AccountDao();
-        List<Accounts>list= db.getAll();
-        for(Accounts ac: list){
-        if(email.equals(ac.getEmail())){
+        int min = 100000;
+        int max = 999999;
+        int randomNumber = random.nextInt((max - min) + 1) + min;
         Properties prop=new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.port", "587");
@@ -148,29 +150,33 @@ public class forgot extends HttpServlet {
         authenticator = new javax.mail.Authenticator(){
             @Override
             protected PasswordAuthentication getPasswordAuthentication(){
-                return  new PasswordAuthentication(from,password);
+                return  new PasswordAuthentication(from,passwords);
             }
         };
-         Session session =Session.getInstance(prop, authenticator);
-         MimeMessage msg=new MimeMessage(session);
+         Session session1 =Session.getInstance(prop, authenticator);
+         MimeMessage msg=new MimeMessage(session1);
          try {
             msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
             msg.setFrom(from);
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to,false));
-            msg.setSubject("Test Email");
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email_raw,false));
+            msg.setSubject("Pass Word");
             msg.setSentDate(new Date());
             msg.setText(""+randomNumber);
             javax.mail.Transport.send(msg);
-            session1.setAttribute("accounts", email);
-            request.getRequestDispatcher("View/ViewStudent/checkotp.jsp").forward(request, response);
-            
         } catch (Exception e) {
             
-        }    
-            }
+        } 
+         
+        String passworde=String.valueOf(randomNumber);       
+        String passwordmahoa=password.getMd5(passworde);
+        request.setAttribute("name", "");
+        request.setAttribute("email", "");
+        request.setAttribute("phone", "");
+        request.setAttribute("success", "Insert Success");
+        acc.insertAccountadmin(email_raw, passwordmahoa, name_raw, gender_raw, status_raw, role_raw, phone_raw);
+        request.getRequestDispatcher("View/ViewAdmin/adduser.jsp").forward(request, response);
         }
-        request.setAttribute("error", "Account not Exsit");
-        request.getRequestDispatcher("View/ViewStudent/forgot.jsp").forward(request, response);
+
     }
 
     /** 

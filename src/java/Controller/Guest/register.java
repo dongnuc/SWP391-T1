@@ -67,45 +67,95 @@ public class register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+           request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
+        }
+        
+        
+         
+////        if(check==0){
+////        int k=db.getidaccount()+1;
+////        String mahoa =password.getMd5(passwords);
+////        db.insertAccount(k, account, mahoa, 1);
+////        request.getRequestDispatcher("Home.jsp").forward(request, response);
+////        }
+//    } 
+
+    /** 
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+//       
         HttpSession session = request.getSession();
-        String lastname=request.getParameter("lastname");
         String firstname=request.getParameter("firstname");
-        String name=firstname+" "+lastname;
         String account=request.getParameter("email").trim();
         String passwords=request.getParameter("password").trim();
-        session.setAttribute("account", account);
+        session.setAttribute("accounts", account);
         session.setAttribute("password", passwords);
-        session.setAttribute("name", name);
+        session.setAttribute("name", firstname);
         String error="";
         int check=0;
-        if(!account.endsWith("@fpt.edu.vn")){
-            request.setAttribute("error", "Please endwith @fpt.edu.vn");
-            check++;
-            request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
+        
+        try {
+            request.setAttribute("firstname", firstname);
+        } catch (Exception e) {
         }
+        try {
+            request.setAttribute("email", account);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("password", passwords);
+        } catch (Exception e) {
+        }
+        if(account.isEmpty()||firstname.isEmpty()||passwords.isEmpty()){
+            request.setAttribute("error", "Please Input Full Information");
+            check++;
+        }
+        
+        
+//        if(!account.endsWith("@fpt.edu.vn")){
+//            request.setAttribute("error", "Please end with @fpt.edu.vn");
+//            check++;
+//            request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
+//        }
         AccountDao db=new AccountDao();
-        if(account.length()<6||passwords.length()<6){
-            error="Tài khoản và mật khẩu phải có ít nhất 6 kí tự";
-            request.setAttribute("error", error);
-            check++;
-            request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
-            
-        }
         List<Accounts> list=db.getAll();
         for(Accounts k:list){
-            if(account.equalsIgnoreCase(k.getEmail())){
-            error="Tài khoản đã tồn tại";
-            request.setAttribute("error", error);
+            if(account.equalsIgnoreCase(k.getEmail())){         
+            request.setAttribute("erroremail", "Account exsit");
             check++;
-            request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
             }
+        }
+        if(!account.endsWith("@gmail.com")){
+            request.setAttribute("erroremail", "Email must end with @gmail.com");
+            check++;
+        }
+        if(firstname.length()>35){
+            request.setAttribute("errorname", "Name not exceed 35 character");
+        }
+        if(firstname.length()==0){
+            request.setAttribute("errorname", "Name can not Empty");
+        }
+        if(passwords.length()<6){
+        request.setAttribute("errorpassword", "Password must than 6 characters");
+        }
+        
+        if(check!=0){
+        request.getRequestDispatcher("View/ViewStudent/register.jsp").forward(request, response);
+
         }
         if(check==0){
         String email=request.getParameter("email");
         final String from="huytestnguyen@gmail.com";
         final String password="rcjmvvsweiaeuwdt";
         Random random = new Random();
-        int randomNumber = random.nextInt(1000);
+        int randomNumber = 1000 + random.nextInt(9000);
         session.setAttribute("otp", randomNumber);
         Properties prop=new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -129,54 +179,11 @@ public class register extends HttpServlet {
             msg.setSentDate(new Date());
             msg.setText(""+randomNumber);
             javax.mail.Transport.send(msg);
-            session.setAttribute("account", email);
-            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
-            
+            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);     
         } catch (Exception e) {
             
-        }    
-            }
-        }
-        
-        
-        
-    
-////        if(check==0){
-////        int k=db.getidaccount()+1;
-////        String mahoa =password.getMd5(passwords);
-////        db.insertAccount(k, account, mahoa, 1);
-////        request.getRequestDispatcher("Home.jsp").forward(request, response);
-////        }
-//    } 
-
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        HttpSession session=request.getSession();
-        AccountDao ac=new AccountDao();
-        int otp1=(int) session.getAttribute("otp");
-        String otp2_raw=request.getParameter("otp");
-        int otp2=0;
-        otp2=Integer.parseInt(otp2_raw);
-        if(otp1==otp2){
-            String account=(String) session.getAttribute("account");
-            String passwords=(String) session.getAttribute("password");
-            String passwordmahoa=password.getMd5(passwords);
-            String name=(String) session.getAttribute("name");
-            Date date=new Date();
-            ac.insertAccount(account, passwordmahoa, date,name);
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
-        }else{
-            request.setAttribute("error", "OTP Wrong");
-            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
-        }
+        } 
+    }
     }
 
     /** 

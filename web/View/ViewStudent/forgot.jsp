@@ -36,7 +36,7 @@
     <!-- Loader -->
 
     <div class="back-to-home rounded d-none d-sm-block">
-        <a href="<%= request.getContextPath() %>/index.html" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
+        <a href="<%= request.getContextPath() %>/home" class="btn btn-icon btn-primary"><i data-feather="home" class="icons"></i></a>
     </div>
 
     <!-- Hero Start -->
@@ -54,7 +54,7 @@
                                         <p class="text-muted">Please enter your email address. You will receive a link to create a new password via email.</p>
                                         <div class="mb-3">
                                             <label class="form-label">Email address <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control" placeholder="Enter Your Email Address" name="email" required="">
+                                            <input type="email" class="form-control"  name="email" value="${email}">
                                         </div>
                                     </div>
                                     <h6 style="color: red;">${requestScope.error}</h6>

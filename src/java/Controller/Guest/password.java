@@ -61,11 +61,36 @@ public class password extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session=request.getSession();
-        int otp1=(int) session.getAttribute("otp");
-        String otp2_raw=request.getParameter("otp");
-        int otp2=0;
-        otp2=Integer.parseInt(otp2_raw);
-        if(otp1==otp2){
+        int otp_first=(int) session.getAttribute("otp");
+        String otp1_raw=request.getParameter("otp1");
+        String otp2_raw=request.getParameter("otp2");
+        String otp3_raw=request.getParameter("otp3");
+        String otp4_raw=request.getParameter("otp4");
+        try {
+            request.setAttribute("otp1", otp1_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp2", otp2_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp3", otp3_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp4", otp4_raw);
+        } catch (Exception e) {
+        }
+        
+        if(otp1_raw.isEmpty()||otp2_raw.isEmpty()||otp3_raw.isEmpty()||otp4_raw.isEmpty()){
+            
+            request.setAttribute("error", "Please Input Full OTP");
+            request.getRequestDispatcher("View/ViewStudent/checkotp.jsp").forward(request, response);
+        }
+        String otpinput_raw=otp1_raw+otp2_raw+otp3_raw+otp4_raw;
+        int otpinput=Integer.parseInt(otpinput_raw);
+        if(otp_first==otpinput){
             request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "OTP Wrong");
@@ -83,20 +108,7 @@ public class password extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session=request.getSession();
-        String password=request.getParameter("password");
-        String confirm=request.getParameter("confirm");
-        if(!password.equals(confirm)){
-            request.setAttribute("error", "Password and Confirm not same");
-            request.getRequestDispatcher("View/ViewStudent/password.jsp").forward(request, response);
-        }else{
-        String account=(String) session.getAttribute("account");
-        AccountDao db=new AccountDao();   
-        String mahoa=getMd5(password);
-        db.Resetpassword(mahoa, account);
-        session.setAttribute("password", mahoa);
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
-        }
+        
         
         
     }

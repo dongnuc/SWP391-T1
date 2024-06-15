@@ -132,6 +132,15 @@
                         <span class="ttr-label">User Account</span>
                         <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
                     </a>
+                    <ul>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/listaccount" class="ttr-material-button"><span class="ttr-label">List Account </span></a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/adduser" class="ttr-material-button"><span class="ttr-label">New Account</span></a>
+                        </li>
+
+                    </ul>
                     
                 </li>
                 <li class="ttr-seperate"></li>

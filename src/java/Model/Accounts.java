@@ -24,6 +24,7 @@ public class Accounts {
     private int points;
     private int status;
     private int role;
+    private String image;
     List<Clubs> myClubs;
 
     public Accounts() {
@@ -56,6 +57,20 @@ public class Accounts {
         this.status = status;
         this.role = role;
         this.myClubs = myClubs;
+    }
+    public Accounts(int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role, String image) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.sdt = sdt;
+        this.gender = gender;
+        this.date = date;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+        this.status = status;
+        this.role = role;
+        this.image = image;
     }
 
     public Accounts(int id, String name, int gender, Date date, int points, int status, int role) {
@@ -192,6 +207,16 @@ public class Accounts {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    
     
     
 

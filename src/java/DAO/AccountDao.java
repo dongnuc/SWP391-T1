@@ -17,6 +17,25 @@ import java.util.List;
  * @author 84358
  */
 public class AccountDao extends DBContext{
+    public  Accounts getAccount(String email) {
+        Accounts c=new Accounts();
+        String sql = "select *from Student where email = '"+email+"'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+//               //int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role
+                  c= new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                         rs.getString("Email"), rs.getString("password"),
+                         rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
+                         rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                         rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"));
+                
+            }
+        } catch (Exception e) {
+        }
+        return c;
+    }
     public  List<Accounts> getAll() {
         List<Accounts> list=new ArrayList<>();
         String sql = "select *from Student ";
@@ -217,6 +236,134 @@ public class AccountDao extends DBContext{
         }
         return null;
     }
+        public void insertAccountadmin(String email, String password,String name,String gender,String status,String role,String phone) {
+        String sql = "INSERT INTO Student (Email,password,role,status,NameStudent,Phone,Gender) VALUES"
+                + " (?,?,?,?,?,?,?);";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, email);
+            st.setString(2, password);
+            st.setString(3,role );
+            st.setString(4, status);
+            st.setString(5, name);
+            st.setString(6, phone);
+            st.setString(7, gender);
+            st.executeUpdate();
+
+        } catch (Exception e) {
+        }
+    }
+        public void UpdateAccounts(String email, String name, String phone, int gender, String dob,String status) {
+    String sql = "UPDATE Student SET NameStudent = ?, Phone = ?, Gender = ?, Dob = ? ,Status = ? WHERE email = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, name);
+        st.setString(2, phone);
+        st.setInt(3, gender);
+        st.setString(4, dob);
+        st.setString(5, status);
+        st.setString(6, email);
+        st.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+}
+    public void UpdateImage(String email, String image) {
+    String sql = "UPDATE Student SET Image = ? WHERE email = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, image);
+        st.setString(2, email);
+        st.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
+public void UpdateAccount(String email, String name, String phone, int gender, String dob) {
+    String sql = "UPDATE Student SET NameStudent = ?, Phone = ?, Gender = ?, Dob = ? WHERE email = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, name);
+        st.setString(2, phone);
+        st.setInt(3, gender);
+        st.setString(4, dob);
+        st.setString(5, email);
+        st.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+}
+        public List<Accounts> getbypage(int id,String search,String status) {
+        List<Accounts> list = new ArrayList<>();
+        String sql = "SELECT * FROM Student where 1=1 ";
+        if(search !=null){
+            sql +=" AND Email Like '%"+search+"%' ";
+        }
+        if(!status.equals("all")){
+            sql +=" AND Status Like '%"+status+"%' ";
+        }
+        
+        sql+= "ORDER BY IdStudent LIMIT 5 OFFSET ?";
+        
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id*5-5);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Accounts c= new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                         rs.getString("Email"), rs.getString("password"),
+                         rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
+                         rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                         rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"));
+                list.add(c);
+            }
+
+        } catch (Exception e) {
+        }
+        return list;
+    }
+        public int numberpage(String search,String status) {
+        String sql = "select count(*) from Student where 1=1 ";
+        if(search !=null){
+            sql +=" AND Email Like '%"+search+"%' ";
+        }
+        if(!status.equals("all")){
+            sql +=" AND Status Like '%"+status+"%' ";
+        }
+        int number = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                number = rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        if (number % 5 == 0) {
+            number = number / 5;
+        } else {
+            number = number / 5 + 1;
+        }
+        return number;
+
+    }
+    public void UpdateStatus(String email,String status) {
+    String sql = "UPDATE Student SET status = ? WHERE email = ?";
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        if(status.equals("1")){
+            st.setString(1, "0");
+        }
+        if(status.equals("0")){
+            st.setString(1, "1");
+        }
+        st.setString(2, email);
+        
+        st.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+}
+
         
         public static void main(String[] args) {
         AccountDao db=new AccountDao();

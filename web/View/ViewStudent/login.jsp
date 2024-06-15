@@ -5,7 +5,7 @@
 <html lang="en">
     <%
 Cookie[] cookies = request.getCookies();
-String accountValue = "";  // Giá tr? m?c ??nh n?u cookie không t?n t?i
+String accountValue = "";  
 String passwordValue="";
 if (cookies != null) {
     for (Cookie cookie : cookies) {
@@ -65,7 +65,7 @@ if (cookies != null) {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-8">
-                        <img src="../assets/images/logo-dark.png" height="24" class="mx-auto d-block" alt="">
+                        <img src="${pageContext.request.contextPath}/assets/images/logo.png" height="24" class="mx-auto d-block" alt="">
                         <div class="card login-page bg-white shadow mt-4 rounded border-0">
                             <div class="card-body">
                                 <h4 class="text-center">Sign In</h4>  
@@ -74,14 +74,14 @@ if (cookies != null) {
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" required="" value="<%= accountValue %>">
+                                                <input type="email" class="form-control" placeholder="Email" name="email" value="${requestScope.account}">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Password <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="Password" required="" name="password" value="<%= passwordValue %>">
+                                                <input type="password" class="form-control" placeholder="Password"  name="password" value="${requestScope.password}">
                                             </div>
                                             <h6 style="color: red;">${requestScope.error}</h6>
                                         </div>

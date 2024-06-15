@@ -14,13 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  *
  * @author 84358
  */
-@WebServlet(name="newpassword", urlPatterns={"/newpassword"})
-public class newpassword extends HttpServlet {
+@WebServlet(name="checkotp1", urlPatterns={"/checkotp1"})
+public class checkotp1 extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +38,10 @@ public class newpassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newpassword</title>");  
+            out.println("<title>Servlet checkotp1</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet newpassword at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet checkotp1 at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,32 +58,7 @@ public class newpassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        String passwords=request.getParameter("newpassword");
-        String confirm=request.getParameter("confirm");
-        try {
-            request.setAttribute("newpassword", passwords);
-        } catch (Exception e) {
-        }
-        try {
-            request.setAttribute("confirm", confirm);
-        } catch (Exception e) {
-        }
-        if(!passwords.equals(confirm)){
-            request.setAttribute("error", "Password and Confirm should same");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        if(passwords.length()<6){
-            request.setAttribute("error", "Password more than 6 characters");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        String mahoa=password.getMd5(confirm);
-        HttpSession session=request.getSession();
-        String email=(String) session.getAttribute("accounts");
-        AccountDao db=new AccountDao();
-        db.Resetpassword(mahoa, email);
-        request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
-        
+        processRequest(request, response);
     } 
 
     /** 
@@ -95,7 +71,48 @@ public class newpassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        AccountDao ac=new AccountDao();
+        HttpSession session=request.getSession();
+        int otp_first=(int) session.getAttribute("otp");
+        String otp1_raw=request.getParameter("otp1");
+        String otp2_raw=request.getParameter("otp2");
+        String otp3_raw=request.getParameter("otp3");
+        String otp4_raw=request.getParameter("otp4");
+        try {
+            request.setAttribute("otp1", otp1_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp2", otp2_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp3", otp3_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("otp4", otp4_raw);
+        } catch (Exception e) {
+        }
         
+        if(otp1_raw.isEmpty()||otp2_raw.isEmpty()||otp3_raw.isEmpty()||otp4_raw.isEmpty()){       
+            request.setAttribute("error", "Please Input Full OTP");
+            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
+        }
+        String otpinput_raw=otp1_raw+otp2_raw+otp3_raw+otp4_raw;
+        int otpinput=Integer.parseInt(otpinput_raw);
+        if(otp_first==otpinput){
+            String accounts=(String) session.getAttribute("accounts");
+            String passwords=(String) session.getAttribute("password");
+            String passwordmahoa=password.getMd5(passwords);
+            String name=(String) session.getAttribute("name");
+            Date date=new Date();
+            ac.insertAccount(accounts, passwordmahoa, date,name);
+            request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "OTP Wrong");
+            request.getRequestDispatcher("View/ViewStudent/checkotp_1.jsp").forward(request, response);
+        }
     }
 
     /** 

@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
-package Controller.Guest;
+package Controller.Admin;
 
 import DAO.AccountDao;
+import Model.Accounts;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,41 +14,46 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author 84358
  */
-@WebServlet(name="newpassword", urlPatterns={"/newpassword"})
-public class newpassword extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+@WebServlet(name = "listaccount", urlPatterns = {"/listaccount"})
+public class listaccount extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newpassword</title>");  
+            out.println("<title>Servlet listaccount</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet newpassword at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet listaccount at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -56,37 +61,66 @@ public class newpassword extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        String passwords=request.getParameter("newpassword");
-        String confirm=request.getParameter("confirm");
+            throws ServletException, IOException {
+        AccountDao acc = new AccountDao();
+        int page = 1;
+        String search_raw = "";
+        String page_raw = "";
+        String status_raw = "all";
+        String email="";
+        String statuss="";
         try {
-            request.setAttribute("newpassword", passwords);
+            status_raw = request.getParameter("status");
+            if (status_raw == null) {
+                status_raw = "all"; 
+            }
+            request.setAttribute("status", status_raw);
         } catch (Exception e) {
         }
         try {
-            request.setAttribute("confirm", confirm);
+            email=request.getParameter("email");
+            statuss=request.getParameter("statuss");
+            acc.UpdateStatus(email, statuss);
         } catch (Exception e) {
         }
-        if(!passwords.equals(confirm)){
-            request.setAttribute("error", "Password and Confirm should same");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        if(passwords.length()<6){
-            request.setAttribute("error", "Password more than 6 characters");
-            request.getRequestDispatcher("View/ViewStudent/newpassword.jsp").forward(request, response);
-        }
-        String mahoa=password.getMd5(confirm);
-        HttpSession session=request.getSession();
-        String email=(String) session.getAttribute("accounts");
-        AccountDao db=new AccountDao();
-        db.Resetpassword(mahoa, email);
-        request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
-        
-    } 
+        try {
+            search_raw = request.getParameter("search");
 
-    /** 
+        } catch (Exception e) {
+        }
+        System.out.println(status_raw);
+        int numberpage = acc.numberpage(search_raw, status_raw);
+        try {
+            page_raw = request.getParameter("page");
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("search", search_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("pagemax", numberpage);
+        } catch (Exception e) {
+        }
+        try {
+            page = Integer.parseInt(page_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("page", page);
+        } catch (Exception e) {
+        }
+        System.out.println("Page :" + page + " PageMax : " + numberpage + " Search " + search_raw);
+
+        List<Accounts> listaccount = acc.getbypage(page, search_raw, status_raw);
+        HttpSession session = request.getSession();
+        session.setAttribute("listaccount", listaccount);
+        request.getRequestDispatcher("View/ViewAdmin/listaccount.jsp").forward(request, response);
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -94,12 +128,13 @@ public class newpassword extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
