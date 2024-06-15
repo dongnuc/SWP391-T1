@@ -5,11 +5,8 @@
 package DAO;
 
 import Context.DBContext;
-import Model.Accounts;
-import Model.Clubs;
-import Model.RegisterClub;
-import Model.Role;
-import Model.TypeClub;
+import Model.*;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +38,6 @@ public class ClubDao extends DBContext {
         List<Clubs> listClub = new ArrayList<>();
         String query = "select * from club";
         try {
-
             PreparedStatement st = connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -140,20 +136,26 @@ public class ClubDao extends DBContext {
     }
 
     public String getNameById(int idClub) {
-        Clubs club = null;
-        String query = " select * from club where IdClub = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, idClub);
-            ResultSet rs = st.executeQuery();
+    String query = "SELECT * FROM club WHERE IdClub = ?";
+    Clubs club = null;
+    
+    try (Connection con = DBContext.getConnection(); 
+         PreparedStatement st = con.prepareStatement(query)) {
+         
+        st.setInt(1, idClub);
+        
+        try (ResultSet rs = st.executeQuery()) {
             if (rs.next()) {
                 club = new Clubs(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getDate(5), rs.getInt(6), rs.getInt(7), rs.getString(8), rs.getString(9));
-                }
-        } catch (Exception e) {
-            System.out.println(e);
+            }
         }
-        return club.getNameclub();
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    
+    return (club != null) ? club.getNameclub() : null;
+}
+
 
     public int getNumberOfClub() {
         String query = "select count(*) AS numberOfClub from club ";

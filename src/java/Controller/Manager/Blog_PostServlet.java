@@ -54,7 +54,7 @@ public class Blog_PostServlet extends HttpServlet {
         }
 
         if (fileName != null) {
-            String Tittle = request.getParameter("tittle");
+            String Tittle = request.getParameter("title");
             String Description = request.getParameter("description");
             String Content = request.getParameter("content");
             

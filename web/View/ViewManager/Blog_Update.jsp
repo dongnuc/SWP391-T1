@@ -370,13 +370,13 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Tittle</label>
                                             <div>
-                                                <input type="text"class="form-control" name="tittle" value="<%= post.getTitleBlog()%>">
+                                                <textarea type="text"class="form-control" name="tittle" ><%= post.getTitleBlog()%></textarea>
                                                 </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                            <div>
-                                                <input type="text"class="form-control" name="description" value="<%= post.getDescription()%>">
+                                                <textarea type="text"class="form-control" name="description""><%= post.getDescription()%></textarea>
                                                 </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -417,6 +417,19 @@
                                                             reader.readAsDataURL(file);
                                                         }
                                                     }
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                        const expandableTextareas = document.querySelectorAll('.expandable-textarea');
+
+                                                        expandableTextareas.forEach(textarea => {
+                                                            textarea.addEventListener('input', resizeTextarea);
+                                                            resizeTextarea.call(textarea);  // Initialize height based on initial content
+                                                        });
+
+                                                        function resizeTextarea() {
+                                                            this.style.height = 'auto';  // Reset height to calculate new height
+                                                            this.style.height = (this.scrollHeight) + 'px';  // Set new height based on scroll height
+                                                        }
+                                                    });
                                                 </script>
                                             
                                         </div>

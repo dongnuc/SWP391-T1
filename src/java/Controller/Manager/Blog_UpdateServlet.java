@@ -98,7 +98,7 @@ public class Blog_UpdateServlet extends HttpServlet {
         String xIDClub = request.getParameter("idclub");
         int IDClub = Integer.parseInt(xIDClub);
         
-        Blog post = new Blog( Tittle, fileName, Description, Content, date, Blogtype, Show, Status, IDClub,ID);
+        Blog post = new Blog( Tittle, fileName, Description, Content, date, Blogtype,IDClub, Show,Status ,ID);
         BlogDAO postDAO = new BlogDAO();
         postDAO.updatePost(post);
 

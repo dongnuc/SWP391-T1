@@ -373,16 +373,16 @@
                                     <div class="row">
 
                                         <div class="form-group col-6">
-                                            <label class="col-form-label">Tittle</label>
-                                            <div id="editor">
-                                                <textarea class="form-control" name="tittle"></textarea>
-                                                </div>
+                                            <label class="col-form-label">Title</label>
+                                            <div>
+                                                <textarea class="form-control expandable-textarea" name="title"/></textarea>
+                                            </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
-                                            <div id="editor">
-                                                <textarea class="form-control" name="description"></textarea>
-                                                </div>
+                                            <div>
+                                                <textarea class="form-control expandable-textarea" name="description"/></textarea>
+                                            </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
@@ -420,6 +420,20 @@
                                                             reader.readAsDataURL(file);
                                                         }
                                                     }
+                                                   
+                                                    document.addEventListener('DOMContentLoaded', function () {
+                                                        const expandableTextareas = document.querySelectorAll('.expandable-textarea');
+
+                                                        expandableTextareas.forEach(textarea => {
+                                                            textarea.addEventListener('input', resizeTextarea);
+                                                            resizeTextarea.call(textarea);  // Initialize height based on initial content
+                                                        });
+
+                                                        function resizeTextarea() {
+                                                            this.style.height = 'auto';  // Reset height to calculate new height
+                                                            this.style.height = (this.scrollHeight) + 'px';  // Set new height based on scroll height
+                                                        }
+                                                    });
                                                 </script>
                                             </div>
                                         </div>

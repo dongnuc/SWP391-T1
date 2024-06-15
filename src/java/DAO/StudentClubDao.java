@@ -6,6 +6,7 @@ package DAO;
 
 import Context.DBContext;
 import Model.*;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,6 +52,7 @@ public class StudentClubDAO extends DBContext {
         }
         return list.get(0);
     }
+    
  public int getIdStudentByRole(int idclub) {
     int idStudent =0; 
     
@@ -106,12 +108,15 @@ public class StudentClubDAO extends DBContext {
     }
 
     public List<StudentClub> getStudentClubs(int idStudent) {
-        List<StudentClub> studentClubList = new ArrayList<>();
-        String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, idStudent);
-            ResultSet rs = ps.executeQuery();
+    List<StudentClub> studentClubList = new ArrayList<>();
+    String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
+    
+    try (Connection con = DBContext.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+         
+        ps.setInt(1, idStudent);
+        
+        try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 StudentClub studentClub = new StudentClub();
                 studentClub.setPoint(rs.getInt("Point"));
@@ -123,11 +128,13 @@ public class StudentClubDAO extends DBContext {
                 studentClub.setRole(rs.getInt("IdRole"));
                 studentClubList.add(studentClub);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return studentClubList;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return studentClubList;
+}
+
 
     public static void main(String[] args) {
         StudentClubDAO dao = new StudentClubDAO();
