@@ -140,7 +140,7 @@
                                 <ul class="nav navbar-nav">	
                                     <li><a href="Home.jsp">Home</a></li>
                                     <li><a href="">Events</a></li>
-                                    <li><a href="View/ViewManager/Blog_List.jsp">Blog</a></li>
+                                    <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
                                     <li><a href="PublicClubs">Clubs</a></li>
                                      <c:if test="${sessionScope.account!=null}"> 
                                         <li><a href="registerclub">REGISTER CLUB</a></li>

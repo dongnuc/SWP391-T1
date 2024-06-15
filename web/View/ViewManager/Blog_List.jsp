@@ -323,44 +323,19 @@
                                             </div>
                                         </div>
                                         <div class="widget recent-posts-entry">
-                                            <h6 class="widget-title">Recent Posts</h6>
+                                            <h6 class="widget-title">Blog's Type</h6>
                                             <div class="widget-post-bx">
+
                                                 <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">This Story Behind Education Will Haunt You Forever.</a></h6>
-                                                        </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>Oct 23 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>
-                                                        </ul>
-                                                    </div>
+                                                    <% for(BlogType blogType : blogTypeList){ 
+                                                    %>
+                                                    <ul class="sub-menu">
+                                                        <li><a href="<%= request.getContextPath() %>/BlogTypeServlet?idBlogType=<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType()%></a></li>
+                                                    </ul>
+                                                    <% }
+                                                    %>
                                                 </div>
-                                                <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic2.jpg" width="200" height="160" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">What Will Education Be Like In The Next 50 Years?</a></h6>
-                                                        </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>May 14 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>23 Comment</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">Eliminate Your Fears And Doubts About Education.</a></h6>
-                                                        </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>June 12 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>27 Comment</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="widget widget-newslatter">

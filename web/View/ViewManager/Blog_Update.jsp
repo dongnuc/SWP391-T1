@@ -478,6 +478,7 @@
                                                 <input type="radio" name="status" value="0" <%= post.getStatus() == 0 ? "checked" : "" %> >Stop 
                                             </div>
                                         </div>
+                                            <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
                                         <div class="col-12">
                                             <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Blog</button>
                                         </div>

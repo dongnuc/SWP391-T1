@@ -371,17 +371,16 @@
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/UploadServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
-
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Title</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="title"/></textarea>
+                                                <textarea class="form-control expandable-textarea" name="title" ">${title}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"/></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description">${description}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -394,7 +393,7 @@
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"></textarea>
+                                                <textarea class="form-control" name="content">${content}</textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -420,10 +419,9 @@
                                                             reader.readAsDataURL(file);
                                                         }
                                                     }
-                                                   
+
                                                     document.addEventListener('DOMContentLoaded', function () {
                                                         const expandableTextareas = document.querySelectorAll('.expandable-textarea');
-
                                                         expandableTextareas.forEach(textarea => {
                                                             textarea.addEventListener('input', resizeTextarea);
                                                             resizeTextarea.call(textarea);  // Initialize height based on initial content
@@ -438,14 +436,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
-
                                             <label class="col-form-label">Show : </label>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="1">
+                                                <input type="radio" id="public" name="visibility" value="1" ${visibility == '1' ? "checked" : ""} >
                                                 <label> Public </label>
                                             </div>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="0">
+                                                <input type="radio" id="private" name="visibility" value="0" ${visibility == '0' ? "checked" : ""}>
                                                 <label> Private </label>
                                             </div>
                                         </div>
@@ -453,23 +450,23 @@
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club : </label>
                                             <%
-                    ClubDao clubDAO = new ClubDao();
-                    for (StudentClub studentClub : StudentClubList) {
-                        if (studentClub.getStatus() == 1 ) {
+                                                ClubDao clubDAO = new ClubDao();
+                                                for (StudentClub studentClub : StudentClubList) {
+                                                    if (studentClub.getStatus() == 1) {
                                             %>
                                             <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>"> <%= clubDAO.getNameById(studentClub.getIdClub()) %>
+                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>"> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
                                             </div>
                                             <%      }
-                }
+                                                }
                                             %>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Blog's type : </label>
                                             <%
-                BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-                List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-                for (BlogType blogType : blogTypeList) {
+                                                BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
+                                                List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+                                                for (BlogType blogType : blogTypeList) {
                                             %>
                                             <div>
                                                 <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType() %>
@@ -477,7 +474,10 @@
                                             <% } %>
                                         </div>
                                         <div class="col-12">
-                                            <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>
+                                        <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>
                                         </div>
                                     </div>
                                 </form>

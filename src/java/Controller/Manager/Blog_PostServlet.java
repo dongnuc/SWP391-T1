@@ -53,23 +53,63 @@ public class Blog_PostServlet extends HttpServlet {
             }
         }
 
-        if (fileName != null) {
-            String Tittle = request.getParameter("title");
-            String Description = request.getParameter("description");
-            String Content = request.getParameter("content");
+         if (fileName != null) {
+        String Title = request.getParameter("title");
+        String Description = request.getParameter("description");
+        String Content = request.getParameter("content");
+        String xShow = request.getParameter("visibility");
+        String xBlogtype = request.getParameter("blogtype");
+        String xStatus = request.getParameter("status");
+        String xIDClub = request.getParameter("idclub");
+
+        StringBuilder errorMessage = new StringBuilder();
+        boolean hasError = false;
+
+        if (Title == null || Title.isEmpty()) {
+            errorMessage.append("Title cannot be empty.<br>");
+            hasError = true;
+        }
+        if (Description == null || Description.isEmpty()) {
+            errorMessage.append("Description cannot be empty.<br>");
+            hasError = true;
+        }
+        if (Content == null || Content.isEmpty()) {
+            errorMessage.append("Content cannot be empty.<br>");
+            hasError = true;
+        }
+        if (xShow == null || xShow.isEmpty()) {
+            errorMessage.append("Visibility must be selected.<br>");
+            hasError = true;
+        }
+        if (xBlogtype == null || xBlogtype.isEmpty()) {
+            errorMessage.append("Blog type must be selected.<br>");
+            hasError = true;
+        }
+        if (xStatus == null || xStatus.isEmpty()) {
+            errorMessage.append("Status must be provided.<br>");
+            hasError = true;
+        }
+        if (xIDClub == null || xIDClub.isEmpty()) {
+            errorMessage.append("Club must be selected.<br>");
+            hasError = true;
+        }
+        if (fileName == null && !fileName.isEmpty()) {    
+            errorMessage.append("File must be selected.<br>");
+            hasError = true;
+            }
+
+        if (hasError) {
+            request.getRequestDispatcher("/View/ViewManager/Blog_Post.jsp").forward(request, response);
+            return;
+        }
+
+        int Show = Integer.parseInt(xShow);
+        int Blogtype = Integer.parseInt(xBlogtype);
+        int Status = Integer.parseInt(xStatus);
+        int IDClub = Integer.parseInt(xIDClub);
+        java.util.Date date = new java.util.Date();
             
-            java.util.Date date = new java.util.Date();
-            
-            String xShow = request.getParameter("visibility");
-            int Show = Integer.parseInt(xShow);
-            String xBlogtype = request.getParameter("blogtype");
-            int Blogtype = Integer.parseInt(xBlogtype);
-            String xStatus = request.getParameter("status");
-            int Status =Integer.parseInt(xStatus);
-            String xIDClub = request.getParameter("idclub");
-            int IDClub = Integer.parseInt(xIDClub);
-            
-            Blog post = new Blog( Tittle,"images" + "/" + fileName,Description,Content,date,date,Blogtype,IDClub,Show,Status);
+            Blog post = new Blog( Title,"images" + "/" + fileName,Description,Content,date,date,Blogtype,IDClub,Show,Status);
             BlogDAO postDAO = new BlogDAO();
             postDAO.insertPost(post);
             
