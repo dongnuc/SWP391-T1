@@ -8,24 +8,21 @@
 <%@ page import = "Model.*" %>
 <%@ page import = "DAO.*" %>
 <%@ page import = "java.util.*" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <%
-    BlogDAO postDAO = new BlogDAO();
-    List<Blog> postList = postDAO.getAllPosts();
+    Event event = (Event) request.getAttribute("x");
     Accounts acc = (Accounts) session.getAttribute("curruser");
-    List<StudentClub> StudentClubList = null;
-    if (acc != null) {
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
-        StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-    }
-    String Title = request.getParameter("title") != null ? request.getParameter("title") : "";
-    String Description = request.getParameter("description") != null ? request.getParameter("description") : "";
-    String Content = request.getParameter("content") != null ? request.getParameter("content") : "";
-    String Show = request.getParameter("visibility") != null ? request.getParameter("visibility") : "";
-    String Blogtype = request.getParameter("blogtype") != null ? request.getParameter("blogtype") : "";
-    String Status = request.getParameter("status") != null ? request.getParameter("status") : "";
-    String IDClub = request.getParameter("idclub") != null ? request.getParameter("idclub") : "";
+    StudentClubDAO studentClubDAO = new StudentClubDAO();
+    List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+    String nameEvent = request.getParameter("nameevent") != null ? request.getParameter("nameevent") : "";
+    String description = request.getParameter("description") != null ? request.getParameter("description") : "";
+    String content = request.getParameter("content") != null ? request.getParameter("content") : "";
+    String address = request.getParameter("address") != null ? request.getParameter("address") : "";
+    String dateStart = request.getParameter("datestart") != null ? request.getParameter("datestart") : "";
+    String dateEnd = request.getParameter("dateend") != null ? request.getParameter("dateend") : "";
+    String idClub = request.getParameter("idclub") != null ? request.getParameter("idclub") : "";
+    String eventType = request.getParameter("eventtype") != null ? request.getParameter("eventtype") : "";
+    String status = request.getParameter("status") != null ? request.getParameter("status") : "";
 %>
 <html lang="en">
 
@@ -53,7 +50,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>Blog Upload </title>
+        <title>Event Update</title>
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -104,7 +101,7 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="<%= request.getContextPath() %>/Home.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -366,7 +363,7 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Upload Blog</h4>
+                    <h4 class="breadcrumb-title">Upload Event</h4>
 
                 </div>	
                 <div class="row">
@@ -374,34 +371,36 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Information Blog</h4>
+                                <h4>Information Event </h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/UploadServlet" method="post" enctype="multipart/form-data">
+                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/EventUpdateServlet" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="idEvent" value="<%= event.getIdEvent() %>">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <label class="col-form-label">Title</label>
+                                            <label class="col-form-label">Name event</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="title" "><%= Title %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="nameevent" ><%= event.getNameEvent() %></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"><%= Description %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description"><%= event.getDescription() %></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
                                             <div>
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                                <img id="imagePreview" class="preview" src="#" alt="Image Preview">
+                                                <img id="imagePreview" class="preview" src="<%= request.getContextPath() %>/<%= event.getImage() %>" alt="Image Preview">
+                                                <input type="hidden" name="img" value="<%= event.getImage()%>">
                                             </div>
                                         </div>
-                                        <div class="form-group col-12">
+                                        <div class="form-group col-6">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><%= Content %></textarea>
+                                                <textarea class="form-control" name="content"><%= event.getContent() %></textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -443,53 +442,65 @@
                                                 </script>
                                             </div>
                                         </div>
-                                        <div class="form-group col-4">
-                                            <label class="col-form-label">Show : </label>
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Address</label>
                                             <div>
-                                                <input type="radio" id="public" name="visibility" value="1" <%= Show.equals("1")  ? "checked" : "" %> >
-                                                <label> Public </label>
+                                                <textarea class="form-control expandable-textarea" name="address"><%= event.getAddress() %></textarea>
                                             </div>
+                                        </div>
+
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Date start</label>
                                             <div>
-                                                <input type="radio" id="private" name="visibility" value="0" <%= Show.equals("0") ? "checked" : ""%>>
-                                                <label> Private </label>
+                                                <input type="date" name="datestart"  value="<%= event.getDateStart() %>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label class="col-form-label">Date end</label>
+                                            <div>
+                                                <input type="date" name="dateend" value="<%= event.getEnddate() %>"><br>
                                             </div>
                                         </div>
                                         <input type="hidden" name="status" value="1">
                                         <div class="form-group col-4">
-    <label class="col-form-label">Club : </label>
-    <%
-        ClubDao clubDAO = new ClubDao();
-        for (StudentClub studentClub : StudentClubList) {
-            if (studentClub.getStatus() == 1) {
-                boolean checked = String.valueOf(studentClub.getIdClub()).equals(IDClub);
-    %>
-    <div>
-        <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= checked ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
-    </div>
-    <%
-            }
-        }
-    %>
-</div>
-
-                                        <div class="form-group col-4">
-                                            <label class="col-form-label">Blog's type : </label>
+                                            <label class="col-form-label">Club : </label>
                                             <%
-                                                BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-                                                List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-                                                for (BlogType blogType : blogTypeList) {
-                                                boolean checked = String.valueOf(blogType.getIdBlogType()).equals(Blogtype);
+                 ClubDao clubDAO = new ClubDao();
+                 for (StudentClub studentClub : StudentClubList) {
+                     if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
                                             %>
                                             <div>
-                                                <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType() %>
+                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= event.getIdClub() == studentClub.getIdClub() ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
+                                            </div>
+                                            <%      }
+                                                }
+                                            %>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Event's type: </label>
+                                            <%
+                EventTypeDAO eventTypeDAO = new EventTypeDAO();
+                List<EventType> eventTypeDAOList = eventTypeDAO.getAllEventTypes();
+                for (EventType eventTypeObj : eventTypeDAOList) {
+                                            %>
+                                            
+                                            <div>
+                                                <input type="radio" name="eventtype" value="<%= eventTypeObj.getIdEventType() %>" <%= event.getIdEventType() == eventTypeObj.getIdEventType() ? "checked" : "" %>><%= eventTypeObj.getNameEventType() %>
                                             </div>
                                             <% } %>
                                         </div>
-                                        <div class="col-12">
-                                        <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Status</label>
+                                            <div>
+                                                <input type="radio" name="status" value="1" <%= event.getStatus() == 1 ? "checked" : "" %> >Active <br> 
+                                                <input type="radio" name="status" value="0" <%= event.getStatus() == 0 ? "checked" : "" %> >Stop 
+                                            </div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>
+                                            <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Event</button>
                                         </div>
                                     </div>
                                 </form>

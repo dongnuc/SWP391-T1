@@ -1,3 +1,6 @@
+<%@ page import = "Model.*" %>
+<%@ page import = "DAO.*" %>
+<%@ page import = "java.util.*" %>  
 <head>
 
     <!-- META ============================================= -->
@@ -157,9 +160,34 @@
                     </div>
                     <ul class="nav navbar-nav">	
                         <li><a href="Home.jsp">Home</a></li>
-                        <li><a href="">Events</a></li>
-                        <li><a href="View/ViewManager/Blog_List.jsp">Blog</a></li>
+                        <li><a href="<%= request.getContextPath() %>/EventServlet">Events </a></li>
+                        <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
+                        <%
+Accounts acccount = (Accounts) session.getAttribute("curruser");
+if (acccount != null) {
+StudentClubDAO studentClubDAO = new StudentClubDAO();
+List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acccount.getId());
+
+boolean dashboardPrinted = false;
+
+for (StudentClub studentClub : studentClubList) {
+if (acccount.getRole() == 1 || (studentClub.getStatus() == 1 && studentClub.getRole() == 1)) {
+if (!dashboardPrinted) {
+    dashboardPrinted = true;
+                        %>
+                        <li><a href="javascript:;">Dash board<i class="fa fa-angle-right"></i></a>
+                            <ul class="sub-menu">
+                                <li><a href="<%= request.getContextPath() %>/EventUploadServlet">Event Upload</a></li>
+                                <li><a href="<%= request.getContextPath() %>/UploadServlet">Blog Upload</a></li>
+                            </ul>
+                        </li>
+                        <%
+                                    }
+                                }
+                            }
+                        }
+                        %>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub"
                                    style="border-radius: 0px;

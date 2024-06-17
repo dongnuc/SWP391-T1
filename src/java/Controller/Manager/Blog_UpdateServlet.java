@@ -48,7 +48,7 @@ public class Blog_UpdateServlet extends HttpServlet {
     } 
 
   
-    private static final String SAVE_DIR = "web/images";
+    private static final String SAVE_DIR = "web/images_blog";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -86,7 +86,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             fileName = request.getParameter("img");
         } else {
             
-            fileName = "images/" + fileName;
+            fileName = "images_blog/" + fileName;
         }
 
         String xShow = request.getParameter("visibility");
@@ -151,7 +151,7 @@ public class Blog_UpdateServlet extends HttpServlet {
         BlogDAO postDAO = new BlogDAO();
         postDAO.updatePost(post);
 
-        getServletContext().getRequestDispatcher("/View/ViewManager/Upload_Noti.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
     }
 
     private String extractFileName(Part part) {

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Event {
     private int idEvent;
-    private int nameEvent;
+    private String nameEvent;
     private Date datecreate;
     private Date dateModify;
     private int status;
@@ -20,11 +20,15 @@ public class Event {
     private Date enddate;
     private int idClub;
     private Date dateStart;
+    private String image;
+    private int idEventType;
+    private String description;
+    private String content ;
 
     public Event() {
     }
 
-    public Event(int nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart) {
+    public Event(String nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
         this.nameEvent = nameEvent;
         this.datecreate = datecreate;
         this.dateModify = dateModify;
@@ -33,9 +37,30 @@ public class Event {
         this.enddate = enddate;
         this.idClub = idClub;
         this.dateStart = dateStart;
+        this.image = image;
+        this.idEventType = idEventType;
+        this.description = description;
+        this.content = content;
     }
 
-    public Event(int idEvent, int nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart) {
+    public Event(int idEvent, String nameEvent, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
+        this.idEvent = idEvent;
+        this.nameEvent = nameEvent;
+        this.dateModify = dateModify;
+        this.status = status;
+        this.address = address;
+        this.enddate = enddate;
+        this.idClub = idClub;
+        this.dateStart = dateStart;
+        this.image = image;
+        this.idEventType = idEventType;
+        this.description = description;
+        this.content = content;
+    }
+    
+    
+
+    public Event(int idEvent, String nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.datecreate = datecreate;
@@ -45,6 +70,10 @@ public class Event {
         this.enddate = enddate;
         this.idClub = idClub;
         this.dateStart = dateStart;
+        this.image = image;
+        this.idEventType = idEventType;
+        this.description = description;
+        this.content = content;
     }
 
     public int getIdEvent() {
@@ -55,11 +84,11 @@ public class Event {
         this.idEvent = idEvent;
     }
 
-    public int getNameEvent() {
+    public String getNameEvent() {
         return nameEvent;
     }
 
-    public void setNameEvent(int nameEvent) {
+    public void setNameEvent(String nameEvent) {
         this.nameEvent = nameEvent;
     }
 
@@ -118,5 +147,39 @@ public class Event {
     public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
-  
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getIdEventType() {
+        return idEventType;
+    }
+
+    public void setIdEventType(int idEventType) {
+        this.idEventType = idEventType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
+    
+    
 }

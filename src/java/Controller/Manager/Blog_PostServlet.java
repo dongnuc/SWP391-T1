@@ -29,13 +29,20 @@ import java.text.SimpleDateFormat;
                  maxRequestSize=1024*1024*50)   // 50MB
 public class Blog_PostServlet extends HttpServlet {
 
-    private static final String SAVE_DIR = "web/images";
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter pr = response.getWriter();
+        
+        request.getRequestDispatcher("/View/ViewManager/Blog_Post.jsp").forward(request, response);
+    }
+    private static final String SAVE_DIR = "web/images_blog";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String xappPath = request.getServletContext().getRealPath("");
         String appPath = xappPath.substring(0, xappPath.length() - 11);
-        System.out.println(appPath);
         String savePath = appPath + File.separator + SAVE_DIR;
         
         File fileSaveDir = new File(savePath);
@@ -53,6 +60,9 @@ public class Blog_PostServlet extends HttpServlet {
             }
         }
 
+        BlogDAO postDAO = new BlogDAO();
+        String filenamecheck =Integer.toString(postDAO.getAllPosts().size());
+        
          if (fileName != null) {
         String Title = request.getParameter("title");
         String Description = request.getParameter("description");
@@ -61,6 +71,7 @@ public class Blog_PostServlet extends HttpServlet {
         String xBlogtype = request.getParameter("blogtype");
         String xStatus = request.getParameter("status");
         String xIDClub = request.getParameter("idclub");
+        
 
         StringBuilder errorMessage = new StringBuilder();
         boolean hasError = false;
@@ -93,27 +104,34 @@ public class Blog_PostServlet extends HttpServlet {
             errorMessage.append("Club must be selected.<br>");
             hasError = true;
         }
-        if (fileName == null && !fileName.isEmpty()) {    
+        if ( fileName.equals(filenamecheck) || fileName.isEmpty()) {    
             errorMessage.append("File must be selected.<br>");
             hasError = true;
             }
 
         if (hasError) {
+            request.setAttribute("mess", errorMessage.toString());
+            request.setAttribute("title", Title);
+            request.setAttribute("description", Description);
+            request.setAttribute("content", Content);
+            request.setAttribute("visibility", xShow);
+            request.setAttribute("blogtype", xBlogtype);
+            request.setAttribute("status", xStatus);
+            request.setAttribute("idclub", xIDClub);
+            request.setAttribute("fileName", fileName);
             request.getRequestDispatcher("/View/ViewManager/Blog_Post.jsp").forward(request, response);
             return;
         }
-
         int Show = Integer.parseInt(xShow);
         int Blogtype = Integer.parseInt(xBlogtype);
         int Status = Integer.parseInt(xStatus);
         int IDClub = Integer.parseInt(xIDClub);
         java.util.Date date = new java.util.Date();
-            
-            Blog post = new Blog( Title,"images" + "/" + fileName,Description,Content,date,date,Blogtype,IDClub,Show,Status);
-            BlogDAO postDAO = new BlogDAO();
+
+            Blog post = new Blog( Title,"images_blog" + "/" + fileName,Description,Content,date,date,Blogtype,IDClub,Show,Status);
             postDAO.insertPost(post);
             
-            getServletContext().getRequestDispatcher("/View/ViewManager/Upload_Noti.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
         } else {
             response.getWriter().println("Error: File upload failed.");
         }
