@@ -136,13 +136,10 @@ public class Blog_UpdateServlet extends HttpServlet {
 
         if (hasError) {
             request.setAttribute("mess", errorMessage.toString());
-            request.setAttribute("title", Title);
-            request.setAttribute("description", Description);
-            request.setAttribute("content", Content);
-            request.setAttribute("visibility", xShow);
-            request.setAttribute("blogtype", xBlogtype);
-            request.setAttribute("status", xStatus);
-            request.setAttribute("idclub", xIDClub);
+            
+            BlogDAO blogDAO = new BlogDAO();
+            Blog blog = blogDAO.getPost(ID);
+            request.setAttribute("x", blog);
             request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
             return;
         }

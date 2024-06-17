@@ -12,17 +12,29 @@
 <%
     Event event = (Event) request.getAttribute("x");
     Accounts acc = (Accounts) session.getAttribute("curruser");
-    StudentClubDAO studentClubDAO = new StudentClubDAO();
-    List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-    String  nameEvent = request.getParameter("nameevent") != null ? request.getParameter("nameevent") : "";
-            nameEvent = event.getNameEvent();
-    String description = request.getParameter("description") != null ? request.getParameter("description") : "";
-           escription = event.getNameEvent();
-    String content = request.getParameter("content") != null ? request.getParameter("content") : "";
-           content = event.getContent();
-    String address = request.getParameter("address") != null ? request.getParameter("address") : "";
-           address = event.getAddress(); 
     
+    List<StudentClub> StudentClubList = null;
+                 boolean restricted = true;
+    
+   if (acc != null) {
+       StudentClubDAO studentClubDAO = new StudentClubDAO();
+       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        
+       for (StudentClub studentClub : StudentClubList) {
+           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+               restricted = false;
+               break;
+           }
+       }
+   }
+
+   if (restricted) {
+       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
+       return; 
+   }
+    
+    
+
 %>
 <html lang="en">
 
@@ -381,13 +393,13 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name event</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="nameevent" ><% nameEvent  %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="nameevent" ><%= event.getNameEvent()%></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"><% description  %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description"><%= event.getDescription()%></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -401,7 +413,7 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><% content  %></textarea>
+                                                <textarea class="form-control" name="content"><%= event.getContent()%></textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -446,7 +458,7 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Address</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="address"><% address %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="address"><%= event.getAddress()%></textarea>
                                             </div>
                                         </div>
 
@@ -459,7 +471,7 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date end</label>
                                             <div>
-                                                <input type="date" name="dateend" value="<%= event.getEnddate(); %>"><br>
+                                                <input type="date" name="dateend" value="<%= event.getEnddate() %>"><br>
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
@@ -470,7 +482,7 @@
                      if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
                                             %>
                                             <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= studentClub.getIdClub() %>" <%= checked ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
+                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>"  <%= studentClub.getIdClub() == event.getIdClub() ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
                                             </div>
                                             <%      }
                                                 }
@@ -485,16 +497,16 @@
                                             %>
                                             
                                             <div>
-                                                <input type="radio" name="eventtype" value="<%= eventTypeObj.getIdEventType() %>" <%= eventTypeObj.getIdEventType() %>" <%= checked ? "checked" : "" %>><%= eventTypeObj.getNameEventType() %>
+                                                <input type="radio" name="eventtype" value="<%= eventTypeObj.getIdEventType() %>" <%= eventTypeObj.getIdEventType()== event.getIdEventType() ? "checked" : "" %>><%= eventTypeObj.getNameEventType() %>
                                             </div>
                                             <% } %>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
                                             <div>
-                                                <input type="radio" name="status" value="1" <%= status.equals("1")  ? "checked" : "" %> >Active <br> 
-                                                <input type="radio" name="status" value="0" <%= status.equals("0")  ? "checked" : "" %> >Stop <br> 
-                                                <input type="radio"  name="status" value="2" <%= status.equals("2")  ? "checked" : "" %>>Coming soon
+                                                <input type="radio" name="status" value="1" <%= event.getStatus() == 1  ? "checked" : "" %> >Active <br> 
+                                                <input type="radio" name="status" value="0" <%= event.getStatus() == 0  ? "checked" : "" %> >Stop <br> 
+                                                <input type="radio"  name="status" value="2" <%= event.getStatus() == 2  ? "checked" : "" %>>Coming soon
                                             </div>
                                             </div>
                                         </div>

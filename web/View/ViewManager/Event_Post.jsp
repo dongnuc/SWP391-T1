@@ -11,8 +11,28 @@
 <!DOCTYPE html>
 <%
     Accounts acc = (Accounts) session.getAttribute("curruser");
-    StudentClubDAO studentClubDAO = new StudentClubDAO();
-    List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+    
+    List<StudentClub> StudentClubList = null;
+                 boolean restricted = true;
+    
+   if (acc != null) {
+       StudentClubDAO studentClubDAO = new StudentClubDAO();
+       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        
+       for (StudentClub studentClub : StudentClubList) {
+           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+               restricted = false;
+               break;
+           }
+       }
+   }
+
+   if (restricted) {
+       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
+       return; 
+   }
+    
+    
     String nameEvent = request.getParameter("nameevent") != null ? request.getParameter("nameevent") : "";
     String description = request.getParameter("description") != null ? request.getParameter("description") : "";
     String content = request.getParameter("content") != null ? request.getParameter("content") : "";

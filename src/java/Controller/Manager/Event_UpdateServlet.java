@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Manager;
 
 import DAO.EventDAO;
@@ -24,38 +23,41 @@ import java.util.Date;
  *
  * @author 10t1q
  */
-@WebServlet(name="Event_UpdateServlet", urlPatterns={"/EventUpdateServlet"})
-@MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
-                 maxFileSize=1024*1024*10,      // 10MB
-                 maxRequestSize=1024*1024*50) 
+@WebServlet(name = "Event_UpdateServlet", urlPatterns = {"/EventUpdateServlet"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50)
 public class Event_UpdateServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Event_UpdateServlet</title>");  
+            out.println("<title>Servlet Event_UpdateServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Event_UpdateServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Event_UpdateServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,7 +65,7 @@ public class Event_UpdateServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
 
@@ -75,10 +77,11 @@ public class Event_UpdateServlet extends HttpServlet {
 
         request.setAttribute("x", event);
         request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -88,7 +91,7 @@ public class Event_UpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String xappPath = request.getServletContext().getRealPath("");
         String appPath = xappPath.substring(0, xappPath.length() - 11);
         String savePath = appPath + File.separator + SAVE_DIR;
@@ -110,7 +113,7 @@ public class Event_UpdateServlet extends HttpServlet {
                 }
             }
         }
-        
+
         String xID = request.getParameter("idEvent");
         int ID = Integer.parseInt(xID);
         String nameEvent = request.getParameter("nameevent");
@@ -131,7 +134,7 @@ public class Event_UpdateServlet extends HttpServlet {
 
         EventDAO eventDAO = new EventDAO();
         String filenamecheck = Integer.toString(eventDAO.getAllEvent().size());
-        
+
         StringBuilder errorMessage = new StringBuilder();
         boolean hasError = false;
 
@@ -167,23 +170,19 @@ public class Event_UpdateServlet extends HttpServlet {
             errorMessage.append("Event type must be selected.<br>");
             hasError = true;
         }
-        if (fileName.equals("images_event/" + filenamecheck) || fileName.isEmpty()) {    
+        if (fileName.equals("images_event/" + filenamecheck) || fileName.isEmpty()) {
             errorMessage.append("File must be selected.<br>");
             hasError = true;
         }
-            
+
         if (hasError) {
             request.setAttribute("mess", errorMessage.toString());
-            request.setAttribute("nameevent", nameEvent);
-            request.setAttribute("description", description);
-            request.setAttribute("content", content);
-            request.setAttribute("idclub", xIDClub);
-            request.setAttribute("eventtype", xEventType);
-            request.setAttribute("address", address);
-            request.setAttribute("status", xStatus);
-            request.setAttribute("datestart", dateStartStr);
-            request.setAttribute("dateend", dateEndStr);
+
+            EventDAO eD = new EventDAO();
+            Event e = eD.getEventById(ID);
+            request.setAttribute("x", e);
             request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
+            return;
         }
 
         int IDClub = Integer.parseInt(xIDClub);

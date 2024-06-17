@@ -143,7 +143,7 @@
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
-                                                <h2 class="post-title"><%= event.getDescription()%></h2>
+                                                <h2 class="post-title"><%= event.getNameEvent()%></h2>
                                             </div>
                                             <div class="ttr-post-text">
                                                 <p><%= event.getContent()%></p>

@@ -9,11 +9,29 @@
 <%@ page import = "DAO.*" %>
 <%@ page import = "java.util.*" %>
 <!DOCTYPE html>
- <%        Blog post = (Blog) request.getAttribute("x");
-                  Accounts acc = (Accounts) session.getAttribute("curruser");
-                  StudentClubDAO studentClubDAO = new StudentClubDAO();
-                  List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        %>
+<%        Blog post = (Blog) request.getAttribute("x");
+ 
+                 Accounts acc = (Accounts) session.getAttribute("curruser");
+                 List<StudentClub> StudentClubList = null;
+                 boolean restricted = true;
+    
+   if (acc != null) {
+       StudentClubDAO studentClubDAO = new StudentClubDAO();
+       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        
+       for (StudentClub studentClub : StudentClubList) {
+           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+               restricted = false;
+               break;
+           }
+       }
+   }
+
+   if (restricted) {
+       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
+       return; 
+   }
+%>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
@@ -371,13 +389,13 @@
                                             <label class="col-form-label">Tittle</label>
                                             <div>
                                                 <textarea type="text"class="form-control" name="tittle" ><%= post.getTitleBlog()%></textarea>
-                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
-                                           <div>
+                                            <div>
                                                 <textarea type="text"class="form-control" name="description""><%= post.getDescription()%></textarea>
-                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
@@ -391,47 +409,47 @@
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
                                                 <textarea class="form-control" name="content"><%= post.getContent()%></textarea>
-                                                </div>
-                                                <script>
-                                                    ClassicEditor
-                                                            .create(document.querySelector('#editor textarea'), {
-                                                                toolbar: [
-                                                                    'heading', '|',
-                                                                    'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
-                                                                    'undo', 'redo'
-                                                                ]
-                                                            })
-                                                            .catch(error => {
-                                                                console.error(error);
-                                                            });
-
-                                                    function previewImage(event) {
-                                                        const file = event.target.files[0];
-                                                        if (file) {
-                                                            const reader = new FileReader();
-                                                            reader.onload = function (e) {
-                                                                const preview = document.getElementById('imagePreview');
-                                                                preview.src = e.target.result;
-                                                                preview.style.display = 'block';
-                                                            };
-                                                            reader.readAsDataURL(file);
-                                                        }
-                                                    }
-                                                    document.addEventListener('DOMContentLoaded', function () {
-                                                        const expandableTextareas = document.querySelectorAll('.expandable-textarea');
-
-                                                        expandableTextareas.forEach(textarea => {
-                                                            textarea.addEventListener('input', resizeTextarea);
-                                                            resizeTextarea.call(textarea);  // Initialize height based on initial content
+                                            </div>
+                                            <script>
+                                                ClassicEditor
+                                                        .create(document.querySelector('#editor textarea'), {
+                                                            toolbar: [
+                                                                'heading', '|',
+                                                                'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|',
+                                                                'undo', 'redo'
+                                                            ]
+                                                        })
+                                                        .catch(error => {
+                                                            console.error(error);
                                                         });
 
-                                                        function resizeTextarea() {
-                                                            this.style.height = 'auto';  // Reset height to calculate new height
-                                                            this.style.height = (this.scrollHeight) + 'px';  // Set new height based on scroll height
-                                                        }
+                                                function previewImage(event) {
+                                                    const file = event.target.files[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onload = function (e) {
+                                                            const preview = document.getElementById('imagePreview');
+                                                            preview.src = e.target.result;
+                                                            preview.style.display = 'block';
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }
+                                                document.addEventListener('DOMContentLoaded', function () {
+                                                    const expandableTextareas = document.querySelectorAll('.expandable-textarea');
+
+                                                    expandableTextareas.forEach(textarea => {
+                                                        textarea.addEventListener('input', resizeTextarea);
+                                                        resizeTextarea.call(textarea);  // Initialize height based on initial content
                                                     });
-                                                </script>
-                                            
+
+                                                    function resizeTextarea() {
+                                                        this.style.height = 'auto';  // Reset height to calculate new height
+                                                        this.style.height = (this.scrollHeight) + 'px';  // Set new height based on scroll height
+                                                    }
+                                                });
+                                            </script>
+
                                         </div>
                                         <div class="form-group col-3">
 
@@ -478,7 +496,7 @@
                                                 <input type="radio" name="status" value="0" <%= post.getStatus() == 0 ? "checked" : "" %> >Stop 
                                             </div>
                                         </div>
-                                            <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                        <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
                                         <div class="col-12">
                                             <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Blog</button>
                                         </div>
@@ -512,22 +530,22 @@
         <script src="${pageContext.request.contextPath}/assets_admin/js/admin.js"></script>
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/switcher/switcher.js'></script>
         <script>
-                                                    // Pricing add
-                                                    function newMenuItem() {
-                                                        var newElem = $('tr.list-item').first().clone();
-                                                        newElem.find('input').val('');
-                                                        newElem.appendTo('table#item-add');
-                                                    }
-                                                    if ($("table#item-add").is('*')) {
-                                                        $('.add-item').on('click', function (e) {
-                                                            e.preventDefault();
-                                                            newMenuItem();
-                                                        });
-                                                        $(document).on("click", "#item-add .delete", function (e) {
-                                                            e.preventDefault();
-                                                            $(this).parent().parent().parent().parent().remove();
-                                                        });
-                                                    }
+                                                // Pricing add
+                                                function newMenuItem() {
+                                                    var newElem = $('tr.list-item').first().clone();
+                                                    newElem.find('input').val('');
+                                                    newElem.appendTo('table#item-add');
+                                                }
+                                                if ($("table#item-add").is('*')) {
+                                                    $('.add-item').on('click', function (e) {
+                                                        e.preventDefault();
+                                                        newMenuItem();
+                                                    });
+                                                    $(document).on("click", "#item-add .delete", function (e) {
+                                                        e.preventDefault();
+                                                        $(this).parent().parent().parent().parent().remove();
+                                                    });
+                                                }
         </script>
     </body>
 
