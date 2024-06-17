@@ -461,7 +461,6 @@
                                                 <input type="date" name="dateend" value="<%= event.getEnddate() %>"><br>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="status" value="1">
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club : </label>
                                             <%
@@ -493,7 +492,9 @@
                                             <label class="col-form-label">Status</label>
                                             <div>
                                                 <input type="radio" name="status" value="1" <%= event.getStatus() == 1 ? "checked" : "" %> >Active <br> 
-                                                <input type="radio" name="status" value="0" <%= event.getStatus() == 0 ? "checked" : "" %> >Stop 
+                                                <input type="radio" name="status" value="0" <%= event.getStatus() == 0 ? "checked" : "" %> >Stop <br> 
+                                                <input type="radio"  name="status" value="2" <%= event.getStatus() == 2? "checked" : ""%>>Coming soon
+                                            </div>
                                             </div>
                                         </div>
                                         <div class="col-12">

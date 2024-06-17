@@ -19,7 +19,7 @@ public class EventDAO {
     
     public List<Event> getAllEvent() {
         List<Event> eventList = new ArrayList<>();
-        String sql = "SELECT * FROM event";
+        String sql = "SELECT * FROM event ORDER BY DateCreate DESC , IdEvent DESC";
         
         try (Connection con = DBContext.getConnection(); 
              PreparedStatement st = con.prepareStatement(sql);
@@ -146,4 +146,70 @@ public class EventDAO {
             e.printStackTrace();
         }
     }
+    public List<Event> getEventsByType(int idEventType) {
+    List<Event> eventList = new ArrayList<>();
+    String sql = "SELECT * FROM event WHERE IdEventType = ? ORDER BY DateCreate DESC, IdEvent DESC";
+
+    try (Connection con = DBContext.getConnection();
+         PreparedStatement st = con.prepareStatement(sql)) {
+
+        st.setInt(1, idEventType);
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));
+                event.setNameEvent(rs.getString("NameEvent"));
+                event.setDatecreate(rs.getDate("DateCreate"));
+                event.setDateModify(rs.getDate("DateModify"));
+                event.setEnddate(rs.getDate("DateEnd"));
+                event.setIdClub(rs.getInt("IdClub"));
+                event.setDateStart(rs.getDate("DateStart"));
+                event.setImage(rs.getString("Image"));
+                event.setContent(rs.getString("content"));
+                event.setIdEventType(rs.getInt("IdEventType"));
+                event.setStatus(rs.getInt("Status"));
+                event.setAddress(rs.getString("Addreess"));
+                event.setDescription(rs.getString("description"));
+                eventList.add(event);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventList;
+}
+    public List<Event> getEventsByName(String eventName) {
+    List<Event> eventList = new ArrayList<>();
+    String sql = "SELECT * FROM event WHERE NameEvent LIKE ? ORDER BY DateCreate DESC, IdEvent DESC";
+
+    try (Connection con = DBContext.getConnection();
+         PreparedStatement st = con.prepareStatement(sql)) {
+
+        st.setString(1, "%" + eventName + "%");
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));
+                event.setNameEvent(rs.getString("NameEvent"));
+                event.setDatecreate(rs.getDate("DateCreate"));
+                event.setDateModify(rs.getDate("DateModify"));
+                event.setEnddate(rs.getDate("DateEnd"));
+                event.setIdClub(rs.getInt("IdClub"));
+                event.setDateStart(rs.getDate("DateStart"));
+                event.setImage(rs.getString("Image"));
+                event.setContent(rs.getString("content"));
+                event.setIdEventType(rs.getInt("IdEventType"));
+                event.setStatus(rs.getInt("Status"));
+                event.setAddress(rs.getString("Addreess"));
+                event.setDescription(rs.getString("description"));
+                eventList.add(event);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventList;
+}
+
+    
 }

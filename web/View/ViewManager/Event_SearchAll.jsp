@@ -1,24 +1,14 @@
-<%-- 
-    Document   : Event_Detail
-    Created on : Jun 16, 2024, 4:05:10 PM
-    Author     : 10t1q
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "Model.*" %>
 <%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>  
+<%@ page import = "java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <%
-       Event event = (Event) request.getAttribute("x");
-       Accounts acc = (Accounts) session.getAttribute("curruser");
-       List<StudentClub> StudentClubList = null;
-       if (acc != null) {
-           StudentClubDAO studentClubDAO = new StudentClubDAO();
-           StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-       }
+        
+        List<Event> eventList =(List<Event>) request.getAttribute("x");
     %>
     <head>
 
@@ -43,7 +33,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Event Search </title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,115 +60,110 @@
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
-            <div class="onepage"></div>
             <!-- Header Top ==== -->
             <%@ include file="Header.jsp" %>
             <!-- header END ==== -->
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner1.jpg);">
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Event Details</h1>
+                            <h1 class="text-white">Event Search</h1>
                         </div>
                     </div>
                 </div>
-                <!-- Breadcrumb row -->
 
-                <!-- Breadcrumb row END -->
-                <!-- inner page banner END -->
-                <div class="content-block">
-                    <!-- About Us -->
-                    <div class="section-area section-sp1">
-                        <div class="container">
-                            
-                            <%
-                                boolean showTagCloud = false;
-                                if (acc != null) {
-                            
-                                        for (StudentClub studentClub : StudentClubList) {
-                                            if (event.getIdClub() == studentClub.getIdClub() &&
-                                                studentClub.getStatus() == 1 &&
-                                                studentClub.getRole() == 1) {
-                                                showTagCloud = true;
-                                                break; 
-                                            }
-                                
-                                }
-                                if (showTagCloud) {
-                            %>
-                            <script>
-                                function confirmAction(url, action) {
-                                    var message = "Do you want to " + action + " ?";
-                                    if (confirm(message)) {
-                                        window.location.href = url;
-                                    }
-                                }
-                            </script>
-                            <div class="widget_tag_cloud">
-                                <div class="tagcloud"> 
-                                    <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/EventUpdateServlet?idEvent=<%= event.getIdEvent() %>', 'update')">Update</a> 
-                                    <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/EventDeleteServlet?idEvent=<%= event.getIdEvent() %>', 'delete')">Delete</a> 
-                                </div>
-                            </div>
-                            <% 
-                       }
-               } 
-                   if(event.getStatus() == 0 ){
-                            %>
-                            <p>Event was stopped</p>
-                            <% }%>
-                    <%if(event.getStatus() == 2 ){%>    
-                        <p>Event coming soon</p>
-                        <%}%>
-                            <div class="row">
+                <!-- contact area -->
+                <div class="container">
+                    <div class="row">
+                        <div class="feature-filters clearfix center m-b40 col-md-3 ">
+                            <p style="color :red ">Even Type <br>
+                                <a href="<%= request.getContextPath() %>/EventSerlet"><span>All</span></a> 
                                 <%
-                                    if (event != null){
+                                    EventTypeDAO eventTypeDAO = new EventTypeDAO();
+                                    List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+                                    for(EventType eventType : eventTypeList){
                                 %>
-                                <div class="col-lg-8 col-md-7 col-sm-12">
-                                    <div class="courses-post">
-                                        <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="${pageContext.request.contextPath}/<%= event.getImage()%>" alt=""></a>
-                                        </div>
-                                        <div class="ttr-post-info">
-                                            <div class="ttr-post-title ">
-                                                <h2 class="post-title"><%= event.getDescription()%></h2>
-                                            </div>
-                                            <div class="ttr-post-text">
-                                                <p><%= event.getContent()%></p>
-                                            </div>
+
+                                <a href="<%= request.getContextPath() %>/EventTypeServlet?idEventType=<%= eventType.getIdEventType() %>"><span><%= eventType.getNameEventType()%></span></a> 
+                                        <% } %>
+                        </div>
+                        <div class="content-block col-md-9">
+                            <!-- Portfolio  -->
+                            <div class="section-area section-sp1 gallery-bx">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-6 " >
+                                            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px">
+                                                <input type="text" name="name" class="form-control" />
+                                                <input type="submit" value="Search" class="btn btn-primary" />
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                                <% }%>
-                                <div class="col-lg-4 col-md-5 col-sm-12 m-b30">
-                                    <div class="bg-primary text-white contact-info-bx m-b30">
-                                        <h2 class="m-b10 title-head">Contact <span>Information</span></h2>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        <div class="widget widget_getintuch">	
-                                            <ul>
-                                                <li><i class="ti-location-pin"></i>75k Newcastle St. Ponte Vedra Beach, FL 309382 New York</li>
-                                                <li><i class="ti-mobile"></i>0800-123456 (24/7 Support Line)</li>
-                                                <li><i class="ti-email"></i>info@example.com</li>
-                                            </ul>
-                                        </div>
-                                        <h5 class="m-t0 m-b20">Follow Us</h5>
-                                        <ul class="list-inline contact-social-bx">
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
+                                <div class="container">
+
+                                    <div class="clearfix">
+                                        <p style="color: red;">
+                                            <%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %>
+                                        </p>
+                                        <ul id="masonry" class="ttr-gallery-listing magnific-image row">
+                                            <%
+                                                if (eventList != null) {
+                                                    for (Event event : eventList) {
+                                                        Date dateStart = event.getDateStart();
+                                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+                                                        String dateString = sdf.format(dateStart);
+                                                        String[] dateParts = dateString.split("/");
+                                                        String year = dateParts[0];
+                                                        String day = dateParts[2];
+                                                        SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
+                                                        String month = monthFormat.format(dateStart);
+                                            %>
+                                            <li class="action-card col-lg-6 col-md-6 col-sm-12 happening">
+                                                <div class="event-bx m-b30">
+                                                    <div class="action-box">
+                                                        <a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>">
+                                                            <img src="<%= request.getContextPath() %>/<%= event.getImage() %>" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="info-bx d-flex">
+                                                        <div>
+                                                            <div class="event-time">
+                                                                <div class="event-date"><%= day %></div>
+                                                                <div class="event-month"><%= month + " " + year %></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-info">
+                                                            <h4 class="event-title">
+                                                                <a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>">
+                                                                    <%= event.getNameEvent() %>
+                                                                </a>
+                                                            </h4>
+                                                            <ul class="media-post">
+                                                                <li><a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>">
+                                                                        <%= event.getDatecreate() %>
+                                                                    </a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <%
+                                                    }
+                                                }
+                                            %>
                                         </ul>
                                     </div>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3448.1298878182047!2d-81.38369578541523!3d30.204840081824198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e437ac927a996b%3A0x799695b1a2b970ab!2sNona+Blue+Modern+Tavern!5e0!3m2!1sen!2sin!4v1548177305546" class="align-self-stretch d-flex" style="width:100%; min-width:100%; min-height:400px;" allowfullscreen></iframe>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                </div>
+                </div>              
                 <!-- contact area END -->
-
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
@@ -307,4 +292,3 @@
     </body>
 
 </html>
-

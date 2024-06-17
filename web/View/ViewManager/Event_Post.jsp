@@ -21,6 +21,7 @@
     String dateEnd = request.getParameter("dateend") != null ? request.getParameter("dateend") : "";
     String idClub = request.getParameter("idclub") != null ? request.getParameter("idclub") : "";
     String eventType = request.getParameter("eventtype") != null ? request.getParameter("eventtype") : "";
+    String status = request.getParameter("status") != null ? request.getParameter("status") : "";
 %>
 <html lang="en">
 
@@ -457,8 +458,22 @@
                                                 <input type="date" name="dateend" value="<%= dateEnd %>"><br>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="status" value="1">
-                                        <div class="form-group col-6">
+                                            <div class="form-group col-3">
+                                            <label class="col-form-label">Status</label>
+                                            <div>
+                                                <input type="radio"  name="status" value="1" <%= status.equals("1")  ? "checked" : "" %> >
+                                                <label> Active </label>
+                                            </div>
+                                            <div>
+                                                <input type="radio"  name="status" value="0" <%= status.equals("0") ? "checked" : ""%>>
+                                                <label> Stop </label>
+                                            </div>
+                                           <div>
+                                                <input type="radio"  name="status" value="2" <%= status.equals("2") ? "checked" : ""%>>
+                                                <label> Coming soon </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Club : </label>
                                             <%
                  ClubDao clubDAO = new ClubDao();
@@ -473,7 +488,7 @@
                                                 }
                                             %>
                                         </div>
-                                        <div class="form-group col-6">
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Event's type: </label>
                                             <%
                 EventTypeDAO eventTypeDAO = new EventTypeDAO();
@@ -490,7 +505,7 @@
                                             <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>
+                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Event</button>
                                         </div>
                                     </div>
                                 </form>

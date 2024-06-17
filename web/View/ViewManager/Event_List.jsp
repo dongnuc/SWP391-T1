@@ -33,7 +33,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Event </title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,28 +75,34 @@
                 </div>
 
                 <!-- contact area -->
-                <div class="content-block">
+                <div class="container">
+                    <div class="row">
+                <div class="feature-filters clearfix center m-b40 col-md-3 ">
+                    <p style="color :red ">Even Type <br>
+                                <a href="<%= request.getContextPath() %>/EventSerlet"><span>All</span></a> 
+                                <%
+                                    EventTypeDAO eventTypeDAO = new EventTypeDAO();
+                                    List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+                                    for(EventType eventType : eventTypeList){
+                                %>
+
+                                <a href="<%= request.getContextPath() %>/EventTypeServlet?idEventType=<%= eventType.getIdEventType() %>"><span><%= eventType.getNameEventType()%></span></a> 
+                                        <% } %>
+                            </div>
+                <div class="content-block col-md-9">
                     <!-- Portfolio  -->
                     <div class="section-area section-sp1 gallery-bx">
                         <div class="container">
-                            <div class="feature-filters clearfix center m-b40">
-                                <ul class="filters" data-toggle="buttons">
-                                    <li data-filter="" class="btn active">
-                                        <input type="radio">
-                                        <a href="<%= request.getContextPath() %>/EventSerlet"><span>All</span></a> 
-                                    </li>
-                                    <%
-                                        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-                                        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
-                                        for(EventType eventType : eventTypeList){
-                                    %>
-                                    <li data-filter="happening" class="btn">
-                                        <input type="radio">
-                                        <a href="<%= request.getContextPath() %>/EventTypeServlet?idEventType=<%= eventType.getIdEventType() %>"><span><%= eventType.getNameEventType()%></span></a> 
-                                    </li>
-                                    <% } %>
-                                </ul>
+                            <div class="row">
+                                <div class="col-md-6 " >
+                                    <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px">
+                                        <input type="text" name="name" class="form-control" />
+                                        <input type="submit" value="Search" class="btn btn-primary" />
+                                    </form>
+                                </div>
                             </div>
+                        </div>
+                        <div class="container">
 
                             <div class="clearfix">
                                 <ul id="masonry" class="ttr-gallery-listing magnific-image row">
@@ -150,6 +156,8 @@
                     </div>
 
                 </div>
+                   </div>
+</div>              
                 <!-- contact area END -->
             </div>
             <!-- Content END-->
