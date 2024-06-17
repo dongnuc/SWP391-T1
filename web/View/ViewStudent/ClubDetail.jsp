@@ -3,7 +3,7 @@
     Created on : Jun 8, 2024, 9:26:24 PM
     Author     : Nguyen Hau
 --%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -97,22 +97,27 @@
                 <!-- Breadcrumb row END -->
                 <!-- inner page banner END -->
                 <div class="content-block">
-                    <!-- About Us -->
+                    <!-- About Us -->  <c:set var="club" value="${requestScope.club}"/>
                     <div class="section-area section-sp1">
                         <div class="container">
                             <div class="row d-flex flex-row-reverse">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
-
+                                        <c:set var="acc" value="${requestScope.acc}"/>
                                         <div class="course-buy-now text-center">
-                                            <a href="#" class="btn radius-xl text-uppercase">Managerment</a>
+                                            <c:if test="${sessionScope.id eq acc.id}">
+                                                <a href="ClubProfile?id=${club.getClub()}" class="btn radius-xl text-uppercase">Club Profile</a>
+                                            </c:if>
+                                            <c:if test="${sessionScope.id ne acc.id}">
+                                                <a class="btn radius-xl text-uppercase">Management</a>
+                                            </c:if>
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">
                                                 <div class="teacher-thumb">
-                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
+                                                    <img src="${acc.getImage()}" alt=""/>
                                                 </div>
-                                                <c:set var="acc" value="${requestScope.acc}"/>
+
                                                 <div class="teacher-name">
                                                     <h5>${acc.getName()}</h5>
                                                     <span>${acc.getDatecreate()}</span>
@@ -145,7 +150,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <c:set var="club" value="${requestScope.club}"/>
+                              
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -194,7 +199,7 @@
 
                                     <div class="" id="instructor">
                                         <h4>Member</h4>
-                                        
+
                                         <table>
                                             <tr>
                                                 <th>Name</th>
@@ -209,7 +214,7 @@
                                                 </tr>
                                             </c:forEach>
                                         </table>
-                                       
+
                                     </div>
 
                                 </div>

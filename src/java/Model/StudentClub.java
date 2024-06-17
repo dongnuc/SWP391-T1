@@ -85,7 +85,7 @@ public class StudentClub {
         return role;
     }
  public String getNamebyId() {
-        return dao.getNamebyID(idStudent);
+        return dao.getNamebyID(idClub);
     }
     public void setRole(int role) {
         this.role = role;

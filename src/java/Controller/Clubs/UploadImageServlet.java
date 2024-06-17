@@ -5,24 +5,32 @@
 package Controller.Clubs;
 
 import DAO.ClubDao;
-
-import Model.Clubs;
-import Model.TypeClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
+
+import java.io.File;
+
+import jakarta.servlet.http.Part;
 
 /**
  *
  * @author Nguyen Hau
  */
-@WebServlet(name = "PublicClubs", urlPatterns = {"/PublicClubs"})
-public class PublicClubs extends HttpServlet {
+@WebServlet(name = "UploadImageServlet", urlPatterns = {"/UploadImageServlet"})
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
+)
+public class UploadImageServlet extends HttpServlet {
+
+    private static final String SAVE_DIR = "E:\\gitclone\\SWP391-T1\\web\\images";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +49,10 @@ public class PublicClubs extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PublicClubs</title>");
+            out.println("<title>Servlet UploadImageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PublicClubs at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UploadImageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,19 +70,7 @@ public class PublicClubs extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String page = request.getParameter("page");
-        int pageNumber = 1;
-        if (page != null) {
-            pageNumber = Integer.parseInt(page);
-        }
-        ClubDao dao = new ClubDao();
-        List<Clubs> listclub = dao.getNineClubs(pageNumber);
-        List<TypeClub> listtypeclub = dao.gettypeclubAll();
-        request.setAttribute("id", 0);
-        request.setAttribute("listtypeclub", listtypeclub);
-        request.setAttribute("listclub", listclub);
-        request.setAttribute("numberOfPage", (int) Math.ceil(dao.getNumberOfClub() * 1.0 / 9));
-        request.getRequestDispatcher("View/ViewStudent/Clubs.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -88,17 +84,44 @@ public class PublicClubs extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int clubId = 0;
+        System.out.println(request.getParameter("id"));
+        if (request.getParameter("id") != null) {
+            clubId = Integer.parseInt(request.getParameter("id"));
+            Part filePart = request.getPart("file");
+            System.out.println(filePart);
+
+            String fileName = extractFileName(filePart);
+
+            // Đường dẫn tới thư mục lưu trữ ảnh
+            File fileSaveDir = new File(getServletContext().getRealPath("") + File.separator + "images");
+            if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+
+            String filePath = getServletContext().getRealPath("") + File.separator + "images" + File.separator + fileName;
+            filePart.write(filePath);
+
+            ClubDao dao = new ClubDao();
+            boolean isUpdated = dao.updateClubImage(clubId, "images/" + fileName);
+
+            if (isUpdated) {
+                response.getWriter().println("Image uploaded and updated successfully!");
+            } else {
+                response.getWriter().println("Image upload failed!");
+            }
+        }
+        response.sendRedirect("ClubProfile?id=" + clubId);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
 }

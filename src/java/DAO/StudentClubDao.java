@@ -138,7 +138,7 @@ public class StudentClubDAO extends DBContext {
 
     public static void main(String[] args) {
         StudentClubDAO dao = new StudentClubDAO();
-        System.out.println(dao.getStudentClubbyId(34).get(0).getIdStudent());
+        System.out.println(dao.getStudentClubbyId(34).get(1).getIdClub());
     }
 
 

@@ -76,7 +76,7 @@ public class AccountDao extends DBContext{
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11));
+                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11),rs.getString(12));
             }
         } catch (Exception e) {
             System.out.println(e);

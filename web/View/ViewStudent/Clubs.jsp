@@ -35,10 +35,10 @@
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        
+
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
-        
+
 
         <!-- All PLUGINS CSS ============================================= -->
         <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
@@ -97,13 +97,13 @@
                                         </div>
                                     </div>
                                     <div class="widget widget_archive">
-                                        <h5 class="widget-title style-1">All Courses</h5>
+                                        <h5 class="widget-title style-1">TYPE CLUB</h5>
                                         <ul>
-                                            <li class="active"><a href="#">General</a></li>
-                                            <li><a href="#">IT & Software</a></li>
-                                            <li><a href="#">Photography</a></li>
-                                            <li><a href="#">Programming Language</a></li>
-                                            <li><a href="#">Technology</a></li>
+                                            <li class="active"><a href="PublicClubs">General</a></li>
+                                                <c:forEach var="typeclub" items="${requestScope.listtypeclub}">
+                                                <li><a href="ClubTypeController?id=${typeclub.getIdTypeClub()}">${typeclub.getNameTypeClub()}</a></li>
+                                                </c:forEach>
+
                                         </ul>
                                     </div>
                                     <div class="widget">
@@ -149,8 +149,8 @@
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="row">
-                                        <c:forEach var="club" items="${requestScope.list}">
-                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                        <c:forEach var="club" items="${requestScope.listclub}">
+                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 400px">
                                                 <div class="cours-bx">
                                                     <div class="action-box">
                                                         <img src="${club.getImage()}" style="width: 350px;height: 200px">
@@ -158,8 +158,9 @@
                                                     </div>
                                                     <div class="info-bx text-center" style="text-align: right;">
                                                         <h5><a href="#">${club.getNameclub()}</a></h5>
-                                                        <span >${club.getDescription()}</span>
+                                                        <span style="text-align: left;">The ${club.getNameclub()} at FPT University enhances student life with diverse activities and skill-building</span>
                                                     </div>
+
                                                     <div class="cours-more-info">
                                                         <div c lass="review">
                                                             <span>${club.getStringType()}</span>
@@ -181,9 +182,16 @@
                                         <div class="pagination-bx rounded-sm gray clearfix">
                                             <ul class="pagination">
                                                 <li class="previous"><a href="PublicClubs?page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
-                                                    <li><a href="PublicClubs?page=${i}">${i}</a></li>
-                                                    </c:forEach>
+                                                    <c:if test="${requestScope.id==0}">
+                                                        <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
+                                                        <li><a href="PublicClubs?page=${i}">${i}</a></li>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                    <c:if test="${requestScope.id!=0}">
+                                                        <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
+                                                        <li><a href="ClubTypeController?id=${requestScope.id}&&page=${i}">${i}</a></li>
+                                                        </c:forEach>
+                                                    </c:if>
                                                 <li class="next"><a href="PublicClubs?page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
                                             </ul>
                                         </div>
@@ -199,7 +207,7 @@
         </div>
             <!-- Content END-->
             <!-- Footer ==== -->
-           <%@include file="Footer.jsp" %>
+            <%@include file="Footer.jsp" %>
             <!-- Footer END ==== -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
