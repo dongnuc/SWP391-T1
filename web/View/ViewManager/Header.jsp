@@ -1,6 +1,6 @@
 <%@ page import = "Model.*" %>
 <%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>  
+<%@ page import = "java.util.*" %>
 <head>
 
     <!-- META ============================================= -->
@@ -69,7 +69,7 @@
                     <div class="topbar-right">
                         <ul>
 
-                            <li><a href="View/ViewStudent/login.jsp">Login</a></li>
+                            <li><a href="loginf">Login</a></li>
                             <li><a href="register">Register</a></li>
 
                         </ul>
@@ -79,13 +79,13 @@
         </div>
     </div>
     <div class="sticky-header navbar-expand-lg">
-        <div class="menu-bar clearfix" style="height: 83px">
+        <div class="menu-bar clearfix">
             <div class="container clearfix">
                 <!-- Header Logo ==== -->
 
 
                 <div class="menu-logo">
-                    <a href="Home.jsp"><img src="${pageContext.request.contextPath}/images/logo3.png" alt=""></a>
+                    <a href="Home.jsp"><img src="images/logo3.png" alt=""></a>
                 </div>
                 <!-- Mobile Nav Button ==== -->
                 <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,45 +94,25 @@
                     <span></span>
                 </button>
                 <!-- Author Nav ==== -->
-                <div class="secondary-menu" style="padding-top:  20px;padding-bottom: 0;">
+                <div class="secondary-menu">
                     <div class="secondary-inner">
 
                         <c:if test="${sessionScope.account!=null}">
-                            <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" style="
-                                 width: 50px;
-                                 height: 50px;
-                                 border-radius: 50%;
-                                 overflow: hidden;
-                                 ">
-                                <img src="${pageContext.request.contextPath}/images/avatar.png" alt="" style="max-width: 100%;
-                                     width: 100%;
-                                     height: auto;
-                                     margin-right: 30px;
-                                     border-radius: 50%;" >
-                                <div class="profile-info" id="profile-info" style="position: absolute;
-                                     top: 100%;
-                                     right: 5px;
-                                     transform: translate(0, 5px);
-                                     display: none;
-                                     background-color: #fff;
-                                     padding: 10px;
-                                     border-radius: 5px;
-                                     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-                                     z-index: 9999;">
+                            <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
+                                <img src="images/avatar.png" alt="">
+                                <div class="profile-info" id="profile-info">
                                     <h6>${sessionScope.account}</h6>
-                                    <a href="profile/edit" id="edit-profile-link">Edit Profile</a><br>
+                                    <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
 
-                                    <c:if test="${sessionScope.password == null}">
-                                        <a href="View/ViewStudent/password.jsp" id="set-password-link">Set Password</a><br>
-                                    </c:if>
+
 
                                     <c:if test="${sessionScope.password != null}">
-                                        <a href="View/ViewStudent/changepassword.jsp" id="change-password-link">Change Password</a><br>
-                                    </c:if>
-                                    <c:if test="${sessionScope.role == 2}">
-                                        <a href="dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                        <a href="<%= request.getContextPath() %>/changepassword" id="change-password-link">Change Password</a><br>
                                     </c:if>
                                     <c:if test="${sessionScope.role == 1}">
+                                        <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                    </c:if>
+                                    <c:if test="${sessionScope.role == 0}">
                                         <a href="#" id="change-password-link">My Club</a><br>
                                     </c:if>
 
@@ -160,19 +140,22 @@
                     </div>
                     <ul class="nav navbar-nav">	
                         <li><a href="Home.jsp">Home</a></li>
-                        <li><a href="<%= request.getContextPath() %>/EventServlet">Events </a></li>
+                        <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
+                        <c:if test="${sessionScope.account!=null}"> 
+                            <li><a href="registerclub">REGISTER CLUB</a></li>
+                        </c:if> 
                         <%
-Accounts acccount = (Accounts) session.getAttribute("curruser");
-if (acccount != null) {
+Accounts accc = (Accounts) session.getAttribute("curruser");
+if (accc != null) {
 StudentClubDAO studentClubDAO = new StudentClubDAO();
-List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acccount.getId());
+List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(accc.getId());
 
 boolean dashboardPrinted = false;
 
-for (StudentClub studentClub : studentClubList) {
-if (acccount.getRole() == 1 || (studentClub.getStatus() == 1 && studentClub.getRole() == 1)) {
+for (StudentClub studentClub : StudentClubListt) {
+if (accc.getRole() == 1 || (studentClub.getStatus() == 1 && studentClub.getRole() == 1)) {
 if (!dashboardPrinted) {
     dashboardPrinted = true;
                         %>
@@ -188,17 +171,6 @@ if (!dashboardPrinted) {
                             }
                         }
                         %>
-                        <c:if test="${sessionScope.account!=null}"> 
-                            <li><a href="registerclub"
-                                   style="border-radius: 0px;
-                                   color: #ffffff;
-                                   font-size: 15px;
-
-                                   cursor: pointer;
-                                   font-weight: 400;
-                                   display: inline-block;">REGISTER CLUB</a></li>
-                        </c:if> 
-
 
                     </ul>
                     <div class="nav-social-link">
@@ -211,40 +183,5 @@ if (!dashboardPrinted) {
             </div>
         </div>
     </div>
-    <script>
-        var isProfileVisible = false;
 
-        function showProfileInfo() {
-            var profileInfo = document.getElementById("profile-info");
-            if (!isProfileVisible) {
-                profileInfo.style.display = "block";
-            }
-        }
-
-        function hideProfileInfo() {
-            var profileInfo = document.getElementById("profile-info");
-            if (!isProfileVisible) {
-                profileInfo.style.display = "none";
-            }
-        }
-
-        function toggleProfileInfo() {
-            var profileInfo = document.getElementById("profile-info");
-            if (!isProfileVisible) {
-                profileInfo.style.display = "block";
-                isProfileVisible = true;
-            } else {
-                isProfileVisible = false;
-            }
-        }
-
-// Ẩn thông tin người dùng khi click ra ngoài
-        document.addEventListener("click", function (event) {
-            var profileInfo = document.getElementById("profile-info");
-            if (!event.target.closest(".profile-picture") && isProfileVisible) {
-                profileInfo.style.display = "none";
-                isProfileVisible = false;
-            }
-        });
-    </script>
 </header>

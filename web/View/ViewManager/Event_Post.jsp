@@ -458,7 +458,7 @@
                                                 <input type="date" name="dateend" value="<%= dateEnd %>"><br>
                                             </div>
                                         </div>
-                                            <div class="form-group col-3">
+                                            <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
                                             <div>
                                                 <input type="radio"  name="status" value="1" <%= status.equals("1")  ? "checked" : "" %> >
@@ -473,7 +473,7 @@
                                                 <label> Coming soon </label>
                                             </div>
                                         </div>
-                                        <div class="form-group col-3">
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Club : </label>
                                             <%
                  ClubDao clubDAO = new ClubDao();
@@ -488,7 +488,7 @@
                                                 }
                                             %>
                                         </div>
-                                        <div class="form-group col-3">
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Event's type: </label>
                                             <%
                 EventTypeDAO eventTypeDAO = new EventTypeDAO();

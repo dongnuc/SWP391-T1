@@ -15,10 +15,26 @@
     List<Blog> postList = postDAO.getAllPosts();
     Accounts acc = (Accounts) session.getAttribute("curruser");
     List<StudentClub> StudentClubList = null;
+    
+    boolean restricted = true;
+    
     if (acc != null) {
         StudentClubDAO studentClubDAO = new StudentClubDAO();
         StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        
+        for (StudentClub studentClub : StudentClubList) {
+            if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                restricted = false;
+                break;
+            }
+        }
     }
+
+    if (restricted) {
+        response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
+        return; 
+    }
+    
     String Title = request.getParameter("title") != null ? request.getParameter("title") : "";
     String Description = request.getParameter("description") != null ? request.getParameter("description") : "";
     String Content = request.getParameter("content") != null ? request.getParameter("content") : "";
