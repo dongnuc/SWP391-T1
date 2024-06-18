@@ -76,8 +76,8 @@
 
                 <!-- contact area -->
                 <div class="container">
-                    <div class="row">
-                <div class="feature-filters clearfix center m-b40 col-md-3 ">
+                <div class="row">
+                    <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
                     <p style="color :red ">Even Type <br>
                                 <a href="<%= request.getContextPath() %>/EventSerlet"><span>All</span></a> 
                                 <%
