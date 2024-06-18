@@ -123,8 +123,6 @@
                             </script>
                                     <div class="widget_tag_cloud">
                                         <div class="tagcloud"> 
-                                            <a href="<%= request.getContextPath() %>/BlogUpdateServlet?idBlog=<%= post.getIdBlog() %>">Update</a> 
-                                            <a href="<%= request.getContextPath() %>/BlogDeleteServlet?idBlog=<%= post.getIdBlog() %>">Delete</a>
                                             <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogUpdateServlet?idBlog=<%= post.getIdBlog() %>', 'update')">Update</a> 
                                             <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogDeleteServlet?idBlog=<%= post.getIdBlog() %>', 'delete')">Delete</a> 
                                         </div>
