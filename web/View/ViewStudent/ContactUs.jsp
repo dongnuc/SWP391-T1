@@ -9,91 +9,218 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="css/contactus.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="../error-404.html" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/images/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+
+        <!-- All PLUGINS CSS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/assets.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.css">
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/typography.css">
+
+        <!-- SHORTCODES ============================================= -->        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/shortcodes/shortcodes.css">
+
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <style>
+            .error-message{
+                color: red;
+                font-style: italic;
+                margin-bottom: 0px;
+            }
+        </style>
         <title>JSP Page</title>
     </head>
     <body>
 
-        <section class="contact-section">
-
-            <div class="contact-info-box">
-                <div class="background">
-                    <img src="images/contactus.png" alt="">
+        <%@ include file="Header.jsp" %>
+        <div class="page-banner ovbl-dark" style="background-image:url(images/banner.png);">
+            <div class="container">
+                <div class="page-banner-entry">
+                    <h1 class="text-white">Contact Us</h1>
                 </div>
-                <a href="Home.jsp" class="home-link">
-                    <img src="images/logo3.png" alt="Logo" class="logo">
-                </a>
-                <p class="contact-subheading">Any question or remarks? Just write us a message!</p>
             </div>
+        </div>
+        <section class="contact-section">           
+            <div class="col-lg-12 m-b30">                
+                <div class="widget-box">                   
+                    <div class="widget-inner">
+                        <form action="contactus" method="post" class="edit-profile m-b30">
+                            <div class="row">                              
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Full Name</label>
+                                    <span style="color: red">*</span>
+                                    <div>
+                                        <input class="form-control" name="name" type="text" value="${fullname}">
+                                        <p class="error-message">${errorName}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Email</label>
+                                    <span style="color: red">*</span>
+                                    <div>
+                                        <input class="form-control" name="email" type="text" value="${email}">
+                                        <p class="error-message">${errorEmail}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Phone Number</label>                                   
+                                    <div>
+                                        <input class="form-control" type="text" name="phone" value="${phone}">
+                                         <p class="error-message">${errorPhone}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Choose Application Type</label>
+                                    <span style="color: red">*</span>
+                                    <div>
+                                        <select name="typeForm" class="form-control">
+                                            <c:set var="count" value="1"/>    
+                                            <c:forEach var="listType" items="${listType}">
+                                                <option value="${listType.key}">${listType.value}</option>
+                                                <c:set var="count" value="${count + 1}"/>
+                                            </c:forEach>             
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="col-form-label">Tittle</label>
+                                    <span style="color: red">*</span>
+                                    <div>
+                                        <input class="form-control" name="tittle" type="text" value="${tittle}">
+                                         <p class="error-message">${errorTittle}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="col-form-label">Content</label>
+                                    <span style="color: red">*</span>
+                                    <div>
+                                        <textarea class="form-control" name="content">
+                                            <c:if test="${content != null}">${content}</c:if>
+                                        </textarea>
+                                         <p class="error-message">${errorContent}</p>
+                                    </div>
+                                </div>
+                                <div class="seperator"></div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn">Submit</button>
+                                </div>
 
-            <div class="contact-container">
-                <div class="contact-inner">
-                    <div class="contact-info">
-                        <h3 class="contact-info-title">Contact Information</h3>
-                        <p class="contact-info-description">Say something to start a live chat!</p>
-                        <div class="contact-info-details">
-                            <div class="detail-item">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/16efcee12261d35860456522f48970b4da39ef461d25553ee37bea2a565d1633?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Phone icon" />
-                                <span>+1012 3456 789</span>
                             </div>
-                            <div class="detail-item">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/f33a12af71453b99485ac9031fecc220eb9409e1999afd1ffbb8eef1e6b8f8f2?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Email icon" />
-                                <span>demo@gmail.com</span>
-                            </div>
-                            <div class="detail-item">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/0a95236edbb272ad63891b22868a195f09637d663fca1420ca3cc4475295718e?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Location icon" />
-                                <span>132 Dartmouth Street Boston, Massachusetts 02156 United States</span>
-                            </div>
-                        </div>
-                        <div class="social-icons">
-                            <div class="social-icons-inner">
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/66ea2ff0f2515af5a51b7f233b1f409d364b5f0df83ffedf8c136b50bc3d9bb9?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Social icon 1" />
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/84bd54cc61c32ab35ff49f9a2f55e95c5923cd3a45cbff32064de123a6557787?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Social icon 2" />
-                                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/bb81d9e3889282d2a223a859cf8071d4c31be8305c4258e539dca8a5efabc91c?apiKey=9802f090930545ed9e8e7106f2abf67d&" alt="Social icon 3" />
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                    <form class="form-section" action="saveForm" method="POST">
-                        <div class="form-title">
-                            <div class="form-group">
-<!--                                <div class="input-wrapper">
-                                    <label for="clubId">Name Club</label>                                                                                              
-                                    <select id="clubId" name="idClub" class="input-field">
-                                        <option>Select club</option>
-                                        <c:forEach items="${listClub}" var="listclub"> 
-                                        <option value="${listclub.club}">${listclub.nameclub}</option>
-                                        </c:forEach>                                  
-
-                                                                           Thêm các tùy chọn khác nếu cần 
-                                    </select>                                    
-                                </div>-->
-                            </div>
-                            <div class="name-group">
-                                <div class="input-wrapper">
-                                    <label for="firstName">FullName</label>
-                                    <input type="text" name="fullName" id="firstName" class="input-field" placeholder="Nguyen Duc Hau" />
-                                </div>
-                                <div class="input-wrapper">
-                                    <label for="email">Email</label>
-                                    <input type="email" name="email" id="email" class="input-field" placeholder="haundhe176911@fpt.edu.vn" />
-                                </div>
-                            </div>
-                            <div class="input-container">
-                                <div class="input-wrapper">
-                                    <label for="lastName">Tittle</label>
-                                    <input type="text" name="tittle" id="lastName" class="input-field" placeholder="Write here...." />
-                                </div>
-                            </div>
-                            <label class="message-label" for="message"></label>
-                            <textarea name="content" id="message" class="message-field" placeholder="Write your message.." rows="5"></textarea>
-
-                            <button type="submit" class="send-button">Send Message</button>
-                        </div>
-                    </form>
                 </div>
             </div>
-        </section>
 
+           
+        </section>
+        <%@ include file="Footer.jsp" %>
+       
+        <script>
+
+            // Function thay đổi trang
+            function changePage(page) {
+                // Ẩn tất cả các trang thông tin hot
+                var hotInfos = document.querySelectorAll('.hot-info');
+                for (var i = 0; i < hotInfos.length; i++) {
+                    hotInfos[i].style.display = 'none';
+                }
+                // Hiển thị trang được chọn
+                document.getElementById('page' + page).style.display = 'block';
+            }
+            // Mặc định hiển thị trang 1 khi trang được tải
+            changePage(1);
+        </script>
+        <script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+            // Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var paginationLinks = document.querySelectorAll('.pagination a');
+                paginationLinks.forEach(function (link) {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(this.textContent);
+                        setActivePage(currentPage);
+                    });
+                });
+
+                function setActivePage(pageNumber) {
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    paginationLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    paginationLinks[pageNumber - 1].classList.add('active');
+
+                    // Do something here to load data for the selected page
+                }
+            });
+        </script>
     </body>
 </html>

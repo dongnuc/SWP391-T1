@@ -57,7 +57,13 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
-
+        <style>
+            .error-message{
+                color: red;
+                font-style: italic;
+                margin-bottom: 0px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -89,21 +95,26 @@
                                     </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
-                                            <li class=""><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox <span class="badge badge-success">8</span></a></li>
+                                            <li class=""><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
+                                                    <c:if test="${noRead > 0}">
+                                                        <span class="badge badge-success">
+                                                            ${noRead}
+                                                        </span></a></li>
+                                                    </c:if>
                                             <li><a href="mailbox.html"><i class="fa fa-send-o"></i>Sent</a></li>
                                             <li><a href="formdelete"><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="mail-list-container">
-                                    <div class="mail-toolbar" style="margin-top: 40px;">
-                                        
+                                    <div class="mail-toolbar next-prev-btn" >                                      
+                                        <a href="loadForm"><i class="fa fa-angle-left"></i></a>                           
                                     </div>
                                     <div class="mailbox-view">
                                         <div class="mailbox-view-title">
                                             <h5 class="send-mail-title">${formDetail.titleForm}</h5>
                                         </div>
-                                        <div class="send-mail-details">
+                                        <div id="send-mail-details" class="send-mail-details">
                                             <div class="d-flex">
                                                 <div class="send-mail-user">
                                                     <div class="send-mail-user-pic">
@@ -116,46 +127,78 @@
                                                 </div>
                                                 <div class="ml-auto send-mail-full-info">
                                                     <div class="time"><span>${formDetail.dateCreate}</span></div>
-                                                    <span class="btn btn-info-icon">Reply</span>
                                                     <div class="dropdown all-msg-toolbar ml-auto">
                                                         <span class="btn btn-info-icon" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></span>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             <c:if test="${formDetail.status == 1}">
                                                                 <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                                            </c:if>
-                                                            <c:if test="${formDetail.status == 0}">
+                                                                </c:if>
+                                                                <c:if test="${formDetail.status == 0}">
                                                                 <li><a href="#"><i class="fa fa-trash-o"></i> Recover</a></li>
-                                                            </c:if>
-                                                            <li><a href="#"><i class="fa fa-arrow-down"></i> Archive</a></li>
-                                                            <li><a href="#"><i class="fa fa-clock-o"></i> Snooze</a></li>
-                                                            <li><a href="#"><i class="fa fa-envelope-open"></i> Mark as unread</a></li>
+                                                                </c:if>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="read-content-body">
-                                                <h5 class="read-content-title">Hi,Ingredia,</h5>
-                                                <p>${formDetail.contentForm}</p>
-                                                <hr>
-                                                <h6> <i class="fa fa-download m-r5"></i> Attachments <span>(3)</span></h6>
-                                                <div class="mailbox-download-file">
-                                                    <a href="#"><i class="fa fa-file-image-o"></i> photo.png</a>
-                                                    <a href="#"><i class="fa fa-file-text-o"></i> dec.text</a>
-                                                    <a href="#"><i class="fa fa-file"></i> video.mkv</a>
-                                                </div>
-                                                <hr>
-                                                <c:if test="${formDetail.status == 1}">
-                                                    <div class="form-group">
-                                                    <h6>Reply Message</h6>
-                                                    <div class="m-b15">
-                                                        <textarea class="form-control"> </textarea>
-                                                    </div>
-                                                    <button class="btn">Reply Now</button>
-                                                </div>
-                                                </c:if>
-                                                
+                                                <p>${formDetail.contentForm}</p>                                                
+                                            </div>
+
+                                            <div class="read-content-body">
+                                                <p>Contact other: ${formDetail.phoneNumber}</p>                                                
                                             </div>
                                         </div>
+                                        <c:if test="${listReply.size() > 0}">
+                                            <c:forEach var="listReplyF" items="${listReply}">
+                                                <div id="send-mail-details" class="send-mail-details"
+                                                     style="border-top: 1px solid black">
+                                                    <div style="margin-bottom: 10px"></div>
+                                                    <div class="d-flex">
+                                                        <div class="send-mail-user">
+                                                            <div class="send-mail-user-pic">
+                                                                <img src="assets/images/testimonials/pic3.jpg" alt="">
+                                                            </div>
+                                                            <div class="send-mail-user-info">
+                                                                <h4>${sessionScope.curruser.name}</h4>
+                                                                <h5>From: ${sessionScope.curruser.email}</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ml-auto send-mail-full-info">
+                                                            <div class="time"><span>${listReplyF.dateCreate}</span></div>
+                                                            <div class="dropdown all-msg-toolbar ml-auto">
+                                                                <span class="btn btn-info-icon" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></span>
+                                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                                    <c:if test="${formDetail.status == 1}">
+                                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+                                                                        </c:if>
+                                                                        <c:if test="${formDetail.status == 0}">
+                                                                        <li><a href="#"><i class="fa fa-trash-o"></i> Recover</a></li>
+                                                                        </c:if>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="read-content-body">
+                                                        <p>${listReplyF.contentForm}</p>                                                
+                                                    </div>
+
+                                                </div>
+                                            </c:forEach>
+                                        </c:if>
+
+                                        <c:if test="${formDetail.status == 1}">
+                                            <div class="form-group">
+                                                <form action="replyForm" method="get">
+                                                    <h6>Reply Message</h6>                                                      
+                                                    <div class="m-b15">
+                                                        <textarea id="replyForm" name="contentReply" class="form-control"> </textarea>
+                                                        <p class="error-message">${errorReply}</p>
+                                                    </div>
+                                                    <input type="hidden" name="idForm" value="${formDetail.idForm}">
+                                                    <input  type="submit" class="btn" value="Reply Now">  
+                                                </form>
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +207,7 @@
                     <!-- Your Profile Views Chart END-->
                 </div>
             </div>
+
         </main>
         <div class="ttr-overlay"></div>
 
@@ -189,6 +233,7 @@
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
+
         </script>
     </body>
 

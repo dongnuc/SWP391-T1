@@ -61,12 +61,11 @@ public class Blog_DetailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
         
-        String ID = request.getParameter("idBlog");
+        String idBlog = request.getParameter("idBlog");
                   
-        int xId = Integer.parseInt(ID);
    
         BlogDAO postDAO = new BlogDAO();
-        Blog post = postDAO.getPost(xId);
+        Blog post = postDAO.getBlogSetting(idBlog);
         
         request.setAttribute("x", post);
         request.getRequestDispatcher("/View/ViewManager/Blog_Detail.jsp").forward(request, response);

@@ -1,8 +1,10 @@
 <%-- 
-    Document   : MailDelete
-    Created on : May 22, 2024, 10:03:37 AM
+    Document   : FormSent
+    Created on : Jun 18, 2024, 5:41:24 PM
     Author     : Admin
 --%>
+
+
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -57,7 +59,27 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <style>
+            .success-message {
+                background-color: #4CAF50; /* Màu nền */
+                color: white; /* Màu chữ */
+                text-align: center; /* Căn giữa văn bản */
+                padding: 10px; /* Khoảng cách padding */
+                position: fixed; /* Vị trí cố định */
+                top: 0; /* Ở phía trên cùng */
+                left: 50%; /* Căn giữa theo chiều ngang */
+                transform: translateX(-50%); /* Dịch chuyển về trái 50% */
+                z-index: 1000; /* Độ sâu */
+                width: 300px; /* Độ rộng */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Hiệu ứng đổ bóng */
+                border-radius: 5px; /* Bo góc */
+            }
 
+            /* CSS để ẩn thông báo ban đầu */
+            .hidden {
+                display: none; /* Ẩn đi */
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -74,8 +96,8 @@
                 <div class="db-breadcrumb">
                     <h4 class="breadcrumb-title">Mailbox</h4>
                     <ul class="db-breadcrumb-list">
-                        <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Mailbox</li>
+                        <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
+                        <li>Inbox</li>
                     </ul>
                 </div>	
                 <div class="row">
@@ -95,8 +117,9 @@
                                                             ${noRead}
                                                         </span></a></li>
                                                     </c:if>
-                                            <li><a href="formSent"><i class="fa fa-send-o"></i>Sent</a></li>
-                                            <li class="active"><a href=""><i class="fa fa-trash-o"></i>Trash</a></li>
+
+                                            <li class="active"><a href="formSent"><i class="fa fa-send-o"></i>Sent</a></li>
+                                            <li><a href="formdelete"><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -104,7 +127,15 @@
                                     <div class="mail-toolbar">
 
                                         <div class="mail-search-bar">
-                                            <input type="text" class="form-control" placeholder="Search"/>
+                                            <form action="searchForm" style="display: flex;">
+                                                <input type="text" name="search" value="${namesearch}" class="form-control"
+                                                       placeholder="Search by content"
+                                                       style="font-size: 16px;"/>    
+                                                <input type="submit" value="Search"
+                                                       style="margin-left: 10px;
+                                                       padding: 0px 12px;">
+                                            </form>
+
                                         </div>
 
                                         <div class="next-prev-btn">
@@ -112,29 +143,32 @@
                                             <a href="#"><i class="fa fa-angle-right"></i></a>
                                         </div>
                                     </div>
-                                    <div class="mail-box-list">
-                                        <c:forEach var="listformdelete" items="${listFormDelete}">
-                                            <div class="mail-list-info">
-                                                <div class="checkbox-list">
-                                                    <div class="custom-control custom-checkbox checkbox-st1">
-                                                        <input type="checkbox" class="custom-control-input" id="check2">
-                                                        <label class="custom-control-label" for="check2"></label>
-                                                    </div>
-                                                </div>
+                                    <div class="mail-box-list" id="mail-box-list">
+                                        <c:forEach var="listFormSent" items="${listFormSent}">
+                                            <div class="mail-list-info" id="idForm${listFormSent.idForm}">
+
                                                 <div class="mail-rateing">
                                                     <span><i class="fa fa-star-o"></i></span>
                                                 </div>
                                                 <div class="mail-list-title">
-                                                    <a href="formdetail?idForm=${listformdelete.idForm}"><h6>${listformdelete.fullName}</h6></a>
+                                                    <a href="formdetail?idForm=${listFormSent.idForm}">
+                                                        <c:if test="${listFormSent.isRead == 0}">
+                                                            <h6>${listFormSent.fullName}</h6>
+                                                        </c:if>
+                                                        <c:if test="${listFormSent.isRead == 1}">
+                                                            <span>${listFormSent.fullName}</span>
+                                                        </c:if>   
+
+                                                    </a>
                                                 </div>
                                                 <div class="mail-list-title-info">
-                                                    <p>${listformdelete.titleForm}</p>
+                                                    <p>${listFormSent.titleForm}</p>
                                                 </div>
                                                 <div class="mail-list-time">
-                                                    <span>${listformdelete.dateCreate}</span>
+                                                    <span>${listFormSent.dateCreate}</span>
                                                 </div>
                                                 <ul class="mailbox-toolbar">
-                                                    <li data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o"></i></li>
+                                                    <li data-toggle="tooltip" title="Delete"><a onclick="removeForm(${listform.idForm})"><i class="fa fa-trash-o"></i></a></li>
                                                     <li data-toggle="tooltip" title="Archive"><i class="fa fa-arrow-down"></i></li>
                                                     <li data-toggle="tooltip" title="Snooze"><i class="fa fa-clock-o"></i></li>
                                                     <li data-toggle="tooltip" title="Mark as unread"><i class="fa fa-envelope-open"></i></li>
@@ -150,6 +184,9 @@
                     </div>
                     <!-- Your Profile Views Chart END-->
                 </div>
+            </div>
+            <div id="success-message" class="success-message hidden">
+                Delete successfully!
             </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -173,9 +210,33 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
+                                                        $(document).ready(function () {
+                                                            $('[data-toggle="tooltip"]').tooltip();
+                                                        });
+
+
+
+                                                        function removeForm(idForm) {
+                                                            var element = document.getElementById("idForm" + idForm);
+                                                            $.ajax({
+                                                                url: "/SWP391/getClub",
+                                                                type: "get", //send it through get method
+                                                                data: {
+                                                                    idForm: idForm
+                                                                },
+                                                                success: function (response) {
+                                                                    $('#success-message').removeClass('hidden');
+                                                                    setTimeout(function () {
+                                                                        $('#success-message').addClass('hidden');
+                                                                    }, 1000);
+                                                                    element.remove();
+                                                                },
+                                                                error: function (xhr) {
+                                                                    //Do Something to handle error
+                                                                }
+                                                            });
+                                                        }
+
         </script>
     </body>
 

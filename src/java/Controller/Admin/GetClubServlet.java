@@ -4,9 +4,9 @@
  */
 package Controller.Admin;
 
-import DAO.FormDao;
-import Model.Accounts;
-import Model.Form;
+import DAO.ClubDao;
+import Model.Clubs;
+import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "LoadFormServlet", urlPatterns = {"/loadForm"})
-public class LoadFormServlet extends HttpServlet {
+@WebServlet(name = "GetClubServlet", urlPatterns = {"/getClub"})
+public class GetClubServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +40,10 @@ public class LoadFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadFormServlet</title>");
+            out.println("<title>Servlet GetClubServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadFormServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GetClubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,16 +61,17 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Accounts acc = (Accounts) session.getAttribute("curruser");
-        System.out.println("Hello: "+acc);
-        FormDao dao = new FormDao();
-        String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
-        int noRead = dao.countFormNoRead(idAcc);
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listForm", getFormAll);
-        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
+        ClubDao dao = new ClubDao();
+        String idClub = request.getParameter("idClub");
+        Clubs getClub = dao.getClubByIdSetting(idClub);
+        List<String> nameType = dao.getTypeClub();
+        request.setAttribute("listType", nameType);
+        request.setAttribute("nameClub", getClub.getNameclub());
+        request.setAttribute("points", getClub.getPoint());
+        request.setAttribute("dateCreate", getClub.getDatecreate());
+        request.setAttribute("typeClub", getClub.getTypeClub());
+        System.out.println(getClub);
+        request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
     }
 
     /**
@@ -85,7 +85,37 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        Validation validation = new Validation();
+        ClubDao dao = new ClubDao();
+        String idClub = request.getParameter("idClub");
+        String nameClub = request.getParameter("nameClub");
+        String pointClub = request.getParameter("points");
+        String typeClub = request.getParameter("typeClub");
+//        out.println("Before: " + status);
+        String checkNameClub = validation.checkLength(nameClub, 32);
+        int error = 0;
+        if (!checkNameClub.equals(nameClub)) {
+            error++;
+            request.setAttribute("errorName", checkNameClub);
+        }
+        boolean checkDupitName = dao.checkNameClub(nameClub);
+        if (checkDupitName) {
+            error++;
+            request.setAttribute("errorName", "Name CLub is exist");
+        }
+        if(pointClub == null){
+            error++;
+            request.setAttribute("Points is not empty", "errorPoint");
+        }
+        
+        if(error > 0){
+            request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
+        }
+//        out.println(status);
+        dao.updateClub(idClub, nameClub, pointClub, typeClub, "");
+//        request.getRequestDispatcher("managerClub").forward(request, response);
+        response.sendRedirect("managerClub");
     }
 
     /**

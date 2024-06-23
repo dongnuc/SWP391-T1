@@ -1,6 +1,6 @@
 <%-- 
-    Document   : MailDelete
-    Created on : May 22, 2024, 10:03:37 AM
+    Document   : EditSetting
+    Created on : Jun 19, 2024, 5:10:26 PM
     Author     : Admin
 --%>
 
@@ -57,7 +57,32 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <style>
+            .success-message {
+                background-color: #4CAF50; /* Màu nền */
+                color: white; /* Màu chữ */
+                text-align: center; /* Căn giữa văn bản */
+                padding: 10px; /* Khoảng cách padding */
+                position: fixed; /* Vị trí cố định */
+                top: 0; /* Ở phía trên cùng */
+                left: 50%; /* Căn giữa theo chiều ngang */
+                transform: translateX(-50%); /* Dịch chuyển về trái 50% */
+                z-index: 1000; /* Độ sâu */
+                width: 300px; /* Độ rộng */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Hiệu ứng đổ bóng */
+                border-radius: 5px; /* Bo góc */
+            }
 
+            /* CSS để ẩn thông báo ban đầu */
+            .hidden {
+                display: none; /* Ẩn đi */
+            }
+            .error-message{
+                color: red;
+                font-style: italic;
+                margin-bottom: 0px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -72,84 +97,88 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Mailbox</h4>
+                    <h4 class="breadcrumb-title">Setting List</h4>
                     <ul class="db-breadcrumb-list">
-                        <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Mailbox</li>
+                        <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
+                        <li>Edit Setting</li>
                     </ul>
                 </div>	
                 <div class="row">
                     <!-- Your Profile Views Chart -->
-                    <div class="col-lg-12 m-b30">
-                        <div class="widget-box">
-                            <div class="email-wrapper">
-                                <div class="email-menu-bar">
-                                    <div class="compose-mail">
-                                        <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
-                                    </div>
-                                    <div class="email-menu-bar-inner">
-                                        <ul>
-                                            <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
-                                                    <c:if test="${noRead > 0}">
-                                                        <span class="badge badge-success">
-                                                            ${noRead}
-                                                        </span></a></li>
-                                                    </c:if>
-                                            <li><a href="formSent"><i class="fa fa-send-o"></i>Sent</a></li>
-                                            <li class="active"><a href=""><i class="fa fa-trash-o"></i>Trash</a></li>
-                                        </ul>
+                    <div class="popUp" style="width: 500px;margin: 0px auto; border: solid 1px black">
+                        <form action="updateSetting" class="edit-profile m-b30">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Setting Name</label>
+                                    <div>
+                                        <c:set var="nameSetting" value="${setting.nameSetting}"/>
+                                        <input name="nameSetting" id="nameClub" class="form-control" type="text" value="${nameSetting}">
+                                        <p class="error-message">${errorName}</p>
                                     </div>
                                 </div>
-                                <div class="mail-list-container">
-                                    <div class="mail-toolbar">
-
-                                        <div class="mail-search-bar">
-                                            <input type="text" class="form-control" placeholder="Search"/>
-                                        </div>
-
-                                        <div class="next-prev-btn">
-                                            <a href="#"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                                <c:if test="${setting.typeSetting eq 'Type Form'}">
+                                    <div class="form-group col-6">
+                                        <label class="col-form-label">List Account Assume</label>
+                                        <div>
+                                            <select class="form-control" name="idAccAss">
+                                                <c:forEach var="listAcc" items="${listAccAss}">
+                                                    <option value="${listAcc.id}">${listAcc.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <p class="error-message">${errorPoint}</p>
                                         </div>
                                     </div>
-                                    <div class="mail-box-list">
-                                        <c:forEach var="listformdelete" items="${listFormDelete}">
-                                            <div class="mail-list-info">
-                                                <div class="checkbox-list">
-                                                    <div class="custom-control custom-checkbox checkbox-st1">
-                                                        <input type="checkbox" class="custom-control-input" id="check2">
-                                                        <label class="custom-control-label" for="check2"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="mail-rateing">
-                                                    <span><i class="fa fa-star-o"></i></span>
-                                                </div>
-                                                <div class="mail-list-title">
-                                                    <a href="formdetail?idForm=${listformdelete.idForm}"><h6>${listformdelete.fullName}</h6></a>
-                                                </div>
-                                                <div class="mail-list-title-info">
-                                                    <p>${listformdelete.titleForm}</p>
-                                                </div>
-                                                <div class="mail-list-time">
-                                                    <span>${listformdelete.dateCreate}</span>
-                                                </div>
-                                                <ul class="mailbox-toolbar">
-                                                    <li data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o"></i></li>
-                                                    <li data-toggle="tooltip" title="Archive"><i class="fa fa-arrow-down"></i></li>
-                                                    <li data-toggle="tooltip" title="Snooze"><i class="fa fa-clock-o"></i></li>
-                                                    <li data-toggle="tooltip" title="Mark as unread"><i class="fa fa-envelope-open"></i></li>
-                                                </ul>
-                                            </div>
-                                        </c:forEach>
+                                </c:if>
 
-
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Date Create</label>
+                                    <div>
+                                        <input readonly id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${setting.dateCreate}">
+                                        <p class="error-message">${errorDate}</p>
                                     </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Date Modify</label>
+                                    <div>
+                                        <input readonly id="dateCreateClub" name="dateCreate" class="form-control"
+                                               type="date" value="${setting.dateModify}">
+                                        <p class="error-message">${errorDate}</p>
+                                    </div>
+                                </div>
+                                    <div class="form-group col-12" >
+                                    <label class="col-form-label">Status</label>
+                                    <div>
+                                        Active <input id="dateCreateClub" name="status" 
+                                               type="radio" ${setting.status == 1 ? 'checked':''} value="1">
+                                        Unactive <input id="dateCreateClub" name="status" 
+                                               type="radio" ${setting.status == 0 ? 'checked':''} value="0">
+                                        <p class="error-message">${errorDate}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <label class="col-form-label">Setting Type</label>
+                                    <div >
+                                        <select class="form-control" id="typeClubForm" class="no" name="typeSetting"
+                                                style="margin-right: 10px; height: 36px;">
+                                            <c:forEach var="listType" items="${listType}">
+                                                <option value="${listType.value}" ${listType.key eq setting.typeSetting ? 'selected':''} >${listType.key}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                    <input type="hidden" id="idClubForm" name="idSetting" value="${setting.idSetting}">
+                                <div class="seperator"></div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn">Update Setting</button>
                                 </div>
                             </div>
-                        </div> 
+                        </form> 
                     </div>
                     <!-- Your Profile Views Chart END-->
                 </div>
+            </div>
+            <div id="success-message" class="success-message hidden">
+                Delete successfully!
             </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -158,7 +187,7 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>-->
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/magnific-popup/magnific-popup.js"></script>
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/counter/waypoints-min.js"></script>
@@ -176,6 +205,11 @@
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             });
+
+
+
+
+
         </script>
     </body>
 

@@ -21,8 +21,8 @@ import java.util.List;
  *
  * @author Admin
  */
-@WebServlet(name = "LoadFormServlet", urlPatterns = {"/loadForm"})
-public class LoadFormServlet extends HttpServlet {
+@WebServlet(name = "FormSentServlet", urlPatterns = {"/formSent"})
+public class FormSentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +41,10 @@ public class LoadFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadFormServlet</title>");
+            out.println("<title>Servlet FormSentServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadFormServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FormSentServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,14 +64,13 @@ public class LoadFormServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Accounts acc = (Accounts) session.getAttribute("curruser");
-        System.out.println("Hello: "+acc);
         FormDao dao = new FormDao();
         String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
-        int noRead = dao.countFormNoRead(idAcc);
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listForm", getFormAll);
-        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
+        List<Form> getFormSent = dao.getFormSent();
+        
+        request.setAttribute("listFormSent", getFormSent);
+        System.out.println(getFormSent.size());
+        request.getRequestDispatcher("View/ViewAdmin/FormSent.jsp").forward(request, response);
     }
 
     /**

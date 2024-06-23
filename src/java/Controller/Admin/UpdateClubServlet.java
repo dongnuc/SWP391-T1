@@ -4,9 +4,7 @@
  */
 package Controller.Admin;
 
-import DAO.FormDao;
-import Model.Accounts;
-import Model.Form;
+import DAO.ClubDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "LoadFormServlet", urlPatterns = {"/loadForm"})
-public class LoadFormServlet extends HttpServlet {
+@WebServlet(name = "UpdateClubServlet", urlPatterns = {"/updateClub"})
+public class UpdateClubServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +37,10 @@ public class LoadFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadFormServlet</title>");
+            out.println("<title>Servlet UpdateClubServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadFormServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateClubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,16 +58,40 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Accounts acc = (Accounts) session.getAttribute("curruser");
-        System.out.println("Hello: "+acc);
-        FormDao dao = new FormDao();
-        String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
-        int noRead = dao.countFormNoRead(idAcc);
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listForm", getFormAll);
-        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
+        PrintWriter out = response.getWriter();
+        ClubDao dao = new ClubDao();
+        String idClub = request.getParameter("idClub");
+        String nameClub = request.getParameter("nameClub");
+        String pointClub = request.getParameter("points");
+        String typeClub = request.getParameter("typeClub");
+        String status = request.getParameter("status");
+//        out.println("Before: " + status);
+        if (nameClub == null) {
+            nameClub = "";
+        }
+        if (pointClub == null) {
+            pointClub = "";
+        }
+        if (typeClub == null) {
+            typeClub = "";
+        }
+        if (status == null) {
+            status = "";
+        }
+        if (status.equals("1")) {
+            status = "0";
+        } else {
+            status = "1";
+        }
+        out.println(idClub);
+        out.println(nameClub);
+        out.println(pointClub);
+        out.println(typeClub);
+
+//        out.println(status);
+        dao.updateClub(idClub, nameClub, pointClub, typeClub, status);
+//        request.getRequestDispatcher("managerClub").forward(request, response);
+        response.sendRedirect("managerClub");
     }
 
     /**

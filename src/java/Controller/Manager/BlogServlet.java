@@ -56,8 +56,7 @@ public class BlogServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-        
+        PrintWriter pr = response.getWriter();       
         request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
         
     } 

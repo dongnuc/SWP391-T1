@@ -8,6 +8,7 @@ package Controller.Admin;
 import DAO.AccountDao;
 import DAO.ClubDao;
 import Model.Accounts;
+import Model.Clubs;
 import Model.Role;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,15 +61,41 @@ public class ManagerClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String idClub = request.getParameter("idClub");
+        String numberPageRaw = request.getParameter("page");
+        String nameSearch = request.getParameter("nameSearch");
+        String option = request.getParameter("typeClub");
+        if(nameSearch == null){
+            nameSearch = "";
+        }
+        if(option == null){
+            option = "";
+        }
+        int pageCurrent = 1;
+        if(numberPageRaw != null){
+            try {
+                pageCurrent = Integer.parseInt(numberPageRaw);
+                System.out.println(pageCurrent);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        
         ClubDao clubDao = new ClubDao();
-        List<Role> listRole = clubDao.getAllRole(idClub);
-        AccountDao daoAcc = new AccountDao();
-        List<Accounts> getAccount = daoAcc.getAllAccByIdClub(idClub);
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("listAcc", getAccount);
+        int numberPage = clubDao.numberPageClub(option, nameSearch);
+        System.out.println(numberPage);
+        List<String> nameType = clubDao.getTypeClub();
+        List<Clubs> getAllClubs = clubDao.getClubByPage(pageCurrent, option, nameSearch);
+        request.setAttribute("listClub", getAllClubs);
+        request.setAttribute("listType", nameType);
+//         System.out.println(option);
+         request.setAttribute("nameSearch", nameSearch);
+         request.setAttribute("option", option);
+         request.setAttribute("numberPage", numberPage);
+         request.setAttribute("pageCurrent", pageCurrent);
+         System.out.println(getAllClubs.get(0).getNameclub());
         request.getRequestDispatcher("View/ViewAdmin/ClubAdmin.jsp").forward(request, response);
-//        System.out.println(getAccount.size());
+//        System.out.println(getAllClubs.get(0).getImage());
+//        System.out.println(getAllClubs.size());
     } 
 
     /** 

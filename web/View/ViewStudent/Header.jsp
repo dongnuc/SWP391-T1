@@ -85,7 +85,7 @@
 
 
                 <div class="menu-logo">
-                    <a href="Home.jsp"><img src="images/logo3.png" alt=""></a>
+                    <a href="home"><img src="images/logo3.png" alt=""></a>
                 </div>
                 <!-- Mobile Nav Button ==== -->
                 <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,10 +139,11 @@
                         <a href="index.html"><img src="assets/images/logo.png" alt=""></a>
                     </div>
                     <ul class="nav navbar-nav">	
-                        <li><a href="Home.jsp">Home</a></li>
+                        <li><a href="home">Home</a></li>
                         <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
+                        <li><a href="contactus">Contact Us</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>
                         </c:if> 

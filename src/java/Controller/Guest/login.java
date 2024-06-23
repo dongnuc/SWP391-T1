@@ -148,7 +148,7 @@ public class login extends HttpServlet {
         }
 
         if (loginSuccessful) {
-            response.sendRedirect("Home.jsp");
+            response.sendRedirect("home");
         } else {
             request.setAttribute("error", "Account or Password not Correct");
             request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);

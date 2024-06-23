@@ -13,9 +13,8 @@ public class BlogDAO extends DBContext {
 
     public void insertPost(Blog blog) {
         String sql = "INSERT INTO blog(IdBlog,TittleBlog,Image,Description,Content,DateCreate,DateModify,IdBlogType,`Show`,Status,IdClub) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?)";
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-             
+        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
             stmt.setInt(1, blog.getIdBlog());
             stmt.setString(2, blog.getTitleBlog());
             stmt.setString(3, blog.getImage());
@@ -38,10 +37,8 @@ public class BlogDAO extends DBContext {
     public List<Blog> getAllPosts() {
         List<Blog> posts = new ArrayList<>();
         String sql = "SELECT * FROM blog";
-        
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql);
-             ResultSet rs = st.executeQuery()) {
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
 
             while (rs.next()) {
                 Blog post = new Blog();
@@ -66,10 +63,9 @@ public class BlogDAO extends DBContext {
 
     public Blog getPost(int idBlog) {
         String sql = "SELECT * FROM blog WHERE IdBlog = ?";
-        
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement ps = con.prepareStatement(sql)) {
-             
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
             ps.setInt(1, idBlog);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -97,10 +93,9 @@ public class BlogDAO extends DBContext {
     public List<Blog> getBlogListByType(int idBlogType) {
         List<Blog> blogList = new ArrayList<>();
         String sql = "SELECT * FROM blog WHERE IdBlogType = ?";
-        
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql)) {
-             
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+
             st.setInt(1, idBlogType);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
@@ -126,10 +121,9 @@ public class BlogDAO extends DBContext {
 
     public void updatePost(Blog post) {
         String sql = "UPDATE blog SET TittleBlog = ?, Image = ?, Description = ?, Content = ?, DateModify = ?, IdBlogType = ?, `Show` = ?, Status = ?, IdClub = ? WHERE IdBlog = ?";
-        
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-             
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
             stmt.setString(1, post.getTitleBlog());
             stmt.setString(2, post.getImage());
             stmt.setString(3, post.getDescription());
@@ -149,14 +143,92 @@ public class BlogDAO extends DBContext {
 
     public void deletePost(int idBlog) {
         String sql = "DELETE FROM blog WHERE IdBlog = ?";
-        
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement stmt = con.prepareStatement(sql)) {
-             
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
             stmt.setInt(1, idBlog);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public List<String> getTypeBlog() {
+        String query = "select Name from setting where IdType = 5 and IdEvent is null";
+        List<String> listTypeBlog = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String getType = rs.getString(1);
+                listTypeBlog.add(getType);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listTypeBlog;
+    }
+
+    public List<Blog> getAllBlogSetting(String tittle, String typeBlog) {
+        List<Blog> listBlog = new ArrayList<>();
+        String query = "select b.IdBlog, b.Image, b.TittleBlog, b.Description, b.Content, b.Show, st.Name,\n"
+                + " b.IdClub, b.DateCreate,b.DateModify,b.Status from Blog b join setting st on b.IdBlog = st.IdBlog where 1 = 1 and b.Status = 1 ";
+        if(!typeBlog.isBlank()){
+            query += " and st.Name = " + typeBlog + " "; 
+        }
+        if(!tittle.isBlank()){
+            query += " and b.tittleBlog like '%" + tittle + "%";
+        }
+        query += " order by b.IdBlog DESC";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Blog getBlog = new Blog(rs.getInt("IdBlog"), rs.getString("TittleBlog"),
+                        rs.getString("Image"), rs.getString("Description"),
+                        rs.getString("content"), rs.getString("Name"), rs.getInt("IdClub"),
+                        rs.getInt("Show"), rs.getInt("Status"), rs.getDate("DateCreate"),
+                        rs.getDate("DateModify"));
+                listBlog.add(getBlog);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listBlog;        
+    }
+    
+    public Blog getBlogSetting(String idBlog){
+        String query = "select b.IdBlog, b.Image, b.TittleBlog, b.Description, b.Content, b.Show, st.Name,\n"
+                + " b.IdClub, b.DateCreate,b.DateModify,b.Status from Blog b join setting st on b.IdBlog = st.IdBlog"
+                + " where b.Status = 1 and b.IdBlog = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idBlog);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Blog getBlog = new Blog(rs.getInt("IdBlog"), rs.getString("TittleBlog"),
+                        rs.getString("Image"), rs.getString("Description"),
+                        rs.getString("content"), rs.getString("Name"), rs.getInt("IdClub"),
+                        rs.getInt("Show"), rs.getInt("Status"), rs.getDate("DateCreate"),
+                        rs.getDate("DateModify"));
+                return getBlog;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    
+    public static void main(String[] args) {
+        BlogDAO daoBlog = new BlogDAO();
+        List<Blog> getBlog = daoBlog.getAllBlogSetting("", "");
+        System.out.println(getBlog.size());
+        List<String> listTypeBlog = daoBlog.getTypeBlog();
+        for (String string : listTypeBlog) {
+            System.out.println(string);
+        }
+    }
+
 }

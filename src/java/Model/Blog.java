@@ -22,6 +22,7 @@ public class Blog {
     private int idClub;
     private int show;
     private int status;
+    private String blogType;
 
     public Blog() {
     }
@@ -65,6 +66,32 @@ public class Blog {
         this.show = show;
         this.status = status;
     }
+
+    public Blog(int idBlog, String titleBlog, String image, String description, String content, String blogType,
+            int idClub, int show, int status,Date dateCreate, Date dateModify) {
+        this.idBlog = idBlog;
+        this.titleBlog = titleBlog;
+        this.image = image;
+        this.description = description;
+        this.content = content;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.idClub = idClub;
+        this.show = show;
+        this.status = status;
+        this.blogType = blogType;
+    }
+
+    public String getBlogType() {
+        return blogType;
+    }
+
+    public void setBlogType(String blogType) {
+        this.blogType = blogType;
+    }
+    
+    
+    
 
     public int getIdBlog() {
         return idBlog;

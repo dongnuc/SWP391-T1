@@ -4,9 +4,8 @@
  */
 package Controller.Admin;
 
-import DAO.FormDao;
-import Model.Accounts;
-import Model.Form;
+import DAO.SettingDaoClass;
+import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "LoadFormServlet", urlPatterns = {"/loadForm"})
-public class LoadFormServlet extends HttpServlet {
+@WebServlet(name = "UpdateSettingServlet", urlPatterns = {"/updateSetting"})
+public class UpdateSettingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +38,10 @@ public class LoadFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadFormServlet</title>");
+            out.println("<title>Servlet UpdateSettingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadFormServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateSettingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,16 +59,48 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Accounts acc = (Accounts) session.getAttribute("curruser");
-        System.out.println("Hello: "+acc);
-        FormDao dao = new FormDao();
-        String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
-        int noRead = dao.countFormNoRead(idAcc);
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listForm", getFormAll);
-        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
+        PrintWriter out = response.getWriter();
+        Validation validatonInput = new Validation();
+        SettingDaoClass daoSetting = new SettingDaoClass();
+        String status = request.getParameter("status");
+        String nameSetting = request.getParameter("nameSetting");
+        String idSetting = request.getParameter("idSetting");
+        String idType = request.getParameter("idType");
+        String idForm = request.getParameter("idForm");
+        String idClub = request.getParameter("idClub");
+        String idBlog = request.getParameter("idBlog");
+        String idStudent = request.getParameter("idAccAss");
+        String idEvent = request.getParameter("idEvent");
+        if (nameSetting == null) {
+            nameSetting = "";
+        }
+        out.println(nameSetting);
+        if (idType == null) {
+            idType = "";
+        }
+        if (idForm == null) {
+            idForm = "";
+        }
+        if (idClub == null) {
+            idClub = "";
+        }
+        if (idBlog == null) {
+            idBlog = "";
+        }
+        if (idStudent == null) {
+            idStudent = "";
+        }
+        if (idEvent == null) {
+            idEvent = "";
+        }
+        String checkString = validatonInput.checkLength(nameSetting, 32);
+        if (!checkString.equals(nameSetting)) {
+            request.setAttribute("nameSetting", nameSetting);
+            request.setAttribute("errorName", checkString);
+            request.getRequestDispatcher("editSetting?idSetting=" + idSetting).forward(request, response);
+        }
+        daoSetting.updateSetting(nameSetting, idType, idForm, idClub, idBlog, idStudent, idEvent, status, idSetting);
+        response.sendRedirect("settingList");
     }
 
     /**

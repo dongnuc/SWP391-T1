@@ -11,9 +11,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <%  
+        BlogDAO postDAO = new BlogDAO();
+    List<String> blogTypeList = postDAO.getTypeBlog();
+
     
-    BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-    List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
     Accounts acc = (Accounts) session.getAttribute("curruser");
     List<StudentClub> StudentClubList = null;
     if (acc != null) {
@@ -98,42 +99,42 @@
                                 <!-- Left part start -->
                                 <div class="col-lg-8 col-xl-8">
                                     <!-- blog start -->
-                                   <%
-                        boolean showTagCloud = false;
-                        if (acc != null) {
+                                    <%
+                         boolean showTagCloud = false;
+                         if (acc != null) {
                             
-                                for (StudentClub studentClub : StudentClubList) {
-                                    if (post.getIdClub() == studentClub.getIdClub() &&
-                                        studentClub.getStatus() == 1 &&
-                                        studentClub.getRole() == 1) {
-                                        showTagCloud = true;
-                                        break; 
-                                    }
+                                 for (StudentClub studentClub : StudentClubList) {
+                                     if (post.getIdClub() == studentClub.getIdClub() &&
+                                         studentClub.getStatus() == 1 &&
+                                         studentClub.getRole() == 1) {
+                                         showTagCloud = true;
+                                         break; 
+                                     }
                                 
-                        }
-                        if (showTagCloud) {
-                    %>
-                    <script>
-                                function confirmAction(url, action) {
-                                    var message = "Do you want to " + action + " ?";
-                                    if (confirm(message)) {
-                                        window.location.href = url;
-                                    }
-                                }
-                            </script>
+                         }
+                         if (showTagCloud) {
+                                    %>
+                                    <script>
+                                        function confirmAction(url, action) {
+                                            var message = "Do you want to " + action + " ?";
+                                            if (confirm(message)) {
+                                                window.location.href = url;
+                                            }
+                                        }
+                                    </script>
                                     <div class="widget_tag_cloud">
                                         <div class="tagcloud"> 
                                             <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogUpdateServlet?idBlog=<%= post.getIdBlog() %>', 'update')">Update</a> 
                                             <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogDeleteServlet?idBlog=<%= post.getIdBlog() %>', 'delete')">Delete</a> 
                                         </div>
                                     </div>
-                                     <% 
-                                }
-                        } 
-                            if(post.getStatus() == 0 ){
-                    %>
-                                <p>Event was stopped</p>
-                    <% }%>
+                                    <% 
+                               }
+                       } 
+                           if(post.getStatus() == 0 ){
+                                    %>
+                                    <p>Event was stopped</p>
+                                    <% }%>
                                     <div class="recent-news blog-lg">
                                         <div class="action-box blog-lg">
                                             <img src="${pageContext.request.contextPath}/<%= post.getImage() %>" alt="">

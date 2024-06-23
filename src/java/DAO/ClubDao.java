@@ -415,22 +415,201 @@ public class ClubDao extends DBContext {
         }
         return typeclub;
     }
-public boolean updateClubImage(int clubId, String imagePath) {
-    String query = "UPDATE Club SET Image = ? WHERE IdClub = ?";
-    try {
-        PreparedStatement st = connection.prepareStatement(query);
-        st.setString(1, imagePath);
-        st.setInt(2, clubId);
-        
-        int rowsUpdated = st.executeUpdate();
-        st.close();
-        
-        return rowsUpdated > 0; // Trả về true nếu cập nhật thành công, ngược lại là false
-    } catch (Exception e) {
-        System.out.println("Lỗi khi cập nhật ảnh club: " + e.getMessage());
-        return false;
+
+    public boolean updateClubImage(int clubId, String imagePath) {
+        String query = "UPDATE Club SET Image = ? WHERE IdClub = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, imagePath);
+            st.setInt(2, clubId);
+
+            int rowsUpdated = st.executeUpdate();
+            st.close();
+
+            return rowsUpdated > 0; // Trả về true nếu cập nhật thành công, ngược lại là false
+        } catch (Exception e) {
+            System.out.println("Lỗi khi cập nhật ảnh club: " + e.getMessage());
+            return false;
+        }
     }
-}
+
+    public int numberPageClub(String nameType, String nameSearch) {
+        List<Clubs> listClubs = new ArrayList<>();
+        String query = "SELECT count(*) \n"
+                + " FROM swp392.club c join Setting st ON c.IdClub = st.IdClub where st.IdClub is not null and st.IdType = 3";
+        if (!nameType.isEmpty()) {
+            query += " and st.Name = '" + nameType + "'";
+        }
+        if (!nameSearch.isEmpty()) {
+            query += " and c.NameClub like '%" + nameSearch + "%';";
+        }
+        int numberPage = 0;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                numberPage = rs.getInt(1);
+            }
+            if (numberPage % 5 == 0) {
+                numberPage /= 5;
+            } else {
+                numberPage = (numberPage / 5) + 1;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return numberPage;
+    }
+
+    public List<String> getTypeClub() {
+        List<String> listTypeClub = new ArrayList<>();
+        String query = "select * from setting where IdType = 3 and IdClub is null;";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String nameType = rs.getString("Name");
+                listTypeClub.add(nameType);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listTypeClub;
+    }
+
+    public List<Clubs> getClubByPage(int pageCurrent, String nameType, String nameSearch) {
+        List<Clubs> listClubs = new ArrayList<>();
+        String query = "select c.IdClub, c.NameClub, c.Description, c.Image, c.Point,\n"
+                + " st.Name,c.DateCreate,c.DateModify,c.Status\n"
+                + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
+                + " where st.IdType = 3 ";
+        if (!nameType.isEmpty()) {
+            query += "and st.Name = '" + nameType + "'";
+        }
+        if (!nameSearch.isEmpty()) {
+            query += " and c.NameClub like '%" + nameSearch + "%'";
+        }
+
+        query += " ORDER BY c.IdClub LIMIT 5 OFFSET ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, pageCurrent * 5 - 5);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Clubs getClub = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"),
+                        rs.getString("Image"), rs.getString("Description"),
+                        rs.getInt("Point"), rs.getString("Name"), rs.getDate("DateCreate"),
+                        rs.getDate("DateModify"), rs.getInt("Status"));
+                listClubs.add(getClub);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listClubs;
+    }
+
+    public List<Clubs> getClubPublic(int pageCurrent, String nameType, String nameSearch) {
+        List<Clubs> listClubs = new ArrayList<>();
+        String query = "select c.IdClub, c.NameClub, c.Description, c.Image, c.Point,\n"
+                + " st.Name,c.DateCreate,c.DateModify,c.Status\n"
+                + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
+                + " where st.IdClub is not null and st.IdType = 3 and c.status = 1";
+        if (!nameType.isEmpty()) {
+            query += "and st.Name = '" + nameType + "'";
+        }
+        if (!nameSearch.isEmpty()) {
+            query += " and c.NameClub like '%" + nameSearch + "%';";
+        }
+
+        query += "ORDER BY c.IdClub LIMIT 5 OFFSET ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, pageCurrent * 5 - 5);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Clubs getClub = new Clubs(rs.getInt("IdClub"), rs.getString("Name"),
+                        rs.getString("Image"), rs.getString("Description"),
+                        rs.getInt("Point"), rs.getString("Name"), rs.getDate("DateCreate"),
+                        rs.getDate("DateModify"), rs.getInt("Status"));
+                listClubs.add(getClub);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listClubs;
+    }
+    
+     public Clubs getClubByIdSetting(String idClub) {
+        String query = "select c.IdClub, c.NameClub, c.Description, c.Image, c.Point,\n"
+                + " st.Name,c.DateCreate,c.DateModify,c.Status\n"
+                + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
+                + " where st.IdClub is not null and st.IdType = 3 and c.status = 1 and st.IdClub = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, idClub);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"),
+                        rs.getString("Image"), rs.getString("Description"),
+                        rs.getInt("Point"), rs.getString("Name"), rs.getDate("DateCreate"),
+                        rs.getDate("DateModify"), rs.getInt("Status"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+     public boolean checkNameClub(String nameClub){
+         String query = "select c.NameClub " 
+                + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
+                + " where st.IdClub is not null and st.IdType = 3 and c.status = 1 and c.NameClub = ?";
+         try {
+             PreparedStatement st = connection.prepareStatement(query);
+            st.setString(1, nameClub);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+         } catch (Exception e) {
+             System.out.println(e);
+         }
+         return false;
+     }
+     
+//     update setting 
+      public void updateClub(String idClub, String nameClub, String point, String typeClub, String status) {
+        String query = "UPDATE `swp392`.`club`\n"
+                + "SET\n ";
+        int count = 0;
+        if (!nameClub.isEmpty()) {
+            query += " `NameClub` = '" + nameClub + "'";
+            count++;
+        }
+        if (!point.isEmpty()) {
+            if (count > 0) {
+                query += ", ";
+            }
+            query += " `Point` = " + point;
+            count++;
+        }
+        if (!status.isEmpty()) {
+            if (count > 0) {
+                query += ", ";
+            }
+            query += " `Status` = " + status;
+        }
+        query += " where `IdClub` = " + idClub + ";";
+        System.out.println(query);
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+
     public static void main(String[] args) {
         ClubDao dao = new ClubDao();
 //        List<Clubs> list = dao.getNineClubs(3);
@@ -438,6 +617,9 @@ public boolean updateClubImage(int clubId, String imagePath) {
 //            System.out.println(club.getNameclub());
 //        }
 //        System.out.println(dao.getClubbyId(34).getType());
-            dao.updateClubImage(34, "images/" +"11.png");
+//        dao.updateClubImage(34, "images/" + "11.png");
+        List<Clubs> getClub = dao.getClubByPage(1, "", "");
+        System.out.println(getClub.get(0).getNameclub());
+        System.out.println(dao.numberPageClub("Van Hoa", ""));
     }
 }

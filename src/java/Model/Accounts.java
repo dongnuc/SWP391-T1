@@ -26,6 +26,7 @@ public class Accounts {
     private int role;
     private String image;
     List<Clubs> myClubs;
+    private String tokenEmail;
 
     public Accounts() {
     }
@@ -44,20 +45,18 @@ public class Accounts {
         this.role = role;
     }
 
-    public Accounts(int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role, List<Clubs> myClubs) {
+    public Accounts(int id, String name, String email, String password, String sdt, int status, int role, String tokenEmail) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.sdt = sdt;
-        this.gender = gender;
-        this.date = date;
-        this.datecreate = datecreate;
-        this.datemodify = datemodify;
         this.status = status;
         this.role = role;
-        this.myClubs = myClubs;
+        this.tokenEmail = tokenEmail;
     }
+    
+    
     public Accounts(int id, String name, String email, String password, String sdt, int gender, Date date, Date datecreate, Date datemodify, int status, int role, String image) {
         this.id = id;
         this.name = name;
@@ -92,11 +91,15 @@ public class Accounts {
         this.status = status;
         this.myClubs = myClubs;
     }
-    
-    
 
-   
+    public String getTokenEmail() {
+        return tokenEmail;
+    }
 
+    public void setTokenEmail(String tokenEmail) {
+        this.tokenEmail = tokenEmail;
+    }
+    
     public int getPoints() {
         return points;
     }

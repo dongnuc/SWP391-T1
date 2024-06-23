@@ -363,6 +363,40 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
     }
     
 }
+    
+    public Accounts getAccountByIdSetting(String idAccout){
+        String qurery = "SELECT * FROM swp392.student where IdStudent = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(qurery);
+            ps.setString(1, idAccout);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), 
+                        rs.getString("Email"),rs.getString("password"), 
+                        rs.getString("Phone"),rs.getInt("Status"),
+                        rs.getInt("Role"), rs.getString("TokenEmail"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public List<String> getAccAssumeForm(){
+        List<String> getIdAcc = new ArrayList<>();
+        String query = "select IdStudent from setting where IdType = 2 and IdForm is null";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                String idAcc = rs.getString(1);
+                getIdAcc.add(idAcc);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return getIdAcc;
+    }
 
         
         public static void main(String[] args) {

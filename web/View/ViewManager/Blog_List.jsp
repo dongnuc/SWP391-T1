@@ -13,9 +13,8 @@
 <%  
     BlogDAO postDAO = new BlogDAO();
     ClubDao clubDAO = new ClubDao();
-    BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-    List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-    List<Blog> postList = postDAO.getAllPosts();
+    List<String> blogTypeList = postDAO.getTypeBlog();
+    List<Blog> postList = postDAO.getAllBlogSetting("","");
     Accounts acc = (Accounts) session.getAttribute("curruser");
     List<StudentClub> StudentClubList = null;
     if (acc != null) {
@@ -164,10 +163,10 @@
                                             <div class="widget-post-bx">
 
                                                 <div class="widget-post clearfix">
-                                                    <% for(BlogType blogType : blogTypeList){ 
+                                                    <% for(String blogType : blogTypeList){ 
                                                     %>
                                                     <ul class="sub-menu">
-                                                        <li><a href="<%= request.getContextPath() %>/BlogTypeServlet?idBlogType=<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType()%></a></li>
+                                                        <li><a href="<%= request.getContextPath() %>/BlogTypeServlet?idBlogType=<%= blogType%>"><%= blogType%></a></li>
                                                     </ul>
                                                     <% }
                                                     %>

@@ -4,9 +4,10 @@
  */
 package Controller.Admin;
 
-import DAO.FormDao;
+import DAO.AccountDao;
+import DAO.SettingDaoClass;
 import Model.Accounts;
-import Model.Form;
+import Model.SettingSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +15,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "LoadFormServlet", urlPatterns = {"/loadForm"})
-public class LoadFormServlet extends HttpServlet {
+@WebServlet(name = "EditSettingServlet", urlPatterns = {"/editSetting"})
+public class EditSettingServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +43,10 @@ public class LoadFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoadFormServlet</title>");
+            out.println("<title>Servlet EditSettingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoadFormServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditSettingServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,16 +64,30 @@ public class LoadFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Accounts acc = (Accounts) session.getAttribute("curruser");
-        System.out.println("Hello: "+acc);
-        FormDao dao = new FormDao();
-        String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormAll = dao.getAllFormByAcc(idAcc,1);
-        int noRead = dao.countFormNoRead(idAcc);
-        request.setAttribute("noRead", noRead);
-        request.setAttribute("listForm", getFormAll);
-        request.getRequestDispatcher("View/ViewAdmin/FeedbackForm.jsp").forward(request, response);
+        SettingDaoClass daoSet = new SettingDaoClass();
+        String idSetting = request.getParameter("idSetting");
+        AccountDao daoAcc = new AccountDao();
+        SettingSystem getGetting = daoSet.getSettingById(idSetting);
+        System.out.println(getGetting);
+        HashMap hashTypeSetting = daoSet.getAllTypeSetting();
+        String typeForm = getGetting.getTypeSetting();
+        if (typeForm.equals("Type Form")) {
+            List<String> listAccAssume = daoAcc.getAccAssumeForm();
+            List<Accounts> getAllAcc = new ArrayList<>();
+            for (int i = 0; i < listAccAssume.size(); i++) {
+                String idAcc = listAccAssume.get(i);
+                Accounts acc = daoAcc.getAccountByIdSetting(idAcc);
+                getAllAcc.add(acc);
+            }
+            Accounts getAcc = daoAcc.getAccountByIdSetting(idSetting);
+            request.setAttribute("listAccAss", getAllAcc);
+            System.out.println(getAllAcc.get(0).getName());
+            request.setAttribute("accAss", getAcc);
+        }
+
+        request.setAttribute("setting", getGetting);
+        request.setAttribute("listType", hashTypeSetting);
+        request.getRequestDispatcher("View/ViewAdmin/EditSetting.jsp").forward(request, response);
     }
 
     /**

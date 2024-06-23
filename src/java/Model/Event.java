@@ -24,7 +24,8 @@ public class Event {
     private int idEventType;
     private String description;
     private String content ;
-
+    private String eventType;
+    
     public Event() {
     }
 
@@ -75,6 +76,37 @@ public class Event {
         this.description = description;
         this.content = content;
     }
+
+    public Event(int idEvent, String nameEvent ,String image, String description, String content,
+            String address, Date dateStart, Date enddate, int idClub,
+            String eventType , Date datecreate, Date dateModify, int status) {
+        this.idEvent = idEvent;
+        this.nameEvent = nameEvent;
+        this.datecreate = datecreate;
+        this.dateModify = dateModify;
+        this.status = status;
+        this.address = address;
+        this.enddate = enddate;
+        this.idClub = idClub;
+        this.dateStart = dateStart;
+        this.image = image;
+        this.description = description;
+        this.content = content;
+        this.eventType = eventType;
+    }
+
+    
+    
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+    
+    
+    
 
     public int getIdEvent() {
         return idEvent;

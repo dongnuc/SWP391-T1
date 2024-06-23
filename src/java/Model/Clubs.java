@@ -14,6 +14,7 @@ import java.util.List;
  * @author 84358
  */
 public class Clubs {
+
     private int club;
     private String nameclub;
     private int point;
@@ -23,7 +24,10 @@ public class Clubs {
     private int status;
     private String image;
     private String description;
-    private Role listRole ;
+    private Role listRole;
+    private String typeClub;
+    
+    
 
     public Clubs() {
     }
@@ -41,8 +45,7 @@ public class Clubs {
         this.listRole = listRole;
     }
 
-   
- public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description) {
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description) {
         this.club = club;
         this.nameclub = nameclub;
         this.point = point;
@@ -53,6 +56,32 @@ public class Clubs {
         this.image = image;
         this.description = description;
         this.listRole = listRole;
+    }
+
+    public Clubs(int club, String nameclub, String image, String description, int point, 
+            String typeClub, Date datecreate, Date modify, int status) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.typeClub = typeClub;
+    }
+    
+    
+    
+    
+    
+
+    public String getTypeClub() {
+        return typeClub;
+    }
+
+    public void setTypeClub(String typeClub) {
+        this.typeClub = typeClub;
     }
 
     public int getClub() {
@@ -136,14 +165,16 @@ public class Clubs {
     }
 
     StudentClubDAO stdao = new StudentClubDAO();
-   public int getSizeClub(){
-       return stdao.getSizeClub(getClub());
-   }
+
+    public int getSizeClub() {
+        return stdao.getSizeClub(getClub());
+    }
     ClubDao dao = new ClubDao();
+
     public String getStringType() {
         TypeClub typeclub = dao.gettypeclubbyID(status);
         String nametype = typeclub.getNameTypeClub();
         return nametype;
-    
+
     }
 }

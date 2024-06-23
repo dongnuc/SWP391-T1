@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Guest;
+package Controller.Admin;
 
-import DAO.FormDao;
+import DAO.SettingDaoClass;
+import Model.SettingSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +14,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="SaveFormServlet", urlPatterns={"/saveForm"})
-public class SaveFormServlet extends HttpServlet {
+@WebServlet(name="SettingListServlet", urlPatterns={"/settingList"})
+public class SettingListServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +39,10 @@ public class SaveFormServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SaveFormServlet</title>");  
+            out.println("<title>Servlet SettingListServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SaveFormServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SettingListServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,7 +59,23 @@ public class SaveFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String idType = request.getParameter("idType");
+        String search = request.getParameter("nameSearch");
+        if(idType == null || idType.isEmpty()){
+            idType = "1";
+        }
+        if(search == null || search.isBlank()){
+            search = "";
+        }
+        SettingDaoClass daoSet = new SettingDaoClass();
+        HashMap hashTypeSetting = daoSet.getAllTypeSetting();
+        SettingDaoClass daoSetting = new SettingDaoClass();
+        List<SettingSystem> listSetting = daoSetting.getAllSettingByType(idType,search);
+        request.setAttribute("nameSearch", search);
+        request.setAttribute("typeSetting", idType);
+        request.setAttribute("listType", hashTypeSetting);
+        request.setAttribute("listSetting", listSetting);
+        request.getRequestDispatcher("View/ViewAdmin/SettingList.jsp").forward(request, response);
     } 
 
     /** 
@@ -70,16 +88,7 @@ public class SaveFormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        String fullName = request.getParameter("fullName");
-        String email = request.getParameter("email");
-        String tittle = request.getParameter("tittle");
-        String content = request.getParameter("content");
-        Date dateNow = new Date();
-        String idClub = request.getParameter("idClub");
-        FormDao dao = new FormDao();
-        dao.insertForm(fullName, tittle, content, dateNow, email);
-        response.sendRedirect("home");
+        processRequest(request, response);
     }
 
     /** 

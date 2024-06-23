@@ -96,7 +96,7 @@
                                                         </span></a></li>
                                                     </c:if>
 
-                                            <li><a href=""><i class="fa fa-send-o"></i>Sent</a></li>
+                                            <li><a href="formSent"><i class="fa fa-send-o"></i>Sent</a></li>
                                             <li><a href="formdelete"><i class="fa fa-trash-o"></i>Trash</a></li>
                                         </ul>
                                     </div>
