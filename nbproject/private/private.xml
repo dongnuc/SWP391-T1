@@ -2,13 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/src/java/Controller/Admin/UpdateClubServlet.java</file>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/web/View/ViewAdmin/ClubAdmin.jsp</file>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/src/java/DAO/ClubDao.java</file>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/src/java/Controller/Admin/GetClubServlet.java</file>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/src/java/Model/Clubs.java</file>
-            <file>file:/D:/TestCloneIter2/SWP391-T1/web/View/ViewAdmin/AddClub.jsp</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

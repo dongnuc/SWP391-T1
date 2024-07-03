@@ -81,7 +81,7 @@ public class StudentClubDAO extends DBContext {
         try (ResultSet rs = st.executeQuery()) {
             while(rs.next()){
                 
-                StudentClub studentclub = new StudentClub(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getInt(4), rs.getInt(5), rs.getInt(6),rs.getInt(7));
+                StudentClub studentclub = new StudentClub(rs.getInt(1), rs.getDate(2), rs.getDate(3), rs.getInt(4), rs.getInt(5), rs.getInt(6),rs.getInt(7),rs.getInt(8));
                 list.add(studentclub);
             }
         }

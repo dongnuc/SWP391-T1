@@ -12,18 +12,19 @@ import java.util.Date;
  * @author 10t1q
  */
 public class StudentClub {
-    private int point ;
-    private Date dateCreate;
-    private Date dateModify;
-    private int status;
-    private int idStudent;
-    private int idClub;
-    private int role;
+    private int point ;//
+    private Date dateCreate;//
+    private Date dateModify;//
+    private int status;//
+    private int idStudent;//
+    private int idClub;//
+    private int role;//
+    private int leader;//
 
     public StudentClub() {
     }
 
-    public StudentClub(int point, Date dateCreate, Date dateModify, int status, int idStudent, int idClub, int role) {
+    public StudentClub(int point, Date dateCreate, Date dateModify, int status, int idStudent, int idClub, int role , int leader) {
         this.point = point;
         this.dateCreate = dateCreate;
         this.dateModify = dateModify;
@@ -31,6 +32,7 @@ public class StudentClub {
         this.idStudent = idStudent;
         this.idClub = idClub;
         this.role = role;
+        this.leader = leader ;
     }
 
     public int getPoint() {
@@ -84,6 +86,16 @@ public class StudentClub {
     public int getRole() {
         return role;
     }
+
+    public int getLeader() {
+        return leader;
+    }
+
+    public void setLeader(int leader) {
+        this.leader = leader;
+    }
+    
+    
  public String getNamebyId() {
         return dao.getNamebyID(idClub);
     }

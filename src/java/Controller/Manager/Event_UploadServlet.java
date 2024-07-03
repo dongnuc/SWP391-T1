@@ -14,21 +14,46 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet(name = "Event_Upload_Servlet", urlPatterns = {"/EventUploadServlet"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
         maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class Event_Upload_Servlet extends HttpServlet {
+public class Event_UploadServlet extends HttpServlet {
 
     private static final String SAVE_DIR = "web/images_event";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-        
+        Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        List<StudentClub> StudentClubList = null;
+
+        boolean restricted = true;
+
+        if (acc != null) {
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+
+            for (StudentClub studentClub : StudentClubList) {
+                if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                    restricted = false;
+                    break;
+                }
+            }
+        }
+
+        if (restricted) {
+            response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
+            return;
+        }
+        EventTypeDAO eventTypeDAO = new EventTypeDAO();
+        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        ClubDao clubDAO = new ClubDao();
+        request.setAttribute("clubDAO", clubDAO);
+        request.setAttribute("eventTypeList", eventTypeList);
+        request.setAttribute("StudentClubList", StudentClubList);
         request.getRequestDispatcher("/View/ViewManager/Event_Post.jsp").forward(request, response);
     }
 
@@ -146,7 +171,7 @@ public class Event_Upload_Servlet extends HttpServlet {
             Event event = new Event(nameEvent, currentDate, currentDate, status, address, dateEnd, IDClub, dateStart, "images_event/" + fileName, eventType, description, content);
             eventDAO.addEvent(event);
 
-            getServletContext().getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/EventSerlet");
         } else {
             response.getWriter().println("Error: File upload failed.");
         }

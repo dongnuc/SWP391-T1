@@ -5,21 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
-    <%
-       Event event = (Event) request.getAttribute("x");
-       Accounts acc = (Accounts) session.getAttribute("curruser");
-       List<StudentClub> StudentClubList = null;
-       if (acc != null) {
-           StudentClubDAO studentClubDAO = new StudentClubDAO();
-           StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-       }
-    %>
+   
     <head>
 
         <!-- META ============================================= -->
@@ -93,86 +83,71 @@
                     <div class="section-area section-sp1">
                         <div class="container">
                             
-                            <%
-                                boolean showTagCloud = false;
-                                if (acc != null) {
-                            
-                                        for (StudentClub studentClub : StudentClubList) {
-                                            if (event.getIdClub() == studentClub.getIdClub() &&
-                                                studentClub.getStatus() == 1 &&
-                                                studentClub.getRole() == 1) {
-                                                showTagCloud = true;
-                                                break; 
+                             <c:choose>
+                            <c:when test="${not empty curruser}">
+                                <c:set var="showTagCloud" value="false"/>
+                                <c:forEach var="studentClub" items="${studentClubList}">
+                                    <c:if test="${event.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.role == 1}">
+                                        <c:set var="showTagCloud" value="true"/>
+                                    </c:if>
+                                </c:forEach>
+                                <c:if test="${showTagCloud}">
+                                    <script>
+                                        function confirmAction(url, action) {
+                                            var message = "Do you want to " + action + " ?";
+                                            if (confirm(message)) {
+                                                window.location.href = url;
                                             }
-                                
-                                }
-                                if (showTagCloud) {
-                            %>
-                            <script>
-                                function confirmAction(url, action) {
-                                    var message = "Do you want to " + action + " ?";
-                                    if (confirm(message)) {
-                                        window.location.href = url;
-                                    }
-                                }
-                            </script>
-                            <div class="widget_tag_cloud">
-                                <div class="tagcloud"> 
-                                    <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/EventUpdateServlet?idEvent=<%= event.getIdEvent() %>', 'update')">Update</a> 
-                                    <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/EventDeleteServlet?idEvent=<%= event.getIdEvent() %>', 'delete')">Delete</a> 
-                                </div>
-                            </div>
-                            <% 
-                       }
-               } 
-                   if(event.getStatus() == 0 ){
-                            %>
-                            <p>Event was stopped</p>
-                            <% }%>
-                    <%if(event.getStatus() == 2 ){%>    
-                        <p>Event coming soon</p>
-                        <%}%>
-                            <div class="row">
-                                <%
-                                    if (event != null){
-                                %>
+                                        }
+                                    </script>
+                                    <div class="widget_tag_cloud">
+                                        <div class="tagcloud">
+                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}', 'update')">Update</a>
+                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}', 'delete')">Delete</a>
+                                        </div>
+                                    </div>
+                                </c:if>
+                            </c:when>
+                        </c:choose>
+                        <c:choose>
+                            <c:when test="${event.status == 0}">
+                                <p>Event was stopped</p>
+                            </c:when>
+                            <c:when test="${event.status == 2}">
+                                <p>Event coming soon</p>
+                            </c:when>
+                        </c:choose>
+                        <div class="row">
+                            <c:if test="${not empty event}">
                                 <div class="col-lg-8 col-md-7 col-sm-12">
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="${pageContext.request.contextPath}/<%= event.getImage()%>" alt=""></a>
+                                            <a href="#"><img src="${pageContext.request.contextPath}/${event.image}" alt=""></a>
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
-                                                <h2 class="post-title"><%= event.getNameEvent()%></h2>
+                                                <h2 class="post-title">${event.nameEvent}</h2>
                                             </div>
                                             <div class="ttr-post-text">
-                                                <p><%= event.getContent()%></p>
+                                                <p>${event.content}</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <% }%>
                                 <div class="col-lg-4 col-md-5 col-sm-12 m-b30">
                                     <div class="bg-primary text-white contact-info-bx m-b30">
-                                        <h2 class="m-b10 title-head">Contact <span>Information</span></h2>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                                        <div class="widget widget_getintuch">	
+                                            <span>Information</span></h2>
+                                        <div class="widget widget_getintuch">
                                             <ul>
-                                                <li><i class="ti-location-pin"></i>75k Newcastle St. Ponte Vedra Beach, FL 309382 New York</li>
-                                                <li><i class="ti-mobile"></i>0800-123456 (24/7 Support Line)</li>
-                                                <li><i class="ti-email"></i>info@example.com</li>
+                                                <li><i class="ti-location-pin"></i>${event.address}</li>
+                                                <li><i class="ti-calendar"></i>${event.dateStart}</li>
+                                                <li><i class="fa fa-user"></i>${clubName}</li>
                                             </ul>
                                         </div>
-                                        <h5 class="m-t0 m-b20">Follow Us</h5>
-                                        <ul class="list-inline contact-social-bx">
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
-                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
-                                        </ul>
                                     </div>
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3448.1298878182047!2d-81.38369578541523!3d30.204840081824198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e437ac927a996b%3A0x799695b1a2b970ab!2sNona+Blue+Modern+Tavern!5e0!3m2!1sen!2sin!4v1548177305546" class="align-self-stretch d-flex" style="width:100%; min-width:100%; min-height:400px;" allowfullscreen></iframe>
                                 </div>
+                            </c:if>
                             </div>
                         </div>
                     </div>

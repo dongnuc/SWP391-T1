@@ -5,76 +5,47 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%  
-        BlogDAO postDAO = new BlogDAO();
-    List<String> blogTypeList = postDAO.getTypeBlog();
-
-    
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    List<StudentClub> StudentClubList = null;
-    if (acc != null) {
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
-        StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-    }
-%>
 <html lang="en">
-
     <head>
-
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="keywords" content="" />
         <meta name="author" content="" />
         <meta name="robots" content="" />
-
         <!-- DESCRIPTION -->
         <meta name="description" content="EduChamp : Education HTML Template" />
-
         <!-- OG -->
         <meta property="og:title" content="EduChamp : Education HTML Template" />
         <meta property="og:description" content="EduChamp : Education HTML Template" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
-
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="${pageContext.request.contextPath}/images_t/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
-
         <!-- PAGE TITLE HERE ============================================= -->
         <title>Blog Detail </title>
-
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!--[if lt IE 9]>
         <script src="${pageContext.request.contextPath}/js_t/html5shiv.min.js"></script>
         <script src="${pageContext.request.contextPath}/js_t/respond.min.js"></script>
         <![endif]-->
-
         <!-- All PLUGINS CSS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/assets.css">
-
         <!-- TYPOGRAPHY ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/typography.css">
-
         <!-- SHORTCODES ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/shortcodes/shortcodes.css">
-
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
-
     </head>
     <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
-
             <!-- Header Top ==== -->
             <%@ include file="Header.jsp" %>
             <!-- header END ==== -->
@@ -88,10 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <%
-                            Blog post = (Blog) request.getAttribute("x");
-                            if (post != null) {
-                %>
+                 <c:if test="${not empty x}">
                 <div class="content-block">
                     <div class="section-area section-sp1">
                         <div class="container">
@@ -99,55 +67,47 @@
                                 <!-- Left part start -->
                                 <div class="col-lg-8 col-xl-8">
                                     <!-- blog start -->
-                                    <%
-                         boolean showTagCloud = false;
-                         if (acc != null) {
-                            
-                                 for (StudentClub studentClub : StudentClubList) {
-                                     if (post.getIdClub() == studentClub.getIdClub() &&
-                                         studentClub.getStatus() == 1 &&
-                                         studentClub.getRole() == 1) {
-                                         showTagCloud = true;
-                                         break; 
-                                     }
-                                
-                         }
-                         if (showTagCloud) {
-                                    %>
-                                    <script>
-                                        function confirmAction(url, action) {
-                                            var message = "Do you want to " + action + " ?";
-                                            if (confirm(message)) {
-                                                window.location.href = url;
-                                            }
-                                        }
-                                    </script>
-                                    <div class="widget_tag_cloud">
-                                        <div class="tagcloud"> 
-                                            <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogUpdateServlet?idBlog=<%= post.getIdBlog() %>', 'update')">Update</a> 
-                                            <a href="#" onclick="confirmAction('<%= request.getContextPath() %>/BlogDeleteServlet?idBlog=<%= post.getIdBlog() %>', 'delete')">Delete</a> 
-                                        </div>
-                                    </div>
-                                    <% 
-                               }
-                       } 
-                           if(post.getStatus() == 0 ){
-                                    %>
-                                    <p>Event was stopped</p>
-                                    <% }%>
+                                    <c:choose>
+                                        <c:when test="${not empty curruser}">
+                                            <c:set var="showTagCloud" value="false" />
+                                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                                <c:if test="${x.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.role == 1}">
+                                                    <c:set var="showTagCloud" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:if test="${showTagCloud}">
+                                                <script>
+                                                    function confirmAction(url, action) {
+                                                        var message = "Do you want to " + action + " ?";
+                                                        if (confirm(message)) {
+                                                            window.location.href = url;
+                                                        }
+                                                    }
+                                                </script>
+                                                <div class="widget_tag_cloud">
+                                                    <div class="tagcloud">
+                                                        <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${x.idBlog}', 'update')">Update</a>
+                                                        <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${x.idBlog}', 'delete')">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:when>
+                                    </c:choose>
+                                    <c:if test="${x.status == 0}">
+                                        <p>Event was stopped</p>
+                                    </c:if>
                                     <div class="recent-news blog-lg">
                                         <div class="action-box blog-lg">
-                                            <img src="${pageContext.request.contextPath}/<%= post.getImage() %>" alt="">
+                                            <img src="${pageContext.request.contextPath}/${x.image}" alt="">
                                         </div>
                                         <div class="info-bx">
                                             <ul class="media-post">
-                                                <li><a ><i class="fa fa-calendar"></i><%= post.getDateCreate() %></a></li>
-
+                                                <li><a><i class="fa fa-calendar"></i>${x.dateCreate}</a></li>
                                             </ul>
-                                            <h5 class="post-title"><a><%= post.getTitleBlog() %></a></h5>
-                                            <p><%= post.getContent() %></p>
+                                            <h5 class="post-title"><a>${x.titleBlog}</a></h5>
+                                            <p>${x.content}</p>
 
-                                            <% } %>
+                                            </c:if>
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
 
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
@@ -350,29 +310,6 @@
                                                 <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic3.jpg" alt=""></a></div></li>
                                                 <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic4.jpg" alt=""></a></div></li>
                                             </ul>
-                                        </div>
-                                        <div class="widget widget_tag_cloud">
-                                            <h6 class="widget-title">Tags</h6>
-                                            <div class="tagcloud"> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                            </div>
                                         </div>
                                     </aside>
                                 </div>

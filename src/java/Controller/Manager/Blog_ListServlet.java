@@ -5,10 +5,15 @@
 
 package Controller.Manager;
 
-import DAO.*;
-import Model.*;
+import DAO.BlogDAO;
+import DAO.BlogTypeDAO;
+import DAO.ClubDao;
+import DAO.StudentClubDAO;
+import Model.Accounts;
+import Model.Blog;
+import Model.BlogType;
+import Model.StudentClub;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,48 +25,40 @@ import java.util.List;
  *
  * @author 10t1q
  */
-@WebServlet(name="Blog_TypeServlet", urlPatterns={"/BlogTypeServlet"})
-public class Blog_TypeServlet extends HttpServlet {
+@WebServlet(name="BlogListServlet", urlPatterns={"/BlogListServlet"})
+public class Blog_ListServlet extends HttpServlet {
    
- 
-     @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         
-        String ID = request.getParameter("idBlogType");
-        int xId = Integer.parseInt(ID);
-   
-        BlogTypeDAO postDAO = new BlogTypeDAO();
-        BlogType post = postDAO.getBlogTypeByID(xId);
-        
-        BlogDAO blogDAO = new BlogDAO();
+
+        BlogDAO postDAO = new BlogDAO();
         ClubDao clubDAO = new ClubDao();
-        List<BlogType> blogTypeList = postDAO.getAllPosts();
-        
+        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
-        List<StudentClub> studentClubList = null;
+
+        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+        List<Blog> postList = postDAO.getAllPosts();
+
+        request.setAttribute("blogTypeList", blogTypeList);
+        request.setAttribute("postList", postList);
+        request.setAttribute("curruser", acc);
+        request.setAttribute("clubDAO", clubDAO);
+
         if (acc != null) {
             StudentClubDAO studentClubDAO = new StudentClubDAO();
-            studentClubList = studentClubDAO.getStudentClubs(acc.getId());
+            List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acc.getId());
+            request.setAttribute("StudentClubList", studentClubList);
         }
         
-        request.setAttribute("post", post);
-        request.setAttribute("blogTypeList", blogTypeList);
-        request.setAttribute("StudentClubList", studentClubList);
-        request.setAttribute("blogDAO", blogDAO);
-        request.setAttribute("clubDAO", clubDAO);
-        request.setAttribute("curruser", acc);
+        request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
+    } 
 
-        request.getRequestDispatcher("/View/ViewManager/Blog_TypeList.jsp").forward(request, response);
-    }
-
-
-  
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         
     }
 
  

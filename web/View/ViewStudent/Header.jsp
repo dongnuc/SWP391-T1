@@ -1,6 +1,4 @@
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
 
     <!-- META ============================================= -->
@@ -140,39 +138,20 @@
                     </div>
                     <ul class="nav navbar-nav">	
                         <li><a href="home">Home</a></li>
-                        <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
-                        <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
+                        <li><a href="<c:url value='/EventSerlet' />">Events</a></li>
+                        <li><a href="<c:url value='/BlogListServlet'/>">Blog</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
                         <li><a href="contactus">Contact Us</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>
                         </c:if> 
-                        <%
-Accounts acc = (Accounts) session.getAttribute("curruser");
-if (acc != null) {
-StudentClubDAO studentClubDAO = new StudentClubDAO();
-List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
-boolean dashboardPrinted = false;
-
-for (StudentClub studentClub : StudentClubList) {
-if (acc.getRole() == 1 || (studentClub.getStatus() == 1 && studentClub.getRole() == 1)) {
-if (!dashboardPrinted) {
-    dashboardPrinted = true;
-                        %>
-                        <li><a href="javascript:;">Dash board<i class="fa fa-angle-right"></i></a>
+<!--                        <li><a href="javascript:;">Dash board<i class="fa fa-angle-right"></i></a>
                             <ul class="sub-menu">
                                 <li><a href="<%= request.getContextPath() %>/EventUploadServlet">Event Upload</a></li>
                                 <li><a href="<%= request.getContextPath() %>/UploadServlet">Blog Upload</a></li>
                             </ul>
-                        </li>
-                        <%
-                                    }
-                                }
-                            }
-                        }
-                        %>
-
+                        </li>-->
                     </ul>
                     <div class="nav-social-link">
                         <a href="javascript:;"><i class="fa fa-facebook"></i></a>

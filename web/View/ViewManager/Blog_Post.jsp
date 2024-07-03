@@ -5,44 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%
-    BlogDAO postDAO = new BlogDAO();
-    List<Blog> postList = postDAO.getAllPosts();
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    List<StudentClub> StudentClubList = null;
-    
-    boolean restricted = true;
-    
-    if (acc != null) {
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
-        StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        
-        for (StudentClub studentClub : StudentClubList) {
-            if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-                restricted = false;
-                break;
-            }
-        }
-    }
-
-    if (restricted) {
-        response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
-        return; 
-    }
-    
-    String Title = request.getParameter("title") != null ? request.getParameter("title") : "";
-    String Description = request.getParameter("description") != null ? request.getParameter("description") : "";
-    String Content = request.getParameter("content") != null ? request.getParameter("content") : "";
-    String Show = request.getParameter("visibility") != null ? request.getParameter("visibility") : "";
-    String Blogtype = request.getParameter("blogtype") != null ? request.getParameter("blogtype") : "";
-    String Status = request.getParameter("status") != null ? request.getParameter("status") : "";
-    String IDClub = request.getParameter("idclub") != null ? request.getParameter("idclub") : "";
-%>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
@@ -381,30 +345,23 @@
         <!--Main container start -->
         <main class="ttr-wrapper">
             <div class="container-fluid">
-                <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Upload Blog</h4>
-
-                </div>	
                 <div class="row">
                     <!-- Your Profile Views Chart -->
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
-                            <div class="wc-title">
-                                <h4>Information Blog</h4>
-                            </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/UploadServlet" method="post" enctype="multipart/form-data">
+                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/UploadServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Title</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="title" "><%= Title %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="title">${param.title}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"><%= Description %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description">${param.description}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -417,7 +374,7 @@
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><%= Content %></textarea>
+                                                <textarea class="form-control" name="content">${param.content}</textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -460,49 +417,37 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
-                                            <label class="col-form-label">Show : </label>
+                                            <label class="col-form-label">Show:</label>
                                             <div>
-                                                <input type="radio" id="public" name="visibility" value="1" <%= Show.equals("1")  ? "checked" : "" %> >
-                                                <label> Public </label>
+                                                <input type="radio" id="public" name="visibility" value="1" ${param.visibility == '1' ? 'checked' : ''}>
+                                                <label>Public</label>
                                             </div>
                                             <div>
-                                                <input type="radio" id="private" name="visibility" value="0" <%= Show.equals("0") ? "checked" : ""%>>
-                                                <label> Private </label>
+                                                <input type="radio" id="private" name="visibility" value="0" ${param.visibility == '0' ? 'checked' : ''}>
+                                                <label>Private</label>
                                             </div>
                                         </div>
                                         <input type="hidden" name="status" value="1">
                                         <div class="form-group col-4">
-    <label class="col-form-label">Club : </label>
-    <%
-        ClubDao clubDAO = new ClubDao();
-        for (StudentClub studentClub : StudentClubList) {
-            if (studentClub.getStatus() == 1) {
-                boolean checked = String.valueOf(studentClub.getIdClub()).equals(IDClub);
-    %>
-    <div>
-        <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= checked ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
-    </div>
-    <%
-            }
-        }
-    %>
-</div>
-
+                                            <label class="col-form-label">Club:</label>
+                                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                                <c:if test="${studentClub.status == 1}">
+                                                    <div>
+                                                        <input type="radio" name="idclub" value="${studentClub.idClub}" ${param.idclub == studentClub.idClub ? 'checked' : ''}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>
                                         <div class="form-group col-4">
-                                            <label class="col-form-label">Blog's type : </label>
-                                            <%
-                                                BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-                                                List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-                                                for (BlogType blogType : blogTypeList) {
-                                                boolean checked = String.valueOf(blogType.getIdBlogType()).equals(Blogtype);
-                                            %>
-                                            <div>
-                                                <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"><%= blogType.getNameBlogType() %>
-                                            </div>
-                                            <% } %>
+                                            <label class="col-form-label">Blog's type:</label>
+                                            <c:forEach var="blogType" items="${blogTypeList}">
+                                                <div>
+                                                    <input type="radio" name="blogtype" value="${blogType.idBlogType}" ${param.blogtype == blogType.idBlogType ? 'checked' : ''}> ${blogType.nameBlogType}
+                                                </div>
+                                            </c:forEach>
                                         </div>
                                         <div class="col-12">
-                                        <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                            <p style="color: red;">${requestScope.mess != null ? requestScope.mess : ''}</p>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Blog</button>

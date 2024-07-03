@@ -5,84 +5,47 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<%        Blog post = (Blog) request.getAttribute("x");
- 
-                 Accounts acc = (Accounts) session.getAttribute("curruser");
-                 List<StudentClub> StudentClubList = null;
-                 boolean restricted = true;
-    
-   if (acc != null) {
-       StudentClubDAO studentClubDAO = new StudentClubDAO();
-       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        
-       for (StudentClub studentClub : StudentClubList) {
-           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-               restricted = false;
-               break;
-           }
-       }
-   }
-
-   if (restricted) {
-       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
-       return; 
-   }
-%>
 <html lang="en">
-
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
     <head>
-
         <!-- META ============================================= -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="keywords" content="" />
         <meta name="author" content="" />
         <meta name="robots" content="" />
-
         <!-- DESCRIPTION -->
         <meta name="description" content="EduChamp : Education HTML Template" />
-
         <!-- OG -->
         <meta property="og:title" content="EduChamp : Education HTML Template" />
         <meta property="og:description" content="EduChamp : Education HTML Template" />
         <meta property="og:image" content="" />
         <meta name="format-detection" content="telephone=no">
-
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="../error-404.html" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
-
         <!-- PAGE TITLE HERE ============================================= -->
         <title>Blog Update </title>
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!--[if lt IE 9]>
         <script src="${pageContext.request.contextPath}/assets_admin/js/html5shiv.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/js/respond.min.js"></script>
         <![endif]-->
-
         <!-- All PLUGINS CSS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/assets.css">
         <link rel="stylesheet" type="text/css" src="${pageContext.request.contextPath}/assets_admin/vendors/calendar/fullcalendar.css">
-
         <!-- TYPOGRAPHY ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/typography.css">
-
         <!-- SHORTCODES ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/shortcodes/shortcodes.css">
-
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/assets_admin/css/color/color-1.css">
-
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -109,7 +72,7 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="<%= request.getContextPath() %>/Home.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -370,45 +333,40 @@
         <!--Main container start -->
         <main class="ttr-wrapper">
             <div class="container-fluid">
-                <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Update Blog</h4>
-
-                </div>	
                 <div class="row">
-                    <!-- Your Profile Views Chart -->
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
                                 <h4>Information Update Blog</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/BlogUpdateServlet" method="post" enctype="multipart/form-data">
+                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/BlogUpdateServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
-                                        <input type="hidden" name="idblog" value="<%=post.getIdBlog() %>">
+                                        <input type="hidden" name="idblog" value="${x.idBlog}">
                                         <div class="form-group col-6">
-                                            <label class="col-form-label">Tittle</label>
+                                            <label class="col-form-label">Title</label>
                                             <div>
-                                                <textarea type="text"class="form-control" name="tittle" ><%= post.getTitleBlog()%></textarea>
+                                                <textarea type="text" class="form-control" name="tittle">${x.titleBlog}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea type="text"class="form-control" name="description""><%= post.getDescription()%></textarea>
+                                                <textarea type="text" class="form-control" name="description">${x.description}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
                                             <div>
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                                <img id="imagePreview" class="preview" src="<%= request.getContextPath() %>/<%= post.getImage() %>" alt="Image Preview">
-                                                <input type="hidden" name="img" value="<%=post.getImage()%>">
+                                                <img id="imagePreview" class="preview" src="${pageContext.request.contextPath}/${x.image}" alt="Image Preview">
+                                                <input type="hidden" name="img" value="${x.image}">
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><%= post.getContent()%></textarea>
+                                                <textarea class="form-control" name="content">${x.content}</textarea>
                                             </div>
                                             <script>
                                                 ClassicEditor
@@ -452,60 +410,52 @@
 
                                         </div>
                                         <div class="form-group col-3">
-
                                             <label class="col-form-label">Show : </label>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="1"  <%= post.getShow() == 1 ? "checked" : "" %>>
-                                                <label> Public </label>
+                                                <input type="radio" id="public" name="visibility" value="1" ${x.show == 1 ? "checked" : ""}>
+                                                <label>Public</label>
                                             </div>
                                             <div>
-                                                <input  type="radio" id="public" name="visibility" value="0" <%= post.getShow() == 0 ? "checked" : "" %>>
-                                                <label> Private </label>
+                                                <input type="radio" id="private" name="visibility" value="0" ${x.show == 0 ? "checked" : ""}>
+                                                <label>Private</label>
                                             </div>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Club : </label>
-                                            <%
-                    ClubDao clubDAO = new ClubDao();
-                    for (StudentClub studentClub : StudentClubList) {
-                        if (studentClub.getStatus() == 1 ) {
-                                            %>
-                                            <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= post.getIdClub() == studentClub.getIdClub() ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>
-                                            </div>
-                                            <%      }
-                }
-                                            %>
+                                            <c:forEach var="studentClub" items="${studentClubList}">
+                                                <c:choose>
+                                                    <c:when test="${studentClub.status == 1}">
+                                                        <div>
+                                                            <input type="radio" name="idclub" value="${studentClub.idClub}" ${x.idClub == studentClub.idClub ? "checked" : ""}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                        </div>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Blog's type : </label>
-                                            <%
-                BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-                List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
-                for (BlogType blogType : blogTypeList) {
-                                            %>
-                                            <div>
-                                                <input type="radio" name="blogtype" value="<%= blogType.getIdBlogType() %>"<%= post.getIdBlogType() == blogType.getIdBlogType() ? "checked" : "" %>><%= blogType.getNameBlogType() %>
-                                            </div>
-                                            <% } %>
+                                            <c:forEach var="blogType" items="${blogTypeList}">
+                                                <div>
+                                                    <input type="radio" name="blogtype" value="${blogType.idBlogType}" ${x.idBlogType == blogType.idBlogType ? "checked" : ""}>${blogType.nameBlogType}
+                                                </div>
+                                            </c:forEach>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Status</label>
                                             <div>
-                                                <input type="radio" name="status" value="1" <%= post.getStatus() == 1 ? "checked" : "" %> >Active <br> 
-                                                <input type="radio" name="status" value="0" <%= post.getStatus() == 0 ? "checked" : "" %> >Stop 
+                                                <input type="radio" name="status" value="1" ${x.status == 1 ? "checked" : ""}>Active <br> 
+                                                <input type="radio" name="status" value="0" ${x.status == 0 ? "checked" : ""}>Stop 
                                             </div>
                                         </div>
-                                        <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                        <p style="color: red;"><c:out value="${mess}" /></p>
                                         <div class="col-12">
-                                            <button  type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Blog</button>
+                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Blog</button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <!-- Your Profile Views Chart END-->
                 </div>
             </div>
         </main>

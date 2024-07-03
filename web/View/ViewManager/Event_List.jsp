@@ -1,16 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
-    <%
-        EventDAO eventDAO = new EventDAO();
-        List<Event> eventList = eventDAO.getAllEventSetting("","");
-    %>
-    <head>
+        <head>
 
         <!-- META ============================================= -->
         <meta charset="utf-8">
@@ -55,7 +50,17 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
-
+        <style>
+        .event-type-list {
+            text-align: left;
+            color: red;
+        }
+        .event-type-list a {
+            display: block;
+            margin-bottom: 5px;
+            text-decoration: none; /* Optional: to remove underline from links */
+        }
+    </style>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -76,24 +81,21 @@
 
                 <!-- contact area -->
                 <div class="container">
-                    <div class="row">
-                        <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
-                            <p style="color :red ">Even Type <br>
-                                <a href="<%= request.getContextPath() %>/EventSerlet"><span>All</span></a> 
-                                <%                                    
-                                    List<String> eventTypeList = eventDAO.getEvenTypeSetting();
-                                    for(String eventType : eventTypeList){
-                                %>
-
-                                <a href="<%= request.getContextPath() %>/EventTypeServlet?idEventType=<%= eventType%>"><span><%= eventType%></span></a> 
-                                        <% } %>
+                <div class="row">
+                    <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
+                    <div class="event-type-list">
+                        <p style="color: red">Event Type</p>
+                             <a href="<c:url value='/EventSerlet' />"><span>All</span></a><br>
+                            <c:forEach var="eventType" items="${eventTypeList}">
+                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idEventType}"><span>${eventType.nameEventType}</span></a><br>
+                            </c:forEach>
+                        </div>
                         </div>
                         <div class="content-block col-md-9">
-                            <!-- Portfolio  -->
                             <div class="section-area section-sp1 gallery-bx">
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-md-6 " >
+                                        <div class="col-md-6">
                                             <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px">
                                                 <input type="text" name="name" class="form-control" />
                                                 <input type="submit" value="Search" class="btn btn-primary" />
@@ -102,61 +104,55 @@
                                     </div>
                                 </div>
                                 <div class="container">
-
                                     <div class="clearfix">
                                         <ul id="masonry" class="ttr-gallery-listing magnific-image row">
-                                            <%
-                                                            for(Event event : eventList){
-                                                    
-                                                            Date dateStart = event.getDateStart();
-
-                                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-                                                            String dateString = sdf.format(dateStart);
-
-                                                            String[] dateParts = dateString.split("/");
-
-                                                            String year = dateParts[0];
-                                                            String day = dateParts[2];
-
-                                                            SimpleDateFormat monthFormat = new SimpleDateFormat("MMMM");
-                                                            String month = monthFormat.format(dateStart);
-                                            %>
-                                            <li class="action-card col-lg-6 col-md-6 col-sm-12 happening">
-                                                <div class="event-bx m-b30">
-
-                                                    <div class="action-box">
-                                                        <a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>"><img src="${pageContext.request.contextPath}/<%= event.getImage()%>" alt=""></a>
+                                             <c:forEach var="event" items="${eventList}">
+                                        <c:set var="dateStart" value="${event.dateStart}" />
+                                        <li class="action-card col-lg-6 col-md-6 col-sm-12 happening">
+                                            <div class="event-bx m-b30">
+                                                <div class="action-box">
+                                                    <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
+                                                        <img src="<c:url value='/${event.image}' />" alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="info-bx d-flex">
+                                                    <div>
+                                                        <div class="event-time">
+                                                            <div class="event-date"><fmt:formatDate value="${dateStart}" pattern="dd" /></div>
+                                                            <div class="event-month"><fmt:formatDate value="${dateStart}" pattern="MMMM yyyy" /></div>
+                                                        </div>
                                                     </div>
-                                                    <div class="info-bx d-flex">
-                                                        <div>
-                                                            <div class="event-time">
-                                                                <div class="event-date"><%= day %></div>
-                                                                <div class="event-month"><%= month + " " + year %></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="event-info">
-                                                            <h4 class="event-title"><a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>"><%= event.getNameEvent()%></a></h4>
-                                                            <ul class="media-post">
-                                                                <li><a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>"><i class="fa fa-map-marker"></i><%= event.getAddress()%></a></li>
-                                                            </ul>
-                                                            <a href="<%= request.getContextPath() %>/EventDetailServlet?idEvent=<%= event.getIdEvent() %>"><%= event.getDescription()%></a>
-                                                        </div>
+                                                    <div class="event-info">
+                                                        <h4 class="event-title">
+                                                            <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
+                                                                <c:out value="${event.nameEvent}" />
+                                                            </a>
+                                                        </h4>
+                                                        <ul class="media-post">
+                                                            <li>
+                                                                <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
+                                                                    <i class="fa fa-map-marker"></i>
+                                                                    <c:out value="${event.address}" />
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
+                                                            <c:out value="${event.description}" />
+                                                        </a>
                                                     </div>
                                                 </div>
-                                            </li>
-                                            <%
-            }
-                                            %>
-                                        </ul>
-                                    </div>
-
-                                </div>
+                                            </div>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
                             </div>
 
                         </div>
                     </div>
-                </div>              
+
+                </div>
+                   </div>
+</div>              
                 <!-- contact area END -->
             </div>
             <!-- Content END-->

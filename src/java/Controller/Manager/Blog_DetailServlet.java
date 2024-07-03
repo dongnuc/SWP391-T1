@@ -6,14 +6,19 @@
 package Controller.Manager;
 
 import DAO.BlogDAO;
+import DAO.BlogTypeDAO;
+import DAO.StudentClubDAO;
+import Model.Accounts;
 import Model.Blog;
+import Model.BlogType;
+import Model.StudentClub;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
@@ -22,68 +27,37 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet(name="Upload_Content_Blog", urlPatterns={"/UploadContentBlog"})
 public class Blog_DetailServlet extends HttpServlet {
    
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Upload_Content_Blog</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Upload_Content_Blog at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    } 
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-     @Override
+    
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
-        
-        String idBlog = request.getParameter("idBlog");
-                  
-   
+        String ID = request.getParameter("idBlog");
+        int xId = Integer.parseInt(ID);
         BlogDAO postDAO = new BlogDAO();
-        Blog post = postDAO.getBlogSetting(idBlog);
+        Blog post = postDAO.getPost(xId);
+        
+        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
+        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+        
+        Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        List<StudentClub> studentClubList = null;
+        if (acc != null) {
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            studentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        }
         
         request.setAttribute("x", post);
+        request.setAttribute("blogTypeList", blogTypeList);
+        request.setAttribute("StudentClubList", studentClubList);
+        request.setAttribute("curruser", acc);
+
         request.getRequestDispatcher("/View/ViewManager/Blog_Detail.jsp").forward(request, response);
-    } 
+    }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
     }
-
-    /** 
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

@@ -5,44 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    
-    List<StudentClub> StudentClubList = null;
-                 boolean restricted = true;
-    
-   if (acc != null) {
-       StudentClubDAO studentClubDAO = new StudentClubDAO();
-       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        
-       for (StudentClub studentClub : StudentClubList) {
-           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-               restricted = false;
-               break;
-           }
-       }
-   }
 
-   if (restricted) {
-       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
-       return; 
-   }
-    
-    
-    String nameEvent = request.getParameter("nameevent") != null ? request.getParameter("nameevent") : "";
-    String description = request.getParameter("description") != null ? request.getParameter("description") : "";
-    String content = request.getParameter("content") != null ? request.getParameter("content") : "";
-    String address = request.getParameter("address") != null ? request.getParameter("address") : "";
-    String dateStart = request.getParameter("datestart") != null ? request.getParameter("datestart") : "";
-    String dateEnd = request.getParameter("dateend") != null ? request.getParameter("dateend") : "";
-    String idClub = request.getParameter("idclub") != null ? request.getParameter("idclub") : "";
-    String eventType = request.getParameter("eventtype") != null ? request.getParameter("eventtype") : "";
-    String status = request.getParameter("status") != null ? request.getParameter("status") : "";
-%>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
@@ -120,7 +85,7 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="<%= request.getContextPath() %>/Home.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -393,18 +358,18 @@
                                 <h4>Information Event</h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/EventUploadServlet" method="post" enctype="multipart/form-data">
+                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/EventUploadServlet" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name event</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="nameevent" ><%= nameEvent %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="nameevent" >${param.nameevent}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"><%= description %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description">${param.description}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -417,7 +382,7 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><%= content %></textarea>
+                                                <textarea class="form-control" name="content">${param.content}</textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -462,67 +427,57 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Address</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="address"><%= address %></textarea>
+                                                <textarea class="form-control expandable-textarea" name="address">${param.address}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date start</label>
                                             <div>
-                                                <input type="date" name="datestart"  value="<%= dateStart %>">
+                                                <input type="date" name="datestart"  value="${param.datestart}">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date end</label>
                                             <div>
-                                                <input type="date" name="dateend" value="<%= dateEnd %>"><br>
+                                                <input type="date" name="dateend" value="${param.dateend}"><br>
                                             </div>
                                         </div>
                                             <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
                                             <div>
-                                                <input type="radio"  name="status" value="1" <%= status.equals("1")  ? "checked" : "" %> >
+                                                <input type="radio"  name="status" value="1" ${param.status == '1' ? 'checked' : ''} >
                                                 <label> Active </label>
                                             </div>
                                             <div>
-                                                <input type="radio"  name="status" value="0" <%= status.equals("0") ? "checked" : ""%>>
+                                                <input type="radio"  name="status" value="0" ${param.status == '0' ? 'checked' : ''} >
                                                 <label> Stop </label>
                                             </div>
                                            <div>
-                                                <input type="radio"  name="status" value="2" <%= status.equals("2") ? "checked" : ""%>>
+                                                <input type="radio"  name="status" value="2" ${param.status == '2' ? 'checked' : ''} >
                                                 <label> Coming soon </label>
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
-                                            <label class="col-form-label">Club : </label>
-                                            <%
-                 ClubDao clubDAO = new ClubDao();
-                 for (StudentClub studentClub : StudentClubList) {
-                     if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-                         boolean checked = String.valueOf(studentClub.getIdClub()).equals(idClub);
-                                            %>
-                                            <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>" <%= checked ? "checked" : "" %>><%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
-                                            </div>
-                                            <%      }
-                                                }
-                                            %>
+                                            <label class="col-form-label">Club:</label>
+                                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                                <c:if test="${studentClub.status == 1}">
+                                                    <div>
+                                                        <input type="radio" name="idclub" value="${studentClub.idClub}" ${param.idclub == studentClub.idClub ? 'checked' : ''}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Event's type: </label>
-                                            <%
-                EventTypeDAO eventTypeDAO = new EventTypeDAO();
-                List<EventType> eventTypeDAOList = eventTypeDAO.getAllEventTypes();
-                for (EventType eventTypeObj : eventTypeDAOList) {
-                    boolean checked = String.valueOf(eventTypeObj.getIdEventType()).equals(eventType);
-                                            %>
+                                            <c:forEach var="eventType" items="${eventTypeList}">
                                             <div>
-                                                <input type="radio" name="eventtype" value="<%= eventTypeObj.getIdEventType() %>" <%= checked ? "checked" : "" %>><%= eventTypeObj.getNameEventType() %>
+                                                <input type="radio" name="eventtype" value="${eventType.idEventType}" ${param.eventtype == eventType.idEventType ? 'checked' : ''}>${eventType.nameEventType}
                                             </div>
-                                            <% } %>
+                                            </c:forEach>
                                         </div>
                                         <div class="col-12">
-                                            <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                            <p style="color: red;">${requestScope.mess != null ? requestScope.mess : ''}</p>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Event</button>

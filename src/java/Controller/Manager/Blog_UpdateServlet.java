@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.util.List;
 
 /**
  *
@@ -27,25 +28,43 @@ import java.io.File;
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
 public class Blog_UpdateServlet extends HttpServlet {
-    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
+            throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
 
         String xID = request.getParameter("idBlog");
         int ID = Integer.parseInt(xID);
-
+        
+        ClubDao clubDAO = new ClubDao();
         BlogDAO blogDAO = new BlogDAO();
         Blog blog = blogDAO.getPost(ID);
+        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
+        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
 
-        
-        request.setAttribute("x", blog);
-        request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
-        
-    } 
+        Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+
+            boolean restricted = true;
+            for (StudentClub studentClub : StudentClubList) {
+                if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                    restricted = false;
+                    break;
+                }
+            }
+
+            if (restricted) {
+                response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
+                return;
+            }
+            request.setAttribute("clubDAO", clubDAO);
+            request.setAttribute("studentClubList", StudentClubList);
+            request.setAttribute("blogTypeList", blogTypeList);
+            request.setAttribute("x", blog);
+            request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
+    }
 
   
     private static final String SAVE_DIR = "web/images_blog";
@@ -102,35 +121,35 @@ public class Blog_UpdateServlet extends HttpServlet {
         boolean hasError = false;
 
         if (Title == null || Title.isEmpty()) {
-            errorMessage.append("Title cannot be empty.<br>");
+            errorMessage.append("Title cannot be empty.");
             hasError = true;
         }
         if (Description == null || Description.isEmpty()) {
-            errorMessage.append("Description cannot be empty.<br>");
+            errorMessage.append("Description cannot be empty.");
             hasError = true;
         }
         if (Content == null || Content.isEmpty()) {
-            errorMessage.append("Content cannot be empty.<br>");
+            errorMessage.append("Content cannot be empty.");
             hasError = true;
         }
         if (xShow == null || xShow.isEmpty()) {
-            errorMessage.append("Visibility must be selected.<br>");
+            errorMessage.append("Visibility must be selected.");
             hasError = true;
         }
         if (xBlogtype == null || xBlogtype.isEmpty()) {
-            errorMessage.append("Blog type must be selected.<br>");
+            errorMessage.append("Blog type must be selected.");
             hasError = true;
         }
         if (xStatus == null || xStatus.isEmpty()) {
-            errorMessage.append("Status must be provided.<br>");
+            errorMessage.append("Status must be provided.");
             hasError = true;
         }
         if (xIDClub == null || xIDClub.isEmpty()) {
-            errorMessage.append("Club must be selected.<br>");
+            errorMessage.append("Club must be selected.");
             hasError = true;
         }
         if (fileName == null && !fileName.isEmpty()) {    
-            errorMessage.append("File must be selected.<br>");
+            errorMessage.append("File must be selected.");
             hasError = true;
             }
 
@@ -140,6 +159,17 @@ public class Blog_UpdateServlet extends HttpServlet {
             BlogDAO blogDAO = new BlogDAO();
             Blog blog = blogDAO.getPost(ID);
             request.setAttribute("x", blog);
+            
+            Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+            BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
+            List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+            ClubDao clubDAO = new ClubDao();
+            
+            request.setAttribute("studentClubList", StudentClubList);
+            request.setAttribute("blogTypeList", blogTypeList);
+            request.setAttribute("clubDAO", clubDAO);
             request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
             return;
         }
@@ -148,7 +178,7 @@ public class Blog_UpdateServlet extends HttpServlet {
         BlogDAO postDAO = new BlogDAO();
         postDAO.updatePost(post);
 
-        getServletContext().getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/BlogListServlet");
     }
 
     private String extractFileName(Part part) {

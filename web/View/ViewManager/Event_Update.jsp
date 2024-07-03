@@ -5,37 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<%
-    Event event = (Event) request.getAttribute("x");
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    
-    List<StudentClub> StudentClubList = null;
-                 boolean restricted = true;
-    
-   if (acc != null) {
-       StudentClubDAO studentClubDAO = new StudentClubDAO();
-       StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        
-       for (StudentClub studentClub : StudentClubList) {
-           if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-               restricted = false;
-               break;
-           }
-       }
-   }
 
-   if (restricted) {
-       response.sendRedirect(request.getContextPath()+"/View/ViewManager/404.html"); 
-       return; 
-   }
-    
-    
-
-%>
 <html lang="en">
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
@@ -113,7 +85,7 @@
                     <!-- header left menu start -->
                     <ul class="ttr-header-navigation">
                         <li>
-                            <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+                            <a href="<%= request.getContextPath() %>/Home.jsp" class="ttr-material-button ttr-submenu-toggle">HOME</a>
                         </li>
                         <li>
                             <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
@@ -386,34 +358,34 @@
                                 <h4>Information Event </h4>
                             </div>
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="<%= request.getContextPath() %>/EventUpdateServlet" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="idEvent" value="<%= event.getIdEvent() %>">
+                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/EventUpdateServlet" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="idEvent" value="${event.idEvent}">
                                     
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name event</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="nameevent" ><%= event.getNameEvent()%></textarea>
+                                                <textarea class="form-control expandable-textarea" name="nameevent" >${event.nameEvent}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description"><%= event.getDescription()%></textarea>
+                                                <textarea class="form-control expandable-textarea" name="description">${event.description}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
                                             <div>
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                                <img id="imagePreview" class="preview" src="<%= request.getContextPath() %>/<%= event.getImage() %>" alt="Image Preview">
-                                                <input type="hidden" name="img" value="<%= event.getImage()%>">
+                                                <img id="imagePreview" class="preview" src="${pageContext.request.contextPath}/${event.image}" alt="Image Preview">
+                                                <input type="hidden" name="img" value="${event.image}">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content"><%= event.getContent()%></textarea>
+                                                <textarea class="form-control" name="content">${event.content}</textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -458,60 +430,53 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Address</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="address"><%= event.getAddress()%></textarea>
+                                                <textarea class="form-control expandable-textarea" name="address">${event.address}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date start</label>
                                             <div>
-                                                <input type="date" name="datestart"  value="<%= event.getDateStart()%>">
+                                                <input type="date" name="datestart"  value="${event.dateStart}">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date end</label>
                                             <div>
-                                                <input type="date" name="dateend" value="<%= event.getEnddate() %>"><br>
+                                                <input type="date" name="dateend" value="${event.enddate}"><br>
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club : </label>
-                                            <%
-                 ClubDao clubDAO = new ClubDao();
-                 for (StudentClub studentClub : StudentClubList) {
-                     if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
-                                            %>
-                                            <div>
-                                                <input type="radio" name="idclub" value="<%= studentClub.getIdClub() %>"  <%= studentClub.getIdClub() == event.getIdClub() ? "checked" : "" %>> <%= clubDAO.getNameById(studentClub.getIdClub()) %>                                      
-                                            </div>
-                                            <%      }
-                                                }
-                                            %>
+                                            <c:forEach var="studentClub" items="${studentClubList}">
+                                                <c:choose>
+                                                    <c:when test="${studentClub.status == 1}">
+                                                        <div>
+                                                            <input type="radio" name="idclub" value="${studentClub.idClub}" ${event.idClub == studentClub.idClub ? "checked" : ""}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                        </div>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Event's type: </label>
-                                            <%
-                EventTypeDAO eventTypeDAO = new EventTypeDAO();
-                List<EventType> eventTypeDAOList = eventTypeDAO.getAllEventTypes();
-                for (EventType eventTypeObj : eventTypeDAOList) {
-                                            %>
-                                            
+                                            <c:forEach var="eventType" items="${eventTypeList}">
                                             <div>
-                                                <input type="radio" name="eventtype" value="<%= eventTypeObj.getIdEventType() %>" <%= eventTypeObj.getIdEventType()== event.getIdEventType() ? "checked" : "" %>><%= eventTypeObj.getNameEventType() %>
+                                                <input type="radio" name="eventtype" value="${eventType.idEventType}" ${event.idEventType == eventType.idEventType ? 'checked' : ''}>${eventType.nameEventType}
                                             </div>
-                                            <% } %>
+                                            </c:forEach>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
                                             <div>
-                                                <input type="radio" name="status" value="1" <%= event.getStatus() == 1  ? "checked" : "" %> >Active <br> 
-                                                <input type="radio" name="status" value="0" <%= event.getStatus() == 0  ? "checked" : "" %> >Stop <br> 
-                                                <input type="radio"  name="status" value="2" <%= event.getStatus() == 2  ? "checked" : "" %>>Coming soon
+                                                <input type="radio" name="status" value="1" ${event.status == '1' ? 'checked' : ''} >Active <br> 
+                                                <input type="radio" name="status" value="0" ${event.status == '0' ? 'checked' : ''} >Stop <br> 
+                                                <input type="radio" name="status" value="2" ${event.status == '2' ? 'checked' : ''} >Coming soon
                                             </div>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <p style="color: red;"><%= request.getAttribute("mess") != null ? request.getAttribute("mess") : "" %></p>
+                                            <p style="color: red;">${requestScope.mess != null ? requestScope.mess : ''}</p>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Update Event</button>

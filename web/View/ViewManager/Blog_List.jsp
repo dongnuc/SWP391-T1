@@ -5,23 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import = "Model.*" %>
-<%@ page import = "DAO.*" %>
-<%@ page import = "java.util.*" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<%  
-    BlogDAO postDAO = new BlogDAO();
-    ClubDao clubDAO = new ClubDao();
-    List<String> blogTypeList = postDAO.getTypeBlog();
-    List<Blog> postList = postDAO.getAllBlogSetting("","");
-    Accounts acc = (Accounts) session.getAttribute("curruser");
-    List<StudentClub> StudentClubList = null;
-    if (acc != null) {
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
-        StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-    }
-%>
+
 <html lang="en">
 
     <head>
@@ -96,39 +83,48 @@
                             <div class="row">
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
-                                    <%
-                                    for (Blog showBlog : postList) {
-                                    boolean canSeeBlog = showBlog.getShow() == 1; 
-                                    if (!canSeeBlog && acc != null) { 
-                                        for (StudentClub studentClub : StudentClubList) {
-                                            if (studentClub.getIdClub() == showBlog.getIdClub()) { 
-                                                canSeeBlog = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (canSeeBlog) { 
-                                    %>
-                                    <div class="blog-post blog-md clearfix">
-                                        <div class="ttr-post-media"> 
-                                            <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><img src="<%= request.getContextPath() %>/<%= showBlog.getImage() %>" alt="Uploaded Image"></a><br></a> 
-                                        </div>
-                                        <div class="ttr-post-info">
-                                            <ul class="media-post">
-                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><i class="fa fa-calendar"></i><%= showBlog.getDateCreate()%></a></li>
-                                                <li><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><i class="fa fa-user"></i><%= clubDAO.getNameById(showBlog.getIdClub())%></a></li>
-
-                                            </ul>
-                                            <h5 class="post-title"><a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>"><%= showBlog.getTitleBlog()%></a></h5>
-                                            <p><%= showBlog.getDescription()%></p>
-                                            <div class="post-extra">
-                                                <a href="<%= request.getContextPath() %>/UploadContentBlog?idBlog=<%= showBlog.getIdBlog() %>" class="btn-link">READ MORE</a>
+                                    <c:forEach var="showBlog" items="${postList}">
+                                        <c:set var="canSeeBlog" value="${showBlog.show == 1}" />
+                                        <c:if test="${not canSeeBlog and not empty curruser}">
+                                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                                <c:if test="${studentClub.idClub == showBlog.idClub}">
+                                                    <c:set var="canSeeBlog" value="true" />
+                                                </c:if>
+                                            </c:forEach>
+                                        </c:if>
+                                        <c:if test="${canSeeBlog}">
+                                            <div class="blog-post blog-md clearfix">
+                                                <div class="ttr-post-media"> 
+                                                    <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                        <img src="${pageContext.request.contextPath}/${showBlog.image}" alt="Uploaded Image">
+                                                    </a>
+                                                </div>
+                                                <div class="ttr-post-info">
+                                                    <ul class="media-post">
+                                                        <li>
+                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                                <i class="fa fa-calendar"></i>${showBlog.dateCreate}
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                                <i class="fa fa-user"></i>${clubDAO.getNameById(showBlog.idClub)}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <h5 class="post-title">
+                                                        <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                            ${showBlog.titleBlog}
+                                                        </a>
+                                                    </h5>
+                                                    <p>${showBlog.description}</p>
+                                                    <div class="post-extra">
+                                                        <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}" class="btn-link">READ MORE</a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <%      }
-                                        }
-                                    %>
+                                        </c:if>
+                                    </c:forEach>
                                     <!-- Pagination start -->
                                     <div class="pagination-bx rounded-sm gray clearfix">
                                         <ul class="pagination">
@@ -163,13 +159,15 @@
                                             <div class="widget-post-bx">
 
                                                 <div class="widget-post clearfix">
-                                                    <% for(String blogType : blogTypeList){ 
-                                                    %>
-                                                    <ul class="sub-menu">
-                                                        <li><a href="<%= request.getContextPath() %>/BlogTypeServlet?idBlogType=<%= blogType%>"><%= blogType%></a></li>
-                                                    </ul>
-                                                    <% }
-                                                    %>
+                                                    <c:forEach var="blogType" items="${blogTypeList}">
+                                                        <ul class="sub-menu">
+                                                            <li>
+                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${blogType.idBlogType}">
+                                                                    ${blogType.nameBlogType}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </c:forEach>
                                                 </div>
 
                                             </div>

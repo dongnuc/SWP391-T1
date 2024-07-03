@@ -4,8 +4,14 @@
  */
 package Controller.Manager;
 
+import DAO.ClubDao;
 import DAO.EventDAO;
+import DAO.EventTypeDAO;
+import DAO.StudentClubDAO;
+import Model.Accounts;
 import Model.Event;
+import Model.EventType;
+import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +24,7 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -29,64 +36,45 @@ import java.util.Date;
         maxRequestSize = 1024 * 1024 * 50)
 public class Event_UpdateServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Event_UpdateServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Event_UpdateServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter pr = response.getWriter();
 
         String xID = request.getParameter("idEvent");
         int ID = Integer.parseInt(xID);
 
+        Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+
+        boolean restricted = true;
+        for (StudentClub studentClub : StudentClubList) {
+            if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                restricted = false;
+                break;
+            }
+        }
+
+        if (restricted) {
+            response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
+            return;
+        }
+        
         EventDAO eventDAO = new EventDAO();
         Event event = eventDAO.getEventById(ID);
+        EventTypeDAO eventTypeDAO = new EventTypeDAO();
+        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        ClubDao clubDAO = new ClubDao();
 
-        request.setAttribute("x", event);
+        request.setAttribute("studentClubList", StudentClubList);
+        request.setAttribute("clubDAO", clubDAO);
+        request.setAttribute("event", event);
+        request.setAttribute("eventTypeList", eventTypeList);
+        request.setAttribute("idEvent", xID);
+        
         request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     private static final String SAVE_DIR = "web/images_event";
 
     @Override
@@ -179,8 +167,20 @@ public class Event_UpdateServlet extends HttpServlet {
             request.setAttribute("mess", errorMessage.toString());
 
             EventDAO eD = new EventDAO();
-            Event e = eD.getEventById(ID);
-            request.setAttribute("x", e);
+            Event event = eD.getEventById(ID);
+            ClubDao clubDAO = new ClubDao();
+            EventTypeDAO eventTypeDAO = new EventTypeDAO();
+            List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+            List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+            
+            request.setAttribute("studentClubList", StudentClubList);
+            request.setAttribute("eventTypeList", eventTypeList);
+            request.setAttribute("clubDAO", clubDAO);
+            request.setAttribute("event", event);
+            request.setAttribute("idEvent", xID);
+            
             request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
             return;
         }
@@ -204,7 +204,7 @@ public class Event_UpdateServlet extends HttpServlet {
         Event event = new Event(ID, nameEvent, currentDate, status, address, dateEnd, IDClub, dateStart, fileName, eventType, description, content);
         eventDAO.updateEvent(event);
 
-        getServletContext().getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/EventSerlet");
     }
 
     private String extractFileName(Part part) {
