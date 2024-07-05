@@ -81,14 +81,14 @@
                 <!-- contact area -->
                 <div class="container">
                     <div class="row">
-                        <div class="feature-filters clearfix center m-b40 col-md-3 ">
-                            <div class="event-type-list">
-                            <p style="color: red">Event Type</p>
+                        <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
+                        <div class="event-type-list">
+                        <p style="color: red">Event Type</p>
                              <a href="<c:url value='/EventSerlet' />"><span>All</span></a><br>
                             <c:forEach var="eventType" items="${eventTypeList}">
-                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idEventType}"><span>${eventType.nameEventType}</span></a><br>
+                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}"><span>${eventType.valueSetting}</span></a><br>
                             </c:forEach>
-                            </div>
+                        </div>
                         </div>
                         <div class="content-block col-md-9">
                             <!-- Portfolio  -->

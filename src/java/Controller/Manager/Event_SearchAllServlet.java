@@ -5,10 +5,8 @@
 
 package Controller.Manager;
 
-import DAO.EventDAO;
-import DAO.EventTypeDAO;
-import Model.Event;
-import Model.EventType;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,8 +26,10 @@ public class Event_SearchAllServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+        
         request.setAttribute("eventTypeList", eventTypeList);
         request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);
         
@@ -48,8 +48,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
         String mess = "Event not exist";
         
         request.setAttribute("mess", mess);
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+        
         request.setAttribute("eventTypeList", eventTypeList);
         
         request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);
@@ -59,8 +61,9 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
     EventDAO eventDAO = new EventDAO();
     List<Event> event = eventDAO.getEventsByName(nameEvent);
 
-    EventTypeDAO eventTypeDAO = new EventTypeDAO();
-    List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+    SettingDAO settingDAO = new SettingDAO();
+    List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+    
     request.setAttribute("eventTypeList", eventTypeList);
     request.setAttribute("eventList", event);
     request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);

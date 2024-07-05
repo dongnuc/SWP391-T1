@@ -108,7 +108,7 @@
                                                         </li>
                                                         <li>
                                                             <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
-                                                                <i class="fa fa-user"></i>${clubDAO.getNameById(showBlog.idClub)}
+                                                                <i class="fa fa-user"></i>${clubDAO.getClubNameByID(showBlog.idClub)}
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -159,11 +159,11 @@
                                             <div class="widget-post-bx">
 
                                                 <div class="widget-post clearfix">
-                                                    <c:forEach var="blogType" items="${blogTypeList}">
+                                                    <c:forEach var="settingBlogType" items="${settingsList}">
                                                         <ul class="sub-menu">
                                                             <li>
-                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${blogType.idBlogType}">
-                                                                    ${blogType.nameBlogType}
+                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${settingBlogType.idSetting}">
+                                                                    ${settingBlogType.valueSetting}
                                                                 </a>
                                                             </li>
                                                         </ul>

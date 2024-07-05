@@ -33,7 +33,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Event Detail</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -87,7 +87,7 @@
                             <c:when test="${not empty curruser}">
                                 <c:set var="showTagCloud" value="false"/>
                                 <c:forEach var="studentClub" items="${studentClubList}">
-                                    <c:if test="${event.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.role == 1}">
+                                    <c:if test="${event.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.leader == 1}">
                                         <c:set var="showTagCloud" value="true"/>
                                     </c:if>
                                 </c:forEach>
@@ -140,7 +140,7 @@
                                         <div class="widget widget_getintuch">
                                             <ul>
                                                 <li><i class="ti-location-pin"></i>${event.address}</li>
-                                                <li><i class="ti-calendar"></i>${event.dateStart}</li>
+                                                <li><i class="ti-calendar"></i>${event.dateStart} to ${event.enddate} </li>
                                                 <li><i class="fa fa-user"></i>${clubName}</li>
                                             </ul>
                                         </div>

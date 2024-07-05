@@ -7,7 +7,6 @@ package Model;
 import DAO.ClubDao;
 import DAO.StudentClubDAO;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -15,15 +14,15 @@ import java.util.List;
  */
 public class Clubs {
 
-    private int club;
-    private String nameclub;
-    private int point;
-    private Date datecreate;
-    private Date modify;
-    private int type;
-    private int status;
-    private String image;
-    private String description;
+    private int club;//
+    private String nameclub;//
+    private int point;//
+    private Date datecreate;//
+    private Date modify;//
+    private int type;//
+    private int status;//
+    private String image;//
+    private String description;//
     private Role listRole;
     private String typeClub;
     

@@ -87,7 +87,7 @@
                         <p style="color: red">Event Type</p>
                              <a href="<c:url value='/EventSerlet' />"><span>All</span></a><br>
                             <c:forEach var="eventType" items="${eventTypeList}">
-                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idEventType}"><span>${eventType.nameEventType}</span></a><br>
+                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}"><span>${eventType.valueSetting}</span></a><br>
                             </c:forEach>
                         </div>
                         </div>

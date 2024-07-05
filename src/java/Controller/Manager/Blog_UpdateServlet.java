@@ -8,7 +8,6 @@ package Controller.Manager;
 import DAO.*;
 import Model.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -39,9 +39,11 @@ public class Blog_UpdateServlet extends HttpServlet {
         
         ClubDao clubDAO = new ClubDao();
         BlogDAO blogDAO = new BlogDAO();
+        
         Blog blog = blogDAO.getPost(ID);
-        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+        
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> blogTypeList = settingDAO.getSettingsBlog();
 
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
             StudentClubDAO studentClubDAO = new StudentClubDAO();
@@ -99,7 +101,7 @@ public class Blog_UpdateServlet extends HttpServlet {
         String Description = request.getParameter("description");
         String Content = request.getParameter("content");
 
-        java.util.Date date = new java.util.Date();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
         if (!isFileUpdated) {
             fileName = request.getParameter("img");
@@ -161,10 +163,13 @@ public class Blog_UpdateServlet extends HttpServlet {
             request.setAttribute("x", blog);
             
             Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+            
             StudentClubDAO studentClubDAO = new StudentClubDAO();
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-            BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-            List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+            
+            SettingDAO settingDAo = new SettingDAO();
+            List<Settings> blogTypeList = settingDAo.getSettingsBlog();
+            
             ClubDao clubDAO = new ClubDao();
             
             request.setAttribute("studentClubList", StudentClubList);
@@ -174,7 +179,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             return;
         }
         
-        Blog post = new Blog( Title, fileName, Description, Content, date, Blogtype,IDClub, Show,Status ,ID);
+        Blog post = new Blog( Title, fileName, Description, Content, timestamp, Blogtype,IDClub, Show,Status ,ID);
         BlogDAO postDAO = new BlogDAO();
         postDAO.updatePost(post);
 

@@ -32,7 +32,7 @@
         <link rel="shortcut icon" type="image/x-icon"  href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>${post.nameBlogType}</title>
+        <title>${setting.valueSetting}</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -69,7 +69,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(${pageContext.request.contextPath}/images_t/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">${post.nameBlogType}</h1>
+                            <h1 class="text-white">${setting.valueSetting}</h1>
                         </div>
                     </div>
                 </div>
@@ -81,8 +81,7 @@
                             <div class="row">
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
-                                    <c:if test="${not empty post}">
-                                    <c:forEach var="blog" items="${blogDAO.getBlogListByType(post.idBlogType)}">
+                                    <c:forEach var="blog" items="${post}">
                                         <c:set var="canSeeBlog" value="${blog.show == 1}" />
                                         <c:if test="${not canSeeBlog and not empty curruser}">
                                             <c:forEach var="studentClub" items="${StudentClubList}">
@@ -122,7 +121,6 @@
                                             </div>
                                         </c:if>
                                     </c:forEach>
-                                </c:if>
                                     <!-- Pagination start -->
                                     <div class="pagination-bx rounded-sm gray clearfix">
                                         <ul class="pagination">
@@ -157,13 +155,15 @@
                                             <div class="widget-post-bx">
 
                                                 <div class="widget-post clearfix">
-                                                    <c:forEach var="blogType" items="${blogTypeList}">
-                                                    <ul class="sub-menu">
-                                                        <li>
-                                                            <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${blogType.idBlogType}">${blogType.nameBlogType}</a>
-                                                        </li>
-                                                    </ul>
-                                                </c:forEach>
+                                                    <c:forEach var="settingBlogType" items="${settingsList}">
+                                                        <ul class="sub-menu">
+                                                            <li>
+                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${settingBlogType.idSetting}">
+                                                                    ${settingBlogType.valueSetting}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </c:forEach>
                                                 </div>
 
                                             </div>

@@ -12,14 +12,14 @@ import java.util.Date;
  * @author 10t1q
  */
 public class StudentClub {
-    private int point ;//
-    private Date dateCreate;//
-    private Date dateModify;//
-    private int status;//
-    private int idStudent;//
-    private int idClub;//
-    private int role;//
-    private int leader;//
+    private int point ;
+    private Date dateCreate;
+    private Date dateModify;
+    private int status;
+    private int idStudent;
+    private int idClub;
+    private int role;
+    private int leader;
 
     public StudentClub() {
     }

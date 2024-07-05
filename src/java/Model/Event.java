@@ -4,32 +4,32 @@
  */
 package Model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
  * @author 84358
  */
 public class Event {
-    private int idEvent;
-    private String nameEvent;
-    private Date datecreate;
-    private Date dateModify;
-    private int status;
-    private String address;
-    private Date enddate;
-    private int idClub;
-    private Date dateStart;
-    private String image;
-    private int idEventType;
-    private String description;
-    private String content ;
+    private int idEvent;//
+    private String nameEvent;//
+    private Timestamp datecreate;//
+    private Timestamp dateModify;//
+    private int status;//
+    private String address;//
+    private Timestamp enddate;//
+    private int idClub;//
+    private Timestamp dateStart;//
+    private String image;//
+    private int idEventType;//
+    private String description;//
+    private String content ;//
     private String eventType;
     
     public Event() {
     }
 
-    public Event(String nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
+    public Event(String nameEvent, Timestamp datecreate, Timestamp dateModify, int status, String address, Timestamp enddate, int idClub, Timestamp dateStart, String image, int idEventType, String description, String content) {
         this.nameEvent = nameEvent;
         this.datecreate = datecreate;
         this.dateModify = dateModify;
@@ -44,7 +44,7 @@ public class Event {
         this.content = content;
     }
 
-    public Event(int idEvent, String nameEvent, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
+    public Event(int idEvent, String nameEvent, Timestamp dateModify, int status, String address, Timestamp enddate, int idClub, Timestamp dateStart, String image, int idEventType, String description, String content) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.dateModify = dateModify;
@@ -61,7 +61,7 @@ public class Event {
     
     
 
-    public Event(int idEvent, String nameEvent, Date datecreate, Date dateModify, int status, String address, Date enddate, int idClub, Date dateStart, String image, int idEventType, String description, String content) {
+    public Event(int idEvent, String nameEvent, Timestamp datecreate, Timestamp dateModify, int status, String address, Timestamp enddate, int idClub, Timestamp dateStart, String image, int idEventType, String description, String content) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.datecreate = datecreate;
@@ -78,8 +78,8 @@ public class Event {
     }
 
     public Event(int idEvent, String nameEvent ,String image, String description, String content,
-            String address, Date dateStart, Date enddate, int idClub,
-            String eventType , Date datecreate, Date dateModify, int status) {
+            String address, Timestamp dateStart, Timestamp enddate, int idClub,
+            String eventType , Timestamp datecreate, Timestamp dateModify, int status) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.datecreate = datecreate;
@@ -124,19 +124,19 @@ public class Event {
         this.nameEvent = nameEvent;
     }
 
-    public Date getDatecreate() {
+    public Timestamp getDatecreate() {
         return datecreate;
     }
 
-    public void setDatecreate(Date datecreate) {
+    public void setDatecreate(Timestamp datecreate) {
         this.datecreate = datecreate;
     }
 
-    public Date getDateModify() {
+    public Timestamp getDateModify() {
         return dateModify;
     }
 
-    public void setDateModify(Date dateModify) {
+    public void setDateModify(Timestamp dateModify) {
         this.dateModify = dateModify;
     }
 
@@ -156,11 +156,11 @@ public class Event {
         this.address = address;
     }
 
-    public Date getEnddate() {
+    public Timestamp getEnddate() {
         return enddate;
     }
 
-    public void setEnddate(Date enddate) {
+    public void setEnddate(Timestamp enddate) {
         this.enddate = enddate;
     }
 
@@ -172,11 +172,11 @@ public class Event {
         this.idClub = idClub;
     }
 
-    public Date getDateStart() {
+    public Timestamp getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(Timestamp dateStart) {
         this.dateStart = dateStart;
     }
 

@@ -110,12 +110,31 @@
                                         <a href="<%= request.getContextPath() %>/changepassword" id="change-password-link">Change Password</a><br>
                                     </c:if>
                                     <c:if test="${sessionScope.role == 1}">
-                                        <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                        <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard Admin</a><br>
                                     </c:if>
                                     <c:if test="${sessionScope.role == 0}">
                                         <a href="#" id="change-password-link">My Club</a><br>
                                     </c:if>
+<%
+Accounts acc1 = (Accounts) session.getAttribute("curruser");
+if (acc1 != null) {
+StudentClubDAO studentClubDAO = new StudentClubDAO();
+List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(acc1.getId());
 
+boolean dashboardPrinted = false;
+
+for (StudentClub studentClub : StudentClubListt) {
+if ( studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
+if (!dashboardPrinted) {
+    dashboardPrinted = true;
+                        %>
+                        <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
+                        <%
+                                    }
+                                }
+                            }
+                        }
+                        %>
                                     <a href="logout" id="logout-link">Log Out</a>
                                 </div>
                             </div>
@@ -146,32 +165,6 @@
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>
                         </c:if> 
-                        <%
-Accounts accc = (Accounts) session.getAttribute("curruser");
-if (accc != null) {
-StudentClubDAO studentClubDAO = new StudentClubDAO();
-List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(accc.getId());
-
-boolean dashboardPrinted = false;
-
-for (StudentClub studentClub : StudentClubListt) {
-if (accc.getRole() == 1 || (studentClub.getStatus() == 1 && studentClub.getRole() == 1)) {
-if (!dashboardPrinted) {
-    dashboardPrinted = true;
-                        %>
-                        <li><a href="javascript:;">Dash board<i class="fa fa-angle-right"></i></a>
-                            <ul class="sub-menu">
-                                <li><a href="<%= request.getContextPath() %>/EventUploadServlet">Event Upload</a></li>
-                                <li><a href="<%= request.getContextPath() %>/UploadServlet">Blog Upload</a></li>
-                            </ul>
-                        </li>
-                        <%
-                                    }
-                                }
-                            }
-                        }
-                        %>
-
                     </ul>
                     <div class="nav-social-link">
                         <a href="javascript:;"><i class="fa fa-facebook"></i></a>

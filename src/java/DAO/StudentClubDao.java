@@ -106,7 +106,7 @@ public class StudentClubDAO extends DBContext {
         }
         return role;
     }
-
+//---- Hoang
     public List<StudentClub> getStudentClubs(int idStudent) {
     List<StudentClub> studentClubList = new ArrayList<>();
     String sql = "SELECT * FROM StudentClub WHERE IdStudent = ?";
@@ -119,13 +119,14 @@ public class StudentClubDAO extends DBContext {
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 StudentClub studentClub = new StudentClub();
-                studentClub.setPoint(rs.getInt("Point"));
-                studentClub.setDateCreate(rs.getDate("DateCreate"));
-                studentClub.setDateModify(rs.getDate("DateModify"));
-                studentClub.setStatus(rs.getInt("Status"));
-                studentClub.setIdStudent(rs.getInt("IdStudent"));
-                studentClub.setIdClub(rs.getInt("IdClub"));
-                studentClub.setRole(rs.getInt("IdRole"));
+                studentClub.setPoint(rs.getInt("Point"));//
+                studentClub.setDateCreate(rs.getDate("DateCreate"));//
+                studentClub.setDateModify(rs.getDate("DateModify"));//
+                studentClub.setStatus(rs.getInt("Status"));//
+                studentClub.setIdStudent(rs.getInt("IdStudent"));//
+                studentClub.setIdClub(rs.getInt("IdClub"));//
+                studentClub.setRole(rs.getInt("Role"));//
+                studentClub.setLeader(rs.getInt("leader"));//
                 studentClubList.add(studentClub);
             }
         }
@@ -135,7 +136,7 @@ public class StudentClubDAO extends DBContext {
     return studentClubList;
 }
 
-
+//-----------------------
     public static void main(String[] args) {
         StudentClubDAO dao = new StudentClubDAO();
         System.out.println(dao.getStudentClubbyId(34).get(1).getIdClub());

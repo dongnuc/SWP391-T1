@@ -4,16 +4,9 @@
  */
 package Controller.Manager;
 
-import DAO.ClubDao;
-import DAO.EventDAO;
-import DAO.EventTypeDAO;
-import DAO.StudentClubDAO;
-import Model.Accounts;
-import Model.Event;
-import Model.EventType;
-import Model.StudentClub;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -62,8 +56,10 @@ public class Event_UpdateServlet extends HttpServlet {
         
         EventDAO eventDAO = new EventDAO();
         Event event = eventDAO.getEventById(ID);
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        
+        SettingDAO settingDao = new SettingDAO();
+        List<Settings> eventTypeList = settingDao.getSettingsEvent();
+        
         ClubDao clubDAO = new ClubDao();
 
         request.setAttribute("studentClubList", StudentClubList);
@@ -169,8 +165,8 @@ public class Event_UpdateServlet extends HttpServlet {
             EventDAO eD = new EventDAO();
             Event event = eD.getEventById(ID);
             ClubDao clubDAO = new ClubDao();
-            EventTypeDAO eventTypeDAO = new EventTypeDAO();
-            List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+            SettingDAO settingDao = new SettingDAO();
+            List<Settings> eventTypeList = settingDao.getSettingsEvent();
             StudentClubDAO studentClubDAO = new StudentClubDAO();
             Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
@@ -189,20 +185,22 @@ public class Event_UpdateServlet extends HttpServlet {
         int eventType = Integer.parseInt(xEventType);
         int status = Integer.parseInt(xStatus);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateStart = null;
-        Date dateEnd = null;
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
         try {
-            dateStart = formatter.parse(dateStartStr);
-            dateEnd = formatter.parse(dateEndStr);
+            Date parsedDateStart = dateFormat.parse(dateStartStr);
+            Date parsedDateEnd = dateFormat.parse(dateEndStr);
+
+            Timestamp dateStart = new Timestamp(parsedDateStart.getTime());
+            Timestamp dateEnd = new Timestamp(parsedDateEnd.getTime());
+            
+            Event event = new Event(ID, nameEvent, timestamp, status, address, dateEnd, IDClub, dateStart, fileName, eventType, description, content);
+            eventDAO.updateEvent(event);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Date currentDate = new Date();
-
-        Event event = new Event(ID, nameEvent, currentDate, status, address, dateEnd, IDClub, dateStart, fileName, eventType, description, content);
-        eventDAO.updateEvent(event);
 
         response.sendRedirect(request.getContextPath() + "/EventSerlet");
     }

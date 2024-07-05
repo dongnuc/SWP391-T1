@@ -257,35 +257,23 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
-                            <a href="index.html" class="ttr-material-button">
-                                <span class="ttr-icon"><i class="ti-home"></i></span>
-                                <span class="ttr-label">Dashborad</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="courses.html" class="ttr-material-button">
-                                <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Courses</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="ttr-material-button">
-                                <span class="ttr-icon"><i class="ti-email"></i></span>
-                                <span class="ttr-label">Mailbox</span>
-                                <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="mailbox.html" class="ttr-material-button"><span class="ttr-label">Mail Box</span></a>
-                                </li>
-                                <li>
-                                    <a href="mailbox-compose.html" class="ttr-material-button"><span class="ttr-label">Compose</span></a>
-                                </li>
-                                <li>
-                                    <a href="mailbox-read.html" class="ttr-material-button"><span class="ttr-label">Mail Read</span></a>
-                                </li>
-                            </ul>
-                        </li>
+						<a href="<c:url value='/ManagerDashBoardServlet' />"" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-home"></i></span>
+		                	<span class="ttr-label">Dashboard</span>
+		                </a>
+		            </li>
+					<li>
+						<a href="<c:url value='/UploadServlet' />" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Blog Upload</span>
+		                </a>
+		            </li>
+					<li>
+						<a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Event Upload</span>
+		                </a>
+		            </li>
                         <li>
                             <a href="#" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-calendar"></i></span>
@@ -437,22 +425,22 @@
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date start</label>
                                             <div>
-                                                <input type="date" name="datestart"  value="${event.dateStart}">
+                                                <input type="datetime-local" name="datestart"  value="${event.dateStart}">
                                             </div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date end</label>
                                             <div>
-                                                <input type="date" name="dateend" value="${event.enddate}"><br>
+                                                <input type="datetime-local" name="dateend" value="${event.enddate}"><br>
                                             </div>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club : </label>
                                             <c:forEach var="studentClub" items="${studentClubList}">
                                                 <c:choose>
-                                                    <c:when test="${studentClub.status == 1}">
+                                                    <c:when test="${studentClub.status == 1 && studentClub.leader == 1}">
                                                         <div>
-                                                            <input type="radio" name="idclub" value="${studentClub.idClub}" ${event.idClub == studentClub.idClub ? "checked" : ""}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                            <input type="radio" name="idclub" value="${studentClub.idClub}" ${event.idClub == studentClub.idClub ? "checked" : ""}> ${clubDAO.getClubNameByID(studentClub.idClub)}
                                                         </div>
                                                     </c:when>
                                                 </c:choose>
@@ -462,7 +450,7 @@
                                             <label class="col-form-label">Event's type: </label>
                                             <c:forEach var="eventType" items="${eventTypeList}">
                                             <div>
-                                                <input type="radio" name="eventtype" value="${eventType.idEventType}" ${event.idEventType == eventType.idEventType ? 'checked' : ''}>${eventType.nameEventType}
+                                                <input type="radio" name="eventtype" value="${eventType.idSetting}" ${event.idEventType == eventType.idSetting ? 'checked' : ''}>${eventType.valueSetting}
                                             </div>
                                             </c:forEach>
                                         </div>

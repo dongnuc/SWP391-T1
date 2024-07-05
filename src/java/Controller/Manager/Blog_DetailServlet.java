@@ -6,11 +6,9 @@
 package Controller.Manager;
 
 import DAO.BlogDAO;
-import DAO.BlogTypeDAO;
 import DAO.StudentClubDAO;
 import Model.Accounts;
 import Model.Blog;
-import Model.BlogType;
 import Model.StudentClub;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -32,13 +30,12 @@ public class Blog_DetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         String ID = request.getParameter("idBlog");
         int xId = Integer.parseInt(ID);
+        
         BlogDAO postDAO = new BlogDAO();
         Blog post = postDAO.getPost(xId);
-        
-        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
         
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         List<StudentClub> studentClubList = null;
@@ -48,7 +45,6 @@ public class Blog_DetailServlet extends HttpServlet {
         }
         
         request.setAttribute("x", post);
-        request.setAttribute("blogTypeList", blogTypeList);
         request.setAttribute("StudentClubList", studentClubList);
         request.setAttribute("curruser", acc);
 

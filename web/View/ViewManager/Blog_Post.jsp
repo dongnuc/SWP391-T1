@@ -256,17 +256,17 @@
                 <nav class="ttr-sidebar-navi">
                     <ul>
                         <li>
-                            <a href="index.html" class="ttr-material-button">
-                                <span class="ttr-icon"><i class="ti-home"></i></span>
-                                <span class="ttr-label">Dashborad</span>
-                            </a>
-                        </li>
+						<a href="<c:url value='/ManagerDashBoardServlet' />"" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-home"></i></span>
+		                	<span class="ttr-label">Dashboard</span>
+		                </a>
+		            </li>
                         <li>
-                            <a href="courses.html" class="ttr-material-button">
-                                <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Courses</span>
-                            </a>
-                        </li>
+						<a href="<c:url value='/UploadServlet' />" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-book"></i></span>
+		                	<span class="ttr-label">Blog Upload</span>
+		                </a>
+		            </li>
                         <li>
                             <a href="#" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-email"></i></span>
@@ -431,9 +431,9 @@
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club:</label>
                                             <c:forEach var="studentClub" items="${StudentClubList}">
-                                                <c:if test="${studentClub.status == 1}">
+                                                <c:if test="${studentClub.status == 1 && studentClub.leader == 1}">
                                                     <div>
-                                                        <input type="radio" name="idclub" value="${studentClub.idClub}" ${param.idclub == studentClub.idClub ? 'checked' : ''}> ${clubDAO.getNameById(studentClub.idClub)}
+                                                        <input type="radio" name="idclub" value="${studentClub.idClub}" ${param.idclub == studentClub.idClub ? 'checked' : ''}> ${clubDAO.getClubNameByID(studentClub.idClub)}
                                                     </div>
                                                 </c:if>
                                             </c:forEach>
@@ -442,7 +442,7 @@
                                             <label class="col-form-label">Blog's type:</label>
                                             <c:forEach var="blogType" items="${blogTypeList}">
                                                 <div>
-                                                    <input type="radio" name="blogtype" value="${blogType.idBlogType}" ${param.blogtype == blogType.idBlogType ? 'checked' : ''}> ${blogType.nameBlogType}
+                                                    <input type="radio" name="blogtype" value="${blogType.idSetting}" ${param.blogtype == blogType.idSetting ? 'checked' : ''}> ${blogType.valueSetting}
                                                 </div>
                                             </c:forEach>
                                         </div>

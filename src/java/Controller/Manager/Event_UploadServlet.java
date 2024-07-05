@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +49,12 @@ public class Event_UploadServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
             return;
         }
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+
         ClubDao clubDAO = new ClubDao();
+
         request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("eventTypeList", eventTypeList);
         request.setAttribute("StudentClubList", StudentClubList);
@@ -79,8 +83,8 @@ public class Event_UploadServlet extends HttpServlet {
             }
         }
         EventDAO eventDAO = new EventDAO();
-        String filenamecheck =Integer.toString(eventDAO.getAllEvent().size());
-                
+        String filenamecheck = Integer.toString(eventDAO.getAllEvent().size());
+
         if (fileName != null) {
             String nameEvent = request.getParameter("nameevent");
             String description = request.getParameter("description");
@@ -91,7 +95,6 @@ public class Event_UploadServlet extends HttpServlet {
             String xStatus = request.getParameter("status");
             String dateStartStr = request.getParameter("datestart");
             String dateEndStr = request.getParameter("dateend");
-            
 
             StringBuilder errorMessage = new StringBuilder();
             boolean hasError = false;
@@ -128,7 +131,7 @@ public class Event_UploadServlet extends HttpServlet {
                 errorMessage.append("Event type must be selected.<br>");
                 hasError = true;
             }
-            if ( fileName.equals(filenamecheck) || fileName.isEmpty() ) {
+            if (fileName.equals(filenamecheck) || fileName.isEmpty()) {
                 errorMessage.append("File must be selected.<br>");
                 hasError = true;
             }
@@ -148,6 +151,20 @@ public class Event_UploadServlet extends HttpServlet {
                 request.setAttribute("status", xStatus);
                 request.setAttribute("datestart", dateStartStr);
                 request.setAttribute("dateend", dateEndStr);
+
+                SettingDAO settingDAO = new SettingDAO();
+                List<Settings> eventTypeList = settingDAO.getSettingsBlog();
+
+                ClubDao clubDAO = new ClubDao();
+
+                Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+                StudentClubDAO studentClubDAO = new StudentClubDAO();
+                List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+             
+                request.setAttribute("clubDAO", clubDAO);
+                request.setAttribute("eventTypeList", eventTypeList);
+                request.setAttribute("StudentClubList", StudentClubList);
+
                 request.getRequestDispatcher("/View/ViewManager/Event_Post.jsp").forward(request, response);
                 return;
             }
@@ -155,22 +172,24 @@ public class Event_UploadServlet extends HttpServlet {
             int IDClub = Integer.parseInt(xIDClub);
             int eventType = Integer.parseInt(xEventType);
             int status = Integer.parseInt(xStatus);
+
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date dateStart = null;
-            Date dateEnd = null;
             try {
-                dateStart = formatter.parse(dateStartStr);
-                dateEnd = formatter.parse(dateEndStr);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Date parsedDateStart = dateFormat.parse(dateStartStr);
+            Date parsedDateEnd = dateFormat.parse(dateEndStr);
 
-            Date currentDate = new Date();
-
-            Event event = new Event(nameEvent, currentDate, currentDate, status, address, dateEnd, IDClub, dateStart, "images_event/" + fileName, eventType, description, content);
+            Timestamp dateStart = new Timestamp(parsedDateStart.getTime());
+            Timestamp dateEnd = new Timestamp(parsedDateEnd.getTime());
+            
+            Event event = new Event(nameEvent, timestamp, timestamp, status, address, dateEnd, IDClub, dateStart, "images_event/" + fileName, eventType, description, content);
             eventDAO.addEvent(event);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            
             response.sendRedirect(request.getContextPath() + "/EventSerlet");
         } else {
             response.getWriter().println("Error: File upload failed.");

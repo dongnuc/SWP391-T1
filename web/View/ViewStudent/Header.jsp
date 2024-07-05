@@ -1,4 +1,6 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import = "Model.*" %>
+<%@ page import = "DAO.*" %>
+<%@ page import = "java.util.*" %>
 <head>
 
     <!-- META ============================================= -->
@@ -83,7 +85,7 @@
 
 
                 <div class="menu-logo">
-                    <a href="home"><img src="images/logo3.png" alt=""></a>
+                    <a href="Home.jsp"><img src="images/logo3.png" alt=""></a>
                 </div>
                 <!-- Mobile Nav Button ==== -->
                 <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,12 +110,31 @@
                                         <a href="<%= request.getContextPath() %>/changepassword" id="change-password-link">Change Password</a><br>
                                     </c:if>
                                     <c:if test="${sessionScope.role == 1}">
-                                        <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard</a><br>
+                                        <a href="<%= request.getContextPath() %>/dashboardAdmin" id="change-password-link">Dashboard Admin</a><br>
                                     </c:if>
                                     <c:if test="${sessionScope.role == 0}">
                                         <a href="#" id="change-password-link">My Club</a><br>
                                     </c:if>
+<%
+Accounts acc1 = (Accounts) session.getAttribute("curruser");
+if (acc1 != null) {
+StudentClubDAO studentClubDAO = new StudentClubDAO();
+List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(acc1.getId());
 
+boolean dashboardPrinted = false;
+
+for (StudentClub studentClub : StudentClubListt) {
+if ( studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
+if (!dashboardPrinted) {
+    dashboardPrinted = true;
+                        %>
+                       <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
+                        <%
+                                    }
+                                }
+                            }
+                        }
+                        %>
                                     <a href="logout" id="logout-link">Log Out</a>
                                 </div>
                             </div>
@@ -137,21 +158,13 @@
                         <a href="index.html"><img src="assets/images/logo.png" alt=""></a>
                     </div>
                     <ul class="nav navbar-nav">	
-                        <li><a href="home">Home</a></li>
-                        <li><a href="<c:url value='/EventSerlet' />">Events</a></li>
-                        <li><a href="<c:url value='/BlogListServlet'/>">Blog</a></li>
+                        <li><a href="Home.jsp">Home</a></li>
+                        <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
+                        <li><a href="<%= request.getContextPath() %>/BlogListServlet">Blog</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
-                        <li><a href="contactus">Contact Us</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>
                         </c:if> 
-
-<!--                        <li><a href="javascript:;">Dash board<i class="fa fa-angle-right"></i></a>
-                            <ul class="sub-menu">
-                                <li><a href="<%= request.getContextPath() %>/EventUploadServlet">Event Upload</a></li>
-                                <li><a href="<%= request.getContextPath() %>/UploadServlet">Blog Upload</a></li>
-                            </ul>
-                        </li>-->
                     </ul>
                     <div class="nav-social-link">
                         <a href="javascript:;"><i class="fa fa-facebook"></i></a>

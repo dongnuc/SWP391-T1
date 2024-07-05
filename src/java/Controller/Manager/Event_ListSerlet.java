@@ -5,10 +5,8 @@
 
 package Controller.Manager;
 
-import DAO.EventDAO;
-import DAO.EventTypeDAO;
-import Model.Event;
-import Model.EventType;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,19 +28,16 @@ public class Event_ListSerlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        // Fetch the list of events
         EventDAO eventDAO = new EventDAO();
         List<Event> eventList = eventDAO.getAllEvent();
 
-        // Fetch the list of event types
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+          
 
-        // Set the attributes to be used in the JSP
         request.setAttribute("eventList", eventList);
         request.setAttribute("eventTypeList", eventTypeList);
 
-        // Forward the request to the JSP page
         request.getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
     }
 

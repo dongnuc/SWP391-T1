@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -41,7 +41,7 @@ public class Blog_PostServlet extends HttpServlet {
             StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
             for (StudentClub studentClub : StudentClubList) {
-                if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                if (studentClub.getStatus() == 1 && studentClub.getLeader()== 1) {
                     restricted = false;
                     break;
                 }
@@ -53,8 +53,9 @@ public class Blog_PostServlet extends HttpServlet {
             return;
         }
 
-        BlogTypeDAO blogTypeDAO = new BlogTypeDAO();
-        List<BlogType> blogTypeList = blogTypeDAO.getAllPosts();
+        SettingDAO settingDAo = new SettingDAO();
+        List<Settings> blogTypeList = settingDAo.getSettingsBlog();
+        
         ClubDao clubDAO = new ClubDao();
 
         request.setAttribute("clubDAO", clubDAO);
@@ -143,6 +144,19 @@ public class Blog_PostServlet extends HttpServlet {
                 request.setAttribute("status", xStatus);
                 request.setAttribute("idclub", xIDClub);
                 request.setAttribute("fileName", fileName);
+                
+                SettingDAO settingDAo = new SettingDAO();
+                List<Settings> blogTypeList = settingDAo.getSettingsBlog();
+                
+                ClubDao clubDAO = new ClubDao();
+                
+                Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+                StudentClubDAO studentClubDAO = new StudentClubDAO();
+                List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+        
+                request.setAttribute("StudentClubList", StudentClubList);
+                request.setAttribute("clubDAO", clubDAO);
+                request.setAttribute("blogTypeList", blogTypeList);
                 request.getRequestDispatcher("View/ViewManager/Blog_Post.jsp").forward(request, response);
                 return;
             }
@@ -150,9 +164,9 @@ public class Blog_PostServlet extends HttpServlet {
             int Blogtype = Integer.parseInt(xBlogtype);
             int Status = Integer.parseInt(xStatus);
             int IDClub = Integer.parseInt(xIDClub);
-            java.util.Date date = new java.util.Date();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-            Blog post = new Blog(Title, "images_blog" + "/" + fileName, Description, Content, date, date, Blogtype, IDClub, Show, Status);
+            Blog post = new Blog(Title, "images_blog" + "/" + fileName, Description, Content, timestamp, timestamp, Blogtype, IDClub, Show, Status);
             postDAO.insertPost(post);
 
             response.sendRedirect(request.getContextPath() + "/BlogListServlet");

@@ -5,12 +5,9 @@
 
 package Controller.Manager;
 
-import DAO.EventDAO;
-import DAO.EventTypeDAO;
-import Model.Event;
-import Model.EventType;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,16 +30,19 @@ public class Event_TypeServlet extends HttpServlet {
         String ID = request.getParameter("idEventType");
         int xId = Integer.parseInt(ID);
    
-        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-        EventType eventType = eventTypeDAO.getEventTypeByID(xId);
+//        EventTypeDAO eventTypeDAO = new EventTypeDAO();
+//        EventType eventType = eventTypeDAO.getEventTypeByID(xId);
+        
+        SettingDAO settingDAO = new SettingDAO();
+        Settings settings = settingDAO.getSettingById(xId);
 
         EventDAO eventDAO = new EventDAO();
         List<Event> eventList = eventDAO.getEventsByType(xId);
 
-        request.setAttribute("x", eventType);
+        request.setAttribute("settings", settings);
         request.setAttribute("eventList", eventList);
 
-        List<EventType> eventTypeList = eventTypeDAO.getAllEventTypes();
+        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
         request.setAttribute("eventTypeList", eventTypeList);
         
         request.getRequestDispatcher("/View/ViewManager/Event_TypeList.jsp").forward(request, response);

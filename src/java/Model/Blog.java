@@ -4,30 +4,30 @@
  */
 package Model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
  * @author 84358
  */
 public class Blog {
-    private int idBlog;
-    private String titleBlog;
-    private String image;
-    private String description;
-    private String content;
-    private Date dateCreate;
-    private Date dateModify;
-    private int idBlogType;
-    private int idClub;
-    private int show;
-    private int status;
+    private int idBlog;//
+    private String titleBlog;//
+    private String image;//
+    private String description;//
+    private String content;//
+    private Timestamp dateCreate;//
+    private Timestamp dateModify;//
+    private int idBlogType;//
+    private int idClub;//
+    private int show;//
+    private int status;//
     private String blogType;
 
     public Blog() {
     }
 
-    public Blog(String titleBlog, String image, String description, String content, Date dateCreate, Date dateModify, int idBlogType, int idClub, int show, int status) {
+    public Blog(String titleBlog, String image, String description, String content, Timestamp dateCreate, Timestamp dateModify, int idBlogType, int idClub, int show, int status) {
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
@@ -40,7 +40,7 @@ public class Blog {
         this.status = status;
     }
 
-    public Blog(String titleBlog, String image, String description, String content, Date dateModify, int idBlogType, int idClub, int show, int status , int idBlog) {
+    public Blog(String titleBlog, String image, String description, String content, Timestamp dateModify, int idBlogType, int idClub, int show, int status , int idBlog) {
         this.titleBlog = titleBlog;
         this.image = image;
         this.description = description;
@@ -53,7 +53,7 @@ public class Blog {
          this.idBlog = idBlog;
     }
 
-    public Blog(int idBlog, String titleBlog, String image, String description, String content, Date dateCreate, Date dateModify, int idBlogType, int idClub, int show, int status) {
+    public Blog(int idBlog, String titleBlog, String image, String description, String content, Timestamp dateCreate, Timestamp dateModify, int idBlogType, int idClub, int show, int status) {
         this.idBlog = idBlog;
         this.titleBlog = titleBlog;
         this.image = image;
@@ -68,7 +68,7 @@ public class Blog {
     }
 
     public Blog(int idBlog, String titleBlog, String image, String description, String content, String blogType,
-            int idClub, int show, int status,Date dateCreate, Date dateModify) {
+            int idClub, int show, int status,Timestamp dateCreate, Timestamp dateModify) {
         this.idBlog = idBlog;
         this.titleBlog = titleBlog;
         this.image = image;
@@ -133,19 +133,19 @@ public class Blog {
         this.content = content;
     }
 
-    public Date getDateCreate() {
+    public Timestamp getDateCreate() {
         return dateCreate;
     }
 
-    public void setDateCreate(Date dateCreate) {
+    public void setDateCreate(Timestamp dateCreate) {
         this.dateCreate = dateCreate;
     }
 
-    public Date getDateModify() {
+    public Timestamp getDateModify() {
         return dateModify;
     }
 
-    public void setDateModify(Date dateModify) {
+    public void setDateModify(Timestamp dateModify) {
         this.dateModify = dateModify;
     }
 

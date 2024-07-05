@@ -5,9 +5,9 @@
 
 package Controller.Manager;
 
-
-import DAO.*;
-import Model.*;
+import DAO.StudentClubDAO;
+import Model.Accounts;
+import Model.StudentClub;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,42 +20,41 @@ import java.util.List;
  *
  * @author 10t1q
  */
-@WebServlet(name="BlogListServlet", urlPatterns={"/BlogListServlet"})
-public class Blog_ListServlet extends HttpServlet {
+@WebServlet(name="Manager_DashBoardServlet", urlPatterns={"/ManagerDashBoardServlet"})
+public class Manager_DashBoardServlet extends HttpServlet {
+   
    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        BlogDAO postDAO = new BlogDAO();
-        ClubDao clubDAO = new ClubDao();
-        SettingDAO settingDAO = new SettingDAO();
-        
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        List<StudentClub> StudentClubList = null;
 
-        List<Settings> settingsList = settingDAO.getSettingsBlog();
-        List<Blog> postList = postDAO.getAllPosts();
-
-        request.setAttribute("settingsList", settingsList);
-        request.setAttribute("postList", postList);
-        request.setAttribute("curruser", acc);
-        request.setAttribute("clubDAO", clubDAO);
+        boolean restricted = true;
 
         if (acc != null) {
             StudentClubDAO studentClubDAO = new StudentClubDAO();
-            List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acc.getId());
-            request.setAttribute("StudentClubList", studentClubList);
+            StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+
+            for (StudentClub studentClub : StudentClubList) {
+                if (studentClub.getStatus() == 1 && studentClub.getLeader()== 1) {
+                    restricted = false;
+                    break;
+                }
+            }
         }
-        
-        request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
+
+        if (restricted) {
+            response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
+            return;
+        }   
+     request.getRequestDispatcher("/View/ViewManager/Manager_DashBoard.jsp").forward(request, response);
     } 
 
-    
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
     }
 
- 
 }

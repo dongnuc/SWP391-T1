@@ -37,7 +37,7 @@ public class Event_DetailServlet extends HttpServlet {
         }
         
         ClubDao clubDao = new ClubDao();
-        String clubName = clubDao.getNameById(event.getIdClub());
+        String clubName = clubDao.getClubNameByID(event.getIdClub());
         request.setAttribute("clubName", clubName);
         
         request.getRequestDispatcher("/View/ViewManager/Event_Detail.jsp").forward(request, response);

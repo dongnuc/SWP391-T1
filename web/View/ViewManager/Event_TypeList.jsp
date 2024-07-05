@@ -29,7 +29,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>${x.nameEventType}</title>
+        <title>${settings.valueSetting}</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,7 +75,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">${x.nameEventType}</h1>
+                            <h1 class="text-white">${settings.valueSetting}</h1>
                         </div>
                     </div>
                 </div>
@@ -85,10 +85,10 @@
                 <div class="row">
                 <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
                     <div class="event-type-list">
-                        <p style="color: red">Event Type</p>
+                       <p style="color: red">Event Type</p>
                              <a href="<c:url value='/EventSerlet' />"><span>All</span></a><br>
                             <c:forEach var="eventType" items="${eventTypeList}">
-                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idEventType}"><span>${eventType.nameEventType}</span></a><br>
+                                <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}"><span>${eventType.valueSetting}</span></a><br>
                             </c:forEach>
                         </div>
                             </div>
