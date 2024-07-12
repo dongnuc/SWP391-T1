@@ -27,27 +27,45 @@ public class Blog_ListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        List<Blog> postList = (List<Blog>) request.getAttribute("BlogByIDList");
 
         BlogDAO postDAO = new BlogDAO();
+        if(postList == null ){
+          postList = postDAO.getAllPosts();
+        }
+        
         ClubDao clubDAO = new ClubDao();
         SettingDAO settingDAO = new SettingDAO();
         
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
-
-        List<Settings> settingsList = settingDAO.getSettingsBlog();
-        List<Blog> postList = postDAO.getAllPosts();
-
-        request.setAttribute("settingsList", settingsList);
-        request.setAttribute("postList", postList);
-        request.setAttribute("curruser", acc);
-        request.setAttribute("clubDAO", clubDAO);
-
         if (acc != null) {
             StudentClubDAO studentClubDAO = new StudentClubDAO();
             List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acc.getId());
             request.setAttribute("StudentClubList", studentClubList);
         }
         
+        List<Settings> settingsList = settingDAO.getSettingsBlog();
+
+        int page = 1;
+        int recordsPerPage = 10;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, postList.size());
+        List<Blog> paginatedList = postList.subList(start, end);
+        
+        int noOfRecords = postList.size();
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        
+        request.setAttribute("settingsList", settingsList);
+        request.setAttribute("BlogByIDList", paginatedList);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("curruser", acc);
+        request.setAttribute("clubDAO", clubDAO);
+
         request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
     } 
 
@@ -55,6 +73,7 @@ public class Blog_ListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        doGet(request, response);
     }
 
  

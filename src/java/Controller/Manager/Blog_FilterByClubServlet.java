@@ -5,41 +5,36 @@
 
 package Controller.Manager;
 
-import DAO.BlogDAO;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author 10t1q
  */
-@WebServlet(name="Blog_DeleteServlet", urlPatterns={"/BlogDeleteServlet"})
-public class Blog_DeleteServlet extends HttpServlet {
-   
+@WebServlet(name="Blog_FilterByClubServlet", urlPatterns={"/BlogFilterByClubServlet"})
+public class Blog_FilterByClubServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        String ID = request.getParameter("idClub");
+        int xId = Integer.parseInt(ID);
         
-        String xID = request.getParameter("idBlog");
-        int Id = Integer.parseInt(xID);
-        
-        String fromPage = request.getParameter("from");
-        request.setAttribute("fromPage", fromPage);
-    
         BlogDAO blogDAO = new BlogDAO();
-        blogDAO.deletePost(Id);
+        List<Blog> BlogByIDList = blogDAO.getPostsByClubId(xId);
+    
+        BlogByIDList.sort((Blog b1, Blog b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
         
-        if ("Blog_PostList.jsp".equals(fromPage)) {
-        response.sendRedirect(request.getContextPath() + "/BlogPostListServlet");
-        }
-        if ("Blog_List.jsp".equals(fromPage)){
-        response.sendRedirect(request.getContextPath() + "/BlogListServlet");
-        }
+        request.setAttribute("BlogByIDList", BlogByIDList);
+        request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
     } 
 
     
@@ -48,5 +43,5 @@ public class Blog_DeleteServlet extends HttpServlet {
     throws ServletException, IOException {
     }
 
-   
+    
 }

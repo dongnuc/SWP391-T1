@@ -5,11 +5,8 @@
 
 package Controller.Manager;
 
-import DAO.BlogDAO;
-import DAO.StudentClubDAO;
-import Model.Accounts;
-import Model.Blog;
-import Model.StudentClub;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,7 +41,10 @@ public class Blog_DetailServlet extends HttpServlet {
             studentClubList = studentClubDAO.getStudentClubs(acc.getId());
         }
         
+        ClubDao clubDAO = new ClubDao();
+        
         request.setAttribute("x", post);
+        request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("StudentClubList", studentClubList);
         request.setAttribute("curruser", acc);
 

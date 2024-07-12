@@ -121,5 +121,25 @@ public class SettingDAO extends DBContext{
 
         return settings;
     }
+    
+    public String getValueSettingById(int idSetting) {
+    String valueSetting = null;
+    String sql = "SELECT valueSetting FROM settings WHERE idSetting = ?";
+
+    try (Connection con = DBContext.getConnection(); 
+         PreparedStatement st = con.prepareStatement(sql)) {
+        
+        st.setInt(1, idSetting);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                valueSetting = rs.getString("valueSetting");
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return valueSetting;
+}
+
     //-----------------------------------------
 }

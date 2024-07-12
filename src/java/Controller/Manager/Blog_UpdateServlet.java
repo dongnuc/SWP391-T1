@@ -33,6 +33,9 @@ public class Blog_UpdateServlet extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
+        
+        String fromPage = request.getParameter("from");
+        request.setAttribute("fromPage", fromPage);
 
         String xID = request.getParameter("idBlog");
         int ID = Integer.parseInt(xID);
@@ -94,7 +97,7 @@ public class Blog_UpdateServlet extends HttpServlet {
                 }
             }
         }
-
+        String fromPage = request.getParameter("from");
         String xID = request.getParameter("idblog");
         int ID = Integer.parseInt(xID);
         String Title = request.getParameter("tittle");
@@ -183,7 +186,11 @@ public class Blog_UpdateServlet extends HttpServlet {
         BlogDAO postDAO = new BlogDAO();
         postDAO.updatePost(post);
 
-        response.sendRedirect(request.getContextPath() + "/BlogListServlet");
+        if ("Blog_PostList.jsp".equals(fromPage)) {
+        request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
+    } if ("Blog_List.jsp".equals(fromPage)) {
+        request.getRequestDispatcher("/BlogListServlet").forward(request, response);
+    }
     }
 
     private String extractFileName(Part part) {

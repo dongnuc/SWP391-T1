@@ -83,59 +83,65 @@
                             <div class="row">
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
-                                    <c:forEach var="showBlog" items="${postList}">
-                                        <c:set var="canSeeBlog" value="${showBlog.show == 1}" />
-                                        <c:if test="${not canSeeBlog and not empty curruser}">
-                                            <c:forEach var="studentClub" items="${StudentClubList}">
-                                                <c:if test="${studentClub.idClub == showBlog.idClub}">
-                                                    <c:set var="canSeeBlog" value="true" />
-                                                </c:if>
-                                            </c:forEach>
-                                        </c:if>
-                                        <c:if test="${canSeeBlog}">
-                                            <div class="blog-post blog-md clearfix">
-                                                <div class="ttr-post-media"> 
-                                                    <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
-                                                        <img src="${pageContext.request.contextPath}/${showBlog.image}" alt="Uploaded Image">
-                                                    </a>
-                                                </div>
-                                                <div class="ttr-post-info">
-                                                    <ul class="media-post">
-                                                        <li>
-                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
-                                                                <i class="fa fa-calendar"></i>${showBlog.dateCreate}
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
-                                                                <i class="fa fa-user"></i>${clubDAO.getClubNameByID(showBlog.idClub)}
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                    <h5 class="post-title">
+                                    <c:if test="${empty errorMessage}">
+                                        <c:forEach var="showBlog" items="${BlogByIDList}">
+                                            <c:set var="canSeeBlog" value="${showBlog.show == 1}" />
+                                            <c:if test="${not canSeeBlog and not empty curruser}">
+                                                <c:forEach var="studentClub" items="${StudentClubList}">
+                                                    <c:if test="${studentClub.idClub == showBlog.idClub}">
+                                                        <c:set var="canSeeBlog" value="true" />
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:if>
+                                            <c:if test="${canSeeBlog}">
+                                                <div class="blog-post blog-md clearfix">
+                                                    <div class="ttr-post-media"> 
                                                         <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
-                                                            ${showBlog.titleBlog}
+                                                            <img src="${pageContext.request.contextPath}/${showBlog.image}" alt="Uploaded Image">
                                                         </a>
-                                                    </h5>
-                                                    <p>${showBlog.description}</p>
-                                                    <div class="post-extra">
-                                                        <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}" class="btn-link">READ MORE</a>
+                                                    </div>
+                                                    <div class="ttr-post-info">
+                                                        <ul class="media-post">
+                                                            <li>
+                                                                <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                                    <i class="fa fa-calendar"></i>${showBlog.dateCreate}
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                                    <i class="fa fa-user"></i>${clubDAO.getClubNameByID(showBlog.idClub)}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <h5 class="post-title">
+                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">
+                                                                ${showBlog.titleBlog}
+                                                            </a>
+                                                        </h5>
+                                                        <p>${showBlog.description}</p>
+                                                        <div class="post-extra">
+                                                            <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}" class="btn-link">READ MORE</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </c:if>
-                                    </c:forEach>
-                                    <!-- Pagination start -->
-                                    <div class="pagination-bx rounded-sm gray clearfix">
-                                        <ul class="pagination">
-                                            <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <!-- Pagination END -->
+                                            </c:if>
+                                        </c:forEach>
+                                        <!-- Pagination start -->
+                                        <div class="pagination-bx rounded-sm gray clearfix">
+                                            <ul class="pagination">
+                                                <c:if test="${currentPage > 1}">
+                                                    <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                    </c:if>
+                                                    <c:forEach begin="1" end="${noOfPages}" var="i">
+                                                    <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                                    <c:if test="${currentPage < noOfPages}">
+                                                    <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                        </c:if>
+                                            </ul>
+                                        </div>
+                                        <!-- Pagination END -->
+                                    </c:if>
                                 </div>
                                 <!-- Left part END -->
                                 <!-- Side bar start -->
@@ -144,14 +150,18 @@
                                         <div class="widget">
                                             <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">
-                                                <form role="search" method="post">
+                                                <form role="search" action="BlogSearchServlet" method="POST">
+                                                    <input type="hidden" name="from" value="Blog_List.jsp">
                                                     <div class="input-group">
-                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text">
+                                                        <input name="searchKeyword" class="form-control" placeholder="Enter title blog" type="text">
                                                         <span class="input-group-btn">
                                                             <button type="submit" class="fa fa-search text-primary"></button>
                                                         </span> 
                                                     </div>
                                                 </form>
+                                                <c:if test="${not empty errorMessage}">
+                                                    <div class="alert alert-danger">${errorMessage}</div>
+                                                </c:if>
                                             </div>
                                         </div>
                                         <div class="widget recent-posts-entry">
@@ -159,10 +169,11 @@
                                             <div class="widget-post-bx">
 
                                                 <div class="widget-post clearfix">
+                                                    <a href="<c:url value='/BlogListServlet?from=Blog_List.jsp' />"><span>All</span></a><br>
                                                     <c:forEach var="settingBlogType" items="${settingsList}">
                                                         <ul class="sub-menu">
                                                             <li>
-                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${settingBlogType.idSetting}">
+                                                                <a href="${pageContext.request.contextPath}/BlogTypeServlet?idBlogType=${settingBlogType.idSetting}&from=Blog_List.jsp">
                                                                     ${settingBlogType.valueSetting}
                                                                 </a>
                                                             </li>
@@ -172,60 +183,8 @@
 
                                             </div>
                                         </div>
-                                        <div class="widget widget-newslatter">
-                                            <h6 class="widget-title">Newsletter</h6>
-                                            <div class="news-box">
-                                                <p>Enter your e-mail and subscribe to our newsletter.</p>
-                                                <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
-                                                    <div class="ajax-message"></div>
-                                                    <div class="input-group">
-                                                        <input name="dzEmail" required="required" type="email" class="form-control" placeholder="Your Email Address"/>
-                                                        <button name="submit" value="Submit" type="submit" class="btn black radius-no">
-                                                            <i class="fa fa-paper-plane-o"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="widget widget_gallery gallery-grid-4">
-                                            <h6 class="widget-title">Our Gallery</h6>
-                                            <ul>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic2.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic1.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic5.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic7.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic8.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic9.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic3.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic4.jpg" alt=""></a></div></li>
-                                            </ul>
-                                        </div>
-                                        <div class="widget widget_tag_cloud">
-                                            <h6 class="widget-title">Tags</h6>
-                                            <div class="tagcloud"> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                                <a href="#">Design</a> 
-                                                <a href="#">User interface</a> 
-                                                <a href="#">SEO</a> 
-                                                <a href="#">WordPress</a> 
-                                                <a href="#">Development</a> 
-                                                <a href="#">Joomla</a> 
-                                            </div>
-                                        </div>
                                     </aside>
                                 </div>
-                                <!-- Side bar END -->
                             </div>
                         </div>
                     </div>

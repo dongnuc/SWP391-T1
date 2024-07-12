@@ -30,6 +30,8 @@ public class Blog_TypeServlet extends HttpServlet {
          
         String ID = request.getParameter("idBlogType");
         int xId = Integer.parseInt(ID);
+        
+        String from = request.getParameter("from");
    
         BlogDAO blogDAO = new BlogDAO();
         List<Blog> post =  blogDAO.getBlogListByType(xId);
@@ -45,14 +47,19 @@ public class Blog_TypeServlet extends HttpServlet {
             studentClubList = studentClubDAO.getStudentClubs(acc.getId());
         }
         
-        request.setAttribute("post", post);
+        request.setAttribute("BlogByIDList", post);
         request.setAttribute("StudentClubList", studentClubList);
         request.setAttribute("blogDAO", blogDAO);
         request.setAttribute("curruser", acc);
         request.setAttribute("setting", setting);
         request.setAttribute("settingsList", settingsList);
 
-        request.getRequestDispatcher("/View/ViewManager/Blog_TypeList.jsp").forward(request, response);
+        if ("Blog_PostList.jsp".equals(from)){
+            request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
+        }
+        else if ("Blog_List.jsp".equals(from)) {
+        request.getRequestDispatcher("/BlogListServlet").forward(request, response);
+        }
     }
 
 

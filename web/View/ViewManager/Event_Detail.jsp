@@ -104,6 +104,7 @@
                                         <div class="tagcloud">
                                             <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}', 'update')">Update</a>
                                             <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}', 'delete')">Delete</a>
+                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${event.idEvent}', 'give task')">Give Task</a>
                                         </div>
                                     </div>
                                 </c:if>

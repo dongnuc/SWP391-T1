@@ -57,65 +57,66 @@
                         </div>
                     </div>
                 </div>
-                 <c:if test="${not empty x}">
-                <div class="content-block">
-                    <div class="section-area section-sp1">
-                        <div class="container">
-                            <div class="row">
-                                <!-- Left part start -->
-                                <div class="col-lg-8 col-xl-8">
-                                    <!-- blog start -->
-                                    <c:choose>
-                                        <c:when test="${not empty curruser}">
-                                            <c:set var="showTagCloud" value="false" />
-                                            <c:forEach var="studentClub" items="${StudentClubList}">
-                                                <c:if test="${x.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.leader == 1}">
-                                                    <c:set var="showTagCloud" value="true" />
-                                                </c:if>
-                                            </c:forEach>
-                                            <c:if test="${showTagCloud}">
-                                                <script>
-                                                    function confirmAction(url, action) {
-                                                        var message = "Do you want to " + action + " ?";
-                                                        if (confirm(message)) {
-                                                            window.location.href = url;
+                <c:if test="${not empty x}">
+                    <div class="content-block">
+                        <div class="section-area section-sp1">
+                            <div class="container">
+                                <div class="row">
+                                    <!-- Left part start -->
+                                    <div class="col-lg-8 col-xl-8">
+                                        <!-- blog start -->
+                                        <c:choose>
+                                            <c:when test="${not empty curruser}">
+                                                <c:set var="showTagCloud" value="false" />
+                                                <c:forEach var="studentClub" items="${StudentClubList}">
+                                                    <c:if test="${x.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.leader == 1}">
+                                                        <c:set var="showTagCloud" value="true" />
+                                                    </c:if>
+                                                </c:forEach>
+                                                <c:if test="${showTagCloud}">
+                                                    <script>
+                                                        function confirmAction(url, action) {
+                                                            var message = "Do you want to " + action + " ?";
+                                                            if (confirm(message)) {
+                                                                window.location.href = url;
+                                                            }
                                                         }
-                                                    }
-                                                </script>
-                                                <div class="widget_tag_cloud">
-                                                    <div class="tagcloud">
-                                                        <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${x.idBlog}', 'update')">Update</a>
-                                                        <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${x.idBlog}', 'delete')">Delete</a>
+                                                    </script>
+                                                    <div class="widget_tag_cloud">
+                                                        <div class="tagcloud">
+                                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'update')">Update</a>
+                                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'delete')">Delete</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </c:if>
-                                        </c:when>
-                                    </c:choose>
-                                    <c:if test="${x.status == 0}">
-                                        <p>Event was stopped</p>
-                                    </c:if>
-                                    <div class="recent-news blog-lg">
-                                        <div class="action-box blog-lg">
-                                            <img src="${pageContext.request.contextPath}/${x.image}" alt="">
-                                        </div>
-                                        <div class="info-bx">
-                                            <ul class="media-post">
-                                                <li><a><i class="fa fa-calendar"></i>${x.dateCreate}</a></li>
-                                            </ul>
-                                            <h5 class="post-title"><a>${x.titleBlog}</a></h5>
-                                            <p>${x.content}</p>
+                                                </c:if>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:if test="${x.status == 0}">
+                                            <p>Event was stopped</p>
+                                        </c:if>
+                                        <div class="recent-news blog-lg">
+                                            <div class="action-box blog-lg">
+                                                <img src="${pageContext.request.contextPath}/${x.image}" alt="">
+                                            </div>
+                                            <div class="info-bx">
+                                                <ul class="media-post">
+                                                    <li><a><i class="fa fa-calendar"></i>${x.dateCreate}</a></li>
+                                                    <i class="fa fa-user"></i>${clubDAO.getClubNameByID(x.idClub)}
+                                                </ul>
+                                                <h5 class="post-title"><a>${x.titleBlog}</a></h5>
+                                                <p>${x.content}</p>
 
                                             </c:if>
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
 
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
-<!--                                            <h6>SHARE </h6>
-                                            <ul class="list-inline contact-social-bx">
-                                                <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
-                                                <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
-                                                <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
-                                            </ul>-->
+                                            <!--                                            <h6>SHARE </h6>
+                                                                                        <ul class="list-inline contact-social-bx">
+                                                                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
+                                                                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
+                                                                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
+                                                                                            <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
+                                                                                        </ul>-->
                                             <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                         </div>
                                     </div>
