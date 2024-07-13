@@ -93,7 +93,7 @@
                                                     </c:if>
                                                 </c:forEach>
                                             </c:if>
-                                            <c:if test="${canSeeBlog}">
+                                            <c:if test="${canSeeBlog and showBlog.status == 1}">
                                                 <div class="blog-post blog-md clearfix">
                                                     <div class="ttr-post-media"> 
                                                         <a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${showBlog.idBlog}">

@@ -55,7 +55,11 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
-
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -93,18 +97,20 @@
                                 </c:forEach>
                                 <c:if test="${showTagCloud}">
                                     <script>
-                                        function confirmAction(url, action) {
-                                            var message = "Do you want to " + action + " ?";
-                                            if (confirm(message)) {
-                                                window.location.href = url;
-                                            }
-                                        }
-                                    </script>
+                                                        function openModal(url, action) {
+                                                            document.getElementById('modalAction').textContent = action;
+                                                            var confirmBtn = document.getElementById('modalConfirmBtn');
+                                                            confirmBtn.onclick = function () {
+                                                                window.location.href = url;
+                                                            };
+                                                            $('#confirmModal').modal('show');
+                                                        }
+                                                    </script>
                                     <div class="widget_tag_cloud">
                                         <div class="tagcloud">
-                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}', 'update')">Update</a>
-                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}', 'delete')">Delete</a>
-                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${event.idEvent}', 'give task')">Give Task</a>
+                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'update')">Update</a>
+                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'delete')">Delete</a>
+                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'give task')">Give Task</a>
                                         </div>
                                     </div>
                                 </c:if>
@@ -146,7 +152,6 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3448.1298878182047!2d-81.38369578541523!3d30.204840081824198!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88e437ac927a996b%3A0x799695b1a2b970ab!2sNona+Blue+Modern+Tavern!5e0!3m2!1sen!2sin!4v1548177305546" class="align-self-stretch d-flex" style="width:100%; min-width:100%; min-height:400px;" allowfullscreen></iframe>
                                 </div>
                             </c:if>
                             </div>
@@ -158,6 +163,25 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to <span id="modalAction"></span> this blog?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="modalConfirmBtn">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <footer>
                 <div class="footer-top">
                     <div class="pt-exebar">

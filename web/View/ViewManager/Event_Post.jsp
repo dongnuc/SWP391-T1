@@ -91,12 +91,14 @@
                                             <div>
                                                 <textarea class="form-control expandable-textarea" name="nameevent" >${param.nameevent}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.errorNameEvent != null ? requestScope.errorNameEvent : ''}</p>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
                                                 <textarea class="form-control expandable-textarea" name="description">${param.description}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.errorDescription != null ? requestScope.errorDescription : ''}</p>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
@@ -104,11 +106,13 @@
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
                                                 <img id="imagePreview" class="preview" src="#" alt="Image Preview">
                                             </div>
+                                            <p style="color: red;">${requestScope.errorFile != null ? requestScope.errorFile : ''}</p>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
                                                 <textarea class="form-control" name="content">${param.content}</textarea>
+                                                <p style="color: red;">${requestScope.errorContent != null ? requestScope.errorContent : ''}</p>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -155,6 +159,7 @@
                                             <div>
                                                 <textarea class="form-control expandable-textarea" name="address">${param.address}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.errorAddress != null ? requestScope.errorAddress : ''}</p>
                                         </div>
 
                                         <div class="form-group col-6">
@@ -162,12 +167,14 @@
                                             <div>
                                                 <input type="datetime-local" name="datestart"  value="${param.datestart}">
                                             </div>
+                                            <p style="color: red;">${requestScope.errorDateStart != null ? requestScope.errorDateStart : ''}</p>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Date end</label>
                                             <div>
                                                 <input type="datetime-local" name="dateend" value="${param.dateend}"><br>
                                             </div>
+                                            <p style="color: red;">${requestScope.errorDateEnd != null ? requestScope.errorDateEnd : ''}</p>
                                         </div>
                                             <div class="form-group col-4">
                                             <label class="col-form-label">Status</label>
@@ -183,6 +190,7 @@
                                                 <input type="radio"  name="status" value="2" ${param.status == '2' ? 'checked' : ''} >
                                                 <label> Coming soon </label>
                                             </div>
+                                                <p style="color: red;">${requestScope.errorStatus != null ? requestScope.errorStatus : ''}</p>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Club:</label>
@@ -193,6 +201,7 @@
                                                     </div>
                                                 </c:if>
                                             </c:forEach>
+                                            <p style="color: red;">${requestScope.errorClub != null ? requestScope.errorClub : ''}</p>
                                         </div>
                                         <div class="form-group col-4">
                                             <label class="col-form-label">Event's type: </label>
@@ -201,9 +210,9 @@
                                                 <input type="radio" name="eventtype" value="${eventType.idSetting}" ${param.eventtype == eventType.idSetting ? 'checked' : ''}>${eventType.valueSetting}
                                             </div>
                                             </c:forEach>
+                                            <p style="color: red;">${requestScope.errorEventType != null ? requestScope.errorEventType : ''}</p>
                                         </div>
                                         <div class="col-12">
-                                            <p style="color: red;">${requestScope.mess != null ? requestScope.mess : ''}</p>
                                         </div>
                                         <div class="col-12">
                                             <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Add Event</button>

@@ -27,11 +27,11 @@ public class Event_TypeServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        String from = request.getParameter("from");
+        
         String ID = request.getParameter("idEventType");
         int xId = Integer.parseInt(ID);
    
-//        EventTypeDAO eventTypeDAO = new EventTypeDAO();
-//        EventType eventType = eventTypeDAO.getEventTypeByID(xId);
         
         SettingDAO settingDAO = new SettingDAO();
         Settings settings = settingDAO.getSettingById(xId);
@@ -45,7 +45,9 @@ public class Event_TypeServlet extends HttpServlet {
         List<Settings> eventTypeList = settingDAO.getSettingsEvent();
         request.setAttribute("eventTypeList", eventTypeList);
         
-        request.getRequestDispatcher("/View/ViewManager/Event_TypeList.jsp").forward(request, response);
+        if ("Event_List.jsp".equals(from)) {
+        request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        }
     }
 
     @Override

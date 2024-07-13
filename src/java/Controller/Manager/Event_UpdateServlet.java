@@ -34,6 +34,9 @@ public class Event_UpdateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String fromPage = request.getParameter("from");
+        request.setAttribute("from", fromPage);
+        
         String xID = request.getParameter("idEvent");
         int ID = Integer.parseInt(xID);
 
@@ -53,13 +56,13 @@ public class Event_UpdateServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
             return;
         }
-        
+
         EventDAO eventDAO = new EventDAO();
         Event event = eventDAO.getEventById(ID);
-        
+
         SettingDAO settingDao = new SettingDAO();
         List<Settings> eventTypeList = settingDao.getSettingsEvent();
-        
+
         ClubDao clubDAO = new ClubDao();
 
         request.setAttribute("studentClubList", StudentClubList);
@@ -67,7 +70,7 @@ public class Event_UpdateServlet extends HttpServlet {
         request.setAttribute("event", event);
         request.setAttribute("eventTypeList", eventTypeList);
         request.setAttribute("idEvent", xID);
-        
+
         request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
     }
 
@@ -98,6 +101,7 @@ public class Event_UpdateServlet extends HttpServlet {
             }
         }
 
+        String frompage = request.getParameter("from");
         String xID = request.getParameter("idEvent");
         int ID = Integer.parseInt(xID);
         String nameEvent = request.getParameter("nameevent");
@@ -119,48 +123,76 @@ public class Event_UpdateServlet extends HttpServlet {
         EventDAO eventDAO = new EventDAO();
         String filenamecheck = Integer.toString(eventDAO.getAllEvent().size());
 
-        StringBuilder errorMessage = new StringBuilder();
+        StringBuilder errorNameEvent = new StringBuilder();
+        StringBuilder errorDescription = new StringBuilder();
+        StringBuilder errorContent = new StringBuilder();
+        StringBuilder errorClub = new StringBuilder();
+        StringBuilder errorDateStart = new StringBuilder();
+        StringBuilder errorDateEnd = new StringBuilder();
+        StringBuilder errorStatus = new StringBuilder();
+        StringBuilder errorEventType = new StringBuilder();
+        StringBuilder errorFile = new StringBuilder();
+        StringBuilder errorAddress = new StringBuilder();
         boolean hasError = false;
 
         if (nameEvent == null || nameEvent.isEmpty()) {
-            errorMessage.append("Name Event cannot be empty.<br>");
+            errorNameEvent.append("Name Event cannot be empty.<br>");
             hasError = true;
-        }
+        }else if (nameEvent.length() > 128) {
+                errorNameEvent.append("Name event cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
         if (description == null || description.isEmpty()) {
-            errorMessage.append("Description cannot be empty.<br>");
+            errorDescription.append("Description cannot be empty.<br>");
             hasError = true;
-        }
+        }else if (description.length() > 256) {
+                errorDescription.append("Description cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
         if (content == null || content.isEmpty()) {
-            errorMessage.append("Content cannot be empty.<br>");
+            errorContent.append("Content cannot be empty.<br>");
             hasError = true;
         }
         if (address == null || address.isEmpty()) {
-            errorMessage.append("Address must be selected.<br>");
+            errorClub.append("Address must be selected.<br>");
             hasError = true;
         }
         if (dateStartStr == null || dateStartStr.isEmpty()) {
-            errorMessage.append("Date Start must be selected.<br>");
+            errorDateStart.append("Date Start must be selected.<br>");
             hasError = true;
         }
         if (dateEndStr == null || dateEndStr.isEmpty()) {
-            errorMessage.append("Date End must be selected.<br>");
+            errorDateEnd.append("Date End must be selected.<br>");
             hasError = true;
         }
         if (xStatus == null || xStatus.isEmpty()) {
-            errorMessage.append("Status must be provided.<br>");
+            errorStatus.append("Status must be provided.<br>");
             hasError = true;
         }
         if (xEventType == null || xEventType.isEmpty()) {
-            errorMessage.append("Event type must be selected.<br>");
+            errorEventType.append("Event type must be selected.<br>");
             hasError = true;
         }
         if (fileName.equals("images_event/" + filenamecheck) || fileName.isEmpty()) {
-            errorMessage.append("File must be selected.<br>");
+            errorFile.append("File must be selected.<br>");
+            hasError = true;
+        }
+        if (address == null || address.isEmpty()) {
+            errorAddress.append("Address cannot be empty.<br>");
             hasError = true;
         }
 
         if (hasError) {
-            request.setAttribute("mess", errorMessage.toString());
+            request.setAttribute("errorNameEvent", errorNameEvent.toString());
+            request.setAttribute("errorDescription", errorDescription.toString());
+            request.setAttribute("errorContent", errorContent.toString());
+            request.setAttribute("errorClub", errorClub.toString());
+            request.setAttribute("errorDateStart", errorDateStart.toString());
+            request.setAttribute("errorDateEnd", errorDateEnd.toString());
+            request.setAttribute("errorStatus", errorStatus.toString());
+            request.setAttribute("errorEventType", errorEventType.toString());
+            request.setAttribute("errorFile", errorFile.toString());
+            request.setAttribute("errorAddress", errorAddress.toString());
 
             EventDAO eD = new EventDAO();
             Event event = eD.getEventById(ID);
@@ -170,13 +202,13 @@ public class Event_UpdateServlet extends HttpServlet {
             StudentClubDAO studentClubDAO = new StudentClubDAO();
             Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-            
+
             request.setAttribute("studentClubList", StudentClubList);
             request.setAttribute("eventTypeList", eventTypeList);
             request.setAttribute("clubDAO", clubDAO);
             request.setAttribute("event", event);
             request.setAttribute("idEvent", xID);
-            
+
             request.getRequestDispatcher("/View/ViewManager/Event_Update.jsp").forward(request, response);
             return;
         }
@@ -194,7 +226,7 @@ public class Event_UpdateServlet extends HttpServlet {
 
             Timestamp dateStart = new Timestamp(parsedDateStart.getTime());
             Timestamp dateEnd = new Timestamp(parsedDateEnd.getTime());
-            
+
             Event event = new Event(ID, nameEvent, timestamp, status, address, dateEnd, IDClub, dateStart, fileName, eventType, description, content);
             eventDAO.updateEvent(event);
 
@@ -202,7 +234,9 @@ public class Event_UpdateServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect(request.getContextPath() + "/EventSerlet");
+        if ("Event_List.jsp".equals(frompage)) {
+        request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        }
     }
 
     private String extractFileName(Part part) {

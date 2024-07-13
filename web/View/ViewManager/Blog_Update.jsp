@@ -75,12 +75,14 @@
                                             <div>
                                                 <textarea type="text" class="form-control" name="tittle">${x.titleBlog}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.messTitle != null ? requestScope.messTitle : ''}</p>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
                                                 <textarea type="text" class="form-control" name="description">${x.description}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.messDescription != null ? requestScope.messDescription : ''}</p>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Image</label>
@@ -88,6 +90,7 @@
                                                 <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
                                                 <img id="imagePreview" class="preview" src="${pageContext.request.contextPath}/${x.image}" alt="Image Preview">
                                                 <input type="hidden" name="img" value="${x.image}">
+                                                <p style="color: red;">${requestScope.messfileName != null ? requestScope.messfileName : ''}</p>
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
@@ -95,6 +98,7 @@
                                             <div id="editor">
                                                 <textarea class="form-control" name="content">${x.content}</textarea>
                                             </div>
+                                            <p style="color: red;">${requestScope.messContent != null ? requestScope.messContent : ''}</p>
                                             <script>
                                                 ClassicEditor
                                                         .create(document.querySelector('#editor textarea'), {
@@ -146,6 +150,7 @@
                                                 <input type="radio" id="private" name="visibility" value="0" ${x.show == 0 ? "checked" : ""}>
                                                 <label>Private</label>
                                             </div>
+                                                <p style="color: red;">${requestScope.messxShow != null ? requestScope.messxShow : ''}</p>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Club : </label>
@@ -158,6 +163,7 @@
                                                     </c:when>
                                                 </c:choose>
                                             </c:forEach>
+                                            <p style="color: red;">${requestScope.messxIDClub != null ? requestScope.messxIDClub : ''}</p>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Blog's type : </label>
@@ -166,6 +172,7 @@
                                                     <input type="radio" name="blogtype" value="${blogType.idSetting}" ${x.idBlogType == blogType.idSetting ? "checked" : ""}>${blogType.valueSetting}
                                                 </div>
                                             </c:forEach>
+                                            <p style="color: red;">${requestScope.messxBlogtype != null ? requestScope.messxBlogtype : ''}</p>
                                         </div>
                                         <div class="form-group col-3">
                                             <label class="col-form-label">Status</label>

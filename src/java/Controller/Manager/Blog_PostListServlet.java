@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Manager;
 
 import DAO.*;
@@ -20,27 +19,29 @@ import java.util.List;
  *
  * @author 10t1q
  */
-@WebServlet(name="Blog_PostListServlet", urlPatterns={"/BlogPostListServlet"})
+@WebServlet(name = "Blog_PostListServlet", urlPatterns = {"/BlogPostListServlet"})
 public class Blog_PostListServlet extends HttpServlet {
-    
-     @Override
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Blog> BlogByIDList = (List<Blog>) request.getAttribute("BlogByIDList");
-        
+
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
         StudentClubDAO studentClubDAO = new StudentClubDAO();
         List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
-        
-            if (BlogByIDList == null) {
-            
+
+        if (BlogByIDList == null) {
+
             BlogDAO blogDao = new BlogDAO();
             BlogByIDList = new ArrayList<>();
 
             if (studentClubList != null) {
                 for (StudentClub studentclub : studentClubList) {
-                    List<Blog> blogs = blogDao.getBlogByIdClub(studentclub.getIdClub());
-                    if (blogs != null) {
-                        BlogByIDList.addAll(blogs);
+                    if (studentclub.getLeader()== 1 && studentclub.getStatus() == 1) {
+                        List<Blog> blogs = blogDao.getBlogByIdClub(studentclub.getIdClub());
+                        if (blogs != null) {
+                            BlogByIDList.addAll(blogs);
+                        }
                     }
                 }
             }
@@ -52,18 +53,17 @@ public class Blog_PostListServlet extends HttpServlet {
         if (request.getParameter("page") != null) {
             page = Integer.parseInt(request.getParameter("page"));
         }
-        
+
         int start = (page - 1) * recordsPerPage;
         int end = Math.min(start + recordsPerPage, BlogByIDList.size());
         List<Blog> paginatedList = BlogByIDList.subList(start, end);
-        
+
         int noOfRecords = BlogByIDList.size();
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
 
         SettingDAO settingsDAO = new SettingDAO();
         ClubDao clubDAO = new ClubDao();
-        
-        
+
         request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("settingsDAO", settingsDAO);
         request.setAttribute("studentClubList", studentClubList);
@@ -73,13 +73,10 @@ public class Blog_PostListServlet extends HttpServlet {
         request.getRequestDispatcher("/View/ViewManager/Blog_PostList.jsp").forward(request, response);
     }
 
-
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         doGet(request, response);
     }
 
-    
 }

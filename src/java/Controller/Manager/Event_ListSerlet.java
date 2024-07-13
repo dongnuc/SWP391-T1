@@ -27,17 +27,23 @@ public class Event_ListSerlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
+        List<Event> eventList =(List<Event>) request.getAttribute("eventList");
+        
         EventDAO eventDAO = new EventDAO();
-        List<Event> eventList = eventDAO.getAllEvent();
-
+        if(eventList == null){
+         eventList = eventDAO.getAllEvent();
+        }
         SettingDAO settingDAO = new SettingDAO();
+        
         List<Settings> eventTypeList = settingDAO.getSettingsEvent();
-          
-
+        
+        ClubDao clubDao = new ClubDao();
+        
+        request.setAttribute("clubDao", clubDao);
         request.setAttribute("eventList", eventList);
         request.setAttribute("eventTypeList", eventTypeList);
-
+        System.out.println(eventTypeList.size()); 
         request.getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
     }
 
@@ -45,6 +51,6 @@ public class Event_ListSerlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        doGet(request, response);
     }
 }

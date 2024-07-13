@@ -99,6 +99,38 @@ public class BlogDAO extends DBContext {
         return posts;
     }
     
+    public List<Blog> getLatestPosts(int limit) {
+    List<Blog> posts = new ArrayList<>();
+    String sql = "SELECT * FROM blog ORDER BY DateCreate DESC LIMIT ?";
+
+    try (Connection con = DBContext.getConnection(); 
+            PreparedStatement st = con.prepareStatement(sql)) {
+        
+        st.setInt(1, limit);  // Thiết lập giá trị cho tham số LIMIT
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Blog post = new Blog();
+                post.setIdBlog(rs.getInt("IdBlog"));
+                post.setTitleBlog(rs.getString("TittleBlog"));
+                post.setImage(rs.getString("Image"));
+                post.setDescription(rs.getString("Description"));
+                post.setContent(rs.getString("Content"));
+                post.setDateCreate(rs.getTimestamp("DateCreate"));
+                post.setDateModify(rs.getTimestamp("DateModify"));
+                post.setIdBlogType(rs.getInt("categoryBlog"));
+                post.setShow(rs.getInt("Show"));
+                post.setStatus(rs.getInt("Status"));
+                post.setIdClub(rs.getInt("IdClub"));
+                posts.add(post);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return posts;
+}
+
+    
     public List<Blog> getPostsByClubId(int clubId) {
     List<Blog> posts = new ArrayList<>();
     String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";

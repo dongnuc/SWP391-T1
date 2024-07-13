@@ -74,6 +74,16 @@
                 color: white;
             }
         </style>
+        <script>
+            function openModal(url, action) {
+                document.getElementById('modalAction').textContent = action;
+                var confirmBtn = document.getElementById('modalConfirmBtn');
+                confirmBtn.onclick = function () {
+                    window.location.href = url;
+                };
+                $('#confirmModal').modal('show');
+            }
+        </script>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -95,7 +105,7 @@
                 <div class="widget-post-bx">
                     <div class="widget-post clearfix">
                         <a href="<c:url value='/BlogPostListServlet?from=Blog_PostList.jsp' />" style="margin-left: 15px "><span>All</span></a><br>
-                            <c:forEach var="club" items="${studentClubList}">
+                        <c:forEach var="club" items="${studentClubList}">
                             <ul class="sub-menu">
                                 <li style="margin-left: 15px ">
                                     <a href="${pageContext.request.contextPath}/BlogFilterByClubServlet?idClub=${club.idClub}&from=Blog_PostList.jsp">
@@ -129,6 +139,7 @@
                     </thead>
                     <tbody>
                         <c:forEach var="Blog" items="${BlogByIDList}">
+
                             <tr>
                                 <td>${Blog.idBlog}</td>
                                 <td><img src="${pageContext.request.contextPath}/${Blog.image}" alt="Uploaded Image" width="200" ></td>
@@ -138,10 +149,10 @@
                                 <td>${settingsDAO.getValueSettingById(Blog.idBlogType)}</td>
                                 <td>${Blog.dateModify}</td>
                                 <td>${Blog.status}</td>
-                                <td><a href="<c:url value='/BlogUpdateServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp' />">Edit</a></td>
-                                <td><a href="<c:url value='/BlogDeleteServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp' />">Delete</a></td>
-                            </tr>
-                        </c:forEach>
+                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'update')">Update</a></td>
+                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'delete')">Delete</a></td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <div class="pagination-bx rounded-sm gray clearfix">
@@ -159,6 +170,26 @@
                 </div>
             </c:if>
         </main>
+
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to <span id="modalAction"></span> this blog?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="modalConfirmBtn">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="ttr-overlay"></div>
 
@@ -182,82 +213,82 @@
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/fullcalendar.js'></script>
         <script>
-            $(document).ready(function () {
+                                    $(document).ready(function () {
 
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay,listWeek'
-                    },
-                    defaultDate: '2019-03-12',
-                    navLinks: true, // can click day/week names to navigate views
+                                        $('#calendar').fullCalendar({
+                                            header: {
+                                                left: 'prev,next today',
+                                                center: 'title',
+                                                right: 'month,agendaWeek,agendaDay,listWeek'
+                                            },
+                                            defaultDate: '2019-03-12',
+                                            navLinks: true, // can click day/week names to navigate views
 
-                    weekNumbers: true,
-                    weekNumbersWithinDays: true,
-                    weekNumberCalculation: 'ISO',
+                                            weekNumbers: true,
+                                            weekNumbersWithinDays: true,
+                                            weekNumberCalculation: 'ISO',
 
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: '2019-03-01'
-                        },
-                        {
-                            title: 'Long Event',
-                            start: '2019-03-07',
-                            end: '2019-03-10'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-09T16:00:00'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: '2019-03-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: '2019-03-11',
-                            end: '2019-03-13'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T10:30:00',
-                            end: '2019-03-12T12:30:00'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: '2019-03-12T12:00:00'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: '2019-03-12T14:30:00'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: '2019-03-12T17:30:00'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: '2019-03-12T20:00:00'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: '2019-03-13T07:00:00'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: '2019-03-28'
-                        }
-                    ]
-                });
+                                            editable: true,
+                                            eventLimit: true, // allow "more" link when too many events
+                                            events: [
+                                                {
+                                                    title: 'All Day Event',
+                                                    start: '2019-03-01'
+                                                },
+                                                {
+                                                    title: 'Long Event',
+                                                    start: '2019-03-07',
+                                                    end: '2019-03-10'
+                                                },
+                                                {
+                                                    id: 999,
+                                                    title: 'Repeating Event',
+                                                    start: '2019-03-09T16:00:00'
+                                                },
+                                                {
+                                                    id: 999,
+                                                    title: 'Repeating Event',
+                                                    start: '2019-03-16T16:00:00'
+                                                },
+                                                {
+                                                    title: 'Conference',
+                                                    start: '2019-03-11',
+                                                    end: '2019-03-13'
+                                                },
+                                                {
+                                                    title: 'Meeting',
+                                                    start: '2019-03-12T10:30:00',
+                                                    end: '2019-03-12T12:30:00'
+                                                },
+                                                {
+                                                    title: 'Lunch',
+                                                    start: '2019-03-12T12:00:00'
+                                                },
+                                                {
+                                                    title: 'Meeting',
+                                                    start: '2019-03-12T14:30:00'
+                                                },
+                                                {
+                                                    title: 'Happy Hour',
+                                                    start: '2019-03-12T17:30:00'
+                                                },
+                                                {
+                                                    title: 'Dinner',
+                                                    start: '2019-03-12T20:00:00'
+                                                },
+                                                {
+                                                    title: 'Birthday Party',
+                                                    start: '2019-03-13T07:00:00'
+                                                },
+                                                {
+                                                    title: 'Click for Google',
+                                                    url: 'http://google.com/',
+                                                    start: '2019-03-28'
+                                                }
+                                            ]
+                                        });
 
-            });
+                                    });
 
         </script>
     </body>

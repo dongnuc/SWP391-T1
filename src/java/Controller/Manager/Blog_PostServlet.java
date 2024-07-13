@@ -41,7 +41,7 @@ public class Blog_PostServlet extends HttpServlet {
             StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
             for (StudentClub studentClub : StudentClubList) {
-                if (studentClub.getStatus() == 1 && studentClub.getLeader()== 1) {
+                if (studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
                     restricted = false;
                     break;
                 }
@@ -55,7 +55,7 @@ public class Blog_PostServlet extends HttpServlet {
 
         SettingDAO settingDAo = new SettingDAO();
         List<Settings> blogTypeList = settingDAo.getSettingsBlog();
-        
+
         ClubDao clubDAO = new ClubDao();
 
         request.setAttribute("clubDAO", clubDAO);
@@ -98,44 +98,66 @@ public class Blog_PostServlet extends HttpServlet {
             String xStatus = request.getParameter("status");
             String xIDClub = request.getParameter("idclub");
 
-            StringBuilder errorMessage = new StringBuilder();
+            StringBuilder messTitle = new StringBuilder();
+            StringBuilder messDescription = new StringBuilder();
+            StringBuilder messContent = new StringBuilder();
+            StringBuilder messxShow = new StringBuilder();
+            StringBuilder messxBlogtype = new StringBuilder();
+            StringBuilder messxStatus = new StringBuilder();
+            StringBuilder messxIDClub = new StringBuilder();
+            StringBuilder messfileName = new StringBuilder();
             boolean hasError = false;
 
             if (Title == null || Title.isEmpty()) {
-                errorMessage.append("Title cannot be empty.<br>");
+                messTitle.append("Title cannot be empty.<br>");
+                hasError = true;
+            } else if (Title.length() > 128) {
+                messTitle.append("Title cannot exceed 128 characters.<br>");
                 hasError = true;
             }
+
             if (Description == null || Description.isEmpty()) {
-                errorMessage.append("Description cannot be empty.<br>");
+                messDescription.append("Description cannot be empty.<br>");
+                hasError = true;
+            } else if (Description.length() > 256) {
+                messDescription.append("Description cannot exceed 128 characters.<br>");
                 hasError = true;
             }
             if (Content == null || Content.isEmpty()) {
-                errorMessage.append("Content cannot be empty.<br>");
+                messContent.append("Content cannot be empty.<br>");
                 hasError = true;
             }
             if (xShow == null || xShow.isEmpty()) {
-                errorMessage.append("Visibility must be selected.<br>");
+                messxShow.append("Visibility must be selected.<br>");
                 hasError = true;
             }
             if (xBlogtype == null || xBlogtype.isEmpty()) {
-                errorMessage.append("Blog type must be selected.<br>");
+                messxBlogtype.append("Blog type must be selected.<br>");
                 hasError = true;
             }
             if (xStatus == null || xStatus.isEmpty()) {
-                errorMessage.append("Status must be provided.<br>");
+                messxStatus.append("Status must be provided.<br>");
                 hasError = true;
             }
             if (xIDClub == null || xIDClub.isEmpty()) {
-                errorMessage.append("Club must be selected.<br>");
+                messxIDClub.append("Club must be selected.<br>");
                 hasError = true;
             }
             if (fileName.equals(filenamecheck) || fileName.isEmpty()) {
-                errorMessage.append("File must be selected.<br>");
+                messfileName.append("File must be selected.<br>");
                 hasError = true;
             }
 
             if (hasError) {
-                request.setAttribute("mess", errorMessage.toString());
+                request.setAttribute("messTitle", messTitle);
+                request.setAttribute("messDescription", messDescription);
+                request.setAttribute("messContent", messContent);
+                request.setAttribute("messxShow", messxShow);
+                request.setAttribute("messxBlogtype", messxBlogtype);
+                request.setAttribute("messxStatus", messxStatus);
+                request.setAttribute("messxIDClub", messxIDClub);
+                request.setAttribute("messfileName", messfileName);
+
                 request.setAttribute("title", Title);
                 request.setAttribute("description", Description);
                 request.setAttribute("content", Content);
@@ -144,16 +166,16 @@ public class Blog_PostServlet extends HttpServlet {
                 request.setAttribute("status", xStatus);
                 request.setAttribute("idclub", xIDClub);
                 request.setAttribute("fileName", fileName);
-                
+
                 SettingDAO settingDAo = new SettingDAO();
                 List<Settings> blogTypeList = settingDAo.getSettingsBlog();
-                
+
                 ClubDao clubDAO = new ClubDao();
-                
+
                 Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
                 StudentClubDAO studentClubDAO = new StudentClubDAO();
                 List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-        
+
                 request.setAttribute("StudentClubList", StudentClubList);
                 request.setAttribute("clubDAO", clubDAO);
                 request.setAttribute("blogTypeList", blogTypeList);

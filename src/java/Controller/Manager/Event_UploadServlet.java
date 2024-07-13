@@ -3,7 +3,6 @@ package Controller.Manager;
 import DAO.*;
 import Model.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -96,52 +95,78 @@ public class Event_UploadServlet extends HttpServlet {
             String dateStartStr = request.getParameter("datestart");
             String dateEndStr = request.getParameter("dateend");
 
-            StringBuilder errorMessage = new StringBuilder();
+            StringBuilder errorNameEvent = new StringBuilder();
+            StringBuilder errorDescription = new StringBuilder();
+            StringBuilder errorContent = new StringBuilder();
+            StringBuilder errorClub = new StringBuilder();
+            StringBuilder errorDateStart = new StringBuilder();
+            StringBuilder errorDateEnd = new StringBuilder();
+            StringBuilder errorStatus = new StringBuilder();
+            StringBuilder errorEventType = new StringBuilder();
+            StringBuilder errorFile = new StringBuilder();
+            StringBuilder errorAddress = new StringBuilder();
+            
             boolean hasError = false;
 
             if (nameEvent == null || nameEvent.isEmpty()) {
-                errorMessage.append("Name event cannot be empty.<br>");
+                errorNameEvent.append("Name event cannot be empty.<br>");
+                hasError = true;
+            }else if (nameEvent.length() > 128) {
+                errorNameEvent.append("Name event cannot exceed 128 characters.<br>");
                 hasError = true;
             }
             if (description == null || description.isEmpty()) {
-                errorMessage.append("Description cannot be empty.<br>");
+                errorDescription.append("Description cannot be empty.<br>");
+                hasError = true;
+            }else if (description.length() > 256) {
+                errorDescription.append("Description cannot exceed 128 characters.<br>");
                 hasError = true;
             }
             if (content == null || content.isEmpty()) {
-                errorMessage.append("Content cannot be empty.<br>");
+                errorContent.append("Content cannot be empty.<br>");
                 hasError = true;
             }
             if (xIDClub == null || xIDClub.isEmpty()) {
-                errorMessage.append("Club must be selected.<br>");
+                errorClub.append("Club must be selected.<br>");
                 hasError = true;
             }
             if (dateStartStr == null || dateStartStr.isEmpty()) {
-                errorMessage.append("Date start must be selected.<br>");
+                errorDateStart.append("Date start must be selected.<br>");
                 hasError = true;
             }
             if (dateEndStr == null || dateEndStr.isEmpty()) {
-                errorMessage.append("Date end must be selected.<br>");
+                errorDateEnd.append("Date end must be selected.<br>");
                 hasError = true;
             }
             if (xStatus == null || xStatus.isEmpty()) {
-                errorMessage.append("Status must be provided.<br>");
+                errorStatus.append("Status must be provided.<br>");
                 hasError = true;
             }
             if (xEventType == null || xEventType.isEmpty()) {
-                errorMessage.append("Event type must be selected.<br>");
+                errorEventType.append("Event type must be selected.<br>");
                 hasError = true;
             }
             if (fileName.equals(filenamecheck) || fileName.isEmpty()) {
-                errorMessage.append("File must be selected.<br>");
+                errorFile.append("File must be selected.<br>");
                 hasError = true;
             }
             if (address == null || address.isEmpty()) {
-                errorMessage.append("Address cannot be empty.<br>");
+                errorAddress.append("Address cannot be empty.<br>");
                 hasError = true;
             }
 
             if (hasError) {
-                request.setAttribute("mess", errorMessage.toString());
+                request.setAttribute("errorNameEvent", errorNameEvent.toString());
+                request.setAttribute("errorDescription", errorDescription.toString());
+                request.setAttribute("errorContent", errorContent.toString());
+                request.setAttribute("errorClub", errorClub.toString());
+                request.setAttribute("errorDateStart", errorDateStart.toString());
+                request.setAttribute("errorDateEnd", errorDateEnd.toString());
+                request.setAttribute("errorStatus", errorStatus.toString());
+                request.setAttribute("errorEventType", errorEventType.toString());
+                request.setAttribute("errorFile", errorFile.toString());
+                request.setAttribute("errorAddress", errorAddress.toString());
+                
                 request.setAttribute("nameevent", nameEvent);
                 request.setAttribute("description", description);
                 request.setAttribute("content", content);

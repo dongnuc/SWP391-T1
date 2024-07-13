@@ -27,13 +27,17 @@ public class Event_DeleteServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        String fromPage = request.getParameter("from");
+        
         String xID = request.getParameter("idEvent");
         int Id = Integer.parseInt(xID);
         
         EventDAO eventDAO = new EventDAO();
         eventDAO.deleteEvent(Id);
         
+        if ("Event_List.jsp".equals(fromPage)) {
         response.sendRedirect(request.getContextPath() + "/EventSerlet");
+        }
     } 
 
   

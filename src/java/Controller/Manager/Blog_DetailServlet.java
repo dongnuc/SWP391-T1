@@ -33,6 +33,7 @@ public class Blog_DetailServlet extends HttpServlet {
         
         BlogDAO postDAO = new BlogDAO();
         Blog post = postDAO.getPost(xId);
+        List<Blog> lastest5Post = postDAO.getLatestPosts(5);
         
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         List<StudentClub> studentClubList = null;
@@ -44,6 +45,7 @@ public class Blog_DetailServlet extends HttpServlet {
         ClubDao clubDAO = new ClubDao();
         
         request.setAttribute("x", post);
+        request.setAttribute("lastest5Post", lastest5Post);
         request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("StudentClubList", studentClubList);
         request.setAttribute("curruser", acc);

@@ -42,6 +42,11 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -75,25 +80,26 @@
                                                 </c:forEach>
                                                 <c:if test="${showTagCloud}">
                                                     <script>
-                                                        function confirmAction(url, action) {
-                                                            var message = "Do you want to " + action + " ?";
-                                                            if (confirm(message)) {
+                                                        function openModal(url, action) {
+                                                            document.getElementById('modalAction').textContent = action;
+                                                            var confirmBtn = document.getElementById('modalConfirmBtn');
+                                                            confirmBtn.onclick = function () {
                                                                 window.location.href = url;
-                                                            }
+                                                            };
+                                                            $('#confirmModal').modal('show');
                                                         }
                                                     </script>
+
                                                     <div class="widget_tag_cloud">
                                                         <div class="tagcloud">
-                                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'update')">Update</a>
-                                                            <a href="#" onclick="confirmAction('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'delete')">Delete</a>
+                                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'update')">Update</a>
+                                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${x.idBlog}&from=Blog_List.jsp', 'delete')">Delete</a>
                                                         </div>
                                                     </div>
                                                 </c:if>
                                             </c:when>
                                         </c:choose>
-                                        <c:if test="${x.status == 0}">
-                                            <p>Event was stopped</p>
-                                        </c:if>
+
                                         <div class="recent-news blog-lg">
                                             <div class="action-box blog-lg">
                                                 <img src="${pageContext.request.contextPath}/${x.image}" alt="">
@@ -125,88 +131,26 @@
                                 <!-- Side bar start -->
                                 <div class="col-lg-4 col-xl-4">
                                     <aside  class="side-bar sticky-top">
-                                        <div class="widget">
-                                            <h6 class="widget-title">Search</h6>
-                                            <div class="search-bx style-1">
-                                                <form role="search" method="post">
-                                                    <div class="input-group">
-                                                        <input name="text" class="form-control" placeholder="Enter your keywords..." type="text">
-                                                        <span class="input-group-btn">
-                                                            <button type="submit" class="fa fa-search text-primary"></button>
-                                                        </span> 
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                         <div class="widget recent-posts-entry">
                                             <h6 class="widget-title">Recent Posts</h6>
                                             <div class="widget-post-bx">
-                                                <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">This Story Behind Education Will Haunt You Forever.</a></h6>
+                                                <c:forEach var="Blog" items="${lastest5Post}">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/${Blog.image}" alt="Uploaded Image" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}">${Blog.titleBlog}</a></h6>
+                                                            </div>
+                                                            <ul class="media-post">
+                                                                <li><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}"><i class="fa fa-calendar"></i>${Blog.dateCreate}</a></li><br>
+                                                                <li><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}"><i class="fa fa-comments-o"></i>${clubDAO.getClubNameByID(Blog.idClub)}</a></li>
+                                                            </ul>
                                                         </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>Oct 23 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>15 Comment</a></li>
-                                                        </ul>
                                                     </div>
-                                                </div>
-                                                <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic2.jpg" width="200" height="160" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">What Will Education Be Like In The Next 50 Years?</a></h6>
-                                                        </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>May 14 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>23 Comment</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="widget-post clearfix">
-                                                    <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/images_t/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                    <div class="ttr-post-info">
-                                                        <div class="ttr-post-header">
-                                                            <h6 class="post-title"><a href="blog-details.html">Eliminate Your Fears And Doubts About Education.</a></h6>
-                                                        </div>
-                                                        <ul class="media-post">
-                                                            <li><a href="#"><i class="fa fa-calendar"></i>June 12 2019</a></li>
-                                                            <li><a href="#"><i class="fa fa-comments-o"></i>27 Comment</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                </c:forEach>
                                             </div>
                                         </div>
-                                        <div class="widget widget-newslatter">
-                                            <h6 class="widget-title">Newsletter</h6>
-                                            <div class="news-box">
-                                                <p>Enter your e-mail and subscribe to our newsletter.</p>
-                                                <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
-                                                    <div class="ajax-message"></div>
-                                                    <div class="input-group">
-                                                        <input name="dzEmail" required="required" type="email" class="form-control" placeholder="Your Email Address"/>
-                                                        <button name="submit" value="Submit" type="submit" class="btn black radius-no">
-                                                            <i class="fa fa-paper-plane-o"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="widget widget_gallery gallery-grid-4">
-                                            <h6 class="widget-title">Our Gallery</h6>
-                                            <ul>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic2.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic1.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic5.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic7.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic8.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic9.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic3.jpg" alt=""></a></div></li>
-                                                <li><div><a href="#"><img src="${pageContext.request.contextPath}/images_t/gallery/pic4.jpg" alt=""></a></div></li>
-                                            </ul>
-                                        </div>
+
                                     </aside>
                                 </div>
                                 <!-- Side bar END -->
@@ -217,6 +161,27 @@
             </div>
             <!-- Content END-->
             <!-- Footer ==== -->
+            <!-- Modal -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to <span id="modalAction"></span> this blog?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="modalConfirmBtn">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <footer>
                 <div class="footer-top">
                     <div class="pt-exebar">

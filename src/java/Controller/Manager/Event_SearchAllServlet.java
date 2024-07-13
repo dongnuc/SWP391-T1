@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Manager;
 
 import DAO.*;
@@ -20,53 +19,48 @@ import java.util.List;
  *
  * @author 10t1q
  */
-@WebServlet(name="Event_SearchAllServlet", urlPatterns={"/EventSearchAllServlet"})
+@WebServlet(name = "Event_SearchAllServlet", urlPatterns = {"/EventSearchAllServlet"})
 public class Event_SearchAllServlet extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-        SettingDAO settingDAO = new SettingDAO();
-        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
-        
-        request.setAttribute("eventTypeList", eventTypeList);
-        request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);
-        
-    } 
+            throws ServletException, IOException {
 
-    
-    @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        doPost(request, response);
 
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter pr = response.getWriter();
-
-    String nameEvent = request.getParameter("name");
-    if (nameEvent == null || nameEvent.isEmpty()) {
-        String mess = "Event not exist";
-        
-        request.setAttribute("mess", mess);
-        
-        SettingDAO settingDAO = new SettingDAO();
-        List<Settings> eventTypeList = settingDAO.getSettingsEvent();
-        
-        request.setAttribute("eventTypeList", eventTypeList);
-        
-        request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);
-        return; 
     }
 
-    EventDAO eventDAO = new EventDAO();
-    List<Event> event = eventDAO.getEventsByName(nameEvent);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-    SettingDAO settingDAO = new SettingDAO();
-    List<Settings> eventTypeList = settingDAO.getSettingsEvent();
-    
-    request.setAttribute("eventTypeList", eventTypeList);
-    request.setAttribute("eventList", event);
-    request.getRequestDispatcher("/View/ViewManager/Event_SearchAll.jsp").forward(request, response);
-}
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter pr = response.getWriter();
 
+        String from = request.getParameter("from");
+
+        String nameEvent = request.getParameter("name");
+
+        if ("Event_List.jsp".equals(from)) {
+            EventDAO eventDAO = new EventDAO();
+            List<Event> searchResults = null;
+
+            if (nameEvent == null || nameEvent.trim().isEmpty()) {
+                request.setAttribute("errorMessage", "Name Event can't be null.");
+            } else {
+                searchResults = eventDAO.getEventsByName(nameEvent);
+                if (searchResults.isEmpty()) {
+                    request.setAttribute("errorMessage", "Can't find event with name: " + nameEvent);
+                }
+            }
+
+            SettingDAO settingDAO = new SettingDAO();
+            List<Settings> eventTypeList = settingDAO.getSettingsEvent();
+
+            request.setAttribute("eventTypeList", eventTypeList);
+            request.setAttribute("eventList", searchResults);
+            
+            request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        }
+    }
 }

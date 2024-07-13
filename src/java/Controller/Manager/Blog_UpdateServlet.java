@@ -122,45 +122,65 @@ public class Blog_UpdateServlet extends HttpServlet {
         String xIDClub = request.getParameter("idclub");
         int IDClub = Integer.parseInt(xIDClub);
         
-        StringBuilder errorMessage = new StringBuilder();
+        StringBuilder messTitle = new StringBuilder();
+            StringBuilder messDescription = new StringBuilder();
+            StringBuilder messContent = new StringBuilder();
+            StringBuilder messxShow = new StringBuilder();
+            StringBuilder messxBlogtype = new StringBuilder();
+            StringBuilder messxStatus = new StringBuilder();
+            StringBuilder messxIDClub = new StringBuilder();
+            StringBuilder messfileName = new StringBuilder();
         boolean hasError = false;
 
         if (Title == null || Title.isEmpty()) {
-            errorMessage.append("Title cannot be empty.");
-            hasError = true;
-        }
+                messTitle.append("Title cannot be empty.<br>");
+                hasError = true;
+            } else if (Title.length() > 128) {
+                messTitle.append("Title cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
         if (Description == null || Description.isEmpty()) {
-            errorMessage.append("Description cannot be empty.");
-            hasError = true;
-        }
-        if (Content == null || Content.isEmpty()) {
-            errorMessage.append("Content cannot be empty.");
-            hasError = true;
-        }
-        if (xShow == null || xShow.isEmpty()) {
-            errorMessage.append("Visibility must be selected.");
-            hasError = true;
-        }
-        if (xBlogtype == null || xBlogtype.isEmpty()) {
-            errorMessage.append("Blog type must be selected.");
-            hasError = true;
-        }
-        if (xStatus == null || xStatus.isEmpty()) {
-            errorMessage.append("Status must be provided.");
-            hasError = true;
-        }
-        if (xIDClub == null || xIDClub.isEmpty()) {
-            errorMessage.append("Club must be selected.");
-            hasError = true;
-        }
+                messDescription.append("Description cannot be empty.<br>");
+                hasError = true;
+            } else if (Description.length() > 256) {
+                messDescription.append("Description cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
+            if (Content == null || Content.isEmpty()) {
+                messContent.append("Content cannot be empty.<br>");
+                hasError = true;
+            }
+            if (xShow == null || xShow.isEmpty()) {
+                messxShow.append("Visibility must be selected.<br>");
+                hasError = true;
+            }
+            if (xBlogtype == null || xBlogtype.isEmpty()) {
+                messxBlogtype.append("Blog type must be selected.<br>");
+                hasError = true;
+            }
+            if (xStatus == null || xStatus.isEmpty()) {
+                messxStatus.append("Status must be provided.<br>");
+                hasError = true;
+            }
+            if (xIDClub == null || xIDClub.isEmpty()) {
+                messxIDClub.append("Club must be selected.<br>");
+                hasError = true;
+            }
         if (fileName == null && !fileName.isEmpty()) {    
-            errorMessage.append("File must be selected.");
+            messfileName.append("File must be selected.<br>");
             hasError = true;
             }
 
         if (hasError) {
-            request.setAttribute("mess", errorMessage.toString());
-            
+            request.setAttribute("messTitle", messTitle);
+                request.setAttribute("messDescription", messDescription);
+                request.setAttribute("messContent", messContent);
+                request.setAttribute("messxShow", messxShow);
+                request.setAttribute("messxBlogtype", messxBlogtype);
+                request.setAttribute("messxStatus", messxStatus);
+                request.setAttribute("messxIDClub", messxIDClub);
+                request.setAttribute("messfileName", messfileName);
+                
             BlogDAO blogDAO = new BlogDAO();
             Blog blog = blogDAO.getPost(ID);
             request.setAttribute("x", blog);
