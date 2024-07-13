@@ -2,35 +2,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Clubs;
+package Controller.Admin;
 
+import Algorithm.SendMail;
+import DAO.AccountDao;
 import DAO.ClubDao;
+import Model.Accounts;
+import Model.RegisterClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.File;
-
-import jakarta.servlet.http.Part;
+import java.util.List;
 
 /**
  *
  * @author Nguyen Hau
  */
-@WebServlet(name = "UploadImageServlet", urlPatterns = {"/UploadImageServlet"})
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
-        maxFileSize = 1024 * 1024 * 10, // 10 MB
-        maxRequestSize = 1024 * 1024 * 100 // 100 MB
-)
-public class UploadImageServlet extends HttpServlet {
-
-    private static final String SAVE_DIR = "E:\\gitclone\\SWP391-T1\\web\\images";
+@WebServlet(name = "Refuseclub", urlPatterns = {"/Refuseclub"})
+public class RefuseclubServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,10 +42,10 @@ public class UploadImageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UploadImageServlet</title>");
+            out.println("<title>Servlet Refuseclub</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UploadImageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Refuseclub at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,7 +63,7 @@ public class UploadImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       
     }
 
     /**
@@ -84,44 +77,50 @@ public class UploadImageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int clubId = 0;
-        System.out.println(request.getParameter("id"));
-        if (request.getParameter("id") != null) {
-            clubId = Integer.parseInt(request.getParameter("id"));
-            Part filePart = request.getPart("file");
-            System.out.println(filePart);
+         ClubDao dao = new ClubDao();
+        AccountDao db = new AccountDao();
+        String error = null;
+        String refuse = request.getParameter("refuse");
+        if (refuse == null || refuse.trim().isEmpty() || refuse.length() > 750) {
+            error = "you must be write reason refuse and sorter 750 character refuse !";
+        }
+        System.out.println(error);
+        if (error == null) {
+            if (request.getParameter("id") != null) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                RegisterClub club = dao.getRegisterClubbyId(id);
 
-            String fileName = extractFileName(filePart);
+                Accounts acc = db.getAccountbyID(club.getIdstudent());
+                SendMail sendMail = new SendMail();
+                String title = "Email reply to club registration application";
+                String content = "Your club registration application is broken for the following reasons:"+refuse;
 
-            // Đường dẫn tới thư mục lưu trữ ảnh
-            File fileSaveDir = new File(getServletContext().getRealPath("") + File.separator + "images");
-            if (!fileSaveDir.exists()) {
-                fileSaveDir.mkdirs();
+                String sendToEmail = acc.getEmail();
+                sendMail.sendMailDefault(title, content, sendToEmail);
+                dao.removeRegisteerClub(id);
             }
-
-            String filePath = getServletContext().getRealPath("") + File.separator + "images" + File.separator + fileName;
-            filePart.write(filePath);
-
-            ClubDao dao = new ClubDao();
-            boolean isUpdated = dao.updateClubImage(clubId, "images/" + fileName);
-
-            if (isUpdated) {
-                response.getWriter().println("Image uploaded and updated successfully!");
-            } else {
-                response.getWriter().println("Image upload failed!");
+            List<String> getTypeClub = dao.gettypeclubAll();
+            request.setAttribute("listtypeclub", getTypeClub);
+            response.sendRedirect("RegisterclubAdmin");
+        } else {
+            if (request.getParameter("id") != null) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                RegisterClub register = dao.getRegisterClubbyId(id);
+                request.setAttribute("club", register);
+                request.setAttribute("error", error);
+                request.getRequestDispatcher("View/ViewAdmin/registerClubDetail.jsp").forward(request, response);
             }
         }
-        response.sendRedirect("ClubProfile?id=" + clubId);
     }
 
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                return s.substring(s.indexOf("=") + 2, s.length() - 1);
-            }
-        }
-        return "";
-    }
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }

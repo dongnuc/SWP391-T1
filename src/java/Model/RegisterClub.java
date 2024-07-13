@@ -4,36 +4,51 @@
  */
 package Model;
 
+import DAO.AccountDao;
+import DAO.ClubDao;
+import java.util.Date;
+
 /**
  *
  * @author Nguyen Hau
  */
 public class RegisterClub {
-    private int idRegister;
+
+    private int idregister;
     private String nameclub;
     private String reason;
-    private int idStudent;
-    private int status;
-    private int idtypeclub;
+    private int member;
+    private int idstudent;
+    private Date datecreate;
+    private Date datemodify;
+    private String target;
+    private String plan;
+    private String refuse;
+    private int category;
 
     public RegisterClub() {
     }
 
-    public RegisterClub(int idRegister, String nameclub, String reason, int idStudent, int status, int idtypeclub) {
-        this.idRegister = idRegister;
+    public RegisterClub(int idregister, String nameclub, String reason, int member, int idstudent, Date datecreate, Date datemodify, String target, String plan, String refuse, int category) {
+        this.idregister = idregister;
         this.nameclub = nameclub;
         this.reason = reason;
-        this.idStudent = idStudent;
-        this.status = status;
-        this.idtypeclub = idtypeclub;
+        this.member = member;
+        this.idstudent = idstudent;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+        this.target = target;
+        this.plan = plan;
+        this.refuse = refuse;
+        this.category = category;
     }
 
-    public int getIdRegister() {
-        return idRegister;
+    public int getIdregister() {
+        return idregister;
     }
 
-    public void setIdRegister(int idRegister) {
-        this.idRegister = idRegister;
+    public void setIdregister(int idregister) {
+        this.idregister = idregister;
     }
 
     public String getNameclub() {
@@ -52,31 +67,86 @@ public class RegisterClub {
         this.reason = reason;
     }
 
-    public int getIdStudent() {
-        return idStudent;
+    public int getMember() {
+        return member;
     }
 
-    public void setIdStudent(int idStudent) {
-        this.idStudent = idStudent;
+    public void setMember(int member) {
+        this.member = member;
     }
 
-    public int getStatus() {
-        return status;
+    public int getIdstudent() {
+        return idstudent;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setIdstudent(int idstudent) {
+        this.idstudent = idstudent;
     }
 
-    public int getIdtypeclub() {
-        return idtypeclub;
+    public Date getDatecreate() {
+        return datecreate;
     }
 
-    public void setIdtypeclub(int idtypeclub) {
-        this.idtypeclub = idtypeclub;
+    public void setDatecreate(Date datecreate) {
+        this.datecreate = datecreate;
     }
 
-    
+    public Date getDatemodify() {
+        return datemodify;
+    }
 
-   
+    public void setDatemodify(Date datemodify) {
+        this.datemodify = datemodify;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getPlan() {
+        return plan;
+    }
+
+    public void setPlan(String plan) {
+        this.plan = plan;
+    }
+
+    public String getRefuse() {
+        return refuse;
+    }
+
+    public void setRefuse(String refuse) {
+        this.refuse = refuse;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
+
+    public AccountDao getAd() {
+        return ad;
+    }
+
+    public void setAd(AccountDao ad) {
+        this.ad = ad;
+    }
+
+    ClubDao dao = new ClubDao();
+    public String getTypeclub(){
+        return dao.getValuebySetting(category);
+    }
+    AccountDao ad = new AccountDao();
+
+    public String getNamebyID() {
+        return ad.getNamebyID(idstudent);
+    }
+
 }

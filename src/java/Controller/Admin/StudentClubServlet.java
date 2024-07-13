@@ -3,9 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Clubs;
+package Controller.Admin;
 
-import DAO.ClubDao;
+import DAO.StudentClubDAO;
+import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author Nguyen Hau
  */
-@WebServlet(name="RemoveClubController", urlPatterns={"/RemoveClubController"})
-public class RemoveClubController extends HttpServlet {
+@WebServlet(name="StudentClubServlet", urlPatterns={"/StudentClubServlet"})
+public class StudentClubServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +38,10 @@ public class RemoveClubController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RemoveClubController</title>");  
+            out.println("<title>Servlet StudentClubServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RemoveClubController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet StudentClubServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,10 +58,25 @@ public class RemoveClubController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        int id = Integer.parseInt(request.getParameter("id"));
-        dao.removeClub(id);
-        request.getRequestDispatcher("ClubController").forward(request, response);
+        String page = request.getParameter("page");
+        int pageNumber = 1;
+        String nu = null;
+        if (page != null) {
+            pageNumber = Integer.parseInt(page);
+        }
+        StudentClubDAO stdao = new StudentClubDAO();
+         if(request.getParameter("id")!=null){
+             int id = Integer.parseInt(request.getParameter("id"));
+             List<StudentClub> list = stdao.getTenStudentClub(id, pageNumber);
+            request.setAttribute("list", list);
+            request.setAttribute("search", nu);
+            request.setAttribute("role", 0);
+            request.setAttribute("leader", nu);
+            request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getNumberOfStudentClub(id) * 1.0 / 10));
+            
+        request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
+       }
+
     } 
 
     /** 

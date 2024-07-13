@@ -2,28 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Clubs;
+package Controller.Manager;
 
 import DAO.ClubDao;
-import Model.Clubs;
-import Model.TypeClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
+import java.io.File;
+
+import jakarta.servlet.http.Part;
 
 /**
  *
  * @author Nguyen Hau
  */
-@WebServlet(name = "UpdateClub", urlPatterns = {"/UpdateClub"})
-public class UpdateClub extends HttpServlet {
+@WebServlet(name = "UploadImageServlet", urlPatterns = {"/UploadImageServlet"})
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 100 // 100 MB
+)
+public class UploadImageServlet extends HttpServlet {
+
+    private static final String SAVE_DIR = "E:\\gitclone\\SWP391-T1\\web\\images";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +49,10 @@ public class UpdateClub extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateClub</title>");
+            out.println("<title>Servlet UploadImageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateClub at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UploadImageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,13 +70,7 @@ public class UpdateClub extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        int id = Integer.parseInt(request.getParameter("id"));
-        Clubs club = dao.getClubbyId(id);
-        List<TypeClub> typeclub = dao.gettypeclubAll();
-        request.setAttribute("listtypeclub", typeclub);
-        request.setAttribute("Club", club);
-        request.getRequestDispatcher("View/ViewAdmin/UpdateClub.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -83,46 +84,44 @@ public class UpdateClub extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        int id ;
+        int clubId = 0;
+        System.out.println(request.getParameter("id"));
         if (request.getParameter("id") != null) {
-            id = Integer.parseInt(request.getParameter("id"));
-        }else{
-           id=0; 
-        }
-            
-            String nameclub = request.getParameter("nameclub");
-            String datecreate = request.getParameter("datecreate");
-            int point = Integer.parseInt(request.getParameter("point"));
-        
-            Clubs club = dao.getClubbyId(id);
-            int idtype;
-            if (request.getParameter("idtypeclub") != null) {
-                idtype = Integer.parseInt(request.getParameter("idtypeclub"));
-            } else {
-                
-                idtype = club.getType();
-            }
-            Date date = new Date();
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//            String datemodify = formatter.format(date);
-            String img="";
-            String description="";
-            dao.updateClub(new Clubs(id, nameclub, point, date, date, 0, idtype,img,description));
-        
-        
-        response.sendRedirect("ClubController");
+            clubId = Integer.parseInt(request.getParameter("id"));
+            Part filePart = request.getPart("file");
+            System.out.println(filePart);
 
+            String fileName = extractFileName(filePart);
+
+            // Đường dẫn tới thư mục lưu trữ ảnh
+            File fileSaveDir = new File(getServletContext().getRealPath("") + File.separator + "images");
+            if (!fileSaveDir.exists()) {
+                fileSaveDir.mkdirs();
+            }
+
+            String filePath = getServletContext().getRealPath("") + File.separator + "images" + File.separator + fileName;
+            filePart.write(filePath);
+
+            ClubDao dao = new ClubDao();
+            boolean isUpdated = dao.updateClubImage(clubId, "images/" + fileName);
+
+            if (isUpdated) {
+                response.getWriter().println("Image uploaded and updated successfully!");
+            } else {
+                response.getWriter().println("Image upload failed!");
+            }
+        }
+        response.sendRedirect("ClubProfile?id=" + clubId);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
 }

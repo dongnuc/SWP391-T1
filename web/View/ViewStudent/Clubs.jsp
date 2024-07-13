@@ -64,7 +64,7 @@
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                <div class="page-banner ovbl-dark" style="background-image:url(images/banner.png);">
                     <div class="container">
                         <div class="page-banner-entry">
                             <h1 class="text-white">Club Details</h1>
@@ -90,10 +90,16 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <div class="input-group">
-                                                <label>Search Courses</label>
-                                                <input name="dzName" type="text" required class="form-control">
-                                            </div>
+                                            <form action="SearchClubServlet" method="get">
+                                               
+                                                <label>Search Club</label><div class="input-group">
+                                                    
+                                                    <input name="search" type="text" value="${searchQuery}" required class="form-control" >
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-primary" type="submit">Search</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="widget widget_archive">
@@ -101,78 +107,42 @@
                                         <ul>
                                             <li class="active"><a href="PublicClubs">General</a></li>
                                                 <c:forEach var="typeclub" items="${requestScope.listtypeclub}">
-                                                <li><a href="ClubTypeController?id=${typeclub.getIdTypeClub()}">${typeclub.getNameTypeClub()}</a></li>
+                                                <li><a href="ClubTypeController?id=${typeclub}">${typeclub}</a></li>
                                                 </c:forEach>
 
                                         </ul>
                                     </div>
-                                    <div class="widget">
-                                        <a href="#"><img src="assets/images/adv/adv.jpg" alt=""/></a>
-                                    </div>
-                                    <div class="widget recent-posts-entry widget-courses">
-                                        <h5 class="widget-title style-1">Recent blog</h5>
-                                        <div class="widget-post-bx">
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic1.jpg" width="200" height="143" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">name blog</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="price">
-                                                                <h5 class="free">Datecreate</h5>
-                                                            </li>
-                                                            <li class="review">09-06-2024</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="widget-post clearfix">
-                                                <div class="ttr-post-media"> <img src="assets/images/blog/recent-blog/pic3.jpg" width="200" height="160" alt=""> </div>
-                                                <div class="ttr-post-info">
-                                                    <div class="ttr-post-header">
-                                                        <h6 class="post-title"><a href="#">Name Blog</a></h6>
-                                                    </div>
-                                                    <div class="ttr-post-meta">
-                                                        <ul>
-                                                            <li class="price">
-                                                                <h5 class="free">Datecreate</h5>
-                                                            </li>
-                                                            <li class="review">09-06-2024</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-sm-12">
-                                    <div class="row">
+                                    <div class="row" >
                                         <c:forEach var="club" items="${requestScope.listclub}">
-                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 400px">
-                                                <div class="cours-bx">
-                                                    <div class="action-box">
-                                                        <img src="${club.getImage()}" style="width: 350px;height: 200px">
-                                                        <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
-                                                    </div>
-                                                    <div class="info-bx text-center" style="text-align: right;">
-                                                        <h5><a href="#">${club.getNameclub()}</a></h5>
-                                                        <span style="text-align: left;">The ${club.getNameclub()} at FPT University enhances student life with diverse activities and skill-building</span>
-                                                    </div>
-
-                                                    <div class="cours-more-info">
-                                                        <div c lass="review">
-                                                            <span>${club.getStringType()}</span>
-
+                                            <c:if test="${club.getStatus()==1}">
+                                                <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 400px">
+                                                    <div class="cours-bx">
+                                                        <div class="action-box">
+                                                            <img src="${club.getImage()}" style="width: 350px;height: 200px">
+                                                            <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
                                                         </div>
-                                                        <div class="price">
+                                                        <div class="info-bx text-center" style="text-align: right;height: 110px;">
+                                                            <h5><a href="#">${club.getNameclub()}</a></h5>
+                                                            <span style="text-align: left;">The ${club.getTitle()} </span>
+                                                        </div>
 
-                                                            <h5>${club.getSizeClub()} Member</h5>
+                                                        <div class="cours-more-info">
+                                                            <div class="review" style="padding-left: 5px;">
+                                                                <span>${club.getTypebyid()}</span>
+
+                                                            </div>
+                                                            <div class="price">
+
+                                                                <h5>${club.getSizeClub()} Member</h5>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </c:if>
                                         </c:forEach>
 
 
@@ -182,12 +152,12 @@
                                         <div class="pagination-bx rounded-sm gray clearfix">
                                             <ul class="pagination">
                                                 <li class="previous"><a href="PublicClubs?page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    <c:if test="${requestScope.id==0}">
+                                                    <c:if test="${requestScope.id==null}">
                                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
                                                         <li><a href="PublicClubs?page=${i}">${i}</a></li>
                                                         </c:forEach>
                                                     </c:if>
-                                                    <c:if test="${requestScope.id!=0}">
+                                                    <c:if test="${requestScope.id!=null}">
                                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
                                                         <li><a href="ClubTypeController?id=${requestScope.id}&&page=${i}">${i}</a></li>
                                                         </c:forEach>
@@ -301,3 +271,4 @@
         </script>
     </body>
 </html>
+

@@ -70,13 +70,13 @@ public class AccountDao extends DBContext{
     }
      public Accounts getAccountbyID(int id) {
         Accounts account = null;
-        String query = "select * from Student where IdStudent=?";
+        String query = "select * from student where IdStudent=?";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11),rs.getString(12));
+                account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -91,7 +91,7 @@ public class AccountDao extends DBContext{
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                account = new Accounts(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getDate(7), rs.getDate(8), rs.getDate(9), rs.getInt(10), rs.getInt(11));
+                account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -397,7 +397,21 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
         }
         return getIdAcc;
     }
-
+public String getEmailbyID(int id) {
+        Accounts account = null;
+        String query = "select * from Student where IdStudent=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return account.getEmail();
+    }
         
         public static void main(String[] args) {
         AccountDao db=new AccountDao();

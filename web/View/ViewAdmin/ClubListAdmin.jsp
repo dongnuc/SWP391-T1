@@ -264,11 +264,7 @@
                                     <tr>
                                         <th>IdClub</th>
                                         <th>NameClub</th>
-                                        <th>Point</th>
-                                        <th>DateCreate</th>
-                                        <th>DateModify</th>
-                                        <th>Status</th>
-                                        <th>TypeClub</th>
+                                        <th></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -278,13 +274,19 @@
                                         <tr>
                                             <th>${club.getClub()}</th>
                                             <th>${club.getNameclub()}</th>
-                                            <th>${club.getPoint()}</th>
-                                            <th>${club.getDatecreate()}</th>
-                                            <th>${club.getModify()}</th>
-                                            <th>${club.getStatus()}</th>
-                                            <th>${club.getStringType()}</th>
-                                            <th><a href="UpdateClub?id=${club.getClub()}" style="margin-right: 5px"><i class="fa fa-edit"> Edit</i></a></th>
-                                            <th> <a href="RemoveClubController?id=${club.getClub()}" style="margin-right: 5px"><i class="fa fa-trash-o"> Remove</i></a></th>
+                                            <th><a href="StudentClubServlet?id=${club.getClub()}" style="margin-right: 5px">
+                                                    <i class="fa fa-eye"></i> View Student Club
+                                                </a></th>
+                                                <th>
+                                                    <a href="ClubStudentRegistrationServle?id=${club.getClub()}" style="margin-right: 5px">
+                                                    <i class="fa fa-eye"></i> Register Club Student
+                                                </a>
+                                                </th>
+                                                  <th>
+                                                    <a href="ClubStudentRegistrationAdminServlet?id=${club.getClub()}" style="margin-right: 5px">
+                                                    <i class="fa fa-eye"></i> View Club Student Registration
+                                                </a>
+                                                </th>
                                         </tr>
                                     </c:forEach>
 

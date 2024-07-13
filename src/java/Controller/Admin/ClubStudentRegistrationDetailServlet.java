@@ -3,10 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Clubs;
+package Controller.Admin;
 
-import DAO.ClubDao;
-import Model.RegisterClub;
+import DAO.StudentClubDAO;
+import Model.ClubStudentRegistration;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,14 +14,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author Nguyen Hau
  */
-@WebServlet(name="RegisterclubAdmin", urlPatterns={"/RegisterclubAdmin"})
-public class RegisterclubAdmin extends HttpServlet {
+@WebServlet(name="ClubStudentRegistrationDetailServlet", urlPatterns={"/ClubStudentRegistrationDetailServlet"})
+public class ClubStudentRegistrationDetailServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +37,10 @@ public class RegisterclubAdmin extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterclubAdmin</title>");  
+            out.println("<title>Servlet ClubStudentRegistrationDetailServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet RegisterclubAdmin at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ClubStudentRegistrationDetailServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,10 +57,14 @@ public class RegisterclubAdmin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       ClubDao dao = new ClubDao();
-        List<RegisterClub> list = dao.printAllRegisterClub();
-        request.setAttribute("list", list);
-        request.getRequestDispatcher("View/ViewAdmin/RegisterClubAdmin.jsp").forward(request, response);
+        StudentClubDAO stdao = new StudentClubDAO();
+        if(request.getParameter("idclub")!=null&&request.getParameter("idstudent")!=null){
+            int idclub = Integer.parseInt(request.getParameter("idclub"));
+            int idstudent = Integer.parseInt(request.getParameter("idstudent"));
+            ClubStudentRegistration registration = stdao.getClubStudentRegistration(idstudent, idclub);
+            request.setAttribute("list", registration);
+            request.getRequestDispatcher("View/ViewAdmin/clubStudentRegistrationDetail.jsp").forward(request, response);
+        }
     } 
 
     /** 

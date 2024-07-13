@@ -1,6 +1,6 @@
 <%-- 
-    Document   : registerclub
-    Created on : May 27, 2024, 8:01:46 AM
+    Document   : clubStudentRegistration
+    Created on : Jul 10, 2024, 2:12:50 PM
     Author     : Nguyen Hau
 --%>
 
@@ -87,8 +87,11 @@
                 border-radius: 5px;
             }
             .form-group textarea{
-                height: 15vh; /* 60% of the viewport height */
                 width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
             }
             .form-group input[type="submit"] {
                 background-color: #4CAF50;
@@ -118,66 +121,59 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(images/banner.png);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">REGISTER CLUB</h1>
+                            <h1 class="text-white">CLUB STUDENT REGISTRATION</h1>
                         </div>
                     </div>
                 </div>
                 <!-- Breadcrumb row -->
-               <form method="post" action="/SWP391/registerclub" style="padding-top: 20px;padding-bottom: 20px;" > 
+                <form method="post" action="ClubStudentRegistrationServle?idclub=${id}" style="padding-top: 20px;padding-bottom: 20px;" > 
            
 
                    <div class="form-container" >
 
                 <div class="form-group" >
-                    <label for="NameClub">Club Name</label>
-                    <input type="text" id="NameClub" name="NameClub" value="${nameClub}"/>
+                    <label for="NameClub">Full Name</label>
+                    <input type="text" id="fullname" name="fullname" value="${fullname}"/>
                     <h6 style="color: red;">${error1}</h6>
                 </div>
                 <div class="form-group">
-                    <label for="clubId">Type of Club</label>
-                    <select id="clubId" name="idClub" class="input-field" >
-                        <option value="">Select Type Club</option>
-                        <c:forEach items="${requestScope.listtypeclub}" var="getTypeClub"> 
-                            <option value="${getTypeClub}">${getTypeClub}</option>
-                        </c:forEach>
-                    </select>
-                    <h6 style="color: red;">${error6}</h6>
+                    <label for="clubId">Select Role</label>
+                    <select name="role" >
+                        <option value="0" <c:if test="${role==0}">selected</c:if>>Select Role</option>
+                                    <option value="2" <c:if test="${role==2}">selected</c:if>>Secretary</option>
+                                    <option value="3" <c:if test="${role==3}">selected</c:if>>Treasurer</option>
+                                    <option value="4" <c:if test="${role==4}">selected</c:if>>Public Relations Officer</option>
+                                    <option value="5" <c:if test="${role==5}">selected</c:if>>Member</option>
+                                    <option value="6" <c:if test="${role==6}">selected</c:if>>Technical</option>
+                                    <!-- Add more options as needed -->
+                                </select>
+                    <h6 style="color: red;">${error5}</h6>
                 </div>
                        <div class="form-group" >
-                    <label for="NameClub">Desired Number Of Members</label>
-                    <input type="text" id="NameClub" name="Member" value="${member}"/>
+                    <label for="NameClub">Talent</label>
+                    <input type="text"  name="talent" value="${talent}"/>
                     <h6 style="color: red;">${error2}</h6>
                 </div>
                 <div class="form-group">
-                    <label for="Reason">Reason</label>
-                    <textarea id="Reason" name="Reason" rows="10" cols="50" >
-                        ${reason}
-                    </textarea>
+                    <label for="Reason">Experience</label>
+                    <textarea  name="experience" rows="5" cols="50" > ${experience}</textarea>
                     <br>
                     <h6 style="color: red;">${error3}</h6>
                 </div>
                  <div class="form-group">
                     <label for="Reason">Target</label>
-                    <textarea  name="Target" rows="10" cols="50" >
-                        ${target}
-                    </textarea>
+                    <textarea  name="target" rows="5" cols="50" > ${target}</textarea>
                     <br>
+                    
                     <h6 style="color: red;">${error4}</h6>
-                </div>
-                <div class="form-group" >
-                    <label for="Reason">Plan</label>
-                    <textarea  name="Plan" rows="10" cols="50" >
-                        ${plan}
-                    </textarea>
-                    <br>
-                    <h6 style="color: red;">${error5}</h6>
-                </div>
+                </div>  
                 <div class="form-group">
                     <input type="submit" value="Register Club"/>
                 </div>    
                 <h6 style="color: green;">${error}</h6>
-                
+                <h6 style="color: red;">${error7}</h6>
                 <h6 style="color: red;">${errorr}</h6>
+                
             </div>    
         </form>
                 <!-- Breadcrumb row END -->
@@ -188,7 +184,110 @@
         </div>
         <!-- Content END-->
         <!-- Footer ==== -->
-        <%@ include file="Footer.jsp" %>
+        <footer>
+            <div class="footer-top">
+                <div class="pt-exebar">
+                    <div class="container">
+                        <div class="d-flex align-items-stretch">
+                            <div class="pt-logo mr-auto">
+                                <a href="index.html"><img src="assets/images/logo-white.png" alt=""/></a>
+                            </div>
+                            <div class="pt-social-link">
+                                <ul class="list-inline m-a0">
+                                    <li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pt-btn-join">
+                                <a href="#" class="btn ">Join Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
+                            <div class="widget">
+                                <h5 class="footer-title">Sign Up For A Newsletter</h5>
+                                <p class="text-capitalize m-b20">Weekly Breaking news analysis and cutting edge advices on job searching.</p>
+                                <div class="subscribe-form m-b20">
+                                    <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
+                                        <div class="ajax-message"></div>
+                                        <div class="input-group">
+                                            <input name="email" required="required"  class="form-control" placeholder="Your Email Address" type="email">
+                                            <span class="input-group-btn">
+                                                <button name="submit" value="Submit" type="submit" class="btn"><i class="fa fa-arrow-right"></i></button>
+                                            </span> 
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-5 col-md-7 col-sm-12">
+                            <div class="row">
+                                <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                    <div class="widget footer_widget">
+                                        <h5 class="footer-title">Company</h5>
+                                        <ul>
+                                            <li><a href="index.html">Home</a></li>
+                                            <li><a href="about-1.html">About</a></li>
+                                            <li><a href="faq-1.html">FAQs</a></li>
+                                            <li><a href="contact-1.html">Contact</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                    <div class="widget footer_widget">
+                                        <h5 class="footer-title">Get In Touch</h5>
+                                        <ul>
+                                            <li><a href="http://educhamp.themetrades.com/admin/index.html">Dashboard</a></li>
+                                            <li><a href="blog-classic-grid.html">Blog</a></li>
+                                            <li><a href="portfolio.html">Portfolio</a></li>
+                                            <li><a href="event.html">Event</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                    <div class="widget footer_widget">
+                                        <h5 class="footer-title">Courses</h5>
+                                        <ul>
+                                            <li><a href="courses.html">Courses</a></li>
+                                            <li><a href="courses-details.html">Details</a></li>
+                                            <li><a href="membership.html">Membership</a></li>
+                                            <li><a href="profile.html">Profile</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
+                            <div class="widget widget_gallery gallery-grid-4">
+                                <h5 class="footer-title">Our Gallery</h5>
+                                <ul class="magnific-image">
+                                    <li><a href="assets/images/gallery/pic1.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic1.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic2.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic2.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic3.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic3.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic4.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic4.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic5.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic5.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic6.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic6.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic7.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic7.jpg" alt=""></a></li>
+                                    <li><a href="assets/images/gallery/pic8.jpg" class="magnific-anchor"><img src="assets/images/gallery/pic8.jpg" alt=""></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 text-center"> <a target="_blank" href="https://www.templateshub.net">Templates Hub</a></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
         <!-- Footer END ==== -->
         <button class="back-to-top fa fa-chevron-up" ></button>
     </div>
@@ -290,6 +389,33 @@
                 }
             });
         </script>
+       <script>
+    // Wait for the document to load
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the textarea element
+        var textarea = document.getElementById("experience");
+
+        // Add event listener for mousedown to prevent default behavior
+        textarea.addEventListener("mousedown", function(event) {
+            event.preventDefault();
+        });
+
+        // Add event listener for mouseup to set caret position
+        textarea.addEventListener("mouseup", function() {
+            // Set the caret position at the start (5 characters from the beginning)
+            setCaretPosition(textarea, 5);
+        });
+    });
+    
+
+    // Function to set caret position in textarea
+    function setCaretPosition(textarea, position) {
+        // Ensure the textarea exists and is focused
+        textarea.focus();
+        // Set the selection range for the textarea
+        textarea.setSelectionRange(position, position);
+    }
+</script>
 <script>
 
             // Function thay đổi trang
@@ -362,6 +488,5 @@
                 }
             });
         </script>
-        
     </body>
 </html>

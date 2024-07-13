@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Clubs;
+package Controller.Manager;
 
 import DAO.ClubDao;
 import Model.Clubs;
-import Model.TypeClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,7 +22,7 @@ import java.util.List;
  * @author Nguyen Hau
  */
 @WebServlet(name = "ClubProfile", urlPatterns = {"/ClubProfile"})
-public class ClubProfile extends HttpServlet {
+public class ClubProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,7 +66,7 @@ public class ClubProfile extends HttpServlet {
         if(request.getParameter("id")!=null){
         int id = Integer.parseInt(request.getParameter("id"));
         Clubs club = dao.getClubbyId(id);
-        List<TypeClub> typeclub = dao.gettypeclubAll();
+        List<String> typeclub = dao.gettypeclubAll();
         request.setAttribute("listtypeclub", typeclub);
         request.setAttribute("Club", club);
         }
@@ -96,10 +95,10 @@ public class ClubProfile extends HttpServlet {
     }
     Clubs club1 = dao.getClubbyId(id);
 
-    String nameclub = request.getParameter("clubname");
+    String title = request.getParameter("title");
 
-    if (nameclub.length() > 30) {
-        errorMessage = "Club name must be less than or equal to 30 characters.";
+    if (title.length() > 250||title.trim().isEmpty()||title==null) {
+        errorMessage = "Title must not be null and must be less than or equal to 250 characters.";
     }
 
     int point;
@@ -109,12 +108,8 @@ public class ClubProfile extends HttpServlet {
         point = club1.getPoint();
     }
 
-    int idtype;
-    if (request.getParameter("typeclub") != null) {
-        idtype = Integer.parseInt(request.getParameter("typeclub"));
-    } else {
-        idtype = club1.getType();
-    }
+    
+   String type = request.getParameter("typeclub");
 
     Date date = new Date();
     String datecreateStr = request.getParameter("datecreate");
@@ -135,6 +130,8 @@ public class ClubProfile extends HttpServlet {
     }
 
     String img = "";
+    String name ="";
+    int category=dao.getSettingbyValue(type);
     String description = request.getParameter("description");
 
     if (description != null && description.length() > 1000) {
@@ -143,16 +140,16 @@ public class ClubProfile extends HttpServlet {
 
     if (errorMessage != null) {
         // Nếu có lỗi, thiết lập thông báo lỗi và chuyển tiếp lại trang JSP
-        List<TypeClub> typeclub = dao.gettypeclubAll();
+        List<String> typeclub = dao.gettypeclubAll();
         request.setAttribute("listtypeclub", typeclub);
         request.setAttribute("Club", club1);
         request.setAttribute("errorMessage", errorMessage);
         request.getRequestDispatcher("View/ViewManager/ClubProfile.jsp").forward(request, response);
     } else {
         // Nếu không có lỗi, cập nhật thông tin và chuyển tiếp lại trang JSP với thông báo thành công
-        dao.updateClub(new Clubs(id, nameclub, point, datecreate, date, 0, idtype, img, description));
+        dao.updateClub(new Clubs(id, name, point,category, datecreate, date, 1, img,title, description));
         Clubs club = dao.getClubbyId(id);
-        List<TypeClub> typeclub = dao.gettypeclubAll();
+        List<String> typeclub = dao.gettypeclubAll();
         request.setAttribute("listtypeclub", typeclub);
         request.setAttribute("Club", club);
         request.setAttribute("successMessage", "Update successful");

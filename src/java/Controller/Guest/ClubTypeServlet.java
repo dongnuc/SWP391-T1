@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Admin;
+package Controller.Guest;
 
 import DAO.ClubDao;
 import Model.Clubs;
-import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,10 +17,10 @@ import java.util.List;
 
 /**
  *
- * @author Admin
+ * @author Nguyen Hau
  */
-@WebServlet(name = "GetClubServlet", urlPatterns = {"/getClub"})
-public class GetClubServlet extends HttpServlet {
+@WebServlet(name = "ClubTypeController", urlPatterns = {"/ClubTypeController"})
+public class ClubTypeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class GetClubServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GetClubServlet</title>");
+            out.println("<title>Servlet ClubTypeController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GetClubServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ClubTypeController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,17 +60,23 @@ public class GetClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        String idClub = request.getParameter("idClub");
-        Clubs getClub = dao.getClubByIdSetting(idClub);
-        List<String> nameType = dao.getTypeClub();
-        request.setAttribute("listType", nameType);
-        request.setAttribute("nameClub", getClub.getNameclub());
-        request.setAttribute("points", getClub.getPoint());
-        request.setAttribute("dateCreate", getClub.getDatecreate());
-        request.setAttribute("typeClub", getClub.getCategoryclub());
-        System.out.println(getClub);
-        request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
+ ClubDao dao = new ClubDao();
+        String id = request.getParameter("id");
+        int category = dao.getSettingbyValue(id);
+        String page = request.getParameter("page");
+        int pageNumber = 1;
+        if (page != null) {
+            pageNumber = Integer.parseInt(page);
+        }
+       
+        List<Clubs> listclub = dao.getNineClubsByType(pageNumber, category);
+        List<String> listtypeclub = dao.gettypeclubAll();
+        request.setAttribute("id", id);
+        request.setAttribute("listtypeclub", listtypeclub);
+        request.setAttribute("listclub", listclub);
+        request.setAttribute("numberOfPage", (int) Math.ceil(dao.getNumberOfClubbyID(category) * 1.0 / 9));
+
+        request.getRequestDispatcher("View/ViewStudent/Clubs.jsp").forward(request, response);
     }
 
     /**
@@ -85,37 +90,7 @@ public class GetClubServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        Validation validation = new Validation();
-        ClubDao dao = new ClubDao();
-        String idClub = request.getParameter("idClub");
-        String nameClub = request.getParameter("nameClub");
-        String pointClub = request.getParameter("points");
-        String typeClub = request.getParameter("typeClub");
-//        out.println("Before: " + status);
-        String checkNameClub = validation.checkLength(nameClub, 32);
-        int error = 0;
-        if (!checkNameClub.equals(nameClub)) {
-            error++;
-            request.setAttribute("errorName", checkNameClub);
-        }
-        boolean checkDupitName = dao.checkNameClub(nameClub);
-        if (checkDupitName) {
-            error++;
-            request.setAttribute("errorName", "Name CLub is exist");
-        }
-        if(pointClub == null){
-            error++;
-            request.setAttribute("Points is not empty", "errorPoint");
-        }
-        
-        if(error > 0){
-            request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
-        }
-//        out.println(status);
-        dao.updateClub(idClub, nameClub, pointClub, typeClub, "");
-//        request.getRequestDispatcher("managerClub").forward(request, response);
-        response.sendRedirect("managerClub");
+        processRequest(request, response);
     }
 
     /**

@@ -355,6 +355,63 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
+    public List<Blog> getRandomFiveBlogsByClub() {
+    List<Blog> blogs = new ArrayList<>();
+    String sql = "SELECT * FROM blog WHERE Status = 1 ORDER BY RAND() LIMIT 4";
+    
+    try (Connection con = DBContext.getConnection(); 
+         PreparedStatement st = con.prepareStatement(sql)) {
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setIdBlog(rs.getInt("IdBlog"));
+                blog.setTitleBlog(rs.getString("TittleBlog"));
+                blog.setImage(rs.getString("Image"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setShow(rs.getInt("Show"));
+                blog.setStatus(rs.getInt("Status"));
+                blog.setIdClub(rs.getInt("IdClub"));
+                blog.setDateCreate(rs.getTimestamp("DateCreate"));
+                blog.setDateModify(rs.getTimestamp("DateModify"));
+               
+                blogs.add(blog);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return blogs;
+}
+    public List<Blog> getLatestThreeBlogsByClub(int idClub) {
+    List<Blog> blogs = new ArrayList<>();
+    String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC, IdBlog DESC LIMIT 3";
+    
+    try (Connection con = DBContext.getConnection(); 
+         PreparedStatement st = con.prepareStatement(sql)) {
+        
+        st.setInt(1, idClub); // Set the IdClub parameter
+        
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setIdBlog(rs.getInt("IdBlog"));
+                blog.setTitleBlog(rs.getString("TittleBlog"));
+                blog.setImage(rs.getString("Image"));
+                blog.setDescription(rs.getString("Description"));
+                blog.setShow(rs.getInt("Show"));
+                blog.setStatus(rs.getInt("Status"));
+                blog.setIdClub(rs.getInt("IdClub"));
+                blog.setDateCreate(rs.getTimestamp("DateCreate"));
+                blog.setDateModify(rs.getTimestamp("DateModify"));
+               
+                blogs.add(blog);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return blogs;
+}
 
     public static void main(String[] args) {
         BlogDAO daoBlog = new BlogDAO();

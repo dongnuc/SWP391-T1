@@ -3,12 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller.Guest;
+package Controller.Admin;
 
-import DAO.BlogDAO;
-import DAO.ClubDao;
-import DAO.EventDAO;
-import Model.Clubs;
+import DAO.StudentClubDAO;
+import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +14,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author 84358
+ * @author Nguyen Hau
  */
-@WebServlet(name="home", urlPatterns={"/home"})
-public class home extends HttpServlet {
+@WebServlet(name="SelectStudentbyPositionServlet", urlPatterns={"/SelectStudentbyPositionServlet"})
+public class SelectStudentbyPositionServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +38,10 @@ public class home extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet home</title>");  
+            out.println("<title>Servlet SelectStudentbyPositionServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet home at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet SelectStudentbyPositionServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,15 +57,23 @@ public class home extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {   
-        ClubDao dao = new ClubDao();
-        BlogDAO bdao = new BlogDAO();
-        EventDAO edao = new EventDAO();
-        HttpSession session = request.getSession();
-        request.setAttribute("club", dao.getRandomClub());
-        request.setAttribute("blog", bdao.getRandomFiveBlogsByClub());
-        request.setAttribute("event", edao.getRandomFourEvents());
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+    throws ServletException, IOException {
+       String page = request.getParameter("page");
+        int pageNumber = 1;
+        if (page != null) {
+            pageNumber = Integer.parseInt(page);
+        }
+        StudentClubDAO stdao = new StudentClubDAO();
+         if(request.getParameter("id")!=null&&request.getParameter("leader")!=null){
+             int id = Integer.parseInt(request.getParameter("id"));
+             int leader = Integer.parseInt(request.getParameter("leader"));
+             List<StudentClub> list = stdao.getTenStudentClubbyleader(id, leader, pageNumber);
+            request.setAttribute("list", list);
+            request.setAttribute("search", null);
+            request.setAttribute("leader", leader);
+            request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getCountStudentClubbyLeader(id, leader) * 1.0 / 10));
+        request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
+       }
     } 
 
     /** 

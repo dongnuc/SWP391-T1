@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.ClubDao;
 import java.sql.Timestamp;
 
 /**
@@ -181,5 +182,8 @@ public class Blog {
         this.status = status;
     }
 
-    
+    ClubDao dao =new ClubDao();
+public String getNameCLub(){
+    return dao.getNameById(idClub);
+}
 }

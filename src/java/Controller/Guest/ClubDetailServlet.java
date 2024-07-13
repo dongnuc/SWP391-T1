@@ -5,10 +5,14 @@
 
 package Controller.Guest;
 
+import DAO.AccountDao;
 import DAO.BlogDAO;
 import DAO.ClubDao;
 import DAO.EventDAO;
+import DAO.StudentClubDAO;
+import Model.Blog;
 import Model.Clubs;
+import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +20,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
- * @author 84358
+ * @author Nguyen Hau
  */
-@WebServlet(name="home", urlPatterns={"/home"})
-public class home extends HttpServlet {
+@WebServlet(name="ClubDetail", urlPatterns={"/ClubDetail"})
+public class ClubDetailServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +44,10 @@ public class home extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet home</title>");  
+            out.println("<title>Servlet ClubDetail</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet home at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ClubDetail at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,15 +63,24 @@ public class home extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {   
-        ClubDao dao = new ClubDao();
+    throws ServletException, IOException {
+        StudentClubDAO scdao = new StudentClubDAO();
+        ClubDao clubdao = new ClubDao();
         BlogDAO bdao = new BlogDAO();
         EventDAO edao = new EventDAO();
-        HttpSession session = request.getSession();
-        request.setAttribute("club", dao.getRandomClub());
-        request.setAttribute("blog", bdao.getRandomFiveBlogsByClub());
-        request.setAttribute("event", edao.getRandomFourEvents());
-        request.getRequestDispatcher("Home.jsp").forward(request, response);
+        AccountDao accdao = new AccountDao();
+        if(request.getParameter("id")!=null){
+            int id = Integer.parseInt(request.getParameter("id"));
+            List<StudentClub> liststudent = scdao.getTop5StudentsByPoint(id);
+            List<Blog> list = bdao.getLatestThreeBlogsByClub(id);
+            request.setAttribute("liststudent", liststudent);
+            request.setAttribute("club", clubdao.getClubbyId(id));
+            request.setAttribute("event", edao.getLatestEventByClub(id));
+            request.setAttribute("blog", list);
+            request.setAttribute("acc", accdao.getAccountbyID(clubdao.getIdStudentByRole(id)));
+            request.setAttribute("otherclub", clubdao.getOtherClub(clubdao.getClubbyId(id).getCategoryclub(),id));
+        }
+        request.getRequestDispatcher("View/ViewStudent/ClubDetail.jsp").forward(request, response);
     } 
 
     /** 

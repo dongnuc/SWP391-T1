@@ -67,6 +67,44 @@
                 background-color: #f2f2f2;
             }
         </style>
+        <style>
+            .blog-container {
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 15px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .blog-image {
+                width: 150px;
+                height: 100px;
+                object-fit: cover;
+                margin-right: 15px;
+            }
+
+            .blog-details {
+                flex: 1;
+            }
+
+            .blog-title {
+                margin: 0 0 5px 0;
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .blog-date {
+                margin: 0 0 10px 0;
+                color: #888;
+                font-size: 14px;
+            }
+
+            .blog-description {
+                margin: 0;
+                font-size: 16px;
+            }
+        </style>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -91,6 +129,9 @@
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
                             <li>Club Details</li>
+                            <li><c:if test="${sessionScope.id eq acc.id}">
+                                    <a href="EventUploadServlet">Student Recruitment Event</a>
+                                </c:if></li>
                         </ul>
                     </div>
                 </div>
@@ -100,7 +141,7 @@
                     <!-- About Us -->  <c:set var="club" value="${requestScope.club}"/>
                     <div class="section-area section-sp1">
                         <div class="container">
-                            <div class="row d-flex flex-row-reverse">
+                            <div class="row d-flex flex-row-reverse" style="display: flex;">
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="course-detail-bx">
                                         <c:set var="acc" value="${requestScope.acc}"/>
@@ -108,9 +149,7 @@
                                             <c:if test="${sessionScope.id eq acc.id}">
                                                 <a href="ClubProfile?id=${club.getClub()}" class="btn radius-xl text-uppercase">Club Profile</a>
                                             </c:if>
-                                            <c:if test="${sessionScope.id ne acc.id}">
-                                                <a class="btn radius-xl text-uppercase">Management</a>
-                                            </c:if>
+
                                         </div>
                                         <div class="teacher-bx">
                                             <div class="teacher-info">
@@ -126,13 +165,11 @@
                                         </div>
                                         <div class="cours-more-info">
                                             <div class="review">
-                                                <span>3 Review</span>
+                                                <span>Phone Number</span>
                                                 <ul class="cours-star">
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li class="active"><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
+
+                                                    <span>${acc.getSdt()}</span>
+
                                                 </ul>
                                             </div>
                                             <div class="price categories">
@@ -142,15 +179,15 @@
                                         </div>
                                         <div class="course-info-list scroll-pag">
                                             <ul class="navbar">
-                                                <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Overview</a></li>
+                                                <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>Nofications</a></li>
 
-                                                <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Member</a></li>
+                                                <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>Ranking Member</a></li>
 
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                              
+
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
@@ -161,44 +198,57 @@
                                                 <h2 class="post-title">${club.getNameclub()}</h2>
                                             </div>
                                             <div class="ttr-post-text">
-                                                <p>Welcome to the ${club.getNameclub()} Our club is a vibrant community dedicated to [brief description of the club’s focus, e.g., promoting environmental awareness, exploring the arts, developing tech skills]. We offer a range of activities, events, and projects designed to engage, inspire, and empower our members. Whether you’re a seasoned enthusiast or just starting out, you’ll find a supportive and dynamic environment here. Join us to learn, grow, and make a positive impact together!</p>
+                                                <p> ${club.getTitle()} </p>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="courese-overview" id="overview">
-                                        <h4>Overview</h4>
+                                    <div class="courese-overview" id="overview" style="">
+                                        <h4>Latest Event</h4>
+                                        <c:set var="event" value="${requestScope.event}"/>
                                         <div class="row">
-                                            <div class="col-md-12 col-lg-4">
-                                                <ul class="course-features">
-                                                    <li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">8</span></li>
-                                                    <li><i class="ti-help-alt"></i> <span class="label">${acc.getPassword()}</span> <span class="value"></span></li>
-                                                    <li><i class="ti-time"></i> <span class="label">Date create</span> <span class="value">${club.getDatecreate()}</span></li>
-                                                    <li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">Beginner</span></li>
-                                                    <li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
-                                                    <li><i class="ti-user"></i> <span class="label">Member</span> <span class="value">${club.getSizeClub()}</span></li>
+                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 500px">
+                                                <div class="cours-bx">
+                                                    <div class="action-box">
+                                                        <img src="${event.getImage()}" style="width: 350px;height: 350px">
+                                                        <a href=# class="btn">Read More</a>
+                                                    </div>
+                                                    <div class="info-bx text-center" style="text-align: right;height: 90px;">
+                                                        <h5><a href="#">${event.getNameEvent()}</a></h5>
+                                                        <span style="text-align: left;"> </span>
+                                                    </div>
 
-                                                </ul>
+                                                    <div class="cours-more-info">
+                                                        <div class="review" style="padding-left: 5px;width: 100%;text-align: center;">
+                                                            <h6>Datecreate : ${event.getDatecreate()}</h6>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-12 col-lg-8">
+
+                                            <div class="col-md-12 col-lg-8" style="width: 500px;">
                                                 <h5 class="m-b5">Club Description</h5>
                                                 <p>${club.getDescription()}</p>
-                                                <h5 class="m-b5">Clubs Rule</h5>
-                                                <ul class="list-checked primary">
-                                                    <li>Respect all members and their opinions.</li>
-                                                    <li>Attend meetings regularly and punctually.</li>
-                                                    <li>Participate actively in club activities.</li>
-                                                    <li>Maintain academic integrity and prioritize studies.</li>
-                                                    <li>Keep club materials and spaces clean.</li>
-                                                    <li>Communicate respectfully and constructively.</li>
-                                                    <li>Adhere to the university's code of conduct.</li>
-                                                    <li>Report any issues or concerns to club leaders.</li>
-                                                </ul>
+                                                <h5 class="m-b5">New Blogs</h5>
+                                                <c:forEach var="blog" items="${requestScope.blog}">
+                                                    <div class="blog-container">
+                                                        <img src="${blog.getImage()}"  class="blog-image">
+                                                        <div class="blog-details">
+                                                            <h6 class="blog-title"><a href="#">${blog.getTitleBlog()}</a></h6>
+                                                            <p class="blog-date">Date Created: ${blog.getDateCreate()}</p>
+                                                            <p class="blog-description">${blog.getDescription()}</p>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
+
                                             </div>
+
                                         </div>
                                     </div>
 
                                     <div class="" id="instructor">
-                                        <h4>Member</h4>
+                                        <h4>Member Ranking</h4>
 
                                         <table>
                                             <tr>
@@ -209,7 +259,7 @@
                                             <c:forEach var="student" items="${requestScope.liststudent}">
                                                 <tr>
                                                     <td>${student.getNamebyId()}</td>
-                                                    <td>${student.getDateCreate()}</td>
+                                                    <td>${student.getDatecreate()}</td>
                                                     <td>${student.getPoint()}</td>
                                                 </tr>
                                             </c:forEach>
@@ -218,7 +268,41 @@
                                     </div>
 
                                 </div>
+                                <div class="" id="instructor" style="width: 100%;padding-top: 20px ;padding-right: 10%;;">
+                                    <h4 >OTHER CLUB</h4>
 
+                                    <br>
+                                    <div class="row" >
+                                        <c:forEach var="club" items="${requestScope.otherclub}">
+                                            <c:if test="${club.getClub()!=param.id}">
+                                                <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 400px;width: 300px;padding-top: 20px;">
+                                                    <div class="cours-bx">
+                                                        <div class="action-box">
+                                                            <img src="${club.getImage()}" style="width: 350px;height: 200px">
+                                                            <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
+                                                        </div>
+                                                        <div class="info-bx text-center" style="text-align: right;height: 110px;">
+                                                            <h5><a href="#">${club.getNameclub()}</a></h5>
+                                                            <span style="text-align: left;">The ${club.getTitle()} </span>
+                                                        </div>
+
+                                                        <div class="cours-more-info">
+                                                            <div class="review" style="padding-left: 5px;">
+                                                                <span>${club.getTypebyid()}</span>
+
+                                                            </div>
+                                                            <div class="price">
+
+                                                                <h5>${club.getSizeClub()} Member</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:if>
+                                        </c:forEach>
+
+                                    </div>
+                                </div> 
                             </div>
 
                         </div>

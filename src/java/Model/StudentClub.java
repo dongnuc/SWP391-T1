@@ -5,6 +5,7 @@
 package Model;
 
 import DAO.AccountDao;
+import DAO.ClubDao;
 import java.util.Date;
 
 /**
@@ -12,27 +13,52 @@ import java.util.Date;
  * @author 10t1q
  */
 public class StudentClub {
-    private int point ;
-    private Date dateCreate;
-    private Date dateModify;
-    private int status;
-    private int idStudent;
-    private int idClub;
-    private int role;
-    private int leader;
+private int idstudent;
+private int idclub;
+private int point;
+private int role;
+private int leader;
+private Date datecreate;
+private Date datemodify;
+private int status;
 
     public StudentClub() {
     }
 
-    public StudentClub(int point, Date dateCreate, Date dateModify, int status, int idStudent, int idClub, int role , int leader) {
+    public StudentClub(int idstudent, int idclub, int point, int role, int leader, Date datecreate, Date datemodify, int status) {
+        this.idstudent = idstudent;
+        this.idclub = idclub;
         this.point = point;
-        this.dateCreate = dateCreate;
-        this.dateModify = dateModify;
-        this.status = status;
-        this.idStudent = idStudent;
-        this.idClub = idClub;
         this.role = role;
-        this.leader = leader ;
+        this.leader = leader;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+        this.status = status;
+    }
+
+    public StudentClub(int point, int status,int idstudent, int idclub, Date datecreate, Date datemodify) {
+        this.idstudent = idstudent;
+        this.idclub = idclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+        this.status = status;
+    }
+
+    public int getIdstudent() {
+        return idstudent;
+    }
+
+    public void setIdstudent(int idstudent) {
+        this.idstudent = idstudent;
+    }
+
+    public int getIdclub() {
+        return idclub;
+    }
+
+    public void setIdclub(int idclub) {
+        this.idclub = idclub;
     }
 
     public int getPoint() {
@@ -43,20 +69,36 @@ public class StudentClub {
         this.point = point;
     }
 
-    public Date getDateCreate() {
-        return dateCreate;
+    public int getRole() {
+        return role;
     }
 
-    public void setDateCreate(Date dateCreate) {
-        this.dateCreate = dateCreate;
+    public void setRole(int role) {
+        this.role = role;
     }
 
-    public Date getDateModify() {
-        return dateModify;
+    public int getLeader() {
+        return leader;
     }
 
-    public void setDateModify(Date dateModify) {
-        this.dateModify = dateModify;
+    public void setLeader(int leader) {
+        this.leader = leader;
+    }
+
+    public Date getDatecreate() {
+        return datecreate;
+    }
+
+    public void setDatecreate(Date datecreate) {
+        this.datecreate = datecreate;
+    }
+
+    public Date getDatemodify() {
+        return datemodify;
+    }
+
+    public void setDatemodify(Date datemodify) {
+        this.datemodify = datemodify;
     }
 
     public int getStatus() {
@@ -67,50 +109,39 @@ public class StudentClub {
         this.status = status;
     }
 
-    public int getIdStudent() {
-        return idStudent;
+    public AccountDao getAcdao() {
+        return acdao;
     }
 
-    public void setIdStudent(int idStudent) {
-        this.idStudent = idStudent;
+    public void setAcdao(AccountDao acdao) {
+        this.acdao = acdao;
     }
 
-    public int getIdClub() {
-        return idClub;
+    public ClubDao getSdao() {
+        return sdao;
     }
 
-    public void setIdClub(int idClub) {
-        this.idClub = idClub;
+    public void setSdao(ClubDao sdao) {
+        this.sdao = sdao;
     }
 
-    public int getRole() {
-        return role;
-    }
-
-    public int getLeader() {
-        return leader;
-    }
-
-    public void setLeader(int leader) {
-        this.leader = leader;
-    }
     
-    
- public String getNamebyId() {
-        return dao.getNamebyID(idClub);
-    }
-    public void setRole(int role) {
-        this.role = role;
-    }
-    AccountDao dao = new AccountDao();
+    AccountDao acdao = new AccountDao();
 
-
-    public String getNameRole() {
-        if (getRole() == 1) {
-            return "Manager";
-        } else {
-            return "Member";
-        }
+    public String getNamebyId() {
+        return acdao.getNamebyID(idstudent);
     }
-    
+    ClubDao sdao =new ClubDao();
+    public String getRolebyID(){
+        return sdao.getRolebyId(role);
+    }
+     
+     
+public String getPosition(){
+    if(leader==1){
+        return "Leader";
+    }else{
+        return "Member";
+    }
+}
 }
