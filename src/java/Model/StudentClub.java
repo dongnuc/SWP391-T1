@@ -13,8 +13,8 @@ import java.util.Date;
  * @author 10t1q
  */
 public class StudentClub {
-private int idstudent;
-private int idclub;
+private int idStudent;
+private int idClub;
 private int point;
 private int role;
 private int leader;
@@ -26,8 +26,8 @@ private int status;
     }
 
     public StudentClub(int idstudent, int idclub, int point, int role, int leader, Date datecreate, Date datemodify, int status) {
-        this.idstudent = idstudent;
-        this.idclub = idclub;
+        this.idStudent = idstudent;
+        this.idClub = idclub;
         this.point = point;
         this.role = role;
         this.leader = leader;
@@ -37,28 +37,28 @@ private int status;
     }
 
     public StudentClub(int point, int status,int idstudent, int idclub, Date datecreate, Date datemodify) {
-        this.idstudent = idstudent;
-        this.idclub = idclub;
+        this.idStudent = idstudent;
+        this.idClub= idclub;
         this.point = point;
         this.datecreate = datecreate;
         this.datemodify = datemodify;
         this.status = status;
     }
 
-    public int getIdstudent() {
-        return idstudent;
+    public int getIdStudent() {
+        return idStudent;
     }
 
-    public void setIdstudent(int idstudent) {
-        this.idstudent = idstudent;
+    public void setIdStudent(int idstudent) {
+        this.idStudent = idstudent;
     }
 
-    public int getIdclub() {
-        return idclub;
+    public int getIdClub() {
+        return idClub;
     }
 
-    public void setIdclub(int idclub) {
-        this.idclub = idclub;
+    public void setIdClub(int idclub) {
+        this.idClub = idclub;
     }
 
     public int getPoint() {
@@ -129,7 +129,7 @@ private int status;
     AccountDao acdao = new AccountDao();
 
     public String getNamebyId() {
-        return acdao.getNamebyID(idstudent);
+        return acdao.getNamebyID(idStudent);
     }
     ClubDao sdao =new ClubDao();
     public String getRolebyID(){

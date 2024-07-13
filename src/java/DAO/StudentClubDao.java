@@ -124,8 +124,8 @@ public class StudentClubDAO extends DBContext {
                 studentClub.setDatecreate(rs.getDate("DateCreate"));//
                 studentClub.setDatemodify(rs.getDate("DateModify"));//
                 studentClub.setStatus(rs.getInt("Status"));//
-                studentClub.setIdstudent(rs.getInt("IdStudent"));//
-                studentClub.setIdclub(rs.getInt("IdClub"));//
+                studentClub.setIdStudent(rs.getInt("IdStudent"));//
+                studentClub.setIdClub(rs.getInt("IdClub"));//
                 studentClub.setRole(rs.getInt("Role"));//
                 studentClub.setLeader(rs.getInt("leader"));//
                 studentClubList.add(studentClub);
@@ -140,8 +140,8 @@ public class StudentClubDAO extends DBContext {
         String query = "Insert into studentclub (IdStudent,IdClub,Point,Role,leader,DateCreate,DateModify,Status) value(?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, student.getIdstudent());
-            st.setInt(2, student.getIdclub());
+            st.setInt(1, student.getIdStudent());
+            st.setInt(2, student.getIdClub());
             st.setInt(3, student.getPoint());
             st.setInt(4, student.getRole());
             st.setInt(5, student.getLeader());
@@ -221,8 +221,8 @@ public class StudentClubDAO extends DBContext {
             st.setInt(3, studentclub.getLeader());
             st.setDate(4, new java.sql.Date(studentclub.getDatecreate().getTime()));
             st.setDate(5, new java.sql.Date(studentclub.getDatemodify().getTime()));
-            st.setInt(6, studentclub.getIdstudent());
-            st.setInt(7, studentclub.getIdclub());
+            st.setInt(6, studentclub.getIdStudent());
+            st.setInt(7, studentclub.getIdClub());
 
             st.executeUpdate();
             st.close();
@@ -631,7 +631,7 @@ public class StudentClubDAO extends DBContext {
 //-----------------------
     public static void main(String[] args) {
         StudentClubDAO dao = new StudentClubDAO();
-        System.out.println(dao.getStudentClubbyId(34).get(1).getIdclub());
+        System.out.println(dao.getStudentClubbyId(34).get(1));
     }
 
 

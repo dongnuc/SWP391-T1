@@ -168,7 +168,7 @@
                                             <c:forEach var="studentClub" items="${StudentClubList}">
                                                 <c:if test="${studentClub.status == 1 && studentClub.leader == 1}">
                                                     <div>
-                                                        <input type="radio" name="idclub" value="${studentClub.idClub}" ${param.idclub == studentClub.idClub ? 'checked' : ''}> ${clubDAO.getClubNameByID(studentClub.idClub)}
+                                                        <input type="radio" name="idclub" value="${studentClub.getIdClub()}" ${param.idclub == studentClub.getIdClub()? 'checked' : ''}> ${clubDAO.getClubNameByID(studentClub.getIdClub())}
                                                     </div>
                                                 </c:if>
                                             </c:forEach>

@@ -38,7 +38,7 @@ public class Blog_PostListServlet extends HttpServlet {
             if (studentClubList != null) {
                 for (StudentClub studentclub : studentClubList) {
                     if (studentclub.getLeader()== 1 && studentclub.getStatus() == 1) {
-                        List<Blog> blogs = blogDao.getBlogByIdClub(studentclub.getIdclub());
+                        List<Blog> blogs = blogDao.getBlogByIdClub(studentclub.getIdClub());
                         if (blogs != null) {
                             BlogByIDList.addAll(blogs);
                         }

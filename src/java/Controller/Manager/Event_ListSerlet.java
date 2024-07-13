@@ -43,7 +43,6 @@ public class Event_ListSerlet extends HttpServlet {
         request.setAttribute("clubDao", clubDao);
         request.setAttribute("eventList", eventList);
         request.setAttribute("eventTypeList", eventTypeList);
-        System.out.println(eventTypeList.size()); 
         request.getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
     }
 

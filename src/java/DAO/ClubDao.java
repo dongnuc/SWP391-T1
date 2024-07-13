@@ -147,24 +147,24 @@ public class ClubDao extends DBContext {
         return null;
     }
 
-    public List<Role> getAllRole(String idClub) {
-        String query = "select DISTINCT  sc.IdRole from Student s join studentclub sc on s.IdStudent = sc.IdStudent where sc.IdClub = ?";
-        List<Role> listRole = new ArrayList<>();
-
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setString(1, idClub);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                String idRole = rs.getString("sc.IdRole");
-                Role role = getRoleById(idRole);
-                listRole.add(role);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return listRole;
-    }
+//    public List<Role> getAllRole(String idClub) {
+//        String query = "select DISTINCT  sc.IdRole from Student s join studentclub sc on s.IdStudent = sc.IdStudent where sc.IdClub = ?";
+//        List<Role> listRole = new ArrayList<>();
+//
+//        try {
+//            PreparedStatement st = connection.prepareStatement(query);
+//            st.setString(1, idClub);
+//            ResultSet rs = st.executeQuery();
+//            while (rs.next()) {
+//                String idRole = rs.getString("sc.IdRole");
+//                Role role = getRolebyId(idRole);
+//                listRole.add(role);
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return listRole;
+//    }
 
   
     

@@ -41,7 +41,7 @@ public class Blog_SearchServlet extends HttpServlet {
 
             if (studentClubList != null) {
                 for (StudentClub studentclub : studentClubList) {
-                    List<Blog> blogs = blogDAO.getBlogByIdClub(studentclub.getIdclub());
+                    List<Blog> blogs = blogDAO.getBlogByIdClub(studentclub.getIdClub());
                     if (blogs != null) {
                         BlogByIDList.addAll(blogs);
                     }

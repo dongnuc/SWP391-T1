@@ -14,27 +14,22 @@ import java.util.List;
  * @author 84358
  */
 public class Clubs {
+
     private int club;
     private String nameclub;
     private int point;
-    private int categoryclub;
     private Date datecreate;
     private Date modify;
+    private int type;
     private int status;
     private String image;
-    private String title;
     private String description;
-    private Role listRole ;
+    private Role listRole;
+    private String typeClub;
+    private String title;
+    private int categoryclub;
 
     public Clubs() {
-    }
-
-    public int getCategoryclub() {
-        return categoryclub;
-    }
-
-    public void setCategoryclub(int categoryclub) {
-        this.categoryclub = categoryclub;
     }
 
     public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int status, String image, String title, String description, Role listRole) {
@@ -63,7 +58,64 @@ public class Clubs {
         this.description = description;
     }
 
-    
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description, Role listRole) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.type = type;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.listRole = listRole;
+    }
+
+    public Clubs(int club, String nameclub, int point, Date datecreate, Date modify, int type, int status, String image, String description) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.type = type;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.listRole = listRole;
+    }
+
+    public Clubs(int club, String nameclub, String image, String description, int point,
+            String typeClub, Date datecreate, Date modify, int status) {
+        this.club = club;
+        this.nameclub = nameclub;
+        this.point = point;
+        this.datecreate = datecreate;
+        this.modify = modify;
+        this.status = status;
+        this.image = image;
+        this.description = description;
+        this.typeClub = typeClub;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getCategoryclub() {
+        return categoryclub;
+    }
+
+    public void setCategoryclub(int categoryclub) {
+        this.categoryclub = categoryclub;
+    }
+
+    public String getTypeClub() {
+        return typeClub;
+    }
+
+    public void setTypeClub(String typeClub) {
+        this.typeClub = typeClub;
+    }
 
     public int getClub() {
         return club;
@@ -105,6 +157,14 @@ public class Clubs {
         this.modify = modify;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -119,14 +179,6 @@ public class Clubs {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {
@@ -146,12 +198,14 @@ public class Clubs {
     }
 
     StudentClubDAO stdao = new StudentClubDAO();
-   public int getSizeClub(){
-       return stdao.getSizeClub(getClub());
-   }
-    ClubDao sdao =new ClubDao();
-    public String getTypebyid(){
+
+    public int getSizeClub() {
+        return stdao.getSizeClub(getClub());
+    }
+    ClubDao sdao = new ClubDao();
+
+    public String getTypebyid() {
         return sdao.getValuebySetting(categoryclub);
     }
-    
+
 }

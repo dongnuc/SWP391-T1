@@ -43,7 +43,7 @@ public class Manager_DashBoardServlet extends HttpServlet {
         
         for (StudentClub studentClub : StudentClubList) {
             if (studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
-                idclub =studentClub.getIdclub();
+                idclub =studentClub.getIdClub();
             }
         }
         if (acc != null) {
