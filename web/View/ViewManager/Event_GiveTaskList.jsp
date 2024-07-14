@@ -157,7 +157,7 @@
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td>${EventTask.department}</td>
+                            <td>${settingDAO.getValueSettingById(EventTask.department)}</td>
                             <td>${EventTask.budget}</td>
 
                             <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/GiveTaskUpdate?idEventTask=${EventTask.idEventTask}', 'update')">Update</a></td>

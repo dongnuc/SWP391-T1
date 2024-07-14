@@ -65,7 +65,9 @@ public class Event_GiveTaskListServlet extends HttpServlet {
         
         EventDAO eventDAO = new EventDAO();
         ClubDao clubDAO = new ClubDao();
+        SettingDAO settingDAO = new SettingDAO();
         
+        request.setAttribute("settingDAO", settingDAO);
         request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("eventDAO", eventDAO);
         request.setAttribute("studentClubList", studentClubList);
