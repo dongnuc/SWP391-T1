@@ -156,6 +156,7 @@ public class Event_GiveTaskServlet extends HttpServlet {
         request.setAttribute("clubDAO", clubDAO);
         request.setAttribute("eventDAO", eventDAO);
         request.setAttribute("settingList", settingList);
+        request.setAttribute("from", from);
         request.getRequestDispatcher("View/ViewManager/Event_GiveTask.jsp").forward(request, response);
         return;
         }
