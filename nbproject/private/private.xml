@@ -14,6 +14,9 @@
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Model/EventRegistration.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Guest/register.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewManager/Event_List.jsp</file>
+            <file>file:/D:/Inter3_New/SWP391-T1/src/java/DAO/FormDao.java</file>
+            <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/Reventdetail.jsp</file>
+            <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/changepassword.jsp</file>
             <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/Header.jsp</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Services/SendEmailHuy.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Manager/Event_ListSerlet.java</file>
@@ -22,7 +25,9 @@
             <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/MyRegistration.jsp</file>
             <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/login.jsp</file>
             <file>file:/D:/Inter3_New/SWP391-T1/web/View/ViewStudent/profile.jsp</file>
+            <file>file:/D:/Inter3_New/SWP391-T1/src/java/DAO/BlogDAO.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Admin/userdetail.java</file>
+            <file>file:/D:/Inter3_New/SWP391-T1/src/java/Model/Accounts.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Guest/uploadavatar.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Guest/loginf.java</file>
             <file>file:/D:/Inter3_New/SWP391-T1/src/java/Controller/Guest/profile.java</file>

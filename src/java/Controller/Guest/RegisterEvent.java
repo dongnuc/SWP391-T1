@@ -117,6 +117,11 @@ public class RegisterEvent extends HttpServlet {
             request.setAttribute("erroremail", "Please input Email Valid");
             check=1;
         }
+        if(ev.CheckregisterEvent(idevent, email_raw)){
+            request.setAttribute("erroremail", "This Email had Register Event");
+
+            check++;
+        }
         if(name_raw.isEmpty()){
             request.setAttribute("errorname", "Name cannot Empty");
             check++;

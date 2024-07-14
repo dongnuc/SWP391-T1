@@ -48,6 +48,25 @@ public class EventRegistrationDao extends DBContext {
 
         }
     }
+   public boolean CheckregisterEvent(String idevent, String gmail) {
+    String sql = "SELECT COUNT(*) FROM swp391huy.eventregister WHERE IdEvent = ? AND gmail = ?;";
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, idevent);
+        st.setString(2, gmail);
+
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count > 0; 
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        
+    }
+    return false; // Trả về false mặc định nếu có lỗi xảy ra
+}
+    
     public EventRegistration getEventRegistration(int ideventregistration) {
         String sql = "SELECT * FROM eventregister where EventRegisterId = ?";
         EventRegistration x=null;
