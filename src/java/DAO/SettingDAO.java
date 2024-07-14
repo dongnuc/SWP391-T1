@@ -69,6 +69,32 @@ public class SettingDAO extends DBContext{
         return settingsList;
     }
     
+    public List<Settings> getSettingsClub() {
+        List<Settings> settingsList = new ArrayList<>();
+        String sql = "SELECT * FROM settings WHERE typeSetting ='1'";
+
+        try (Connection con = DBContext.getConnection(); 
+             PreparedStatement st = con.prepareStatement(sql); 
+             ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                Settings settings = new Settings();
+                settings.setIdSetting(rs.getInt("idSetting"));
+                settings.setValueSetting(rs.getString("valueSetting"));
+                settings.setTypeSetting(rs.getInt("typeSetting"));
+                settings.setIdStudent(rs.getInt("idStudent"));
+                settings.setDateCreate(rs.getTimestamp("DateCreate"));
+                settings.setDateModify(rs.getTimestamp("DateModify"));
+                settings.setStatus(rs.getInt("Status"));
+                settingsList.add(settings);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return settingsList;
+    }
+    
      public List<Settings> getSettingsEvent() {
         List<Settings> settingsList = new ArrayList<>();
         String sql = "SELECT * FROM settings WHERE typeSetting ='5'";

@@ -27,10 +27,10 @@ public class Event_UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String fromPage = request.getParameter("from");
         request.setAttribute("from", fromPage);
-        
+
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         List<StudentClub> StudentClubList = null;
 
@@ -110,20 +110,20 @@ public class Event_UploadServlet extends HttpServlet {
             StringBuilder errorEventType = new StringBuilder();
             StringBuilder errorFile = new StringBuilder();
             StringBuilder errorAddress = new StringBuilder();
-            
+
             boolean hasError = false;
 
             if (nameEvent == null || nameEvent.isEmpty()) {
                 errorNameEvent.append("Name event cannot be empty.<br>");
                 hasError = true;
-            }else if (nameEvent.length() > 128) {
+            } else if (nameEvent.length() > 128) {
                 errorNameEvent.append("Name event cannot exceed 128 characters.<br>");
                 hasError = true;
             }
             if (description == null || description.isEmpty()) {
                 errorDescription.append("Description cannot be empty.<br>");
                 hasError = true;
-            }else if (description.length() > 256) {
+            } else if (description.length() > 256) {
                 errorDescription.append("Description cannot exceed 128 characters.<br>");
                 hasError = true;
             }
@@ -171,7 +171,7 @@ public class Event_UploadServlet extends HttpServlet {
                 request.setAttribute("errorEventType", errorEventType.toString());
                 request.setAttribute("errorFile", errorFile.toString());
                 request.setAttribute("errorAddress", errorAddress.toString());
-                
+
                 request.setAttribute("nameevent", nameEvent);
                 request.setAttribute("description", description);
                 request.setAttribute("content", content);
@@ -190,7 +190,7 @@ public class Event_UploadServlet extends HttpServlet {
                 Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
                 StudentClubDAO studentClubDAO = new StudentClubDAO();
                 List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-             
+
                 request.setAttribute("clubDAO", clubDAO);
                 request.setAttribute("eventTypeList", eventTypeList);
                 request.setAttribute("StudentClubList", StudentClubList);
@@ -205,27 +205,26 @@ public class Event_UploadServlet extends HttpServlet {
 
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            
+
             try {
-            Date parsedDateStart = dateFormat.parse(dateStartStr);
-            Date parsedDateEnd = dateFormat.parse(dateEndStr);
+                Date parsedDateStart = dateFormat.parse(dateStartStr);
+                Date parsedDateEnd = dateFormat.parse(dateEndStr);
 
-            Timestamp dateStart = new Timestamp(parsedDateStart.getTime());
-            Timestamp dateEnd = new Timestamp(parsedDateEnd.getTime());
-            
-            Event event = new Event(nameEvent, timestamp, timestamp, status, address, dateEnd, IDClub, dateStart, "images_event/" + fileName, eventType, description, content);
-            eventDAO.addEvent(event);
+                Timestamp dateStart = new Timestamp(parsedDateStart.getTime());
+                Timestamp dateEnd = new Timestamp(parsedDateEnd.getTime());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-            
+                Event event = new Event(nameEvent, timestamp, timestamp, status, address, dateEnd, IDClub, dateStart, "images_event/" + fileName, eventType, description, content);
+                eventDAO.addEvent(event);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if ("Event_List.jsp".equals(fromPage)) {
-        request.getRequestDispatcher("/EventSerlet").forward(request, response);
-        }
-        else {
-        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
-        }
+                request.getRequestDispatcher("/EventSerlet").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+            }
         } else {
             response.getWriter().println("Error: File upload failed.");
         }

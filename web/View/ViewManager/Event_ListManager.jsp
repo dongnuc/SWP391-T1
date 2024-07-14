@@ -166,7 +166,7 @@
                             </td>
                             <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'update')">Update</a></td>
                             <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'delete')">Delete</a></td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'give task')">Give Task</a></td>
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&idClub=${Event.idClub}&from=Event_ListManager.jsp', 'give task')">Give Task</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
