@@ -234,11 +234,11 @@ public class Event_UpdateServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        if ("Event_List.jsp".equals(frompage)) {
-        request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        if ("Event_ListManager.jsp".equals(frompage)) {
+        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
         }
         else {
-        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+        request.getRequestDispatcher("/EventSerlet").forward(request, response);
         }
     }
 

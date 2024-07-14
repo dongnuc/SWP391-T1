@@ -198,6 +198,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             request.setAttribute("studentClubList", StudentClubList);
             request.setAttribute("blogTypeList", blogTypeList);
             request.setAttribute("clubDAO", clubDAO);
+            request.setAttribute("fromPage", fromPage);
             request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
             return;
         }
