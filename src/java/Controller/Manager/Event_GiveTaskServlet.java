@@ -31,7 +31,6 @@ public class Event_GiveTaskServlet extends HttpServlet {
 
         String from = request.getParameter("from");
         String xIdEvent = request.getParameter("idEvent");
-        
         String xIdClub = request.getParameter("idClub");
 
         ClubDao clubDAO = new ClubDao();
@@ -69,17 +68,103 @@ public class Event_GiveTaskServlet extends HttpServlet {
         int nameEvent = Integer.parseInt(xnameEvent);
         String xclub = request.getParameter("club");
         int club = Integer.parseInt(xclub);
+        
+        ClubDao clubDAO = new ClubDao();
+        EventDAO eventDAO = new EventDAO();
+        SettingDAO settingDAO = new SettingDAO();
+        List<Settings> settingList = settingDAO.getSettingsClub();
+        
+        StringBuilder messnameTask = new StringBuilder();
+        StringBuilder messdescription = new StringBuilder();
+        StringBuilder messcontent = new StringBuilder();
+        StringBuilder messxdepartment = new StringBuilder();
+        StringBuilder messxdeadline = new StringBuilder();
+        StringBuilder messxbudget = new StringBuilder();
+        boolean hasError = false;
+        
         String nameTask = request.getParameter("nametask");
+         if (nameTask == null || nameTask.isEmpty()) {
+                messnameTask.append("Name task cannot be empty.<br>");
+                hasError = true;
+            } else if (nameTask.length() > 128) {
+                messnameTask.append("Name task cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
+        
         String description = request.getParameter("description");
+        if (description == null || description.isEmpty()) {
+                messdescription.append("Description cannot be empty.<br>");
+                hasError = true;
+            } else if (description.length() > 128) {
+                messdescription.append("Name task cannot exceed 128 characters.<br>");
+                hasError = true;
+            }
+        
         String content = request.getParameter("content");
+        if (content == null || content.isEmpty()) {
+                messcontent.append("Content cannot be empty.<br>");
+                hasError = true;
+            }
+        
         String xdepartment = request.getParameter("department");
-        int department = Integer.parseInt(xdepartment);
+        if (xdepartment == null || xdepartment.isEmpty()) {
+                messxdepartment.append("Department cannot be empty.<br>");
+                hasError = true;
+            }
+        
         String xdeadline = request.getParameter("deadline");
+        if (xdeadline == null || xdeadline.isEmpty()) {
+                messxdeadline.append("Deadline cannot be empty.<br>");
+                hasError = true;
+            }
+        
         String xbudget = request.getParameter("budget");
+        if (xbudget == null || xbudget.isEmpty()) {
+                messxbudget.append("Budget cannot be empty.<br>");
+                hasError = true;
+            }
+        else {
+    try {
+        float budget = Float.parseFloat(xbudget);
+        if (budget < 0) {
+            messxbudget.append("Budget cannot be negative.<br>");
+            hasError = true;
+        }
+    } catch (NumberFormatException e) {
+        messxbudget.append("Budget must be a valid number.<br>");
+        hasError = true;
+    }
+}
+        
+        if (hasError) {
+        request.setAttribute("messnameTask", messnameTask);
+        request.setAttribute("messdescription", messdescription);
+        request.setAttribute("messcontent", messcontent);
+        request.setAttribute("messxdepartment", messxdepartment);
+        request.setAttribute("messxdeadline", messxdeadline);
+        request.setAttribute("messxbudget", messxbudget);
+        
+        request.setAttribute("nameTask", nameTask);
+        request.setAttribute("description", description);
+        request.setAttribute("content", content);
+        request.setAttribute("xdepartment", xdepartment);
+        request.setAttribute("xdeadline", xdeadline);
+        request.setAttribute("xbudget", xbudget);
+            
+        request.setAttribute("idEvent", xnameEvent);
+        request.setAttribute("idClub", xclub);
+        request.setAttribute("clubDAO", clubDAO);
+        request.setAttribute("eventDAO", eventDAO);
+        request.setAttribute("settingList", settingList);
+        request.getRequestDispatcher("View/ViewManager/Event_GiveTask.jsp").forward(request, response);
+        return;
+        }
+        int department = Integer.parseInt(xdepartment);
         float budget = Float.parseFloat(xbudget);
         
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        
         try{
         Date parsedDeadline = dateFormat.parse(xdeadline);
         Timestamp deadline = new Timestamp(parsedDeadline.getTime());
@@ -92,8 +177,8 @@ public class Event_GiveTaskServlet extends HttpServlet {
         catch (Exception e) {
             e.printStackTrace();
         }
-        if ("Event_ListManager.jsp".equals(from)) {
-                request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+        if ("Event_GiveTaskList.jsp".equals(from)) {
+                request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
             }
         
     }

@@ -35,7 +35,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>Event Give Task </title>
+        <title>Event Task Update </title>
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,7 +74,7 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Give Task for Event</h4>
+                    <h4 class="breadcrumb-title">Task Update</h4>
 
                 </div>	
                 <div class="row">
@@ -82,37 +82,33 @@
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
                             <div class="widget-inner">
-                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/EventGiveTaskServlet" method="post">
-                                    <input type="hidden" name="from" value="${from}">
+                                <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/GiveTaskUpdate" method="post">
+                                    <input type="hidden" name="idEventTask" value="${EventTask.idEventTask}">
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <label class="col-form-label">Event name : ${eventDAO.getEventNameById(idEvent)}</label>
-                                            <input type="hidden" name="eventname" value="${idEvent}">
+                                            <label class="col-form-label">Event name: ${eventDAO.getEventNameById(EventTask.idEvent)}</label>
                                         </div>
                                         <div class="form-group col-6">
-                                            <label class="col-form-label">Club :${clubDAO.getClubNameByID(idClub)}</label>
-                                            <input type="hidden" name="club" value="${idClub}">
+                                            <label class="col-form-label">Club: ${clubDao.getClubNameByID(EventTask.idClub)}</label>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name Task</label>
                                             <div>
-                                                <div>
-                                                    <textarea class="form-control expandable-textarea" name="nametask">${requestScope.nameTask != null ? requestScope.nameTask : ''}</textarea>
-                                                </div>
+                                                <textarea class="form-control expandable-textarea" name="nameTask">${EventTask.nameTask}</textarea>
                                             </div>
-                                                <p style="color: red;">${requestScope.messnameTask != null ? requestScope.messnameTask : ''}</p>
+                                            <div style="color: red;"><c:out value="${errornameTask}" escapeXml="false" /></div>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Description</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="description">${requestScope.description != null ? requestScope.description : ''}</textarea>
+                                                <textarea class="form-control expandable-textarea" name="description">${EventTask.description}</textarea>
                                             </div>
-                                            <p style="color: red;">${requestScope.messdescription != null ? requestScope.messdescription : ''}</p>
+                                            <div style="color: red;"><c:out value="${errordescription}" escapeXml="false" /></div>
                                         </div>
                                         <div class="form-group col-12">
                                             <label class="col-form-label">Content</label>
                                             <div id="editor">
-                                                <textarea class="form-control" name="content">${requestScope.content != null ? requestScope.content : ''}</textarea>
+                                                <textarea class="form-control" name="content">${EventTask.content}</textarea>
                                                 <script>
                                                     ClassicEditor
                                                             .create(document.querySelector('#editor textarea'), {
@@ -153,82 +149,91 @@
                                                     });
                                                 </script>
                                             </div>
-                                                <p style="color: red;">${requestScope.messcontent != null ? requestScope.messcontent : ''}</p>
+                                                <div style="color: red;"><c:out value="${errorcontent}" escapeXml="false" /></div>
                                         </div>
-                                       <div class="form-group col-4">
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Department</label>
-                                             <c:forEach var="setting" items="${settingList}">
-                                            <div>
-                                                <input type="radio" name="department" value="${setting.idSetting}" ${requestScope.xdepartment == setting.idSetting? 'checked' : ''}> ${setting.valueSetting}
-                                            </div>
+                                            <c:forEach var="setting" items="${settingList}">
+                                                <div>
+                                                    <input type="radio" name="department" value="${setting.idSetting}" ${EventTask.department == setting.idSetting ? 'checked' : ''}> ${setting.valueSetting}
+                                                </div>
                                             </c:forEach>
-                                            <p style="color: red;">${requestScope.messxdepartment != null ? requestScope.messxdepartment : ''}</p>
+                                            <div style="color: red;"><c:out value="${errorxdepartment}" escapeXml="false" /></div>
                                         </div>
-                                        <div class="form-group col-4">
+                                        <div class="form-group col-3">
                                             <label class="col-form-label">Deadline</label>
                                             <div>
-                                                <input type="datetime-local" name="deadline"  value="${requestScope.xdeadline != null ? requestScope.xdeadline : ''}">
+                                                <input type="datetime-local" name="deadline" value="${EventTask.deadline}">
                                             </div>
-                                            <p style="color: red;">${requestScope.messxdeadline != null ? requestScope.messxdeadline : ''}</p>
+                                            <div style="color: red;"><c:out value="${errorxdeadline}" escapeXml="false" /></div>
                                         </div>
-                                        <div class="form-group col-4">
-                                            <label class="col-form-label">Budget(VND)</label>
+                                        <div class="form-group col-3">
+                                            <label class="col-form-label">Budget (VND)</label>
                                             <div>
-                                                <textarea class="form-control expandable-textarea" name="budget">${requestScope.xbudget != null ? requestScope.xbudget : ''}</textarea>
+                                                <textarea class="form-control expandable-textarea" name="budget">${EventTask.budget}</textarea>
                                             </div>
-                                            <p style="color: red;">${requestScope.messxbudget != null ? requestScope.messxbudget : ''}</p>
+                                            <div style="color: red;"><c:out value="${errorxbudget}" escapeXml="false" /></div>
+                                        </div>
+                                        <div class="form-group col-3">
+                                            <label class="col-form-label">Status</label>
+                                            <div>
+                                                <input type="radio" name="status" value="1" ${EventTask.status == 1 ? "checked" : ""}> Active <br>
+                                                <input type="radio" name="status" value="0" ${EventTask.status == 0 ? "checked" : ""}> Stop
+                                            </div>
+                                            <div style="color: red;"><c:out value="${errorxstatus}" escapeXml="false" /></div>
                                         </div>
                                         <div class="col-12">
-                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>Submit</button>
+                                            <button type="submit" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i> Submit</button>
                                         </div>
-
                                     </div>
                                 </form>
-                            </div>
+
                         </div>
                     </div>
-                    <!-- Your Profile Views Chart END-->
                 </div>
+                <!-- Your Profile Views Chart END-->
             </div>
-        </main>
-        <div class="ttr-overlay"></div>
 
-        <!-- External JavaScripts -->
-        <script src="${pageContext.request.contextPath}/assets_admin/js/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/waypoints-min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/counterup.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/masonry.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/filter.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src='${pageContext.request.contextPath}/assets_admin/vendors/scroll/scrollbar.min.js'></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/js/functions.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/vendors/chart/chart.min.js"></script>
-        <script src="${pageContext.request.contextPath}/assets_admin/js/admin.js"></script>
-        <script>
-        // Pricing add
-            function newMenuItem() {
-                var newElem = $('tr.list-item').first().clone();
-                newElem.find('input').val('');
-                newElem.appendTo('table#item-add');
-            }
-            if ($("table#item-add").is('*')) {
-                $('.add-item').on('click', function (e) {
-                    e.preventDefault();
-                    newMenuItem();
-                });
-                $(document).on("click", "#item-add .delete", function (e) {
-                    e.preventDefault();
-                    $(this).parent().parent().parent().parent().remove();
-                });
-            }
-        </script>
-    </body>
+        </div>
+    </main>
+    <div class="ttr-overlay"></div>
 
-    <!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
+    <!-- External JavaScripts -->
+    <script src="${pageContext.request.contextPath}/assets_admin/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/waypoints-min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/counterup.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/masonry.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/filter.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src='${pageContext.request.contextPath}/assets_admin/vendors/scroll/scrollbar.min.js'></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/js/functions.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/vendors/chart/chart.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets_admin/js/admin.js"></script>
+    <script>
+                                                    // Pricing add
+                                                    function newMenuItem() {
+                                                        var newElem = $('tr.list-item').first().clone();
+                                                        newElem.find('input').val('');
+                                                        newElem.appendTo('table#item-add');
+                                                    }
+                                                    if ($("table#item-add").is('*')) {
+                                                        $('.add-item').on('click', function (e) {
+                                                            e.preventDefault();
+                                                            newMenuItem();
+                                                        });
+                                                        $(document).on("click", "#item-add .delete", function (e) {
+                                                            e.preventDefault();
+                                                            $(this).parent().parent().parent().parent().remove();
+                                                        });
+                                                    }
+    </script>
+</body>
+
+<!-- Mirrored from educhamp.themetrades.com/demo/admin/add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
 </html>

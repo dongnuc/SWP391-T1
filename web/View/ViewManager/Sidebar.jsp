@@ -40,7 +40,7 @@
                     </a>
                     <ul>
                         <li>
-                             <a href="<c:url value='/UploadServlet?from=Blog_PostList.jsp' />" class="ttr-material-button">
+                            <a href="<c:url value='/UploadServlet?from=Blog_PostList.jsp' />" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Blog Upload</span>
                             </a>
@@ -72,17 +72,23 @@
                                 <span class="ttr-label">My Event'CLB List</span>
                             </a>
                         </li>
-                        
+
                     </ul>
                 </li>
-                                <li>
+                <li>
+                    <a href="<c:url value='/EventGiveTaskListServlet' />" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">Event Task List</span>
+                    </a>
+                </li>
+                <li>
                     <a href="${pageContext.request.contextPath}/ListMember" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-comments"></i></span>
                         <span class="ttr-label">List Participate Member</span>
                     </a>
                 </li>
-                
-                
+
+
                 <li class="ttr-seperate"></li>
             </ul>
             <!-- sidebar menu end -->

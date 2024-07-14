@@ -27,6 +27,18 @@ public class EventTask {
     public EventTask() {
     }
 
+    public EventTask(int idEventTask,String nameTask, String description, String content,  Timestamp deadline, int department, float budget, int Status) {
+        this.idEventTask =idEventTask;
+        this.nameTask = nameTask;
+        this.description = description;
+        this.content = content;
+        this.deadline = deadline;
+        this.department = department;
+        this.budget = budget;
+        this.Status = Status;
+    }
+    
+
     public EventTask(String nameTask, String description, String content, int idEvent, int idClub, Timestamp deadline, int department, float budget, int Status) {
         this.nameTask = nameTask;
         this.description = description;

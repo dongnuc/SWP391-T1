@@ -11,13 +11,15 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.SQLException;
 import Model.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author 10t1q
  */
 public class EventTaskDAO extends DBContext {
-    
+
     public void insertEventTask(EventTask evenTask) {
         String sql = "INSERT INTO task (NameTask, Description, Content, IdEvent, IdClub, Deadline, Department, Budget, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -32,11 +34,107 @@ public class EventTaskDAO extends DBContext {
             stmt.setInt(7, evenTask.getDepartment());//
             stmt.setFloat(8, evenTask.getBudget());//
             stmt.setInt(9, evenTask.getStatus());//
-            
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
+    public boolean deleteEventTaskById(int IdTask) {
+    String sql = "DELETE FROM task WHERE IdTask = ?";
+
+    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        st.setInt(1, IdTask);
+        int rowsAffected = st.executeUpdate();
+        return rowsAffected > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+    public List<EventTask> getEventTaskByIdClub(int IdClub) {
+        List<EventTask> eventTaskList = new ArrayList<>();
+        String sql = "SELECT * FROM task WHERE IdClub = ? ORDER BY DateCreate DESC";
+
+        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+            st.setInt(1, IdClub);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    EventTask eventTask = new EventTask();
+                    eventTask.setIdEventTask(rs.getInt("IdTask"));
+                    eventTask.setNameTask(rs.getString("NameTask"));
+                    eventTask.setDescription(rs.getString("Description"));
+                    eventTask.setIdEvent(rs.getInt("IdEvent"));
+                    eventTask.setIdClub(rs.getInt("IdClub"));
+                    eventTask.setDateCreate(rs.getTimestamp("DateCreate"));
+                    eventTask.setDateModify(rs.getTimestamp("DateModify"));
+                    eventTask.setStatus(rs.getInt("Status"));
+                    eventTask.setContent(rs.getString("Content"));
+                    eventTask.setDeadline(rs.getTimestamp("Deadline"));
+                    eventTask.setDepartment(rs.getInt("Department"));
+                    eventTask.setBudget(rs.getFloat("Budget"));
+                    eventTaskList.add(eventTask);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return eventTaskList;
+    }
+
+    public EventTask getEventTaskByIdTask(int IdTask) {
+    EventTask eventTask = null;
+    String sql = "SELECT * FROM task WHERE IdTask = ?";
+
+    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        st.setInt(1, IdTask);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                eventTask = new EventTask();
+                eventTask.setIdEventTask(rs.getInt("IdTask"));
+                eventTask.setNameTask(rs.getString("NameTask"));
+                eventTask.setDescription(rs.getString("Description"));
+                eventTask.setIdEvent(rs.getInt("IdEvent"));
+                eventTask.setIdClub(rs.getInt("IdClub"));
+                eventTask.setDateCreate(rs.getTimestamp("DateCreate"));
+                eventTask.setDateModify(rs.getTimestamp("DateModify"));
+                eventTask.setStatus(rs.getInt("Status"));
+                eventTask.setContent(rs.getString("Content"));
+                eventTask.setDeadline(rs.getTimestamp("Deadline"));
+                eventTask.setDepartment(rs.getInt("Department"));
+                eventTask.setBudget(rs.getFloat("Budget"));
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventTask;
+}
+
+    public boolean updateEventTask(EventTask eventTask) {
+    String sql = "UPDATE task SET NameTask = ?, Description = ?, " +
+                 "Content = ?, Deadline = ?, Department = ?, Budget = ?, Status = ? " +
+                 "WHERE IdTask = ?";
+
+    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        st.setString(1, eventTask.getNameTask());
+        st.setString(2, eventTask.getDescription());
+        st.setString(3, eventTask.getContent());
+        st.setTimestamp(4, eventTask.getDeadline());
+        st.setInt(5, eventTask.getDepartment());
+        st.setFloat(6, eventTask.getBudget());
+        st.setInt(7, eventTask.getStatus());
+        st.setInt(8, eventTask.getIdEventTask());
+
+        int rowsUpdated = st.executeUpdate();
+        return rowsUpdated > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+
 }

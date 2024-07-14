@@ -35,7 +35,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>Event List Manager </title>
+        <title>Event Task List Manager </title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,21 +95,19 @@
         <!-- Left sidebar menu end -->
         <!--Main container start -->
         <main class="ttr-wrapper">
-            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px ;width: 300px">
-                <input type="hidden" name="from" value="Event_ListManager.jsp">
-                <input type="text" name="name" class="form-control" />
-                <input type="submit" value="Search" class="btn btn-primary" />
+            <form action="TaskSearchServlet" method="POST" style="width: 300px ; margin-bottom: 30px">
+                <input type="text" name="searchKeyword" placeholder="Search by title">
+                <button type="submit">Search</button>
             </form>
-            
             <div class="widget recent-posts-entry">
-                <h6 class="widget-title">Event From My Club</h6>
+                <h6 class="widget-title">Task From My Club</h6>
                 <div class="widget-post-bx">
                     <div class="widget-post clearfix">
-                        <a href="<c:url value='/EventPostListServlet?from=Event_ListManager.jsp' />" style="margin-left: 15px "><span>All</span></a><br>
+                        <a href="<c:url value='/EventGiveTaskListServlet' />" style="margin-left: 15px "><span>All</span></a><br>
                         <c:forEach var="club" items="${studentClubList}">
                             <ul class="sub-menu">
                                 <li style="margin-left: 15px ">
-                                    <a href="${pageContext.request.contextPath}/EventFilterByCLBServlet?idClub=${club.idClub}&from=Event_ListManager.jsp">
+                                    <a href="${pageContext.request.contextPath}/TaskFilterByCLBServlet?idClub=${club.idClub}&from=Blog_PostList.jsp">
                                         ${clubDAO.getClubNameByID(club.idClub)}
                                     </a>
                                 </li>
@@ -118,55 +116,52 @@
                     </div>
                 </div>
             </div>
-                        
+
             <c:if test="${not empty errorMessage}">
                 <div class="alert alert-danger">${errorMessage}</div>
             </c:if>
+
             <table>
                 <thead>
                     <tr>
-                        <th>ID Event</th>
-                        <th>Image</th>
-                        <th>Name Event</th>
+                        <th>ID Task</th>
+                        <th>Name Task</th>
                         <th>Description</th>
-                        <th>Address</th>
-                        <th>Time</th>
+                        <th>Event Name</th>
                         <th>Club</th>
-                        <th>Type Event</th>
                         <th>Date Modify</th>
+                        <th>Deadline</th>
                         <th>Status</th>
-                        <th colspan="3"><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUploadServlet?from=Event_ListManager.jsp', 'insert')">Insert</a></th>
+                        <th>Department</th>
+                        <th>Budget</th>
+                        <th colspan="2"><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventPostListServlet', 'insert')">Choose Event to Give Task</a></th>
                     </tr>
                 </thead>
                 <tbody>
-
-                    <c:forEach var="Event" items="${EventByIDList}">
+                    <c:forEach var="EventTask" items="${EventTaskByIDList}">
                         <tr>
-                            <td>${Event.idEvent}</td>
-                            <td><img src="${pageContext.request.contextPath}/${Event.image}" alt="Uploaded Image"  ></td>
-                            <td>${Event.nameEvent}</td>
-                            <td>${Event.description}</td>
-                            <td>${Event.address}</td>
-                            <td>${Event.dateStart} to ${Event.enddate}</td>
-                            <td>${clubDAO.getClubNameByID(Event.idClub)}</td>
-                            <td>${settingsDAO.getValueSettingById(Event.idEventType)}</td>
-                            <td>${Event.dateModify}</td>
+                            <td>${EventTask.idEventTask}</td>
+                            <td>${EventTask.nameTask}</td>
+                            <td>${EventTask.description}</td>
+                            <td>${eventDAO.getEventNameById(EventTask.idEvent)}</td>
+                            <td>${clubDAO.getClubNameByID(EventTask.idClub)}</td>
+                            <td>${EventTask.dateModify}</td>
+                            <td>${EventTask.deadline}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${Event.status == 0}">
+                                    <c:when test="${EventTask.getStatus() == 0}">
                                         Inactive
                                     </c:when>
-                                    <c:when test="${Event.status == 1}">
+                                    <c:when test="${EventTask.getStatus() == 1}">
                                         Active
-                                    </c:when>
-                                    <c:when test="${Event.status == 2}">
-                                        Coming Soon
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'update')">Update</a></td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'delete')">Delete</a></td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&idClub=${Event.idClub}&from=Event_GiveTaskList.jsp', 'give task')">Give Task</a></td>
+                            <td>${EventTask.department}</td>
+                            <td>${EventTask.budget}</td>
+
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/GiveTaskUpdate?idEventTask=${EventTask.idEventTask}', 'update')">Update</a></td>
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/TaskDeleteServlet?idEventTask=${EventTask.idEventTask}', 'delete')">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </tbody>
