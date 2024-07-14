@@ -142,6 +142,14 @@
                                     <input type="radio" id="status" name="status" value="0" ${sessionScope.user.status == 0 ? 'checked' : ''} >
                                     <label for="female">Inactive</label>
                                 </div> 
+                                    
+                                    </div>
+                                    <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Note </label><br>
+                                    <textarea name="note" cols="50" rows="4" >${sessionScope.user.note}</textarea>
+                                </div> 
+                                    
                                     </div><!--end col-->
 
                                     <div class="col-md-6">
@@ -153,6 +161,7 @@
                                                 <input name="dob" id="number" type="Date" class="form-control" value="${dates}"  >
                                                 <div style="color: red">${errordob}</div>
                                 </div> 
+                                
                             </div><!--end row-->
                             <div class="col-md-6">
                                 
@@ -164,8 +173,11 @@
                                 
                 </div>
                                 <div style="color: green">
-                                        ${sessionScope.success}
+                                    ${sessionScope.successs}
                                 </div>
+                                <%
+    session.setAttribute("successs", "");
+%>
 
         </main>
         <!--Main container start --F

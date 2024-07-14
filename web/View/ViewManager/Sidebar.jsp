@@ -81,9 +81,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="review.html" class="ttr-material-button">
+                    <a href="${pageContext.request.contextPath}/ListMember" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-comments"></i></span>
-                        <span class="ttr-label">Review</span>
+                        <span class="ttr-label">List Participate Member</span>
                     </a>
                 </li>
                 <li>

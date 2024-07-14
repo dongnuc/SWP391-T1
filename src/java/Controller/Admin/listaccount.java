@@ -69,12 +69,21 @@ public class listaccount extends HttpServlet {
         String status_raw = "all";
         String email="";
         String statuss="";
+        String sort_raw="IdStudent";
         try {
             status_raw = request.getParameter("status");
             if (status_raw == null) {
                 status_raw = "all"; 
             }
             request.setAttribute("status", status_raw);
+        } catch (Exception e) {
+        }
+        try {
+            sort_raw = request.getParameter("sort");
+            if (sort_raw == null) {
+                sort_raw = "IdStudent"; 
+            }
+            request.setAttribute("sort", sort_raw);
         } catch (Exception e) {
         }
         try {
@@ -112,8 +121,9 @@ public class listaccount extends HttpServlet {
         }
         System.out.println("Page :" + page + " PageMax : " + numberpage + " Search " + search_raw);
 
-        List<Accounts> listaccount = acc.getbypage(page, search_raw, status_raw);
+        List<Accounts> listaccount = acc.getbypage(page, search_raw, status_raw,sort_raw);
         HttpSession session = request.getSession();
+        
         session.setAttribute("listaccount", listaccount);
         request.getRequestDispatcher("View/ViewAdmin/listaccount.jsp").forward(request, response);
     }
@@ -129,7 +139,77 @@ public class listaccount extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AccountDao acc = new AccountDao();
+        int page = 1;
+        String search_raw = "";
+        String page_raw = "";
+        String status_raw = "all";
+        String email="";
+        String statuss="";
+        String sort_raw="IdStudent";
+        try {
+            status_raw = request.getParameter("status");
+            if (status_raw == null) {
+                status_raw = "all"; 
+            }
+            request.setAttribute("status", status_raw);
+        } catch (Exception e) {
+        }
+        try {
+            sort_raw = request.getParameter("sort");
+            if (sort_raw == null) {
+                sort_raw = "IdStudent"; 
+            }
+            request.setAttribute("sort", sort_raw);
+        } catch (Exception e) {
+        }
+        try {
+            email=request.getParameter("email");
+            statuss=request.getParameter("statuss");
+            acc.UpdateStatus(email, statuss);
+        } catch (Exception e) {
+        }
+        try {
+            search_raw = request.getParameter("search");
+
+        } catch (Exception e) {
+        }
+        System.out.println(status_raw);
+        int numberpage = acc.numberpage(search_raw, status_raw);
+        try {
+            page_raw = request.getParameter("page");
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("search", search_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("pagemax", numberpage);
+        } catch (Exception e) {
+        }
+        try {
+            page = Integer.parseInt(page_raw);
+        } catch (Exception e) {
+        }
+        try {
+            request.setAttribute("page", page);
+        } catch (Exception e) {
+        }
+        System.out.println("Page :" + page + " PageMax : " + numberpage + " Search " + search_raw);
+
+        List<Accounts> listaccount = acc.getbypage(page, search_raw, status_raw,sort_raw);
+        HttpSession session = request.getSession();
+        try {
+            String showtoast=(String) request.getAttribute("showtoast");
+            if(showtoast.equals("true")){
+            request.setAttribute("showtoast", "true");
+        }
+        } catch (Exception e) {
+        }
+        session.setAttribute("listaccount", listaccount);
+        request.getRequestDispatcher("View/ViewAdmin/listaccount.jsp").forward(request, response);
+        
     }
 
     /**

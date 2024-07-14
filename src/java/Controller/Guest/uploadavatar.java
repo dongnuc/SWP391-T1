@@ -93,9 +93,10 @@ public class uploadavatar extends HttpServlet {
         AccountDao acc = new AccountDao();
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
-
         if (filePart != null && x != null && y != null && width != null && height != null) {
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            Accounts account = acc.getAccount(email);
+            int id=account.getId();
+            String fileName = id + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String appPath = request.getServletContext().getRealPath("");
             appPath = appPath.substring(0, appPath.length() - 11) + "/web/images";
             fileName = fileName.replaceAll("\\s", "");
@@ -109,13 +110,17 @@ public class uploadavatar extends HttpServlet {
                 BufferedImage croppedImage = originalImage.getSubimage(cropX, cropY, cropWidth, cropHeight);
                 File outputfile = new File(filePath);
                 ImageIO.write(croppedImage, "png", outputfile);
-                Accounts account = acc.getAccount(email);
+                
                 String oldImage = account.getImage();
+                
+                if(oldImage!=null){
                 String result = oldImage.substring(oldImage.lastIndexOf("/") + 1);
                 File oldFile = new File(appPath + "/" + result);
                 if (oldFile.exists()) {
                     oldFile.delete();
                 }
+                }
+                
 
                 String newFilePath = "images/" + fileName;
                 acc.UpdateImage(email, newFilePath);

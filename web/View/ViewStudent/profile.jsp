@@ -76,11 +76,12 @@
             }
             .father {
                 position: relative;
+                
             }
             .son {
                 display: none;
                 position: absolute;
-                margin-top: 2%;
+                margin-top: 150px;
                 width: 70%;
                 height: auto;
                 margin-left: 15%;
@@ -117,6 +118,9 @@
                 background-color: rgba(0, 0, 0, 0.5);
                 z-index: 1000;
             }
+            .header{
+/*                background: lightblue;*/
+            }
         </style>
     </head>
     <c:if test="${requestScope.huy == 1}">
@@ -132,7 +136,17 @@
 
 
     <body>
+        <%@ include file="Header.jsp" %>
+        <div class="page-banner ovbl-dark" style="background-image:url(${pageContext.request.contextPath}/images_t/banner/banner2.jpg);
+             height: 150px;">
+                <div class="container">
+                    <div class="page-banner-entry">
+                        
+                    </div>
+                </div>
+            </div>
         <div class="container-xl px-4 mt-4 father">
+            
             <!-- Account page navigation-->
             <!--    <nav class="nav nav-borders">
                     <a class="nav-link active ms-0" href="https://www.bootdey.com/snippets/view/bs5-edit-profile-account-details" target="__blank">Profile</a>
@@ -289,3 +303,60 @@
     });
 
 </script>
+<script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var paginationLinks = document.querySelectorAll('.pagination a');
+                paginationLinks.forEach(function (link) {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(this.textContent);
+                        setActivePage(currentPage);
+                    });
+                });
+
+                function setActivePage(pageNumber) {
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    paginationLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    paginationLinks[pageNumber - 1].classList.add('active');
+
+                    // Do something here to load data for the selected page
+                }
+            });
+        </script>

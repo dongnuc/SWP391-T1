@@ -90,20 +90,30 @@ public class adduser extends HttpServlet {
         String gender_raw=request.getParameter("gender");
         int check=0;
         AccountDao acc=new AccountDao();
-        if(!email_raw.endsWith("@gmail.com")){
-            request.setAttribute("erroremail", "Please input Email end with @gmail.com");
-            check++;
+        String regax="[^@]{2,64}@[^.]{2,253}\\.[0-9a-z-.]{2,63}";
+        if(!email_raw.matches(regax)){
+            request.setAttribute("erroremail", "Please input Email Valid");
+            check=1;
         }
         List<Accounts> list=acc.getAll();
         for(Accounts a:list){
             if(a.getEmail().equals(email_raw)){
-                check++;
+            check=2;
             request.setAttribute("erroremail", "Email is exsit");
             }
         }
-        if(phone_raw.length()!=10){
+        if(phone_raw.length()!=10|| !phone_raw.matches("\\d{10}")){
             request.setAttribute("errorphone", "Phone must 10 digits");
-            check++;
+            check=3;
+        }
+        if(name_raw.length()>35){
+            request.setAttribute("errorname", "Name must not exceed 35 characters");
+            check=4;
+        }
+        String regex = "^[a-zA-Z ]+$";
+        if(!name_raw.matches(regex)){
+           request.setAttribute("errorname", "Name cannot special Character ");
+           check=5; 
         }
         try {
             request.setAttribute("name", name_raw);
@@ -128,9 +138,10 @@ public class adduser extends HttpServlet {
         
         
         if(name_raw.isEmpty()||email_raw.isEmpty()||phone_raw.isEmpty()){
-            check++;
+            check=6;
             request.setAttribute("error", "Please input full Information");
         }
+        request.setAttribute("check", check);
         if(check!=0){
         request.getRequestDispatcher("View/ViewAdmin/adduser.jsp").forward(request, response);
         }
@@ -172,9 +183,9 @@ public class adduser extends HttpServlet {
         request.setAttribute("name", "");
         request.setAttribute("email", "");
         request.setAttribute("phone", "");
-        request.setAttribute("success", "Insert Success");
         acc.insertAccountadmin(email_raw, passwordmahoa, name_raw, gender_raw, status_raw, role_raw, phone_raw);
-        request.getRequestDispatcher("View/ViewAdmin/adduser.jsp").forward(request, response);
+        request.setAttribute("showtoast", "true");
+        request.getRequestDispatcher("listaccount").forward(request, response);
         }
 
     }

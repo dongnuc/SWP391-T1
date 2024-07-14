@@ -1,10 +1,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
+<%@ page import = "Model.*" %>
+<%@ page import = "DAO.*" %>
+<%@ page import = "java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
+    <%
+        EventDAO eventDAO = new EventDAO();
+        List<Event> eventList = eventDAO.getAllEventSetting("","");
+    %>
+    <c:if test="${requestScope.huy == 1}">
+        <c:set var="phoneValue" value="${phone}" />
+        <c:set var="names" value="${name}" />
+        <c:set var="emails" value="${email}" />
+    </c:if>
+    <c:if test="${requestScope.huy != 1}">
+        <c:set var="phoneValue" value="${accountprofile.sdt}" />
+        <c:set var="names" value="${accountprofile.name}" />
+        <c:set var="emails" value="${accountprofile.email}" />
+    </c:if>
     <head>
 
         <!-- META ============================================= -->
@@ -39,7 +54,7 @@
         <![endif]-->
 
         <!-- All PLUGINS CSS ============================================= -->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/assets.css">
+<!--        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/assets.css">-->
 
         <!-- TYPOGRAPHY ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/typography.css">
@@ -50,77 +65,19 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        <style>
-            .event-type-list {
-                text-align: left;
-                color: red;
-            }
-            .event-type-list a {
-                display: block;
-                margin-bottom: 5px;
-                text-decoration: none; /* Optional: to remove underline from links */
-            }
-        </style>
-        <style>
-        .toast {
-            display: flex !important;
-            align-items: center !important;
-            background-color: #fff !important;
-            border-radius: 2px !important;
-            padding: 20px 0 !important;
-            min-width: 400px !important;
-            max-width: 450px !important;
-            border-left: 4px solid !important;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08) !important;
-            transition: all linear 0.3s !important;
-            background: greenyellow !important;
-            z-index: 1001 !important;
-            animation: slideInLeft 0.3s ease forwards, fadeOut 0.3s ease forwards 3s; 
-        }
-        .toast_icon {
-            font-size: 24px;
-            padding: 0 16px;
-        }
-        .toast_body {
-            color: white !important;
-            
-        }
-        #toast {
-            position: fixed;
-            top: 124px;
-            right: 32px;
-            z-index: 1001 !important;
-
-        }
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(calc(100% + 32px));
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
-        }
-    </style>
-    <%
-    String check = (String) request.getAttribute("showtoast");
-    %>
     </head>
+    <style>
+        .container{
+            font-size: 24px;
+           
+        } 
+        
+       
+    </style>
     <body id="bg">
-        <div id="toast">
-            
-
-        </div>
         <div class="page-wraper">
-            <div id="loading-icon-bx"></div>
+            
             <!-- Header Top ==== -->
             <%@ include file="Header.jsp" %>
             <!-- header END ==== -->
@@ -130,7 +87,7 @@
                 <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
-                            <h1 class="text-white">Events</h1>
+                            <h1 class="text-white">Register Event</h1>
                         </div>
                     </div>
                 </div>
@@ -138,89 +95,62 @@
                 <!-- contact area -->
                 <div class="container">
                     <div class="row">
-                        <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
-                            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px">
-                                <input type="hidden" name="from" value="Event_List.jsp">
-                                <input type="text" name="name" class="form-control" />
-                                <input type="submit" value="Search" class="btn btn-primary" style="margin-left:-162px "/>
-                            </form>
-                            <div class="event-type-list">
-                                <p style="color: red">Event Type</p>
-                                <a href="<c:url value='/EventSerlet?from=Event_List.jsp' />"><span>All</span></a><br>
-                                <c:forEach var="eventType" items="${eventTypeList}">
-                                    <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}&from=Event_List.jsp"><span>${eventType.valueSetting}</span></a><br>
-                                        </c:forEach>
-                            </div>
-                        </div>
-                        <div class="content-block col-md-9">
-                            <div class="section-area section-sp1 gallery-bx">
-                                <div class="container">
-                                    <div class="clearfix">
-                                        <c:if test="${not empty errorMessage}">
-                                                    <div class="alert alert-danger">${errorMessage}</div>
-                                                </c:if>
-                                        <ul id="masonry" class="ttr-gallery-listing magnific-image row">
-                                            <c:forEach var="event" items="${eventList}">
-                                                <c:if test="${event.status != 0}">
-                                                    <c:set var="dateStart" value="${event.dateStart}" />
-                                                    <c:set var="dateEnd" value="${event.enddate}" />
-                                                    <li class="action-card col-lg-6 col-md-6 col-sm-12 happening">
-                                                        <div class="event-bx m-b30">
-                                                            <div class="action-box">
-                                                                <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                    <img src="<c:url value='/${event.image}' />" alt="">
-                                                                </a>
-                                                            </div>
-                                                            <div class="info-bx d-flex">
-                                                                <div style="width: 450px; margin-right:15px ;">
-                                                                    <div class="event-time">
-                                                                        <div class="event-date"><fmt:formatDate value="${dateStart}" pattern="dd" /></div>
-                                                                        <div class="event-month"><fmt:formatDate value="${dateStart}" pattern="MMMM yyyy" /></div>
-                                                                        <div class="event-month"><fmt:formatDate value="${dateStart}" pattern="HH:mm" /> to 
-                                                                        <fmt:formatDate value="${dateEnd}" pattern="HH:mm" />
-                                                                        </div> 
-                                                                    </div>
-                                                                    <div style="margin-top: 10px">
-                                                                    <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                                <i class="fa fa-map-marker"></i>
-                                                                                <c:out value="${event.address}" />
-                                                                            </a>
-                                                                            </div>
-                                                                </div>
-                                                                <div class="event-info">
-                                                                    <h4 class="event-title">
-                                                                        <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                            <c:out value="${event.nameEvent}" />
-                                                                        </a>
-                                                                    </h4>
-                                                                    <ul class="media-post">
-                                                                        <li>
-                                                                            <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                                <i class="fa fa-map-marker"></i>
-                                                                                <c:out value="${clubDao.getClubNameByID(event.idClub)}" />
-                                                                            </a>
-                                                                        </li>
-                                                                    </ul>
-                                                                    <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                        <c:out value="${event.description}" />
-                                                                        
-                                                                    </a>
-                                                                       
-
-                                                                    <a href="<%= request.getContextPath() %>/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}">Register Here</a>
-                                                                     
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </c:if>
-                                            </c:forEach>
-                                        </ul>
-                                    </div>
+                        <div class="col-2">H1</div>
+                        <div class="col-8 ">
+                <div class="row">
+                
+                <div class="col-xl-12">
+                    <!-- Account details card-->
+                    <div class="card mb-4">
+                        <div class="card-header">Account Details</div>
+                        <div class="card-body">
+                            <form action="<%= request.getContextPath() %>/RegisterEvent" method="post">
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">Event Name</label>
+                                    <input class="form-control" id="inputUsername" name="nameevent" type="text" value="${requestScope.nameevent}" readonly="" >
                                 </div>
-                            </div>
 
+                                <div class="mb-3">
+                                    <label class="small mb-1" for="inputUsername">Email</label>
+                                    <input class="form-control" id="inputUsername" name="email" type="text" value="${emails}"  >
+                                    <div style="color: red">${erroremail}</div>
+                                </div>
+                                
+                                <!-- Form Row-->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (first name)-->
+                                    <div class="col-md-12">
+                                        <label class="small mb-1" for="inputFirstName">Name</label> 
+                                        <input class="form-control" id="inputFirstName" name="name" type="text" value="${names}">
+                                        <div style="color: red">${errorname}</div>
+                                    </div>
+
+                                </div>
+                                <!-- Form Row        -->
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (organization name)-->
+                                    <div class="col-md-12">
+                                        <label class="small mb-1" for="inputOrgName">Phone</label>
+                                        <input class="form-control" id="inputOrgName" name="phone" type="text" value="${phoneValue}">
+                                        <div style="color: red">${errorphone}</div>
+                                    </div>
+
+                                </div>
+                                    
+
+                                <!-- Form Row-->
+                                
+                                <!-- Save changes button-->
+                                
+                                <button class="btn btn-primary" type="submit">Register Event</button>
+                            </form>
+                                        ${requestScope.check}
                         </div>
+                    </div>
+                </div>
+            </div>
+                        </div>
+                        <div class="col-2">Cac Event Da Tham gia</div>
                     </div>
                 </div>              
                 <!-- contact area END -->
@@ -335,7 +265,7 @@
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
         <!-- External JavaScripts -->
-        <script src="${pageContext.request.contextPath}/js_t/jquery.min.js"></script>
+<!--        <script src="${pageContext.request.contextPath}/js_t/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/popper.min.js"></script>
         <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/bootstrap.min.js"></script>
         <script src="${pageContext.request.contextPath}/vendors/bootstrap-select/bootstrap-select.min.js"></script>
@@ -348,31 +278,7 @@
         <script src="${pageContext.request.contextPath}/vendors/masonry/filter.js"></script>
         <script src="${pageContext.request.contextPath}/vendors/owl-carousel/owl.carousel.js"></script>
         <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
-        <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>
-        <script>
-            window.onload = function () {
-                var check = '<%= check %>';
-                if (check === 'true') {
-                    const toast = document.getElementById('toast');
-                    toast.innerHTML = `
-                    <div class="toast">
-                        <div class="toast_icon">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <div class="toast_body">
-                            <h3> Register Event Success </h3>
-                        </div>
-                    </div>
-                `;
-
-                    setTimeout(() => {
-                        const toastElement = document.querySelector('.toast');
-                        toastElement.classList.add('show');
-                    }, 100);
-                }
-            }
-
-        </script>
+        <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>-->
     </body>
 
 </html>

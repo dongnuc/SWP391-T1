@@ -99,7 +99,7 @@
 
                         <c:if test="${sessionScope.account!=null}">
                             <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
-                                <img src="images/avatar.png" alt="">
+                                            <img src="${accountprofile.image != null ? accountprofile.image : 'images/avatar.png'}" alt="">
                                 <div class="profile-info" id="profile-info">
                                     <h6>${sessionScope.account}</h6>
                                     <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
@@ -135,6 +135,9 @@ if (!dashboardPrinted) {
                             }
                         }
                         %>
+                        <c:if test="${sessionScope.role == 0}">
+                                        <a href="<%= request.getContextPath() %>/MyRegistration" id="change-password-link">My Registration</a><br>
+                                    </c:if>
                                     <a href="logout" id="logout-link">Log Out</a>
                                 </div>
                             </div>

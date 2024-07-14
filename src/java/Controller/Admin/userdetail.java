@@ -78,7 +78,6 @@ public class userdetail extends HttpServlet {
             email=(String) session.getAttribute("emailss");
         } catch (Exception e) {
         }
-        System.out.println(email);
         Accounts user=acc.getAccount(email);
         session.setAttribute("user", user);
         request.getRequestDispatcher("View/ViewAdmin/userdetail.jsp").forward(request, response);
@@ -101,6 +100,8 @@ public class userdetail extends HttpServlet {
         String gender_raw="";
         String status_raw="";
         String email_raw=request.getParameter("email");
+        
+        String note=request.getParameter("note");
         HttpSession session=request.getSession();
         AccountDao acc=new AccountDao();
         try {
@@ -138,7 +139,7 @@ public class userdetail extends HttpServlet {
             request.setAttribute("errorname", "Name cannot Empty");
             check++;
         }
-        if(phone_raw.length()!=10){
+        if(phone_raw.length()!=10|| !phone_raw.matches("\\d{10}")){
             check++;
             request.setAttribute("errorphone", "Please input Phone 10 digits");
         }
@@ -162,14 +163,14 @@ public class userdetail extends HttpServlet {
         }
         if(check!=0){
         request.setAttribute("huy", 1);
-        session.setAttribute("success", "");
+        session.setAttribute("successs", "");
         request.getRequestDispatcher("View/ViewAdmin/userdetail.jsp").forward(request, response);
         }
         if(check==0){
-            System.out.println("Huy123");
-            acc.UpdateAccounts(email_raw, name_raw, phone_raw, gender, dob_raw,status_raw);
+            
+            acc.UpdateAccounts(email_raw, name_raw, phone_raw, gender, dob_raw,status_raw,note);
             System.out.println(email_raw+"|"+name_raw+"|"+phone_raw+"|"+gender+"|"+dob_raw+"|"+status_raw);
-            session.setAttribute("success", "Change Succcess");
+            session.setAttribute("successs", "Change Succcess");
             response.sendRedirect("userdetail");
         }
     }

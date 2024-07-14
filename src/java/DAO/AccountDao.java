@@ -29,7 +29,7 @@ public class AccountDao extends DBContext{
                          rs.getString("Email"), rs.getString("password"),
                          rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
                          rs.getDate("DateCreate"), rs.getDate("DateModify"),
-                         rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"));
+                         rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"),rs.getString("Note"));
                 
             }
         } catch (Exception e) {
@@ -105,7 +105,7 @@ public class AccountDao extends DBContext{
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, account);
             st.setString(2, password);
-            st.setInt(3, 1);
+            st.setInt(3, 0);
             st.setInt(4, 1);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             st.setDate(5, sqlDate);
@@ -253,15 +253,16 @@ public class AccountDao extends DBContext{
         } catch (Exception e) {
         }
     }
-        public void UpdateAccounts(String email, String name, String phone, int gender, String dob,String status) {
-    String sql = "UPDATE Student SET NameStudent = ?, Phone = ?, Gender = ?, Dob = ? ,Status = ? WHERE email = ?";
+        public void UpdateAccounts(String email, String name, String phone, int gender, String dob,String status,String note) {
+    String sql = "UPDATE Student SET NameStudent = ?, Phone = ?, Gender = ?, Dob = ? ,Status = ?,Note=? WHERE email = ?";
     try (PreparedStatement st = connection.prepareStatement(sql)) {
         st.setString(1, name);
         st.setString(2, phone);
         st.setInt(3, gender);
         st.setString(4, dob);
         st.setString(5, status);
-        st.setString(6, email);
+        st.setString(7, email);
+        st.setString(6, note);
         st.executeUpdate();
     } catch (Exception e) {
         e.printStackTrace();
@@ -292,28 +293,37 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
     }
     
 }
-        public List<Accounts> getbypage(int id,String search,String status) {
+        public List<Accounts> getbypage(int id, String search, String status, String sort) {
         List<Accounts> list = new ArrayList<>();
         String sql = "SELECT * FROM Student where 1=1 ";
-        if(search !=null){
-            sql +=" AND Email Like '%"+search+"%' ";
+        if (search != null) {
+            sql += " AND (Email LIKE '%" + search + "%' OR Phone LIKE '%" + search + "%' OR NameStudent LIKE '%" + search + "%') ";
         }
-        if(!status.equals("all")){
-            sql +=" AND Status Like '%"+status+"%' ";
+        if (!status.equals("all")) {
+            sql += " AND Status Like '%" + status + "%' ";
         }
-        
-        sql+= "ORDER BY IdStudent LIMIT 5 OFFSET ?";
-        
+        if (sort != null && sort.equals("IdStudent")) {
+            sql += " ORDER BY IdStudent ";
+        } else if (sort.equals("NameStudent")) {
+            sql += " ORDER BY NameStudent ";
+        } else if (sort.equals("Email")) {
+            sql += " ORDER BY Email ";
+        } else {
+            sql += " ORDER BY Phone ";
+        }
+
+        sql += " LIMIT 5 OFFSET ?";
+
         try {
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id*5-5);
+            st.setInt(1, id * 5 - 5);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Accounts c= new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
-                         rs.getString("Email"), rs.getString("password"),
-                         rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
-                         rs.getDate("DateCreate"), rs.getDate("DateModify"),
-                         rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"));
+                Accounts c = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getString("Email"), rs.getString("password"),
+                        rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"),
+                        rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                        rs.getInt("Status"), rs.getInt("role"), rs.getString("Image"));
                 list.add(c);
             }
 

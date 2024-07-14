@@ -5,6 +5,8 @@
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,8 +84,102 @@
         select, input ,button {
             height: 100%;
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Căn giữa modal */
+            padding: 25px;
+            border: 1px solid #888;
+            width: 80%; /* Độ rộng của modal */
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .toast {
+            display: flex !important;
+            align-items: center !important;
+            background-color: #fff !important;
+            border-radius: 2px !important;
+            padding: 20px 0 !important;
+            min-width: 400px !important;
+            max-width: 450px !important;
+            border-left: 4px solid !important;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08) !important;
+            transition: all linear 0.3s !important;
+            background: greenyellow !important;
+            animation: slideInLeft 0.3s ease forwards, fadeOut 0.3s ease forwards 3s; 
+        }
+        .toast_icon {
+            font-size: 24px;
+            padding: 0 16px;
+        }
+        .toast_body {
+            color: white !important;
+            
+        }
+        #toast {
+            position: fixed;
+            top: 64px;
+            right: 32px;
+
+        }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(calc(100% + 32px));
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+        .modal-content p {
+            margin-top: 30px; 
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Khoảng cách giữa các nút */
+            margin-top: 20px; /* Khoảng cách từ đoạn văn tới nút */
+        }
 
     </style>
+    <%
+    String check = (String) request.getAttribute("showtoast");
+    %>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
         <!-- header start -->
@@ -91,23 +187,49 @@
         <!-- header end -->
         <!-- Left sidebar menu start -->
         <jsp:include page="LeftSideBar.jsp"/>
+        <div id="confirmModal" class="modal">
+            <div class="modal-content">
+                <span class="close" style="margin-left: 10px">&times;</span>
+                <p>Are you sure you want to change the status ?</p>
+                <div class="button-container">
+            <button id="confirmBtn">Yes</button>
+            <button id="cancelBtn">No</button>
+        </div>
+            </div>
+        </div>
         <!-- Left sidebar menu end -->
         <main class="ttr-wrapper">
+
             <div class="layout-specing">
                 <div class="d-md-flex justify-content-between">
                     <h5 class="mb-0">Account List</h5> 
                     <form action="<%= request.getContextPath() %>/listaccount" method="get" class="form-inline" id="myForm"> 
                         <div class="abc">
                             <div class="xyz">
-                                <select name="status" class="custom-select" onchange="submitForm()">
-                                    <option value="all" <c:if test="${requestScope.status=='all'}">selected</c:if>>All</option>
+                                Sort By
+                                <select name="sort" class="custom-select" onchange="submitForm()">
+                                    <option value="IdStudent" <c:if test="${requestScope.sort=='IdStudent'}">selected</c:if>>ID</option>
+                                    <option value="NameStudent" <c:if test="${requestScope.sort=='NameStudent'}">selected</c:if>>Name</option>
+                                    <option value="Email" <c:if test="${requestScope.sort=='Email'}">selected</c:if>>Email</option>
+                                    <option value="Phone" <c:if test="${requestScope.sort=='Phone'}">selected</c:if>>Mobile</option>
+                                    </select>
+
+                                    Status
+                                    <select name="status" class="custom-select" onchange="submitForm()">
+                                        <option value="all" <c:if test="${requestScope.status=='all'}">selected</c:if>>All</option>
                                     <option value="1" <c:if test="${requestScope.status=='1'}">selected</c:if>>Active</option>
                                     <option value="0" <c:if test="${requestScope.status=='0'}">selected</c:if>>Inactive</option>
                                     </select>
                                 </div>
+
                                 <div>
                                     <input type="text" name="search" value="${search}"> 
                                 <button type="submit"> Search</button>
+                                <div id="toast">
+
+                                </div>
+
+
                             </div>
                         </div>
 
@@ -130,8 +252,9 @@
                                             <th class="border-bottom p-3" style="min-width: 50px;">Id</th>
                                             <th class="border-bottom p-3" style="min-width: 180px;">Name</th>
                                             <th class="border-bottom p-3">Email</th>
-
+                                            <th class="border-bottom p-3">Mobile</th>
                                             <th class="border-bottom p-3">Status</th>
+                                            <th class="border-bottom p-3">Role</th>
                                             <th class="border-bottom p-3">Action</th>
                                             <th class="border-bottom p-3" style="min-width: 100px;"></th>
                                         </tr>
@@ -148,6 +271,7 @@
                                                     </a>
                                                 </td>
                                                 <td class="p-3">${x.email}</td>
+                                                <td class="p-3">${x.sdt}</td>
                                                 <td class="p-3"><c:choose>
                                                         <c:when test="${x.status == 1}">
                                                             Active
@@ -156,16 +280,24 @@
                                                             Inactive
                                                         </c:otherwise>
                                                     </c:choose></td>
+                                                <td class="p-3"><c:choose>
+                                                        <c:when test="${x.role == 1}">
+                                                            Admin
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            User
+                                                        </c:otherwise>
+                                                    </c:choose></td>
 
                                                 <td class="text-end p-3">
                                                     <a href="userdetail?emails=${x.email}" class="btn btn-icon btn-pills btn-soft-primary" data-bs-toggle="modal" data-bs-target="#viewprofile"><i class="uil uil-eye"></i></a>
                                                     <span style="display: inline-block; width: 20px;"></span>
-                                                    <a href="listaccount?page=${requestScope.page}&search=${search}&status=${status}&email=${x.email}&statuss=${x.status}"> <c:choose>
+                                                    <a href="listaccount?page=${requestScope.page}&search=${search}&status=${status}&email=${x.email}&statuss=${x.status}&sort=${sort}" onclick="confirmAction(event, this)"> <c:choose>
                                                             <c:when test="${x.status == 0}">
-                                                                Active
+                                                                Activate
                                                             </c:when>
                                                             <c:otherwise>
-                                                                Inactive
+                                                                Inactivate
                                                             </c:otherwise>
                                                         </c:choose></a>               
                                                 </td>
@@ -189,18 +321,18 @@
 
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                     <c:if test="${requestScope.page>1}">
-                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page -1}&search=${search}&status=${status}" aria-label="Previous">Prev</a></li>
+                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page -1}&search=${search}&status=${status}&sort=${sort}" aria-label="Previous">Prev</a></li>
                                         </c:if>
                                     <!--<li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
-                                    <li class="page-item active"><a class="page-link" href="listaccount?page=${requestScope.page}&search=${search}&status=${status}">${requestScope.page}</a></li>
+                                    <li class="page-item active"><a class="page-link" href="listaccount?page=${requestScope.page}&search=${search}&status=${status}&sort=${sort}">${requestScope.page}</a></li>
                                         <c:if test="${requestScope.pagemax-requestScope.page>=1}">
-                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 1}&search=${search}&status=${status}">${requestScope.page+1}</a></li>
+                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 1}&search=${search}&status=${status}&sort=${sort}">${requestScope.page+1}</a></li>
                                         </c:if>
                                         <c:if test="${requestScope.pagemax-requestScope.page>=2}">
-                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 2}&search=${search}&status=${status}">${requestScope.page+2}</a></li>
+                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 2}&search=${search}&status=${status}&sort=${sort}">${requestScope.page+2}</a></li>
                                         </c:if>
                                         <c:if test="${requestScope.page<requestScope.pagemax}">
-                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 1}&search=${search}" aria-label="Next">Next</a></li>
+                                        <li class="page-item"><a class="page-link" href="listaccount?page=${requestScope.page + 1}&search=${search}&sort=${sort}" aria-label="Next">Next</a></li>
                                         </c:if>
 
 
@@ -239,91 +371,76 @@
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
+
         <script>
-                                    $(document).ready(function () {
+                                                        function submitForm() {
+                                                            document.forms["myForm"].submit();
+                                                        }
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            var modal = document.getElementById('confirmModal');
+                                                            var span = document.getElementsByClassName('close')[0];
+                                                            var confirmBtn = document.getElementById('confirmBtn');
+                                                            var cancelBtn = document.getElementById('cancelBtn');
+                                                            var currentLink = null;
 
-                                        $('#calendar').fullCalendar({
-                                            header: {
-                                                left: 'prev,next today',
-                                                center: 'title',
-                                                right: 'month,agendaWeek,agendaDay,listWeek'
-                                            },
-                                            defaultDate: '2019-03-12',
-                                            navLinks: true, // can click day/week names to navigate views
+                                                            // Mở modal khi nhấn vào link có xác nhận
+                                                            window.confirmAction = function (event, link) {
+                                                                event.preventDefault();
+                                                                currentLink = link;
+                                                                modal.style.display = 'block';
+                                                            };
 
-                                            weekNumbers: true,
-                                            weekNumbersWithinDays: true,
-                                            weekNumberCalculation: 'ISO',
+                                                            // Đóng modal khi nhấn vào dấu x
+                                                            span.onclick = function () {
+                                                                modal.style.display = 'none';
+                                                            };
 
-                                            editable: true,
-                                            eventLimit: true, // allow "more" link when too many events
-                                            events: [
-                                                {
-                                                    title: 'All Day Event',
-                                                    start: '2019-03-01'
-                                                },
-                                                {
-                                                    title: 'Long Event',
-                                                    start: '2019-03-07',
-                                                    end: '2019-03-10'
-                                                },
-                                                {
-                                                    id: 999,
-                                                    title: 'Repeating Event',
-                                                    start: '2019-03-09T16:00:00'
-                                                },
-                                                {
-                                                    id: 999,
-                                                    title: 'Repeating Event',
-                                                    start: '2019-03-16T16:00:00'
-                                                },
-                                                {
-                                                    title: 'Conference',
-                                                    start: '2019-03-11',
-                                                    end: '2019-03-13'
-                                                },
-                                                {
-                                                    title: 'Meeting',
-                                                    start: '2019-03-12T10:30:00',
-                                                    end: '2019-03-12T12:30:00'
-                                                },
-                                                {
-                                                    title: 'Lunch',
-                                                    start: '2019-03-12T12:00:00'
-                                                },
-                                                {
-                                                    title: 'Meeting',
-                                                    start: '2019-03-12T14:30:00'
-                                                },
-                                                {
-                                                    title: 'Happy Hour',
-                                                    start: '2019-03-12T17:30:00'
-                                                },
-                                                {
-                                                    title: 'Dinner',
-                                                    start: '2019-03-12T20:00:00'
-                                                },
-                                                {
-                                                    title: 'Birthday Party',
-                                                    start: '2019-03-13T07:00:00'
-                                                },
-                                                {
-                                                    title: 'Click for Google',
-                                                    url: 'http://google.com/',
-                                                    start: '2019-03-28'
-                                                }
-                                            ]
-                                        });
+                                                            // Đóng modal khi nhấn vào nút No
+                                                            cancelBtn.onclick = function () {
+                                                                modal.style.display = 'none';
+                                                            };
 
 
-                                    });
+                                                            confirmBtn.onclick = function () {
+                                                                if (currentLink) {
+                                                                    window.location.href = currentLink.href;
+                                                                }
+                                                            };
 
+                                                            // Đóng modal khi nhấn vào bất kỳ đâu ngoài modal
+                                                            window.onclick = function (event) {
+                                                                if (event.target == modal) {
+                                                                    modal.style.display = 'none';
+                                                                }
+                                                            };
+                                                        });
         </script>
         <script>
-            function submitForm() {
-                document.forms["myForm"].submit();
+            window.onload = function () {
+                var check = '<%= check %>';
+                if (check === 'true') {
+                    const toast = document.getElementById('toast');
+                    toast.innerHTML = `
+                    <div class="toast">
+                        <div class="toast_icon">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div class="toast_body">
+                            <h3> Add Account Success </h3>
+                        </div>
+                    </div>
+                `;
+
+                    setTimeout(() => {
+                        const toastElement = document.querySelector('.toast');
+                        toastElement.classList.add('show');
+                    }, 100);
+                }
             }
+
         </script>
+
+
         <script src="<%= request.getContextPath() %>/assets/js/bootstrap.bundle.min.js"></script>
         <!-- simplebar -->
         <script src="<%= request.getContextPath() %>/assets/js/simplebar.min.js"></script>

@@ -74,7 +74,7 @@ if (cookies != null) {
                                         <div class="col-lg-12">
                                             <div class="mb-3">
                                                 <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" placeholder="Email" name="email" value="${requestScope.account}">
+                                                <input type="text" class="form-control" placeholder="Email" name="email" value="${requestScope.account}">
                                             </div>
                                         </div>
 

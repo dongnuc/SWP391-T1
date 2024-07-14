@@ -106,7 +106,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
-                                                    <label class="form-label">Full Name *</label> 
+                                                    <label class="form-label">Full Name *</label> <span class="error">${requestScope.errorname}</span>
                                                     <input name="name" id="name" type="text" class="form-control" name="name" value="${name}" >
                                                 </div>
                                             </div><!--end col-->
@@ -132,7 +132,7 @@
                                                     Female <input name="gender" type="radio" value="0" checked="">
                                                 </div>                                                                               
                                             </div><!--end col-->
-
+                                           
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label"> Status : </label><br>
@@ -142,9 +142,7 @@
                                                 <div  style="color: red;">
                                                     ${error}
                                                 </div>
-                                                <div  style="color: greenyellow;">
-                                                    ${requestScope.success}
-                                                </div>
+                                                
                                                 
                                             </div><!--end col-->
                                                     <div class="mb-3">
