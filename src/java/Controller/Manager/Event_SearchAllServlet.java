@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -61,6 +62,45 @@ public class Event_SearchAllServlet extends HttpServlet {
             request.setAttribute("eventList", searchResults);
             
             request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        }
+        else if ("Event_ListManager.jsp".equals(from)) {
+            
+            Accounts account = (Accounts) request.getSession().getAttribute("curruser");
+            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
+            
+            List<Event> EventByIDList = new ArrayList<>();
+            EventDAO eventDAO = new EventDAO();
+            
+            if (studentClubList != null) {
+                for (StudentClub studentclub : studentClubList) {
+                    if (studentclub.getLeader()== 1 && studentclub.getStatus() == 1) {
+                        List<Event> events = eventDAO.getEventsByClubId(studentclub.getIdClub());
+                        if (events != null) {
+                            EventByIDList.addAll(events);
+                        }
+                    }
+                }
+            }
+            EventByIDList.sort((Event b1, Event b2) -> b2.getDatecreate().compareTo(b1.getDatecreate()));
+            
+            List<Event> searchResults = new ArrayList<>();
+            
+            if (nameEvent == null || nameEvent.trim().isEmpty()) {
+                searchResults = EventByIDList;
+                request.setAttribute("errorMessage", "Search information cant not empty");
+            } else {
+                for (Event event : EventByIDList) {
+                    if (event.getNameEvent().toLowerCase().contains(nameEvent.toLowerCase())) {
+                        searchResults.add(event);
+                    }
+                }
+                if (searchResults.isEmpty()) {
+                    request.setAttribute("errorMessage", "Cant finf name event: " + nameEvent);
+                }
+            }
+            request.setAttribute("EventByIDList", searchResults);
+            request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
         }
     }
 }

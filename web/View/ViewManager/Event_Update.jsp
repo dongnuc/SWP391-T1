@@ -86,6 +86,7 @@
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/EventUpdateServlet" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="idEvent" value="${event.idEvent}">
+                                     <input type="hidden" name="from" value="${from}">
                                     <input type="hidden" name="from" value="Event_List.jsp">
                                     <div class="row">
                                         <div class="form-group col-6">

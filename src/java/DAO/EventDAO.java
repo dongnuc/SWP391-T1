@@ -20,6 +20,38 @@ import java.sql.Timestamp;
  */
 public class EventDAO extends DBContext {
 //-----------------------------
+    public List<Event> getEventsByClubId(int clubId) {
+    List<Event> eventList = new ArrayList<>();
+    String sql = "SELECT * FROM event WHERE IdClub = ? ORDER BY DateCreate DESC , IdEvent DESC";
+
+    try (Connection con = DBContext.getConnection(); 
+         PreparedStatement st = con.prepareStatement(sql)) {
+        st.setInt(1, clubId);
+        
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));
+                event.setNameEvent(rs.getString("NameEvent"));
+                event.setDatecreate(rs.getTimestamp("DateCreate"));
+                event.setDateModify(rs.getTimestamp("DateModify"));
+                event.setEnddate(rs.getTimestamp("DateEnd"));
+                event.setIdClub(rs.getInt("IdClub"));
+                event.setDateStart(rs.getTimestamp("DateStart"));
+                event.setImage(rs.getString("Image"));
+                event.setContent(rs.getString("Content"));
+                event.setIdEventType(rs.getInt("CategoryEvent"));
+                event.setStatus(rs.getInt("Status"));
+                event.setAddress(rs.getString("Addreess"));
+                event.setDescription(rs.getString("Description"));
+                eventList.add(event);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventList;
+}
     public List<Event> getAllEvent() {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event ORDER BY DateCreate DESC , IdEvent DESC";
@@ -136,17 +168,39 @@ public class EventDAO extends DBContext {
     }
 //---------------------------------------------------------------
     public void deleteEvent(int idEvent) {
-        String sql = "DELETE FROM event WHERE IdEvent = ?";
+    String deleteTasksSql = "DELETE FROM task WHERE IdEvent = ?";
+    String deleteEventSql = "DELETE FROM event WHERE IdEvent = ?";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+    try (Connection con = DBContext.getConnection()) {
+        // Bắt đầu giao dịch
+        con.setAutoCommit(false);
 
-            st.setInt(1, idEvent);
-            st.executeUpdate();
+        try (PreparedStatement deleteTasksStmt = con.prepareStatement(deleteTasksSql);
+             PreparedStatement deleteEventStmt = con.prepareStatement(deleteEventSql)) {
 
+            // Xóa các bản ghi trong bảng task
+            deleteTasksStmt.setInt(1, idEvent);
+            deleteTasksStmt.executeUpdate();
+
+            // Xóa bản ghi trong bảng event
+            deleteEventStmt.setInt(1, idEvent);
+            deleteEventStmt.executeUpdate();
+
+            // Hoàn tất giao dịch
+            con.commit();
         } catch (SQLException e) {
+            // Nếu có lỗi, rollback giao dịch
+            con.rollback();
             e.printStackTrace();
+        } finally {
+            // Khôi phục chế độ tự động commit
+            con.setAutoCommit(true);
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
 //--------------------------------------------------------
     public List<Event> getEventsByType(int idEventType) {
         List<Event> eventList = new ArrayList<>();

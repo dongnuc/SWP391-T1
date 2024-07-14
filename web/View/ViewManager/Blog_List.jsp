@@ -80,6 +80,18 @@
                 <div class="content-block">
                     <div class="section-area section-sp1">
                         <div class="container">
+                            <c:set var="printed" value="false" />
+
+                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
+                                    <div class="widget_tag_cloud">
+                                        <div class="tagcloud">
+                                            <a href="<c:url value='/UploadServlet?from=Blog_List.jsp' />"> Upload New Blog</a>
+                                        </div>
+                                    </div>
+                                    <c:set var="printed" value="true" />
+                                </c:if>
+                            </c:forEach>
                             <div class="row">
                                 <!-- Left part start -->
                                 <div class="col-lg-8">

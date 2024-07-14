@@ -6,47 +6,44 @@
 package Controller.Manager;
 
 import DAO.EventDAO;
+import Model.Event;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author 10t1q
  */
-@WebServlet(name="Event_DeleteServlet", urlPatterns={"/EventDeleteServlet"})
-public class Event_DeleteServlet extends HttpServlet {
-   
+@WebServlet(name="Event_FilterByCLBServlet", urlPatterns={"/EventFilterByCLBServlet"})
+public class Event_FilterByCLBServlet extends HttpServlet {
    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String fromPage = request.getParameter("from");
-        
-        String xID = request.getParameter("idEvent");
-        int Id = Integer.parseInt(xID);
+        String ID = request.getParameter("idClub");
+        int xId = Integer.parseInt(ID);
         
         EventDAO eventDAO = new EventDAO();
-        eventDAO.deleteEvent(Id);
+        List<Event> EventByIDList = eventDAO.getEventsByClubId(xId);
         
-        if ("Event_List.jsp".equals(fromPage)) {
-        response.sendRedirect(request.getContextPath() + "/EventSerlet");
-        }
-        if ("Event_ListManager.jsp".equals(fromPage)) {
-        response.sendRedirect(request.getContextPath() + "/EventPostListServlet");
-        }
+        EventByIDList.sort((Event b1, Event b2) -> b2.getDatecreate().compareTo(b1.getDatecreate()));
+        
+         request.setAttribute("EventByIDList", EventByIDList);
+         request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
     } 
 
-  
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        doGet(request, response);
     }
 
 }

@@ -237,6 +237,9 @@ public class Event_UpdateServlet extends HttpServlet {
         if ("Event_List.jsp".equals(frompage)) {
         request.getRequestDispatcher("/EventSerlet").forward(request, response);
         }
+        else {
+        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+        }
     }
 
     private String extractFileName(Part part) {

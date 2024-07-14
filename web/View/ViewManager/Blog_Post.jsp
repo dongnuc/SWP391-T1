@@ -81,6 +81,7 @@
                         <div class="widget-box">
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/UploadServlet" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="from" value="${from}">
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Title</label>

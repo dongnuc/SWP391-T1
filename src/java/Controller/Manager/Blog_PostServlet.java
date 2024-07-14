@@ -32,6 +32,10 @@ public class Blog_PostServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        
+        String from =  request.getParameter("from");
+        request.setAttribute("from", from);
+        
         List<StudentClub> StudentClubList = null;
 
         boolean restricted = true;
@@ -90,6 +94,7 @@ public class Blog_PostServlet extends HttpServlet {
         String filenamecheck = Integer.toString(postDAO.getAllPosts().size());
 
         if (fileName != null) {
+            String from = request.getParameter("from");
             String Title = request.getParameter("title");
             String Description = request.getParameter("description");
             String Content = request.getParameter("content");
@@ -191,7 +196,12 @@ public class Blog_PostServlet extends HttpServlet {
             Blog post = new Blog(Title, "images_blog" + "/" + fileName, Description, Content, timestamp, timestamp, Blogtype, IDClub, Show, Status);
             postDAO.insertPost(post);
 
-            response.sendRedirect(request.getContextPath() + "/BlogListServlet");
+            if ("Blog_PostList.jsp".equals(from)) {
+                request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
+            }
+            if ("Blog_List.jsp".equals(from)) {
+                request.getRequestDispatcher("/BlogListServlet").forward(request, response);
+            }
         } else {
             response.getWriter().println("Error: File upload failed.");
         }

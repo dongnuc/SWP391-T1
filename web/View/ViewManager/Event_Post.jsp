@@ -85,6 +85,7 @@
                             </div>
                             <div class="widget-inner">
                                 <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/EventUploadServlet" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" value="${from}" name="from" >
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name event</label>

@@ -35,7 +35,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets_admin/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>Blog List Manager </title>
+        <title>Event List Manager </title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,20 +95,21 @@
         <!-- Left sidebar menu end -->
         <!--Main container start -->
         <main class="ttr-wrapper">
-            <form action="BlogSearchServlet" method="POST" style="width: 300px ; margin-bottom: 30px">
-                <input type="hidden" name="from" value="Blog_PostList.jsp">
-                <input type="text" name="searchKeyword" placeholder="Search by title">
-                <button type="submit">Search</button>
+            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px ;width: 300px">
+                <input type="hidden" name="from" value="Event_ListManager.jsp">
+                <input type="text" name="name" class="form-control" />
+                <input type="submit" value="Search" class="btn btn-primary" />
             </form>
+            
             <div class="widget recent-posts-entry">
-                <h6 class="widget-title">Blog From My Club</h6>
+                <h6 class="widget-title">Event From My Club</h6>
                 <div class="widget-post-bx">
                     <div class="widget-post clearfix">
-                        <a href="<c:url value='/BlogPostListServlet?from=Blog_PostList.jsp' />" style="margin-left: 15px "><span>All</span></a><br>
+                        <a href="<c:url value='/EventPostListServlet?from=Event_ListManager.jsp' />" style="margin-left: 15px "><span>All</span></a><br>
                         <c:forEach var="club" items="${studentClubList}">
                             <ul class="sub-menu">
                                 <li style="margin-left: 15px ">
-                                    <a href="${pageContext.request.contextPath}/BlogFilterByClubServlet?idClub=${club.idClub}&from=Blog_PostList.jsp">
+                                    <a href="${pageContext.request.contextPath}/EventFilterByCLBServlet?idClub=${club.idClub}&from=Event_ListManager.jsp">
                                         ${clubDAO.getClubNameByID(club.idClub)}
                                     </a>
                                 </li>
@@ -117,68 +118,72 @@
                     </div>
                 </div>
             </div>
-
+                        
             <c:if test="${not empty errorMessage}">
                 <div class="alert alert-danger">${errorMessage}</div>
             </c:if>
             <table>
+                <thead>
+                    <tr>
+                        <th>ID Event</th>
+                        <th>Image</th>
+                        <th>Name Event</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Time</th>
+                        <th>Club</th>
+                        <th>Type Event</th>
+                        <th>Date Modify</th>
+                        <th>Status</th>
+                        <th colspan="3"><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUploadServlet?from=Event_ListManager.jsp', 'insert')">Insert</a></th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                <c:if test="${empty errorMessage}">
-                    <thead>
+                    <c:forEach var="Event" items="${EventByIDList}">
                         <tr>
-                            <th>ID Blog</th>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Show</th>
-                            <th>Club</th>
-                            <th>Category Blog</th>
-                            <th>Date Modify</th>
-                            <th>Status</th>
-                            <th colspan="2"><a href="#" onclick="openModal('${pageContext.request.contextPath}/UploadServlet?from=Blog_PostList.jsp', 'insert')">Insert</a></th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="Blog" items="${BlogByIDList}">
-
-                            <tr>
-                                <td>${Blog.idBlog}</td>
-                                <td><img src="${pageContext.request.contextPath}/${Blog.image}" alt="Uploaded Image" width="200" ></td>
-                                <td>${Blog.titleBlog}</td>
-                                <td>${Blog.show}</td>
-                                <td>${clubDAO.getClubNameByID(Blog.idClub)}</td>
-                                <td>${settingsDAO.getValueSettingById(Blog.idBlogType)}</td>
-                                <td>${Blog.dateModify}</td>
-                                <td>
+                            <td>${Event.idEvent}</td>
+                            <td><img src="${pageContext.request.contextPath}/${Event.image}" alt="Uploaded Image"  ></td>
+                            <td>${Event.nameEvent}</td>
+                            <td>${Event.description}</td>
+                            <td>${Event.address}</td>
+                            <td>${Event.dateStart} to ${Event.enddate}</td>
+                            <td>${clubDAO.getClubNameByID(Event.idClub)}</td>
+                            <td>${settingsDAO.getValueSettingById(Event.idEventType)}</td>
+                            <td>${Event.dateModify}</td>
+                            <td>
                                 <c:choose>
-                                    <c:when test="${Blog.status == 0}">
+                                    <c:when test="${Event.status == 0}">
                                         Inactive
                                     </c:when>
-                                    <c:when test="${Blog.status == 1}">
+                                    <c:when test="${Event.status == 1}">
                                         Active
                                     </c:when>
+                                    <c:when test="${Event.status == 2}">
+                                        Coming Soon
+                                    </c:when>
                                 </c:choose>
-                                        </td>
-                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'update')">Update</a></td>
-                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'delete')">Delete</a></td>
+                            </td>
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'update')">Update</a></td>
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'delete')">Delete</a></td>
+                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'give task')">Give Task</a></td>
                         </tr>
                     </c:forEach>
-                    </tbody>
-                </table>
-                <div class="pagination-bx rounded-sm gray clearfix">
-                    <ul class="pagination">
-                        <c:if test="${currentPage > 1}">
-                            <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                </tbody>
+            </table>
+            <div class="pagination-bx rounded-sm gray clearfix">
+                <ul class="pagination">
+                    <c:if test="${currentPage > 1}">
+                        <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                        </c:if>
+                        <c:forEach begin="1" end="${noOfPages}" var="i">
+                        <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
+                        </c:forEach>
+                        <c:if test="${currentPage < noOfPages}">
+                        <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
                             </c:if>
-                            <c:forEach begin="1" end="${noOfPages}" var="i">
-                            <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
-                            </c:forEach>
-                            <c:if test="${currentPage < noOfPages}">
-                            <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
-                                </c:if>
-                    </ul>
-                </div>
-            </c:if>
+                </ul>
+            </div>
         </main>
 
         <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
@@ -223,82 +228,82 @@
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/fullcalendar.js'></script>
         <script>
-                                    $(document).ready(function () {
+                                $(document).ready(function () {
 
-                                        $('#calendar').fullCalendar({
-                                            header: {
-                                                left: 'prev,next today',
-                                                center: 'title',
-                                                right: 'month,agendaWeek,agendaDay,listWeek'
+                                    $('#calendar').fullCalendar({
+                                        header: {
+                                            left: 'prev,next today',
+                                            center: 'title',
+                                            right: 'month,agendaWeek,agendaDay,listWeek'
+                                        },
+                                        defaultDate: '2019-03-12',
+                                        navLinks: true, // can click day/week names to navigate views
+
+                                        weekNumbers: true,
+                                        weekNumbersWithinDays: true,
+                                        weekNumberCalculation: 'ISO',
+
+                                        editable: true,
+                                        eventLimit: true, // allow "more" link when too many events
+                                        events: [
+                                            {
+                                                title: 'All Day Event',
+                                                start: '2019-03-01'
                                             },
-                                            defaultDate: '2019-03-12',
-                                            navLinks: true, // can click day/week names to navigate views
-
-                                            weekNumbers: true,
-                                            weekNumbersWithinDays: true,
-                                            weekNumberCalculation: 'ISO',
-
-                                            editable: true,
-                                            eventLimit: true, // allow "more" link when too many events
-                                            events: [
-                                                {
-                                                    title: 'All Day Event',
-                                                    start: '2019-03-01'
-                                                },
-                                                {
-                                                    title: 'Long Event',
-                                                    start: '2019-03-07',
-                                                    end: '2019-03-10'
-                                                },
-                                                {
-                                                    id: 999,
-                                                    title: 'Repeating Event',
-                                                    start: '2019-03-09T16:00:00'
-                                                },
-                                                {
-                                                    id: 999,
-                                                    title: 'Repeating Event',
-                                                    start: '2019-03-16T16:00:00'
-                                                },
-                                                {
-                                                    title: 'Conference',
-                                                    start: '2019-03-11',
-                                                    end: '2019-03-13'
-                                                },
-                                                {
-                                                    title: 'Meeting',
-                                                    start: '2019-03-12T10:30:00',
-                                                    end: '2019-03-12T12:30:00'
-                                                },
-                                                {
-                                                    title: 'Lunch',
-                                                    start: '2019-03-12T12:00:00'
-                                                },
-                                                {
-                                                    title: 'Meeting',
-                                                    start: '2019-03-12T14:30:00'
-                                                },
-                                                {
-                                                    title: 'Happy Hour',
-                                                    start: '2019-03-12T17:30:00'
-                                                },
-                                                {
-                                                    title: 'Dinner',
-                                                    start: '2019-03-12T20:00:00'
-                                                },
-                                                {
-                                                    title: 'Birthday Party',
-                                                    start: '2019-03-13T07:00:00'
-                                                },
-                                                {
-                                                    title: 'Click for Google',
-                                                    url: 'http://google.com/',
-                                                    start: '2019-03-28'
-                                                }
-                                            ]
-                                        });
-
+                                            {
+                                                title: 'Long Event',
+                                                start: '2019-03-07',
+                                                end: '2019-03-10'
+                                            },
+                                            {
+                                                id: 999,
+                                                title: 'Repeating Event',
+                                                start: '2019-03-09T16:00:00'
+                                            },
+                                            {
+                                                id: 999,
+                                                title: 'Repeating Event',
+                                                start: '2019-03-16T16:00:00'
+                                            },
+                                            {
+                                                title: 'Conference',
+                                                start: '2019-03-11',
+                                                end: '2019-03-13'
+                                            },
+                                            {
+                                                title: 'Meeting',
+                                                start: '2019-03-12T10:30:00',
+                                                end: '2019-03-12T12:30:00'
+                                            },
+                                            {
+                                                title: 'Lunch',
+                                                start: '2019-03-12T12:00:00'
+                                            },
+                                            {
+                                                title: 'Meeting',
+                                                start: '2019-03-12T14:30:00'
+                                            },
+                                            {
+                                                title: 'Happy Hour',
+                                                start: '2019-03-12T17:30:00'
+                                            },
+                                            {
+                                                title: 'Dinner',
+                                                start: '2019-03-12T20:00:00'
+                                            },
+                                            {
+                                                title: 'Birthday Party',
+                                                start: '2019-03-13T07:00:00'
+                                            },
+                                            {
+                                                title: 'Click for Google',
+                                                url: 'http://google.com/',
+                                                start: '2019-03-28'
+                                            }
+                                        ]
                                     });
+
+                                });
 
         </script>
     </body>

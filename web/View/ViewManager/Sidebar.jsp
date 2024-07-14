@@ -40,7 +40,7 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<c:url value='/UploadServlet' />" class="ttr-material-button">
+                             <a href="<c:url value='/UploadServlet?from=Blog_PostList.jsp' />" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Blog Upload</span>
                             </a>
@@ -61,77 +61,20 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                            <a href="<c:url value='/EventUploadServlet?from=Event_ListManager.jsp' />" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
                                 <span class="ttr-label">Event Upload</span>
                             </a>
                         </li>
-                        <!--					<li>
-                                                                        <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
-                                                                                <span class="ttr-icon"><i class="ti-book"></i></span>
-                                                                <span class="ttr-label">Event Upload</span>
-                                                        </a>
-                                                    </li>-->
-                    </ul>
-                </li>
-                <li>
-                    <a href="bookmark.html" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
-                        <span class="ttr-label">Bookmarks</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/ListMember" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-comments"></i></span>
-                        <span class="ttr-label">List Participate Member</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="add-listing.html" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-                        <span class="ttr-label">Add listing</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-book"></i></span>
-                        <span class="ttr-label">Event</span>
-                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                    </a>
-                    <ul>
                         <li>
-                            <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                            <a href="<c:url value='/EventPostListServlet' />" class="ttr-material-button">
                                 <span class="ttr-icon"><i class="ti-book"></i></span>
-                                <span class="ttr-label">Event Upload</span>
+                                <span class="ttr-label">My Event'CLB List</span>
                             </a>
                         </li>
-                        
-                        <!--
-                        <li>
-                                                                        <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
-                                                                                <span class="ttr-icon"><i class="ti-book"></i></span>
-                                                                <span class="ttr-label">Event Upload</span>
-                                                        </a>
-                                                    </li>-->
                     </ul>
                 </li>
-                <li>
-                    <a href="#" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-calendar"></i></span>
-                        <span class="ttr-label">Clubs</span>
-                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="StudentClubServlet?id=${id}" class="ttr-material-button"><span class="ttr-label">Student in Club</span></a>
-                        </li>
-                        <li>
-                            <a href="ClubStudentRegistrationAdminServlet?id=${id}" class="ttr-material-button"><span class="ttr-label">Club Student Registration</span></a>
-                        </li>
                 
-                    </ul>
-                </li>
                 
                 <li class="ttr-seperate"></li>
             </ul>

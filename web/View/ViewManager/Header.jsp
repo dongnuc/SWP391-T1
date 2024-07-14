@@ -85,7 +85,7 @@
 
 
                 <div class="menu-logo">
-                    <a href="Home.jsp"><img src="images/logo3.png" alt=""></a>
+                    <a href="home"><img src="images/logo3.png" alt=""></a>
                 </div>
                 <!-- Mobile Nav Button ==== -->
                 <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@
 
                         <c:if test="${sessionScope.account!=null}">
                             <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
-                                <img src="images/avatar.png" alt="">
+                                            <img src="${accountprofile.image != null ? accountprofile.image : 'images/avatar.png'}" alt="">
                                 <div class="profile-info" id="profile-info">
                                     <h6>${sessionScope.account}</h6>
                                     <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
@@ -128,13 +128,16 @@ if ( studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
 if (!dashboardPrinted) {
     dashboardPrinted = true;
                         %>
-                        <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
+                       <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
                         <%
                                     }
                                 }
                             }
                         }
                         %>
+                        <c:if test="${sessionScope.role == 0}">
+                                        <a href="<%= request.getContextPath() %>/MyRegistration" id="change-password-link">My Registration</a><br>
+                                    </c:if>
                                     <a href="logout" id="logout-link">Log Out</a>
                                 </div>
                             </div>

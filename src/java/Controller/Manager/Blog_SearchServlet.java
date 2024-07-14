@@ -53,7 +53,7 @@ public class Blog_SearchServlet extends HttpServlet {
             
             if (searchKeyword == null || searchKeyword.trim().isEmpty()) {
                 searchResults = BlogByIDList;
-                request.setAttribute("errorMessage", "Search ìnormation cant not empty");
+                request.setAttribute("errorMessage", "Search information cant not empty");
             } else {
                 for (Blog blog : BlogByIDList) {
                     if (blog.getTitleBlog().toLowerCase().contains(searchKeyword.toLowerCase())) {

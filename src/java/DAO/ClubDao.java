@@ -19,6 +19,22 @@ import java.util.List;
  */
 public class ClubDao extends DBContext {
 
+     public String getClubNameByID(int IdClub){
+          String NameClub = null;
+          String sql = "SELECT NameClub FROM club WHERE IdClub = ?";
+          try (Connection con = DBContext.getConnection(); 
+                PreparedStatement st = con.prepareStatement(sql)){
+                st.setInt(1, IdClub);
+                try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    NameClub = rs.getString("NameClub");
+                }
+            }
+          }catch (Exception e) {
+             System.out.println(e);
+        }
+          return  NameClub;
+      }
     public List<String> getAllClub() {
         List<String> list = new ArrayList<>();
         String sql = "select * from Club ";
@@ -259,21 +275,21 @@ public class ClubDao extends DBContext {
         }
         return club;
     }
- public String getClubNameByID(int id) {
-        Clubs club = null;
-        String query = " select * from club where IdClub = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return club.getNameclub();
-    }
+// public String getClubNameByID(int id) {
+//        Clubs club = null;
+//        String query = " select * from club where IdClub = ?";
+//        try {
+//            PreparedStatement st = connection.prepareStatement(query);
+//            st.setInt(1, id);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()) {
+//                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+//                }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return club.getNameclub();
+//    }
     public Clubs getClubbyname(String nameclub) {
         Clubs club = null;
         String query = " select * from club where NameClub = ?";

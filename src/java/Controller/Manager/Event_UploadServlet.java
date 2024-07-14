@@ -27,6 +27,10 @@ public class Event_UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String fromPage = request.getParameter("from");
+        request.setAttribute("from", fromPage);
+        
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         List<StudentClub> StudentClubList = null;
 
@@ -85,6 +89,7 @@ public class Event_UploadServlet extends HttpServlet {
         String filenamecheck = Integer.toString(eventDAO.getAllEvent().size());
 
         if (fileName != null) {
+            String fromPage = request.getParameter("from");
             String nameEvent = request.getParameter("nameevent");
             String description = request.getParameter("description");
             String content = request.getParameter("content");
@@ -215,7 +220,12 @@ public class Event_UploadServlet extends HttpServlet {
             e.printStackTrace();
         }
             
-            response.sendRedirect(request.getContextPath() + "/EventSerlet");
+            if ("Event_List.jsp".equals(fromPage)) {
+        request.getRequestDispatcher("/EventSerlet").forward(request, response);
+        }
+        else {
+        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+        }
         } else {
             response.getWriter().println("Error: File upload failed.");
         }

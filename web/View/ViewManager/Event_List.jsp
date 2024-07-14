@@ -153,6 +153,18 @@
                             </div>
                         </div>
                         <div class="content-block col-md-9">
+                            <div style="margin-top: 75px ; margin-bottom: -45px; margin-left: 15px;">
+                            <c:forEach var="studentClub" items="${StudentClubList}">
+                                <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
+                                    <div class="widget_tag_cloud">
+                                        <div class="tagcloud">
+                                            <a href="<c:url value='/EventUploadServlet?from=Event_List.jsp' />"> Upload New Event</a>
+                                        </div>
+                                    </div>
+                                    <c:set var="printed" value="true" />
+                                </c:if>
+                            </c:forEach>
+                            </div>
                             <div class="section-area section-sp1 gallery-bx">
                                 <div class="container">
                                     <div class="clearfix">
