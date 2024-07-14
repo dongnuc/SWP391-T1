@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:useBean id="currentDate" class="java.util.Date" scope="page" />
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -219,7 +220,9 @@
                                                                     </a>
                                                                        
 
-                                                                    <a href="<%= request.getContextPath() %>/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}">Register Here</a>
+<c:if test="${event.dateStart.time > currentDate.time}">
+    <a href="<c:url value='/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}' /> " style="color: red">Register Here</a>
+</c:if>  
                                                                      
                                                                 </div>
                                                             </div>

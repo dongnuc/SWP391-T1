@@ -203,7 +203,7 @@
                                     </c:forEach>
                                 </select>
                             </div>
-
+                           
                             <div>
                                 <input type="text" name="search" value="${search}"> 
                                 <button type="submit"> Search</button>
@@ -257,8 +257,8 @@
                                                     </c:choose></td>
                                                 <c:if test="${requestScope.status == 'future'}">
                                                     <c:if test="${x.status == 0}">
-                                                    <td><a href="ListMember?page=${requestScope.page}&search=${search}&status=${status}&action=1&idregister=${x.eventregisterid}&gmail=${x.gmail}" style="color: red" onclick="confirmActionReject(event, this)">Reject</a></td>
-                                                    <td><a href="ListMember?page=${requestScope.page}&search=${search}&status=${status}&action=2&idregister=${x.eventregisterid}&gmail=${x.gmail}" style="color: greenyellow"onclick="confirmActionAccept(event, this)">Accept</a></td>
+                                                    <td><a href="ListMember?page=${requestScope.page}&search=${search}&time=${status}&action=1&idregister=${x.eventregisterid}&gmail=${x.gmail}&idclub=${idclub}&idevent=${idevent}" style="color: red" onclick="confirmActionReject(event, this)">Reject</a></td>
+                                                    <td><a href="ListMember?page=${requestScope.page}&search=${search}&time=${status}&action=2&idregister=${x.eventregisterid}&gmail=${x.gmail}&idclub=${idclub}&idevent=${idevent}" style="color: greenyellow"onclick="confirmActionAccept(event, this)">Accept</a></td>
                                                 </c:if>
                                                     </c:if>
                                             </c:forEach>
@@ -283,18 +283,18 @@
 
                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                     <c:if test="${requestScope.page>1}">
-                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page -1}&search=${search}&status=${status}" aria-label="Previous">Prev</a></li>
+                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page -1}&search=${search}&time=${status}&idclub=${idclub}&idevent=${idevent}" aria-label="Previous">Prev</a></li>
                                         </c:if>
                                     <!--<li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
-                                    <li class="page-item active"><a class="page-link" href="ListMember?page=${requestScope.page}&search=${search}&status=${status}">${requestScope.page}</a></li>
+                                    <li class="page-item active"><a class="page-link" href="ListMember?page=${requestScope.page }&search=${search}&time=${status}&idclub=${idclub}&idevent=${idevent}">${requestScope.page}</a></li>
                                         <c:if test="${requestScope.pagemax-requestScope.page>=1}">
-                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 1}&search=${search}&status=${status}">${requestScope.page+1}</a></li>
+                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 1}&search=${search}&time=${status}&idclub=${idclub}&idevent=${idevent}">${requestScope.page+1}</a></li>
                                         </c:if>
                                         <c:if test="${requestScope.pagemax-requestScope.page>=2}">
-                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 2}&search=${search}&status=${status}">${requestScope.page+2}</a></li>
+                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 2}&search=${search}&time=${status}&idclub=${idclub}&idevent=${idevent}">${requestScope.page+2}</a></li>
                                         </c:if>
                                         <c:if test="${requestScope.page<requestScope.pagemax}">
-                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 1}&search=${search}" aria-label="Next">Next</a></li>
+                                        <li class="page-item"><a class="page-link" href="ListMember?page=${requestScope.page + 1}&search=${search}&time=${status}&idclub=${idclub}&idevent=${idevent}" aria-label="Next">Next</a></li>
                                         </c:if>
 
 
@@ -308,7 +308,6 @@
             <c:if test="${requestScope.pagemax==0}">
                 Not Found
             </c:if>
-
         </main>
         <!--Main container start --F
 
@@ -477,14 +476,14 @@
                 // Confirm action when clicking on confirm button (Reject modal)
                 confirmBtnReject.onclick = function () {
                     if (currentLink) {
-            var reason = document.getElementById('reasonTextarea').value; // Lấy giá trị từ textarea
+            var reason = document.getElementById('reasonTextarea').value; 
             var url = new URL(currentLink.href);
-            url.searchParams.set('reason', reason); // Thêm lý do vào URL
-            window.location.href = url.toString(); // Chuyển hướng đến URL mới
+            url.searchParams.set('reason', reason); 
+            window.location.href = url.toString(); 
         }
                 };
 
-                // Close modal when clicking outside of it
+                
                 window.onclick = function (event) {
                     if (event.target == modalAccept) {
                         closeModal(modalAccept);

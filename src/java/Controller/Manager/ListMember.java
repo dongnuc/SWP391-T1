@@ -65,104 +65,116 @@ public class ListMember extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EventRegistrationDao d = new EventRegistrationDao();
-        SendEmailHuy send=new SendEmailHuy();
-        HttpSession session=request.getSession();
-        Accounts ac=(Accounts) session.getAttribute("accountprofile");
-        int idstudent=ac.getId();
-        List<String> listidclub = d.GetClubofManager(idstudent);
-        
-        request.setAttribute("listidclub", listidclub);
-        int page=1;
-        String gmail="";
-        String action=null;
-        SendEmailHuy s=new SendEmailHuy();
-        try {
-            action= request.getParameter("action");
-            int idregister=Integer.parseInt(request.getParameter("idregister"));
-            String reason=request.getParameter("reason");
-            gmail=request.getParameter("gmail");
-            if(action.equals("1")){
-                send.sendemailfail(gmail, reason);
-                System.out.println("Huy123");
-            }else{
-                send.sendemailsuccess(gmail);
-                
-            }
-            d.UpdateStatus(idregister, action,reason);
-            
-        } catch (Exception e) {
-        }
-        String page_raw = "";
-        System.out.println("action là : "+action+"  ");
-        try {
-            page_raw = request.getParameter("page");
-        } catch (Exception e) {
-        }
-        try {
-            page = Integer.parseInt(page_raw);
-        } catch (Exception e) {
-        }
-        try {
-            request.setAttribute("page", page);
-        } catch (Exception e) {
-        }
-      
-        
-        String idclubmodern = request.getParameter("idclub");
-        String status = request.getParameter("time");
-        String idevent = request.getParameter("idevent");
+SendEmailHuy send = new SendEmailHuy();
+HttpSession session = request.getSession();
+Accounts ac = (Accounts) session.getAttribute("accountprofile");
+int idstudent = ac.getId();
+List<String> listidclub = d.GetClubofManager(idstudent);
 
-        try {
-            if (idclubmodern == null || idclubmodern.isEmpty()) {
-                idclubmodern = "1";
-            } else {
-                if (idevent == null || idevent.isEmpty()) {
-                    // Nếu idevent chưa được chọn, đặt nó thành sự kiện đầu tiên của CLB hiện tại
-                    List<Integer> listevent = d.getIDEvent(idclubmodern, status);
-                    if (!listevent.isEmpty()) {
-                        idevent = listevent.get(0).toString();
-                    }
-                } else {
-                    // Nếu idevent đã được chọn, giữ lại nó
-                    List<Integer> listevent = d.getIDEvent(idclubmodern, status);
-                    if (!listevent.contains(Integer.parseInt(idevent))) {
-                        idevent = listevent.get(0).toString();
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+request.setAttribute("listidclub", listidclub);
+int page = 1;
+String gmail = "";
+String action = request.getParameter("action");
+SendEmailHuy s = new SendEmailHuy();
+String search = "";
+
+try {
+    search = request.getParameter("search"); 
+} catch (Exception e) {
+    
+}
+request.setAttribute("search", search);
+
+try {
+    int idregister = Integer.parseInt(request.getParameter("idregister"));
+    String reason = request.getParameter("reason");
+    gmail = request.getParameter("gmail");
+    
+    if ("1".equals(action)) {
+        send.sendemailfail(gmail, reason);
+        System.out.println("Huy123");
+    } else {
+        send.sendemailsuccess(gmail);
+    }
+    d.UpdateStatus(idregister, action, reason);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+try {
+    String page_raw = request.getParameter("page");
+    if (page_raw != null && !page_raw.isEmpty()) {
+        page = Integer.parseInt(page_raw);
+    }
+    request.setAttribute("page", page);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+String idclubmodern = request.getParameter("idclub");
+String status = request.getParameter("time");
+String idevent = request.getParameter("idevent");
+
+try {
+    if (idclubmodern == null || idclubmodern.isEmpty()) {
+        if (listidclub != null && !listidclub.isEmpty()) {
+            idclubmodern = listidclub.get(0);
+        } else {
+            idclubmodern = null; 
         }
-
-        try {
-            if (status == null || status.isEmpty()) {
-                status = "past";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        request.setAttribute("status", status);
-        request.setAttribute("idclub", idclubmodern);
-        request.setAttribute("idevent", idevent);
-        request.setAttribute("idclubmodern", idclubmodern);
-
+    } else {
         List<Integer> listevent = d.getIDEvent(idclubmodern, status);
-        try {
-            if (idevent == null || idevent.isEmpty()) {
+        if (idevent == null || idevent.isEmpty()) {
+            if (!listevent.isEmpty()) {
+                idevent = listevent.get(0).toString(); 
+            } else {
+                idevent = null; 
+            }
+        } else {
+            if (!listevent.contains(Integer.parseInt(idevent))) {
                 if (!listevent.isEmpty()) {
-                    idevent = listevent.get(0).toString();
+                    idevent = listevent.get(0).toString(); 
+                } else {
+                    idevent = null; 
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        int pagemax=d.numberpages(status, idevent);
-        request.setAttribute("pagemax", pagemax);
-        List<EventRegistration> listmember = d.getmemberclub(page, status, idevent);
-        request.setAttribute("listmember", listmember);
-        request.setAttribute("listevent", listevent);
-        request.getRequestDispatcher("View/ViewManager/ListMember.jsp").forward(request, response);
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+try {
+    if (status == null || status.isEmpty()) {
+        status = "past";
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+
+
+List<Integer> listevent = d.getIDEvent(idclubmodern, status);
+try {
+    if (idevent == null || idevent.isEmpty()) {
+        if (!listevent.isEmpty()) {
+            idevent = listevent.get(0).toString();
+        }
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+int pagemax = d.numberpages(status, idevent,search);
+request.setAttribute("pagemax", pagemax);
+List<EventRegistration> listmember = d.getmemberclub(page, status, idevent,search);
+request.setAttribute("listmember", listmember);
+request.setAttribute("listevent", listevent);
+request.setAttribute("status", status);
+request.setAttribute("idclub", idclubmodern);
+request.setAttribute("idevent", idevent);
+request.setAttribute("idclubmodern", idclubmodern);
+request.getRequestDispatcher("View/ViewManager/ListMember.jsp").forward(request, response);
 
     }
 

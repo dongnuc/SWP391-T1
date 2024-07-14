@@ -72,7 +72,14 @@
                                 <span class="ttr-label">My Event'CLB List</span>
                             </a>
                         </li>
+                        
                     </ul>
+                </li>
+                                <li>
+                    <a href="${pageContext.request.contextPath}/ListMember" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-comments"></i></span>
+                        <span class="ttr-label">List Participate Member</span>
+                    </a>
                 </li>
                 
                 

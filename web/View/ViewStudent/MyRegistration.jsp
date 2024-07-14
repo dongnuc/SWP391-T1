@@ -70,10 +70,7 @@
 
     </head>
     <style>
-        .container{
-            font-size: 24px;
-
-        }
+        
         .sort{
             font-size: 16px;
             display: flex;
@@ -421,6 +418,63 @@
             }
 
         </script>
+        <script>
+    // JavaScript functions
+    var isProfileVisible = false;
+
+    function showProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+        }
+    }
+
+    function hideProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "none";
+        }
+    }
+
+    function toggleProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+            isProfileVisible = true;
+        } else {
+            isProfileVisible = false;
+        }
+    }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+    document.addEventListener("click", function (event) {
+        var profileInfo = document.getElementById("profile-info");
+        if (!event.target.closest(".profile-picture") && isProfileVisible) {
+            profileInfo.style.display = "none";
+            isProfileVisible = false;
+        }
+    });
+//            document.addEventListener("DOMContentLoaded", function () {
+//                var paginationLinks = document.querySelectorAll('.pagination a');
+//                paginationLinks.forEach(function (link) {
+//                    link.addEventListener('click', function (event) {
+//                        event.preventDefault();
+//                        var currentPage = parseInt(this.textContent);
+//                        setActivePage(currentPage);
+//                    });
+//                });
+//
+//                function setActivePage(pageNumber) {
+//                    var paginationLinks = document.querySelectorAll('.pagination a');
+//                    paginationLinks.forEach(function (link) {
+//                        link.classList.remove('active');
+//                    });
+//                    paginationLinks[pageNumber - 1].classList.add('active');
+//
+//                    // Do something here to load data for the selected page
+//                }
+//            });
+//<!--</script>-->
     </body>
 
 </html>

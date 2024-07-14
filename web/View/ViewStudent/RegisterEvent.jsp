@@ -4,6 +4,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
     <%
@@ -41,6 +42,7 @@
         <!-- FAVICONS ICON ============================================= -->
         <link rel="icon" href="${pageContext.request.contextPath}/images_t/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
 
         <!-- PAGE TITLE HERE ============================================= -->
         <title>Event </title>
@@ -68,10 +70,7 @@
 
     </head>
     <style>
-        .container{
-            font-size: 24px;
-           
-        } 
+        
         
        
     </style>
@@ -95,14 +94,14 @@
                 <!-- contact area -->
                 <div class="container">
                     <div class="row">
-                        <div class="col-2">H1</div>
+                        <div class="col-2"></div>
                         <div class="col-8 ">
                 <div class="row">
                 
                 <div class="col-xl-12">
                     <!-- Account details card-->
                     <div class="card mb-4">
-                        <div class="card-header">Account Details</div>
+                        <div class="card-header">Register Event</div>
                         <div class="card-body">
                             <form action="<%= request.getContextPath() %>/RegisterEvent" method="post">
                                 <div class="mb-3">
@@ -144,13 +143,13 @@
                                 
                                 <button class="btn btn-primary" type="submit">Register Event</button>
                             </form>
-                                        ${requestScope.check}
+                                        
                         </div>
                     </div>
                 </div>
             </div>
                         </div>
-                        <div class="col-2">Cac Event Da Tham gia</div>
+                        <div class="col-2"></div>
                     </div>
                 </div>              
                 <!-- contact area END -->
@@ -265,20 +264,93 @@
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
         <!-- External JavaScripts -->
-<!--        <script src="${pageContext.request.contextPath}/js_t/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/popper.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/magnific-popup/magnific-popup.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/counter/waypoints-min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/counter/counterup.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/imagesloaded/imagesloaded.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/masonry/masonry.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/masonry/filter.js"></script>
-        <script src="${pageContext.request.contextPath}/vendors/owl-carousel/owl.carousel.js"></script>
-        <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
-        <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>-->
+        <script src="assets/js/jquery.min.js"></script>
+<script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+<script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+<script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+<script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+<script src="assets/vendors/counter/waypoints-min.js"></script>
+<script src="assets/vendors/counter/counterup.min.js"></script>
+<script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+<script src="assets/vendors/masonry/masonry.js"></script>
+<script src="assets/vendors/masonry/filter.js"></script>
+<script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+<script src="assets/js/functions.js"></script>
+<script src="assets/js/contact.js"></script>
+<script src='assets/vendors/switcher/switcher.js'></script>
+<script>
+
+    // Function thay đổi trang
+    function changePage(page) {
+        // Ẩn tất cả các trang thông tin hot
+        var hotInfos = document.querySelectorAll('.hot-info');
+        for (var i = 0; i < hotInfos.length; i++) {
+            hotInfos[i].style.display = 'none';
+        }
+        // Hiển thị trang được chọn
+        document.getElementById('page' + page).style.display = 'block';
+    }
+    // Mặc định hiển thị trang 1 khi trang được tải
+    changePage(1);
+</script>
+<script>
+    // JavaScript functions
+    var isProfileVisible = false;
+
+    function showProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+        }
+    }
+
+    function hideProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "none";
+        }
+    }
+
+    function toggleProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+            isProfileVisible = true;
+        } else {
+            isProfileVisible = false;
+        }
+    }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+    document.addEventListener("click", function (event) {
+        var profileInfo = document.getElementById("profile-info");
+        if (!event.target.closest(".profile-picture") && isProfileVisible) {
+            profileInfo.style.display = "none";
+            isProfileVisible = false;
+        }
+    });
+//            document.addEventListener("DOMContentLoaded", function () {
+//                var paginationLinks = document.querySelectorAll('.pagination a');
+//                paginationLinks.forEach(function (link) {
+//                    link.addEventListener('click', function (event) {
+//                        event.preventDefault();
+//                        var currentPage = parseInt(this.textContent);
+//                        setActivePage(currentPage);
+//                    });
+//                });
+//
+//                function setActivePage(pageNumber) {
+//                    var paginationLinks = document.querySelectorAll('.pagination a');
+//                    paginationLinks.forEach(function (link) {
+//                        link.classList.remove('active');
+//                    });
+//                    paginationLinks[pageNumber - 1].classList.add('active');
+//
+//                    // Do something here to load data for the selected page
+//                }
+//            });
+//<!--</script>-->
     </body>
 
 </html>

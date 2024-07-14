@@ -179,7 +179,7 @@ public class EventRegistrationDao extends DBContext {
 
     }
 
-    public List<EventRegistration> getmemberclub(int id, String sort, String idevent) {
+    public List<EventRegistration> getmemberclub(int id, String sort, String idevent,String search) {
         List<EventRegistration> list = new ArrayList<>();
         String sql = "SELECT * FROM eventregister e join event v"
                 + " on e.IdEvent=v.IdEvent where v.IdEvent = ? and 1=1 ";
@@ -189,6 +189,9 @@ public class EventRegistrationDao extends DBContext {
             sql += " AND NOW() BETWEEN v.DateStart AND v.DateEnd";
         } else if (sort.equals("future")) {
             sql += " AND v.DateStart > NOW()";
+        }
+        if (search != null&&!search.isEmpty()) {
+            sql += " AND v.NameEvent LIKE '%" + search + "%'";
         }
         sql += " LIMIT 5 OFFSET ?";
 
@@ -234,7 +237,7 @@ public class EventRegistrationDao extends DBContext {
         return list;
     }
 
-    public int numberpages(String sort, String idevent) {
+    public int numberpages(String sort, String idevent,String search) {
         String sql = "select count(*) from  eventregister e join event v"
                 + " on e.IdEvent=v.IdEvent where v.IdEvent = ? and 1=1  ";
 
@@ -244,6 +247,9 @@ public class EventRegistrationDao extends DBContext {
             sql += " AND NOW() BETWEEN v.DateStart AND v.DateEnd";
         } else if (sort.equals("future")) {
             sql += " AND v.DateStart > NOW()";
+        }
+        if (search != null&&!search.isEmpty()) {
+            sql += " AND v.NameEvent LIKE '%" + search + "%'";
         }
         int number = 0;
         try {
@@ -299,7 +305,7 @@ public class EventRegistrationDao extends DBContext {
 
     public static void main(String[] args) {
         EventRegistrationDao d = new EventRegistrationDao();
-        List<EventRegistration> list = d.getmemberclub(1, "pase", "9");
+        
 //        System.out.println(list.size());
         List<String> lisss=d.GetClubofManager(17);
         EventRegistration my=d.getEventRegistration(1);
