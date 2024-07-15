@@ -17,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -61,15 +62,21 @@ public class ManagerClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         String numberPageRaw = request.getParameter("page");
         String nameSearch = request.getParameter("nameSearch");
-        String option = request.getParameter("typeClub");
+        String typeClub = request.getParameter("typeClub");
+        String status = request.getParameter("status");
+        if(typeClub == null){
+            typeClub = "All";
+        }
+        if(status == null){
+            status = "1";
+        }
         if(nameSearch == null){
             nameSearch = "";
         }
-        if(option == null){
-            option = "";
-        }
+       
         int pageCurrent = 1;
         if(numberPageRaw != null){
             try {
@@ -81,19 +88,20 @@ public class ManagerClubServlet extends HttpServlet {
         }
         
         ClubDao clubDao = new ClubDao();
-        int numberPage = clubDao.numberPageClub(option, nameSearch);
-        System.out.println(numberPage);
-        List<String> nameType = clubDao.getTypeClub();
-        List<Clubs> getAllClubs = clubDao.getClubByPage(pageCurrent, option, nameSearch);
+        int numberPage = clubDao.numberPageClubDong(typeClub, nameSearch, status);
+        out.println("page: " + numberPage);
+        HashMap<String,String> listCategoryClub = clubDao.getAllCategoryClubDong("1");
+        List<Clubs> getAllClubs = clubDao.getAllClubDong(nameSearch, typeClub, status, pageCurrent);
         request.setAttribute("listClub", getAllClubs);
-        request.setAttribute("listType", nameType);
-//         System.out.println(option);
+        request.setAttribute("listType", listCategoryClub);
+        out.println(listCategoryClub.size());
          request.setAttribute("nameSearch", nameSearch);
-         request.setAttribute("option", option);
+         request.setAttribute("typeClub", typeClub);
+         out.print("option: " + typeClub);
          request.setAttribute("numberPage", numberPage);
          request.setAttribute("pageCurrent", pageCurrent);
-         System.out.println(getAllClubs.get(0).getNameclub());
-        request.getRequestDispatcher("View/ViewAdmin/ClubAdmin.jsp").forward(request, response);
+        request.setAttribute("status", status);
+        request.getRequestDispatcher("View/ViewAdmin/ClubAdmin.jsp").forward(request, response);    
 //        System.out.println(getAllClubs.get(0).getImage());
 //        System.out.println(getAllClubs.size());
     } 

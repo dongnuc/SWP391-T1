@@ -4,7 +4,9 @@
  */
 package Controller.Admin;
 
+import DAO.AccountDao;
 import DAO.ClubDao;
+import Model.Accounts;
 import Model.Clubs;
 import Services.Validation;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -61,17 +65,31 @@ public class GetClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        AccountDao daoAccount = new AccountDao();
+        // list Account manager
+        List<Accounts> listManager = new ArrayList<>();
         ClubDao dao = new ClubDao();
         String idClub = request.getParameter("idClub");
-        Clubs getClub = dao.getClubByIdSetting(idClub);
-        List<String> nameType = dao.getTypeClub();
-        request.setAttribute("listType", nameType);
+        Clubs getClub = dao.getClubByIdDong(idClub);
+        HashMap<String,String> listCategoryClub = dao.getAllCategoryClubDong("1");
+        // list id manager
+        List<String> listAccountManager = daoAccount.getListManagerClubDong("Manager");
+        for (String idAcc : listAccountManager) {
+            Accounts getAcc = daoAccount.getAccountByIdDong(idAcc);
+            listManager.add(getAcc);
+        }
+        Accounts accManager = daoAccount.getAccountManagerByIdClubDong(idClub);
+        request.setAttribute("idClub", getClub.getClub());
+        request.setAttribute("accManager", accManager);
+        request.setAttribute("listAccount", listManager);
+        request.setAttribute("listType", listCategoryClub);
         request.setAttribute("nameClub", getClub.getNameclub());
         request.setAttribute("points", getClub.getPoint());
         request.setAttribute("dateCreate", getClub.getDatecreate());
-        request.setAttribute("typeClub", getClub.getCategoryclub());
-        System.out.println(getClub);
-        request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
+        request.setAttribute("dateModify", getClub.getModify());
+        request.setAttribute("status", getClub.getStatus());
+        request.setAttribute("typeClub", getClub.getTypeClub());
+        request.getRequestDispatcher("View/ViewAdmin/EditClub.jsp").forward(request, response);
     }
 
     /**
@@ -85,37 +103,7 @@ public class GetClubServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        Validation validation = new Validation();
-        ClubDao dao = new ClubDao();
-        String idClub = request.getParameter("idClub");
-        String nameClub = request.getParameter("nameClub");
-        String pointClub = request.getParameter("points");
-        String typeClub = request.getParameter("typeClub");
-//        out.println("Before: " + status);
-        String checkNameClub = validation.checkLength(nameClub, 32);
-        int error = 0;
-        if (!checkNameClub.equals(nameClub)) {
-            error++;
-            request.setAttribute("errorName", checkNameClub);
-        }
-        boolean checkDupitName = dao.checkNameClub(nameClub);
-        if (checkDupitName) {
-            error++;
-            request.setAttribute("errorName", "Name CLub is exist");
-        }
-        if(pointClub == null){
-            error++;
-            request.setAttribute("Points is not empty", "errorPoint");
-        }
         
-        if(error > 0){
-            request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
-        }
-//        out.println(status);
-        dao.updateClub(idClub, nameClub, pointClub, typeClub, "");
-//        request.getRequestDispatcher("managerClub").forward(request, response);
-        response.sendRedirect("managerClub");
     }
 
     /**

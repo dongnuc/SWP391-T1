@@ -84,9 +84,9 @@
                         <div class="widget-box">
                             <div class="email-wrapper">
                                 <div class="email-menu-bar">
-                                    <div class="compose-mail">
-                                        <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
-                                    </div>
+                                    <!--                                    <div class="compose-mail">
+                                                                            <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
+                                                                        </div>-->
                                     <div class="email-menu-bar-inner">
                                         <ul>
                                             <li class="active"><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
@@ -104,15 +104,21 @@
                                 <div class="mail-list-container">
                                     <div class="mail-toolbar">
 
-                                        <div class="mail-search-bar">
-                                            <form action="searchForm">
-                                                <input type="text" oninput="searchByTittle(this)" value="" class="form-control" placeholder="Search"/>
+                                        <div class="mail-search-bar" >
+                                            <form action="searchForm" style="display: flex;">
+                                                <input type="text" name="search" value="${namesearch}" class="form-control" placeholder="Search by tittle"/>
+                                                <input type="submit" value="Search" style="margin-left: 10px;">
                                             </form>
                                         </div>
-
+                                                
                                         <div class="next-prev-btn">
-                                            <a href="#"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                                            <span style="margin-right: 10px">${formInPage}/${totalForm}</span>
+                                            <c:if test="${pageCurrent > 1}">
+                                                <a href="loadForm?pageNumber=${pageCurrent - 1}"><i class="fa fa-angle-left"></i></a>
+                                            </c:if>
+                                            <c:if test="${numberPage - pageCurrent >= 1}">
+                                                <a href="loadForm?pageNumber=${pageCurrent + 1}"><i class="fa fa-angle-right"></i></a>
+                                            </c:if>
                                         </div>
                                     </div>
                                     <div class="mail-box-list" id="mail-box-list">
@@ -184,28 +190,7 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
-                                                        $(document).ready(function () {
-                                                            $('[data-toggle="tooltip"]').tooltip();
-                                                        });
 
-                                                        function searchByTittle(txtInput) {
-                                                            var valueInput = txtInput.value;
-                                                            console.log(valueInput);
-                                                            $.ajax({
-                                                                url: "/SWP391/searchForm",
-                                                                type: "get", //send it through get method
-                                                                data: {
-                                                                    search: valueInput
-                                                                },
-                                                                success: function (response) {
-                                                                    var row = document.getElementById("mail-box-list");
-                                                                    row.innerHTML = response;
-                                                                },
-                                                                error: function (xhr) {
-                                                                    //Do Something to handle error
-                                                                }
-                                                            });
-                                                        }
 
                                                         function removeForm(idForm) {
                                                             var element = document.getElementById("idForm" + idForm);

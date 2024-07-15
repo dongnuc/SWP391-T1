@@ -166,7 +166,28 @@
                 top: 10px;
                 right: 10px;
             }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 500px;
+            }
 
+            .modalForm{
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgb(0,0,0);
+                background-color: rgba(0,0,0,0.4);
+                padding-top: 60px;
+            }
         </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -195,9 +216,6 @@
                     <!-- Your Profile Views Chart -->
 
                     <!-- Your Profile Views Chart END-->
-
-
-
                     <div class="col-lg-12 m-b30">
                         <div class="widget-box">
 
@@ -209,14 +227,25 @@
                                             <select class="no" name="typeClub"
                                                     style="margin-right: 10px; height: 36px;"
                                                     onchange="return this.closest('form').submit()" >
-                                                <option value="">Select All</option>
+                                                <option value="All">Select All</option>
                                                 <c:forEach var="listType" items="${listType}">
-                                                    <option value="${listType}" ${listType eq option ? 'selected' : ''} >${listType}</option>
+                                                    <option value="${listType.key}" ${listType.key eq typeClub ? 'selected' : ''} >${listType.value}</option>
                                                 </c:forEach>
+                                            </select>
+                                            <select class="no" name="status"
+                                                    style="margin-right: 10px; height: 36px;"
+                                                    onchange="return this.closest('form').submit()" >
+                                                <option value="1" ${status eq '1'?'selected':''}>Active</option>
+                                                <option value="0" ${status eq '0'?'selected':''}>Inactive</option>
                                             </select>
                                         </div>
                                         <input type="submit" value="Search" >
-
+                                        <div>
+                                            <button type="button" onclick="addClub()"
+                                                    style="border: solid 1px buttonborder; margin: 0px 10px; height: 28px">
+                                                <i class="fa fa-edit">Add</i>
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <table class="styled-table" id="datatablesSimple" border="1px" style="margin-bottom: 0px">
@@ -245,18 +274,17 @@
                                                         <td>Active</td>
                                                     </c:if>
                                                     <td>
-                                                        
-                                                            <a href="getClub?idClub=${listclub.club}"
-                                                               style="margin-right: 5px"><i class="fa fa-edit">Edit</i></a>
-                                                        </button>
+                                                        <button type="button" onclick="editSetting(${listclub.club})" style="border: none;"><i class="fa fa-edit">Edit</i></button>
                                                         <c:if test="${listclub.status == 1}">
-                                                            <a href="updateClub?idClub=${listclub.club}&status=${listclub.status}"
-                                                               style="margin-right: 5px"><i class="fa fa-trash-o"> Unactive</i></a>
+                                                            <button id="confirmButton" type="button" onclick="showConfirmationModal(${listclub.club},${listclub.status})" style="border: none;">
+                                                                <i class="fa fa-edit">Inactive</i>
+                                                            </button>
                                                         </c:if>
-
                                                         <c:if test="${listclub.status != 1}">
-                                                            <a href="updateClub?idClub=${listclub.club}&status=${listclub.status}"
-                                                               style="margin-right: 5px"><i class="fa fa-trash-o"> Active</i></a>
+                                                            <button id="confirmButton" type="button" onclick="showConfirmationModal(${listclub.club},${listclub.status})" style="border: none;">
+                                                                <i class="fa fa-edit">Active</i>
+                                                            </button>
+
                                                         </c:if>
                                                     </td>
                                                 </c:forEach>
@@ -271,22 +299,22 @@
                                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                                     <c:if test="${pageCurrent>1}">
                                                         <li class="page-item"><a class="page-link" 
-                                                                                 href="managerClub?page=${pageCurrent - 1}&nameSearch=${nameSearch}&option=${option}"
+                                                                                 href="managerClub?page=${pageCurrent - 1}&nameSearch=${nameSearch}&typeClub=${typeClub}&status=${status}"
                                                                                  aria-label="Previous">Prev</a></li>
                                                         </c:if>
                                                         <c:if test="${numberPage-pageCurrent>=1}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&option=${option}">
+                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&typeClub=${typeClub}&status=${status}">
                                                                 ${pageCurrent+1}</a></li>
                                                             </c:if>
                                                             <c:if test="${numberPage - pageCurrent>=2}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 2}&nameSearch=${nameSearch}&option=${option}">
+                                                                                 href="managerClub?page=${pageCurrent + 2}&nameSearch=${nameSearch}&typeClub=${typeClub}&status=${status}">
                                                                 ${pageCurrent+2}</a></li>
                                                             </c:if>
                                                             <c:if test="${pageCurrent < numberPage}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&option=${option}"
+                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&typeClub=${typeClub}&status=${status}"
                                                                                  aria-label="Next">Next</a></li>
                                                         </c:if>
 
@@ -296,58 +324,17 @@
                                         </div><!--end col
                                         <!-- PAGINATION END -->
                                     </div><!--end row-->        
-
-                                </div>
-                            </form>
-                            <div class="popUp" style="width: 500px;margin: 0px auto; border: solid 1px black">
-                                <form action="updateClub" class="edit-profile m-b30">
-                                    <div class="row">
-                                        <div class="form-group col-12" style="left: 32px;bottom: 48px;">
-                                            <button type="button" onclick="closeFormEdit()" class="closeForm btn-close"><i class="fa fa-close"></i></button>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Name Club</label>
-                                            <div>
-                                                <input name="nameClub" id="nameClub" class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Points</label>
-                                            <div>
-                                                <input name="points" id="pointsClub" class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Date Create</label>
-                                            <div>
-                                                <input id="dateCreateClub" class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-6">
-                                            <label class="col-form-label">Date Modify</label>
-                                            <div>
-                                                <input id="dateModifyClub" class="form-control" type="text" value="">
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <label class="col-form-label">Type Club</label>
-                                            <div >
-                                                <select id="typeClubForm" class="no" name="typeClub"
-                                                        style="margin-right: 10px; height: 36px;">
-                                                    <c:forEach var="listType" items="${listType}">
-                                                        <option value="${listType}" ${listType eq option ? 'selected' : ''} >${listType}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" id="idClubForm" name="idClub">
-                                        <div class="seperator"></div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn">Save changes</button>
+                                    <div id="confirmationModal" class="modalForm" >
+                                        <div class="modal-content">
+                                            <span class="close" onclick="closeModal()">&times;</span>
+                                            <p>Are you sure you want to perform this action?</p>
+                                            <button type="button" onclick="confirmAction()">Yes</button>
+                                            <button type="button" onclick="closeModal()">Cancel</button>
                                         </div>
                                     </div>
-                                </form> 
-                            </div>
+                                </div>
+                            </form>
+
                         </div>
 
                     </div>
@@ -379,57 +366,62 @@
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                function openFormEdit(idClub) {
-                                                    var popUpForm = document.getElementsByClassName("popUp")[0];
-                                                    var overLay = document.getElementsByClassName("overlay")[0];
-                                                    var optionsClub = document.getElementById("typeClubForm");
-                                                    var optionClubValue = optionsClub.options;
+                                                var confirmButton = document.getElementById("confirmButton");
+                                                
+                                                function editSetting(idSetting) {
 
+                                                    var hrefEdit = "http://localhost:9999/SWP391/getClub?idClub=" + idSetting;
+                                                    window.location.href = hrefEdit;
+                                                }
+                                                
+                                                function addClub(){
+                                                     var hrefEdit = "http://localhost:9999/SWP391/addClub";
+                                                    window.location.href = hrefEdit;
+                                                }
+                                                function closeModal() {
+                                                    var modal = document.getElementById("confirmationModal");
+                                                    modal.style.display = "none";
+                                                }
+                                                function showConfirmationModal(idClub, status) {
+
+                                                    var modal = document.getElementById("confirmationModal");
+                                                    confirmButton.setAttribute("data-idClub", idClub);
+                                                    confirmButton.setAttribute("data-status", status);
+                                                    modal.style.display = "block";
+                                                }
+                                                function confirmAction() {
+                                                    var idClub = confirmButton.getAttribute("data-idClub");
+                                                    var statusRaw = confirmButton.getAttribute("data-status");
+                                                    changeStatus(idClub, statusRaw);
+                                                    closeModal();
+                                                }
+
+                                                function changeStatus(idClub, status) {
+                                                    var statusUpdate;
                                                     console.log(idClub);
-                                                    popUpForm.style.display = "block";
-                                                    overLay.style.display = "block";
-
+                                                    console.log(status);
+                                                    if (status == 1) {
+                                                        statusUpdate = 0;
+                                                    } else {
+                                                        statusUpdate = 1;
+                                                    }
+                                                    console.log(statusUpdate);
                                                     $.ajax({
-                                                        url: "/SWP391/getClub",
+                                                        url: "/SWP391/updateClub",
                                                         type: "get", //send it through get method
                                                         data: {
-                                                            idClub: idClub
+                                                            idClub: idClub,
+                                                            status: statusUpdate
                                                         },
                                                         success: function (response) {
-                                                            console.log(response);
-                                                            var lines = response.split("\n");
-                                                            var nameClub = lines[0];
-                                                            var points = lines[1];
-                                                            var typeClub = lines[2];
-                                                            var dateCreate = lines[3];
-                                                            var dateModify = lines[4];
-                                                            $('#idClubForm').val(idClub);
-                                                            $('#nameClub').val(nameClub);
-                                                            $('#pointsClub').val(points);
-                                                            $('#dateCreateClub').val(dateCreate);
-                                                            $('#dateModifyClub').val(dateModify);
-                                                            console.log(typeClub);
-                                                            for (var i = 0; i < optionClubValue.length; i++) {
-                                                                console.log(optionClubValue[i].value);
-                                                                var testSelected = optionClubValue[i].value + "\r";
-                                                                if (testSelected == typeClub) {
-                                                                    console.log("selected");
-                                                                    optionClubValue[i].selected = true;
-                                                                }
-
-                                                            }
+                                                            location.reload();
                                                         },
                                                         error: function (xhr) {
                                                             //Do Something to handle error
                                                         }
                                                     });
                                                 }
-                                                function closeFormEdit() {
-                                                    var popUpForm = document.getElementsByClassName("popUp")[0];
-                                                    var overLay = document.getElementsByClassName("overlay")[0];
-                                                    popUpForm.style.display = "none";
-                                                    overLay.style.display = "none";
-                                                }
+
 
 
         </script>

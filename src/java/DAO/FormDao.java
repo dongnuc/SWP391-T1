@@ -18,6 +18,227 @@ import java.util.List;
  * @author Admin
  */
 public class FormDao extends DBContext {
+         
+    public void insertFormDong(String fullName, String tittleForm, String content, String email, String phone, String category) {
+        String query = " INSERT INTO `newsetting`.`form`\n"
+                + "(`FullName`,`TittleForm`,`Content`,`Email`,`Phone`,`CategoryForm`)\n"
+                + "VALUES (?,?,?,?,?,?); ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, fullName);
+            ps.setString(2, tittleForm);
+            ps.setString(3, content);
+            ps.setString(4, email);
+            ps.setString(5, phone);
+            ps.setString(6, category);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+     public HashMap<String, String> getCategoryFormCDong() {
+        HashMap<String, String> categoryForm = new HashMap<>();
+        String query = "select idSetting, valueSetting from settings where typeSetting = 2 and status = 1; ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String keyForm = rs.getString("idSetting");
+                String valueForm = rs.getString("valueSetting");
+                categoryForm.put(keyForm, valueForm);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return categoryForm;
+    }
+
+    public String getCategoryFormDong(String idStudent) {
+        String query = "select idSetting from settings where typeSetting = 2 and idStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idStudent);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<String> getAllCategoryFormDong() {
+        List<String> listFormType = new ArrayList<>();
+        String query = "select valueSetting from settings where typeSetting = 2 ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listFormType.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listFormType;
+    }
+
+    public List<Form> getListFormDong(int pageCurrent, String category, String tittle, String status) {
+        List<Form> listForm = new ArrayList<>();
+        String query = "select * from form where status = ? and CategoryForm = '" + category + "'";
+        if (!tittle.isBlank()) {
+            query += " and TittleForm like '%" + tittle + "%'";
+        }
+        query += " ORDER BY DateCreate DESC LIMIT 4 OFFSET ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, pageCurrent * 4 - 4);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Form getForm;
+                getForm = new Form(rs.getInt("IdForm"), rs.getString("FullName"),
+                        rs.getString("TittleForm"), rs.getString("Content"),
+                        rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                        rs.getString("email"), rs.getInt("Status"), rs.getInt("isRead"),
+                        rs.getString("Phone"));
+                listForm.add(getForm);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listForm;
+    }
+
+    public int numberPageFormDong(String categoryId,String status) {
+        int numberPage = 0;
+        String query = "select COUNT(*) from form where status = ? and CategoryForm = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setString(2, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                numberPage = rs.getInt(1);
+            }
+            if (numberPage % 4 == 0) {
+                numberPage /= 4;
+            } else {
+                numberPage = (numberPage / 4) + 1;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return numberPage;
+    }
+
+    public int countFormDong(String idCategory) {
+        String query = "select count(*) from form where status = 1 and CategoryForm = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idCategory);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public int countFormNoReadDong(String idCategory) {
+        String query = "select count(*) from form where status = 1 and isRead = 0 and CategoryForm = " + idCategory;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public Form getFormByIdDong(String idForm) {
+        String query = "select * from form where IdForm = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idForm);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Form getForm = new Form(rs.getInt("IdForm"), rs.getString("FullName"),
+                        rs.getString("TittleForm"), rs.getString("Content"),
+                        rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                        rs.getString("email"), rs.getInt("Status"), rs.getInt("isRead"),
+                        rs.getString("Phone"));
+                return getForm;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public List<Form> getFormReplyDong(String idForm) {
+        List<Form> listFormReply = new ArrayList<>();
+        String query = "select * from form_reply where Status = 1 and IdForm = ? ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idForm);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Form formReply = new Form(rs.getInt("IdReply"), rs.getString("ContentReply"),
+                        rs.getDate("DateSend"), rs.getInt("Status"));
+                listFormReply.add(formReply);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listFormReply;
+    }
+
+    public List<Form> getFormSentDong(String categoryId, String search, int page) {
+    List<Form> listFormReply = new ArrayList<>();
+    String query = "SELECT DISTINCT f.IdForm, f.FullName, f.TittleForm, f.Content, f.DateCreate, f.DateModify, f.Email, f.Phone, f.Status, f.isRead " +
+                   "FROM form f " +
+                   "JOIN form_reply fr ON f.IdForm = fr.IdForm " +
+                   "WHERE f.CategoryForm = ?";
+
+    if (search != null && !search.isEmpty()) {
+        query += " AND f.TittleForm LIKE ?";
+    }
+    
+    int number = page * 4 - 4;
+    query += " ORDER BY f.DateCreate DESC LIMIT 4 OFFSET ?";
+
+    try (PreparedStatement ps = connection.prepareStatement(query)) {
+        ps.setString(1, categoryId);
+        
+        if (search != null && !search.isEmpty()) {
+            ps.setString(2, "%" + search + "%");
+            ps.setInt(3, number);
+        } else {
+            ps.setInt(2, number);
+        }
+
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Form getForm = new Form(rs.getInt("IdForm"), rs.getString("FullName"),
+                                        rs.getString("TittleForm"), rs.getString("Content"),
+                                        rs.getDate("DateCreate"), rs.getDate("DateModify"),
+                                        rs.getString("Email"), rs.getInt("Status"), rs.getInt("isRead"),
+                                        rs.getString("Phone"));
+                listFormReply.add(getForm);
+            }
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+    return listFormReply;
+}
     
     public HashMap<String, String> typeForm() {
         String query = "select * from Setting where IdType = 2 and IdForm is  null and Status = 1;";
@@ -35,6 +256,61 @@ public class FormDao extends DBContext {
         }
         return listType;
     }
+    public void readFormDong(String idForm) {
+        String query = " UPDATE form SET `isRead` = 1 WHERE `IdForm` = ?; ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idForm);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public int numberPageFormSent(String category) {
+        String query = "select  count(*) from (SELECT DISTINCT f.IdForm FROM form f JOIN form_reply fr\n"
+                + " ON f.IdForm = fr.IdForm WHERE f.CategoryForm = ?) as distinctForms";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int numberPage = rs.getInt(1);
+                if (numberPage % 4 == 0) {
+                    numberPage /= 4;
+                } else {
+                    numberPage = numberPage / 4 + 1;
+                }
+                return numberPage;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+     public void removeFormDong(String idForm) {
+        String query = "UPDATE form SET `Status` = 0 WHERE `IdForm` = ?;";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idForm);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+     public void insertFormReplyDong(String content, String idForm) {
+        String query = "INSERT INTO form_reply\n"
+                + "(`ContentReply`,`IdForm`)\n"
+                + "VALUES\n"
+                + "(?,?);";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, content);
+            ps.setString(2, idForm);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     
     public String getNameFormStudentManager(String idAcc) {
         String nameForm = "";

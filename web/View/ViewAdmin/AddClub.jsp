@@ -106,7 +106,7 @@
                 <div class="row">
                     <!-- Your Profile Views Chart -->
                     <div class="popUp" style="width: 500px;margin: 0px auto; border: solid 1px black">
-                        <form action="getClub" method="post" class="edit-profile m-b30">
+                        <form action="addClub" method="post" class="edit-profile m-b30">
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label class="col-form-label">Name Club</label>
@@ -122,20 +122,43 @@
                                         <p class="error-message">${errorPoint}</p>
                                     </div>
                                 </div>
-                                <div class="form-group col-12">
+                                <div class="form-group col-6">
                                     <label class="col-form-label">Date Create</label>
                                     <div>
                                         <input id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${dateCreate}">
                                         <p class="error-message">${errorDate}</p>
                                     </div>
                                 </div>
-                                <div class="form-group col-12">
-                                    <label class="col-form-label">Type Club</label>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Manager</label>
                                     <div >
-                                        <select id="typeClubForm" class="no" name="typeClub"
+                                        <select id="typeClubForm" class="form-control" name="accManager"
+                                                style="margin-right: 10px; height: 36px;">
+                                            <c:forEach var="listAccount" items="${listAccount}">
+                                                <option value="${listAccount.id}" ${listAccount.id eq accManager ? 'selected':''} >${listAccount.name}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <p class="error-message">${errorAccount}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6" >
+                                    <label class="col-form-label">Status</label>
+                                    <div>
+                                        Active <input id="dateCreateClub" name="status" 
+                                                      type="radio" ${status == 1 ? 'checked':''} value="1">
+                                        Unactive <input id="dateCreateClub" name="status" 
+                                                        type="radio" ${status == 0 ? 'checked':''} value="0">
+                                        <p class="error-message">${errorStatus}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Category Club</label>
+                                    <div >
+                                        <select id="typeClubForm" class="form-control" name="typeClub"
                                                 style="margin-right: 10px; height: 36px;">
                                             <c:forEach var="listType" items="${listType}">
-                                                <option value="${listType}" ${listType eq typeClub ? 'selected':''} >${listType}</option>
+                                                <option value="${listType.key}" ${listType.key eq typeClub ? 'selected':''} >${listType.value}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
@@ -143,7 +166,7 @@
                                 <input type="hidden" id="idClubForm" name="idClub">
                                 <div class="seperator"></div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn">Update Club</button>
+                                    <button type="submit" class="btn">Submit</button>
                                 </div>
                             </div>
                         </form> 
@@ -152,7 +175,7 @@
                 </div>
             </div>
             <div id="success-message" class="success-message hidden">
-                Delete successfully!
+                Add successfully!
             </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -180,28 +203,27 @@
                 $('[data-toggle="tooltip"]').tooltip();
             });
 
-
-
-            function removeForm(idForm) {
-                var element = document.getElementById("idForm" + idForm);
-                $.ajax({
-                    url: "/SWP391/getClub",
-                    type: "get", //send it through get method
-                    data: {
-                        idForm: idForm
-                    },
-                    success: function (response) {
-                        $('#success-message').removeClass('hidden');
-                        setTimeout(function () {
-                            $('#success-message').addClass('hidden');
-                        }, 1000);
-                        element.remove();
-                    },
-                    error: function (xhr) {
-                        //Do Something to handle error
-                    }
-                });
+            function showNotification() {
+                const notification = document.getElementById('success-message');
+                notification.style.display = 'block'; // Hiển thị thông báo
+                // Ẩn thông báo sau 2 giây (2000ms)
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
             }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('statusAdd') && urlParams.get('statusAdd') === 'success') {
+                // Hiển thị thông báo
+                showNotification();
+                urlParams.delete('statusAdd');
+                const newUrl = window.location.pathname + '?' + urlParams.toString();
+                // Cập nhật URL mà không tải lại trang
+                window.history.replaceState({}, document.title, newUrl);
+            }
+
+
+
 
         </script>
     </body>

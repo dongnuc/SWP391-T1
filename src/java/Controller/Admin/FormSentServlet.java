@@ -64,12 +64,31 @@ public class FormSentServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Accounts acc = (Accounts) session.getAttribute("curruser");
+        if(acc == null){
+            response.sendRedirect("home");
+        }
+        String search = request.getParameter("search");
+        if(search == null){
+            search = "";
+        }
         FormDao dao = new FormDao();
+        String pageRaw = request.getParameter("page");
+        int page = 0;
+        if(pageRaw == null){
+            page = 1;
+        }else{
+            page = Integer.parseInt(pageRaw);
+        }
         String idAcc = String.valueOf(acc.getId());
-        List<Form> getFormSent = dao.getFormSent();
-        
+        String categoryId = dao.getCategoryFormDong(idAcc);
+        List<Form> getFormSent = dao.getFormSentDong(categoryId,search,page);
+        int numberPageSent = dao.numberPageFormSent(categoryId);
+        request.setAttribute("pageCurrent", page);
+        request.setAttribute("pageSent", numberPageSent);
         request.setAttribute("listFormSent", getFormSent);
-        System.out.println(getFormSent.size());
+        int noRead = dao.countFormNoReadDong(categoryId);
+        request.setAttribute("noRead", noRead);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("View/ViewAdmin/FormSent.jsp").forward(request, response);
     }
 

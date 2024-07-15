@@ -60,18 +60,36 @@ public class SettingListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String idType = request.getParameter("idType");
-        String search = request.getParameter("nameSearch");
-        if(idType == null || idType.isEmpty()){
-            idType = "1";
+        String search = request.getParameter("search");
+        String pageRaw = request.getParameter("page");
+        String status = request.getParameter("status");
+        if(idType == null){
+            idType = "All";
         }
-        if(search == null || search.isBlank()){
+        if(search == null){
             search = "";
         }
+        int page = 0;
+        if(pageRaw == null){
+            page = 1;
+        }else{
+            page = Integer.parseInt(pageRaw);
+        }
+        if(status == null){
+            status = "1";
+        }        
         SettingDaoClass daoSet = new SettingDaoClass();
-        HashMap hashTypeSetting = daoSet.getAllTypeSetting();
+        HashMap hashTypeSetting = daoSet.getAllTypeSettingDong("1");
         SettingDaoClass daoSetting = new SettingDaoClass();
-        List<SettingSystem> listSetting = daoSetting.getAllSettingByType(idType,search);
-        request.setAttribute("nameSearch", search);
+        int numberPage = daoSetting.namePageSetting(idType, search, status);
+        System.out.println(numberPage);
+        List<SettingSystem> listSetting = daoSetting.getAllSettingDong(idType, search, status, page);
+        
+        System.out.println("numberPage: " + numberPage);
+        request.setAttribute("pageCurrent", page);
+        request.setAttribute("numberPage", numberPage);
+        request.setAttribute("status", status);
+        request.setAttribute("search", search);
         request.setAttribute("typeSetting", idType);
         request.setAttribute("listType", hashTypeSetting);
         request.setAttribute("listSetting", listSetting);

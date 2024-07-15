@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Admin;
 
 import DAO.FormDao;
@@ -22,36 +21,39 @@ import java.util.List;
  *
  * @author Admin
  */
-@WebServlet(name="FormDetailServlet", urlPatterns={"/formdetail"})
+@WebServlet(name = "FormDetailServlet", urlPatterns = {"/formdetail"})
 public class FormDetailServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FormDetailServlet</title>");  
+            out.println("<title>Servlet FormDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FormDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet FormDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,25 +61,30 @@ public class FormDetailServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        FormDao dao = new FormDao();
         HttpSession session = request.getSession();
         Accounts acc = (Accounts) session.getAttribute("curruser");
         String idAcc = String.valueOf(acc.getId());
         String idForm = request.getParameter("idForm");
-        FormDao dao = new FormDao();
-        Form getFormById = dao.getFormByID(idForm);
-        dao.readForm(idForm);
+        String categoryId = dao.getCategoryFormDong(idAcc);
+        System.out.println("category: " + categoryId);
+        Form getFormById = dao.getFormByIdDong(idForm);
+        dao.readFormDong(idForm);
         System.out.println(getFormById.getDateCreate());
-        int noRead = dao.countFormNoRead(idAcc);
-        List<Form> getFormReply = dao.getFormReply(idForm);
+        int noRead = dao.countFormNoReadDong(categoryId);
+        System.out.println(noRead);
+        List<Form> getFormReply = dao.getFormReplyDong(idForm);
         request.setAttribute("listReply", getFormReply);
         request.setAttribute("noRead", noRead);
         request.setAttribute("formDetail", getFormById);
+        System.out.println(getFormById.getFullName());
         request.getRequestDispatcher("View/ViewAdmin/MailDetail.jsp").forward(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -85,12 +92,13 @@ public class FormDetailServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

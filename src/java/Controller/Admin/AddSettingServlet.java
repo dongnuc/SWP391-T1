@@ -66,15 +66,9 @@ public class AddSettingServlet extends HttpServlet {
             throws ServletException, IOException {
         AccountDao daoAcc = new AccountDao();
         SettingDaoClass daoSet = new SettingDaoClass();
-        HashMap hashTypeSetting = daoSet.getAllTypeSetting();
-        List<String> listAccAssume = daoAcc.getAccAssumeForm();
-        List<Accounts> getAllAcc = new ArrayList<>();
-        for (int i = 0; i < listAccAssume.size(); i++) {
-            String idAcc = listAccAssume.get(i);
-            Accounts acc = daoAcc.getAccountByIdSetting(idAcc);
-            getAllAcc.add(acc);
-        }
-        request.setAttribute("listAccAss", getAllAcc);
+        HashMap hashTypeSetting = daoSet.getAllTypeSettingDong("1");
+        List<Accounts> listAccAssume = daoAcc.getAccManagerFormDong();
+        request.setAttribute("listAccAss", listAccAssume);
         request.setAttribute("listType", hashTypeSetting);
         request.getRequestDispatcher("View/ViewAdmin/AddSetting.jsp").forward(request, response);
     }
@@ -93,36 +87,51 @@ public class AddSettingServlet extends HttpServlet {
         AccountDao daoAcc = new AccountDao();
         Validation validationInput = new Validation();
         SettingDaoClass daoSetting = new SettingDaoClass();
+        HashMap hashTypeSetting = daoSetting.getAllTypeSettingDong("1");
+        List<Accounts> listAccAssume = daoAcc.getAccManagerFormDong();
+        int countError = 0;
         String nameSetting = request.getParameter("nameSetting");
-        String idType = request.getParameter("typeSetting");
+        String idTypeSetting = request.getParameter("typeSetting");
         String idAccount = "";
-        if (idType == "2") {
+        String checkName = validationInput.checkLength(nameSetting, 32);
+        if (!nameSetting.equals(checkName)) {
+                        countError++;
+            System.out.println("1");
+            request.setAttribute("errorName", checkName);
+        }
+        if (idTypeSetting.equals("2")) {
+            System.out.println("2");
             idAccount = request.getParameter("idAccAss");
         }
         String status = request.getParameter("status");
-        
-        String checkName = validationInput.checkLength(nameSetting, 32);
-        if (!checkName.equals(nameSetting) || status.isBlank() || status == null) {
-            HashMap hashTypeSetting = daoSetting.getAllTypeSetting();
-            List<String> listAccAssume = daoAcc.getAccAssumeForm();
-            List<Accounts> getAllAcc = new ArrayList<>();
-            for (int i = 0; i < listAccAssume.size(); i++) {
-                String idAcc = listAccAssume.get(i);
-                Accounts acc = daoAcc.getAccountByIdSetting(idAcc);
-                getAllAcc.add(acc);
-            }
+        if (status == null) {
+            System.out.println("3");
+            countError++;
+            request.setAttribute("errorStatus", "Please choose 1 option");
+        }
+        if (countError > 0) {
+            System.out.println("No");
+            String valueType = (String) hashTypeSetting.get(idTypeSetting);
+            request.setAttribute("accManager", idAccount);
+            request.setAttribute("status", status);
             request.setAttribute("nameSetting", nameSetting);
-            request.setAttribute("errorName", checkName);
-            request.setAttribute("idType", idType);
-            request.setAttribute("listAccAss", getAllAcc);
+            request.setAttribute("typeSetting", valueType);
+            request.setAttribute("listAccAss", listAccAssume);
             request.setAttribute("listType", hashTypeSetting);
             request.getRequestDispatcher("View/ViewAdmin/AddSetting.jsp").forward(request, response);
+        }else{
+            System.out.println("helo");
+            daoSetting.insertSettingDong(nameSetting, idTypeSetting, idAccount, status);
+            response.sendRedirect("addSetting?" +"&statusAdd=success");
         }
 
-        daoSetting.insertSetting(nameSetting, idType, "", "", "", idAccount, "", status);
-        response.sendRedirect("addSetting");
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     /**
      * Returns a short description of the servlet.
      *

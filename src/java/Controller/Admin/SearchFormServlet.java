@@ -62,15 +62,24 @@ public class SearchFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         Accounts acc = (Accounts) session.getAttribute("curruser");
         String idAcc = String.valueOf(acc.getId());
-       
-        PrintWriter out = response.getWriter();
+        String pageNumberRaw = request.getParameter("pageNumber");
+        int pageCurrent = 0;
+        if(pageNumberRaw == null){
+            pageCurrent = 1;
+        }else{
+            pageCurrent = Integer.parseInt(pageNumberRaw);
+        }
         String search = request.getParameter("search");
         FormDao dao = new FormDao();
-        List<Form> getFormSearch = dao.searchByTittleExist(search,idAcc);
-         int noRead = dao.countFormNoRead(idAcc);
+        String categoryId = dao.getCategoryFormDong(idAcc);
+        int numberPage = dao.numberPageFormDong("1",categoryId);
+        List<Form> getFormSearch = dao.getListFormDong(pageCurrent,categoryId, search, "1");
+         int noRead = dao.countFormNoReadDong(categoryId);
+         request.setAttribute("pageCurrent", pageCurrent);
+        request.setAttribute("numberPage", numberPage);
         request.setAttribute("noRead", noRead);
         request.setAttribute("namesearch", search);
         request.setAttribute("listForm", getFormSearch);

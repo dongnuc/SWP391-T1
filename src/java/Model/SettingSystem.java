@@ -45,6 +45,18 @@ public class SettingSystem {
         this.dateCreate = dateCreate;
         this.dateModify = dateModify;
     }
+
+    public SettingSystem(int idSetting, String nameSetting, String typeSetting, int idStudent, int status, Date dateCreate, Date dateModify) {
+        this.idSetting = idSetting;
+        this.nameSetting = nameSetting;
+        this.typeSetting = typeSetting;
+        this.idStudent = idStudent;
+        this.status = status;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+    }
+    
+    
     
     
 

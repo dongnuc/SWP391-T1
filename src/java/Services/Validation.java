@@ -4,6 +4,7 @@
  */
 package Services;
 
+import DAO.ClubDao;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -45,7 +46,19 @@ public class Validation {
             return "Số điện thoại không hợp lệ";
         }
     }
-
+ public String checkNameDong(String nameInput,int length){
+        String specialCharactersPattern = "[^a-zA-Z0-9 ]";
+        if (nameInput.isBlank() || nameInput == null) {
+            return "You must input here";
+        }
+        if (Pattern.compile(specialCharactersPattern).matcher(nameInput).find()) {
+            return "The input string contains special characters.";
+        }
+        if(nameInput.length() > length){
+            return "You must input shorter than" + length +  "characterics";
+        }
+        return nameInput;
+    }
     public String checkGmail2(String emailInput) {
         // Các đuôi email Gmail hợp lệ
         if (emailInput.isEmpty()) {
@@ -80,7 +93,14 @@ public class Validation {
             return "You must input with format YYYY-MM-DD";
         }
     }
-    
+    public boolean checkNameClubDuplicate(String name, String idClub){
+        ClubDao daoClub = new ClubDao();
+        if(daoClub.checkNameDuplicateDong(name, idClub)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
 
     public static void main(String[] args) {

@@ -87,7 +87,7 @@ public class ReplyFormServlet extends HttpServlet {
                 request.setAttribute("errorReply", checkLength);
                 request.getRequestDispatcher("formdetail?idForm=" + idForm).forward(request, response);
             } else {
-                Form getForm = daoForm.getFormByID(idForm);
+                Form getForm = daoForm.getFormByIdDong(idForm);
                 SendMail replyMail = new SendMail();
                 HttpSession session = request.getSession();
                 Accounts acc = (Accounts) session.getAttribute("curruser");
@@ -97,7 +97,7 @@ public class ReplyFormServlet extends HttpServlet {
                 Accounts accSendMail = daoAcc.getAccountByIdSetting(idAccountSetting);
                 replyMail.replyMailForm(tittleFormReply, contentReply, getForm.getEmail(),
                         accSendMail.getEmail(), accSendMail.getTokenEmail());
-                daoForm.insertFormReply(contentReply, idForm);
+                daoForm.insertFormReplyDong(contentReply, idForm);
                 response.sendRedirect("formdetail?idForm=" + idForm);
             }
         }

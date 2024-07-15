@@ -90,9 +90,6 @@
                         <div class="widget-box">
                             <div class="email-wrapper">
                                 <div class="email-menu-bar">
-                                    <div class="compose-mail">
-                                        <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
-                                    </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
                                             <li class=""><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
@@ -127,7 +124,7 @@
                                                 </div>
                                                 <div class="ml-auto send-mail-full-info">
                                                     <div class="time"><span>${formDetail.dateCreate}</span></div>
-                                                    <div class="dropdown all-msg-toolbar ml-auto">
+<!--                                                    <div class="dropdown all-msg-toolbar ml-auto">
                                                         <span class="btn btn-info-icon" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></span>
                                                         <ul class="dropdown-menu dropdown-menu-right">
                                                             <c:if test="${formDetail.status == 1}">
@@ -137,7 +134,7 @@
                                                                 <li><a href="#"><i class="fa fa-trash-o"></i> Recover</a></li>
                                                                 </c:if>
                                                         </ul>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                             </div>
                                             <div class="read-content-body">
@@ -165,7 +162,7 @@
                                                         </div>
                                                         <div class="ml-auto send-mail-full-info">
                                                             <div class="time"><span>${listReplyF.dateCreate}</span></div>
-                                                            <div class="dropdown all-msg-toolbar ml-auto">
+<!--                                                            <div class="dropdown all-msg-toolbar ml-auto">
                                                                 <span class="btn btn-info-icon" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></span>
                                                                 <ul class="dropdown-menu dropdown-menu-right">
                                                                     <c:if test="${formDetail.status == 1}">
@@ -175,7 +172,7 @@
                                                                         <li><a href="#"><i class="fa fa-trash-o"></i> Recover</a></li>
                                                                         </c:if>
                                                                 </ul>
-                                                            </div>
+                                                            </div>-->
                                                         </div>
                                                     </div>
                                                     <div class="read-content-body">

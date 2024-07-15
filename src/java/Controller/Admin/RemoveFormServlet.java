@@ -58,7 +58,7 @@ public class RemoveFormServlet extends HttpServlet {
     throws ServletException, IOException {
         String idForm = request.getParameter("idForm");
         FormDao dao = new FormDao();
-        dao.deleteFormById(idForm);
+        dao.removeFormDong(idForm);
         request.getRequestDispatcher("loadForm").forward(request, response);
     } 
 

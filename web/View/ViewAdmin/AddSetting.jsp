@@ -111,48 +111,45 @@
                                 <div class="form-group col-6">
                                     <label class="col-form-label">Setting Name</label>
                                     <div>
-                                        
+
                                         <input name="nameSetting" id="nameClub" class="form-control" type="text" value="${nameSetting}">
                                         <p class="error-message">${errorName}</p>
                                     </div>
                                 </div>
 
-                                <div class="form-group col-6" id="accAssume" style="display: block">
-                                    <label class="col-form-label">List Account Assume</label>
+
+                                <div class="form-group col-6" id="listAccManager" >
+                                    <label class="col-form-label">Accounts</label>
                                     <div>
-                                        <select class="form-control" name="idAccAss">
+                                        <select class="form-control" id="" name="idAccAss">
                                             <c:forEach var="listAcc" items="${listAccAss}">
-                                                <option value="${listAcc.id}">${listAcc.name}</option>
+                                                <option value="${listAcc.id}" ${listAcc.id eq accManager ? 'selected': ''}>${listAcc.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <p class="error-message">${errorPoint}</p>
                                     </div>
                                 </div>
-
-
 
                                 <div class="form-group col-12" >
                                     <label class="col-form-label">Status</label>
                                     <div>
                                         Active <input id="dateCreateClub" name="status" 
-                                                      type="radio" checked  value="1">
+                                                      type="radio" ${status == 1 ? 'checked':''} value="1">
                                         Unactive <input id="dateCreateClub" name="status" 
-                                                        type="radio"  value="0">
-                                        <p class="error-message">${errorDate}</p>
+                                                        type="radio" ${status == 0 ? 'checked':''} value="0">
+                                        <p class="error-message">${errorStatus}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-12">
                                     <label class="col-form-label">Setting Type</label>
                                     <div >
-                                        <select class="form-control" id="typeClubForm" class="no" name="typeSetting"
+                                        <select class="form-control" id="typeSettings" class="no" name="typeSetting"
                                                 style="margin-right: 10px; height: 36px;" onchange="changeTypeForm()">
                                             <c:forEach var="listType" items="${listType}">
-                                                <option value="${listType.value}">${listType.key}</option>
+                                                <option value="${listType.key}" ${listType.value eq typeSetting ? 'selected':''} >${listType.value}</option>
                                             </c:forEach>
                                         </select>
                                     </div>
                                 </div>
-                                <input type="hidden" id="idClubForm" name="idSetting" value="${setting.idSetting}">
                                 <div class="seperator"></div>
                                 <div class="col-12">
                                     <button type="submit" class="btn">Insert Setting</button>
@@ -164,7 +161,7 @@
                 </div>
             </div>
             <div id="success-message" class="success-message hidden">
-                Delete successfully!
+                Add successfully!
             </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -188,15 +185,23 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
+
                                                     $(document).ready(function () {
                                                         $('[data-toggle="tooltip"]').tooltip();
                                                     });
-
+                                                    function showNotification() {
+                                                        const notification = document.getElementById('success-message');
+                                                        notification.style.display = 'block'; // Hiển thị thông báo
+                                                        // Ẩn thông báo sau 2 giây (2000ms)
+                                                        setTimeout(() => {
+                                                            notification.style.display = 'none';
+                                                        }, 2000);
+                                                    }
 
 
                                                     function changeTypeForm() {
-                                                        var selectElement = document.getElementById("typeClubForm");
-                                                        var accAssumeElement = document.getElementById("accAssume");
+                                                        var selectElement = document.getElementById("typeSettings");
+                                                        var accAssumeElement = document.getElementById("listAccManager");
                                                         var value = selectElement.value;
                                                         console.log(value);
                                                         if (selectElement.value == "2") {
@@ -207,8 +212,20 @@
                                                             accAssumeElement.style.display = "none";
                                                         }
                                                     }
+                                                    
+                                                        const urlParams = new URLSearchParams(window.location.search);
+                                                        if (urlParams.has('statusAdd') && urlParams.get('statusAdd') === 'success') {
+                                                            // Hiển thị thông báo
+                                                            showNotification();
+                                                            urlParams.delete('statusAdd');
+                                                            const newUrl = window.location.pathname + '?' + urlParams.toString();
+                                                            // Cập nhật URL mà không tải lại trang
+                                                            window.history.replaceState({}, document.title, newUrl);
+                                                        }
 
-
+                                                        // Kiểm tra giá trị của select element khi trang được tải
+                                                       
+                                                    
 
 
 

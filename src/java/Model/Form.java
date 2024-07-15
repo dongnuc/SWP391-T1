@@ -32,6 +32,21 @@ public class Form {
         this.isRead = isRead;
     }
 
+    public Form(int idForm, String fullName, String titleForm, String contentForm, Date dateCreate, Date dateModify, String email, int status, int isRead, String phoneNumber) {
+        this.idForm = idForm;
+        this.fullName = fullName;
+        this.titleForm = titleForm;
+        this.contentForm = contentForm;
+        this.dateCreate = dateCreate;
+        this.dateModify = dateModify;
+        this.email = email;
+        this.status = status;
+        this.isRead = isRead;
+        this.phoneNumber = phoneNumber;
+    }
+    
+    
+
     public Form(int idForm, String contentForm, Date dateCreate, int status) {
         this.idForm = idForm;
         this.contentForm = contentForm;

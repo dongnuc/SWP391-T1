@@ -10,9 +10,9 @@ public class DBContext {
     
     public static Connection getConnection() {
         try {
-            String url = "jdbc:mysql://localhost:3306/swp391_f";
+            String url = "jdbc:mysql://localhost:3306/newsetting";
             String username = "root";
-            String password = "Hoang2004@";
+            String password = "123456";
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {
@@ -25,9 +25,9 @@ public class DBContext {
         try {
             // Edit URL , username, password to authenticate with your MS SQL Server
 
-            String url = "jdbc:mysql://localhost:3306/swp391_f";
+            String url = "jdbc:mysql://localhost:3306/newsetting";
             String username = "root";
-            String password = "Hoang2004@";
+            String password = "123456";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {

@@ -4,7 +4,10 @@
  */
 package Controller.Admin;
 
+import DAO.AccountDao;
 import DAO.SettingDaoClass;
+import Model.Accounts;
+import Model.SettingSystem;
 import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +16,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -63,44 +68,8 @@ public class UpdateSettingServlet extends HttpServlet {
         Validation validatonInput = new Validation();
         SettingDaoClass daoSetting = new SettingDaoClass();
         String status = request.getParameter("status");
-        String nameSetting = request.getParameter("nameSetting");
         String idSetting = request.getParameter("idSetting");
-        String idType = request.getParameter("idType");
-        String idForm = request.getParameter("idForm");
-        String idClub = request.getParameter("idClub");
-        String idBlog = request.getParameter("idBlog");
-        String idStudent = request.getParameter("idAccAss");
-        String idEvent = request.getParameter("idEvent");
-        if (nameSetting == null) {
-            nameSetting = "";
-        }
-        out.println(nameSetting);
-        if (idType == null) {
-            idType = "";
-        }
-        if (idForm == null) {
-            idForm = "";
-        }
-        if (idClub == null) {
-            idClub = "";
-        }
-        if (idBlog == null) {
-            idBlog = "";
-        }
-        if (idStudent == null) {
-            idStudent = "";
-        }
-        if (idEvent == null) {
-            idEvent = "";
-        }
-        String checkString = validatonInput.checkLength(nameSetting, 32);
-        if (!checkString.equals(nameSetting)) {
-            request.setAttribute("nameSetting", nameSetting);
-            request.setAttribute("errorName", checkString);
-            request.getRequestDispatcher("editSetting?idSetting=" + idSetting).forward(request, response);
-        }
-        daoSetting.updateSetting(nameSetting, idType, idForm, idClub, idBlog, idStudent, idEvent, status, idSetting);
-        response.sendRedirect("settingList");
+        daoSetting.updateSettingDong(idSetting, "", "", "", status);
     }
 
     /**
@@ -114,7 +83,55 @@ public class UpdateSettingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Validation validationInput = new Validation();
+        SettingDaoClass daoSetting = new SettingDaoClass();
+        AccountDao daoAcc = new AccountDao();
+        HashMap<String, String> hashTypeSetting = daoSetting.getAllTypeSettingDong("1");
+        String idSetting = request.getParameter("idSetting");
+        String nameSetting = request.getParameter("nameSetting");
+        String idTypeSetting = request.getParameter("typeSetting");
+        String status = request.getParameter("status");
+        String idAccountManager = request.getParameter("idAccAss");
+        if(idAccountManager == null){
+            idAccountManager = "";
+        }
+            
+        int countError = 0;
+        if (nameSetting == null) {
+            countError++;
+            request.setAttribute("errorName", "Name input is not empty");
+        }
+        String checkName = validationInput.checkNameDong(nameSetting, 50);
+        if (!nameSetting.equals(checkName)) {
+            countError++;
+            request.setAttribute("errorName", checkName);
+        } 
+        if (status == null) {
+            countError++;
+            request.setAttribute("errorSatus", "Please choose 1 option");
+        }
+        String valueType = (String) hashTypeSetting.get(idTypeSetting);
+        if (valueType.equals("Type Form")) {
+            // get All account has role = 1
+            List<Accounts> getAllAcc = daoAcc.getAccManagerFormDong();
+            request.setAttribute("accManager", idAccountManager);
+            request.setAttribute("listAccAss", getAllAcc);
+        }
+        SettingSystem getGetting = daoSetting.getSettingByIdDong(idSetting);
+        request.setAttribute("status", status);
+        request.setAttribute("listType", hashTypeSetting);
+        request.setAttribute("typeSetting", valueType);
+        request.setAttribute("dateCreate", getGetting.getDateCreate());
+        request.setAttribute("dateModify", getGetting.getDateModify());
+        System.out.println(getGetting.getDateCreate());
+        if (countError > 0) {
+            request.setAttribute("nameSetting", nameSetting);
+            request.getRequestDispatcher("View/ViewAdmin/EditSetting.jsp").forward(request, response);
+        } else {
+            daoSetting.updateSettingDong(idSetting, nameSetting, idTypeSetting, idAccountManager, status);
+            response.sendRedirect("editSetting?idSetting=" + idSetting + "&statusUpdate=success");
+        }
+
     }
 
     /**

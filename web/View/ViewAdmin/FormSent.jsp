@@ -106,9 +106,6 @@
                         <div class="widget-box">
                             <div class="email-wrapper">
                                 <div class="email-menu-bar">
-                                    <div class="compose-mail">
-                                        <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
-                                    </div>
                                     <div class="email-menu-bar-inner">
                                         <ul>
                                             <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
@@ -127,20 +124,22 @@
                                     <div class="mail-toolbar">
 
                                         <div class="mail-search-bar">
-                                            <form action="searchForm" style="display: flex;">
-                                                <input type="text" name="search" value="${namesearch}" class="form-control"
+                                            <form action="formSent" style="display: flex;">
+                                                <input type="text" name="search" value="${search}" class="form-control"
                                                        placeholder="Search by content"
                                                        style="font-size: 16px;"/>    
                                                 <input type="submit" value="Search"
                                                        style="margin-left: 10px;
                                                        padding: 0px 12px;">
                                             </form>
-
                                         </div>
-
                                         <div class="next-prev-btn">
-                                            <a href="#"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                                            <c:if test="${pageCurrent > 1}">
+                                                <a href="#"><i class="fa fa-angle-left"></i></a>
+                                                </c:if>
+                                                <c:if test="${pageSent - pageCurrent > 0}">
+                                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                                                </c:if>
                                         </div>
                                     </div>
                                     <div class="mail-box-list" id="mail-box-list">

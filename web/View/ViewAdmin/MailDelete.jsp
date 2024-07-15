@@ -84,9 +84,7 @@
                         <div class="widget-box">
                             <div class="email-wrapper">
                                 <div class="email-menu-bar">
-                                    <div class="compose-mail">
-                                        <a href="mailbox-compose.html" class="btn btn-block">Compose</a>
-                                    </div>
+                                    
                                     <div class="email-menu-bar-inner">
                                         <ul>
                                             <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
@@ -103,11 +101,10 @@
                                 <div class="mail-list-container">
                                     <div class="mail-toolbar">
 
-                                        <div class="mail-search-bar">
-                                            <input type="text" class="form-control" placeholder="Search"/>
-                                        </div>
+                                        
 
                                         <div class="next-prev-btn">
+                                            
                                             <a href="#"><i class="fa fa-angle-left"></i></a>
                                             <a href="#"><i class="fa fa-angle-right"></i></a>
                                         </div>
@@ -125,7 +122,9 @@
                                                     <span><i class="fa fa-star-o"></i></span>
                                                 </div>
                                                 <div class="mail-list-title">
-                                                    <a href="formdetail?idForm=${listformdelete.idForm}"><h6>${listformdelete.fullName}</h6></a>
+                                                    <a href="formdetail?idForm=${listformdelete.idForm}">
+                                                        <span>${listform.fullName}</span>
+                                                    </a>
                                                 </div>
                                                 <div class="mail-list-title-info">
                                                     <p>${listformdelete.titleForm}</p>

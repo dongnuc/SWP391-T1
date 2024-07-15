@@ -5,8 +5,13 @@
 
 package Controller.Admin;
 
+import DAO.AccountDao;
 import DAO.ClubDao;
+import DAO.FormDao;
+import DAO.SettingDaoClass;
+import Model.Accounts;
 import Model.Clubs;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +20,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,11 +64,30 @@ public class DashBoardServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        ClubDao dao = new ClubDao();
-        List<Clubs> getAllClub = dao.getClubAll();
+    throws ServletException, IOException {        
         HttpSession session = request.getSession();
-        session.setAttribute("listClub", getAllClub);
+        SettingDaoClass daoSetting = new SettingDaoClass();
+        Accounts acc =(Accounts) session.getAttribute("curruser");  
+        FormDao daoForm = new FormDao();
+        String category = daoForm.getCategoryFormDong(String.valueOf(acc.getId()));
+        
+        AccountDao daoAcc = new AccountDao();
+        ClubDao daoClub = new ClubDao();
+        int numberForm = daoForm.countFormDong(category);
+        int numberAcc = daoAcc.countStudentDong();
+        int numberClub = daoClub.countNumberClubDong();
+        int numberClubRes = daoClub.countNumberClubResDong();
+        int numberStudentGroup = daoClub.countStudentNoClubDong();
+        
+        List<Accounts> listAccNew = daoAcc.get5AccountDong();
+        HashMap<String,String> listStudentClub = daoClub.countStudentInClubDong();
+        request.setAttribute("numberForm", numberForm);
+        request.setAttribute("listAccNew", listAccNew);
+        request.setAttribute("listStudentClub", listStudentClub);
+        request.setAttribute("numberStudentGroup", numberStudentGroup);
+        request.setAttribute("numberClubRes", numberClubRes);
+        request.setAttribute("numberClub", numberClub);
+        request.setAttribute("numberAcc", numberAcc);
        request.getRequestDispatcher("View/ViewAdmin/Dashboard.jsp").forward(request, response);
     } 
 

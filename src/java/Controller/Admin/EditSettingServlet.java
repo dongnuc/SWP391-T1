@@ -67,25 +67,22 @@ public class EditSettingServlet extends HttpServlet {
         SettingDaoClass daoSet = new SettingDaoClass();
         String idSetting = request.getParameter("idSetting");
         AccountDao daoAcc = new AccountDao();
-        SettingSystem getGetting = daoSet.getSettingById(idSetting);
-        System.out.println(getGetting);
-        HashMap hashTypeSetting = daoSet.getAllTypeSetting();
+        SettingSystem getGetting = daoSet.getSettingByIdDong(idSetting);
+        HashMap hashTypeSetting = daoSet.getAllTypeSettingDong("1");
         String typeForm = getGetting.getTypeSetting();
+        System.out.println(typeForm);
         if (typeForm.equals("Type Form")) {
-            List<String> listAccAssume = daoAcc.getAccAssumeForm();
-            List<Accounts> getAllAcc = new ArrayList<>();
-            for (int i = 0; i < listAccAssume.size(); i++) {
-                String idAcc = listAccAssume.get(i);
-                Accounts acc = daoAcc.getAccountByIdSetting(idAcc);
-                getAllAcc.add(acc);
-            }
-            Accounts getAcc = daoAcc.getAccountByIdSetting(idSetting);
-            request.setAttribute("listAccAss", getAllAcc);
-            System.out.println(getAllAcc.get(0).getName());
-            request.setAttribute("accAss", getAcc);
+            // get All account has role = 1
+            List<Accounts> getAllAcc = daoAcc.getAccManagerFormDong();                       
+            request.setAttribute("listAccAss", getAllAcc);                    
         }
-
-        request.setAttribute("setting", getGetting);
+        request.setAttribute("idSetting", getGetting.getIdSetting());
+        request.setAttribute("nameSetting", getGetting.getNameSetting());
+        request.setAttribute("dateCreate", getGetting.getDateCreate());
+        request.setAttribute("dateModify", getGetting.getDateModify());
+        request.setAttribute("typeSetting", getGetting.getTypeSetting());
+        request.setAttribute("status", getGetting.getStatus());
+        request.setAttribute("accManager", getGetting.getIdStudent());
         request.setAttribute("listType", hashTypeSetting);
         request.getRequestDispatcher("View/ViewAdmin/EditSetting.jsp").forward(request, response);
     }

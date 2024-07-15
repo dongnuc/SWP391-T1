@@ -99,7 +99,7 @@
 
                         <c:if test="${sessionScope.account!=null}">
                             <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
-                                            <img src="${accountprofile.image != null ? accountprofile.image : 'images/avatar.png'}" alt="">
+                                <img src="${accountprofile.image != null ? accountprofile.image : 'images/avatar.png'}" alt="">
                                 <div class="profile-info" id="profile-info">
                                     <h6>${sessionScope.account}</h6>
                                     <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
@@ -115,27 +115,27 @@
                                     <c:if test="${sessionScope.role == 0}">
                                         <a href="#" id="change-password-link">My Club</a><br>
                                     </c:if>
-<%
-Accounts acc1 = (Accounts) session.getAttribute("curruser");
-if (acc1 != null) {
-StudentClubDAO studentClubDAO = new StudentClubDAO();
-List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(acc1.getId());
+                                    <%
+                                    Accounts acc1 = (Accounts) session.getAttribute("curruser");
+                                    if (acc1 != null) {
+                                    StudentClubDAO studentClubDAO = new StudentClubDAO();
+                                    List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(acc1.getId());
 
-boolean dashboardPrinted = false;
+                                    boolean dashboardPrinted = false;
 
-for (StudentClub studentClub : StudentClubListt) {
-if ( studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
-if (!dashboardPrinted) {
-    dashboardPrinted = true;
-                        %>
-                       <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
-                        <%
+                                    for (StudentClub studentClub : StudentClubListt) {
+                                    if ( studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
+                                    if (!dashboardPrinted) {
+                                        dashboardPrinted = true;
+                                    %>
+                                    <a href="<%= request.getContextPath() %>/ManagerDashBoardServlet" >Dash board Manager </a><br>
+                                    <%
+                                                }
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                        }
-                        %>
-                        <c:if test="${sessionScope.role == 0}">
+                                    %>
+                                    <c:if test="${sessionScope.role == 0}">
                                         <a href="<%= request.getContextPath() %>/MyRegistration" id="change-password-link">My Registration</a><br>
                                     </c:if>
                                     <a href="logout" id="logout-link">Log Out</a>
@@ -164,6 +164,8 @@ if (!dashboardPrinted) {
                         <li><a href="Home.jsp">Home</a></li>
                         <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogListServlet">Blog</a></li>
+                        <li><a href="<%= request.getContextPath() %>/contactus">ContactUs</a></li>
+
                         <li><a href="PublicClubs">Clubs</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>

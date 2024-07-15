@@ -79,7 +79,7 @@
                             <a href="RegisterclubAdmin" class="ttr-material-button"><span class="ttr-label">Register Club</span></a>
                         </li>
                         <li>
-                            <a href="ClubController" class="ttr-material-button"><span class="ttr-label">List Clubs</span></a>
+                            <a href="managerClub" class="ttr-material-button"><span class="ttr-label">List Clubs</span></a>
                         </li>
                 
                     </ul>

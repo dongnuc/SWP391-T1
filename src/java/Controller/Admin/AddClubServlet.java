@@ -6,8 +6,10 @@ package Controller.Admin;
 
 import DAO.AccountDao;
 import DAO.ClubDao;
+import DAO.SettingDaoClass;
 import Model.Accounts;
 import Model.Clubs;
+import Model.SettingSystem;
 import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,8 +26,8 @@ import java.util.List;
  *
  * @author Admin
  */
-@WebServlet(name = "UpdateClubServlet", urlPatterns = {"/updateClub"})
-public class UpdateClubServlet extends HttpServlet {
+@WebServlet(name = "AddClubServlet", urlPatterns = {"/addClub"})
+public class AddClubServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +46,10 @@ public class UpdateClubServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateClubServlet</title>");
+            out.println("<title>Servlet AddClubServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UpdateClubServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddClubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,32 +67,22 @@ public class UpdateClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
+        AccountDao daoAccount = new AccountDao();
+        // list Account manager
+        List<Accounts> listManager = new ArrayList<>();
         ClubDao dao = new ClubDao();
         String idClub = request.getParameter("idClub");
-        String nameClub = request.getParameter("nameClub");
-        String pointClub = request.getParameter("points");
-        String typeClub = request.getParameter("typeClub");
-        String status = request.getParameter("status");
-//        out.println("Before: " + status);
-        if (nameClub == null) {
-            nameClub = "";
+        Clubs getClub = dao.getClubByIdDong(idClub);
+        HashMap<String, String> listCategoryClub = dao.getAllCategoryClubDong("1");
+        // list id manager
+        List<String> listAccountManager = daoAccount.getListManagerClubDong("Manager");
+        for (String idAcc : listAccountManager) {
+            Accounts getAcc = daoAccount.getAccountByIdDong(idAcc);
+            listManager.add(getAcc);
         }
-        if (pointClub == null) {
-            pointClub = "";
-        }
-        if (typeClub == null) {
-            typeClub = "";
-        }
-        out.println(idClub);
-        out.println(nameClub);
-        out.println(pointClub);
-        out.println(typeClub);
-
-//        out.println(status);
-        dao.updateClubDong(idClub, nameClub, pointClub, typeClub, status);
-//        request.getRequestDispatcher("managerClub").forward(request, response);
-//        response.sendRedirect("managerClub");
+        request.setAttribute("listAccount", listManager);
+        request.setAttribute("listType", listCategoryClub);
+        request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
     }
 
     /**
@@ -114,9 +106,10 @@ public class UpdateClubServlet extends HttpServlet {
         String idClub = request.getParameter("idClub");
         String nameClub = request.getParameter("nameClub");
         String pointClub = request.getParameter("points");
+        String dateCreate = request.getParameter("dateCreate");
         String typeClub = request.getParameter("typeClub");
         String status = request.getParameter("status");
-        String idAccount = request.getParameter("idAccount");
+        String idAccount = request.getParameter("accManager");
         List<String> listAccountManager = daoAccount.getListManagerClubDong("Manager");
         for (String idAcc : listAccountManager) {
             Accounts getAcc = daoAccount.getAccountByIdDong(idAcc);
@@ -124,6 +117,7 @@ public class UpdateClubServlet extends HttpServlet {
         }
         String checkNameClub = validation.checkLength(nameClub, 32);
         int error = 0;
+        //check name start
         if (!checkNameClub.equals(nameClub)) {
             error++;
             request.setAttribute("errorName", checkNameClub);
@@ -133,44 +127,58 @@ public class UpdateClubServlet extends HttpServlet {
             error++;
             request.setAttribute("errorName", "Name CLub is exist");
         }
+//        check name end
+//          points
         System.out.println("No point" + pointClub);
         if (pointClub.isBlank()) {
             error++;
             request.setAttribute("errorPoint", "Points is not empty");
         } else {
             try {
-                int points = Integer.parseInt("pointClub");
+                int points = Integer.parseInt(pointClub);
+                System.out.println("pointPare: " + points);
                 if (points > 1000 || points < 0) {
                     request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
                 }
             } catch (Exception e) {
-                request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
+                request.setAttribute("errorPoint", "1Points must be a positive number and < 1000");
             }
         }
+        //date create
+        String checkDate = validation.checkDate(dateCreate);
+        if(dateCreate == null || !dateCreate.equals(checkDate)){
+            request.setAttribute("errorDate", checkDate);
+        }
+        
+        //acc
+        if(idAccount == null){
+            error++;
+            request.setAttribute("errorAccount", "You must choose 1 option");
+        }
+        
+        //status
         if (status == null) {
             error++;
             request.setAttribute("errorStatus", "Please choose 1 option");
         }
+        System.out.println(idAccount);
         request.setAttribute("nameClub", nameClub);
         request.setAttribute("status", status);
         request.setAttribute("listType", listCategoryClub);
         request.setAttribute("listAccount", listManager);
         request.setAttribute("typeClub", typeClub);
+        System.out.println(typeClub);
+        request.setAttribute("accManager", idAccount);
         if (error > 0) {
-            System.out.println("idClub: " + idClub);
-            Clubs getClub = dao.getClubByIdDong(idClub);
-            request.setAttribute("idClub", getClub.getClub());
-            request.setAttribute("dateCreate", getClub.getDatecreate());
-            request.setAttribute("dateModify", getClub.getModify());
+            request.setAttribute("dateCreate", dateCreate);
             request.setAttribute("points", pointClub);
-            request.getRequestDispatcher("View/ViewAdmin/EditClub.jsp").forward(request, response);
+            request.getRequestDispatcher("View/ViewAdmin/AddClub.jsp").forward(request, response);
         } else {
             //        out.println(status);
-            dao.updateClubDong(idClub, nameClub, pointClub, typeClub, status);
-//        request.getRequestDispatcher("managerClub").forward(request, response);
-            response.sendRedirect("getClub?idClub=" + idClub + "&statusUpdate=success");
+//            dao.updateClubDong(idClub, nameClub, pointClub, typeClub, status);
+                dao.insertClubDong(nameClub, pointClub, dateCreate, idAccount, typeClub, status);
+            response.sendRedirect("addClub?"+ "&statusAdd=success");
         }
-
     }
 
     /**

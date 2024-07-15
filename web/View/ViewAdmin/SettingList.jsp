@@ -167,7 +167,42 @@
                 top: 10px;
                 right: 10px;
             }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 500px;
+            }
 
+            /* Close button */
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .modalForm{
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgb(0,0,0);
+                background-color: rgba(0,0,0,0.4);
+                padding-top: 60px;
+            }
         </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
@@ -205,15 +240,21 @@
                             <form action="settingList">
                                 <div class="card-body">
                                     <div class="data-option">
-                                        <input name="nameSearch" type="text" value="${nameSearch}" placeholder="Search name here">
+                                        <input name="search" type="text" value="${search}" placeholder="Search name here">
                                         <div class="select-role" >
                                             <select class="no" name="idType"
                                                     style="margin-right: 10px; height: 36px;"
                                                     onchange="return this.closest('form').submit()" >
-
+                                                <option value="All" ${listType.value eq typeSetting ? 'selected' : ''} >All</option>
                                                 <c:forEach var="listType" items="${listType}">
-                                                    <option value="${listType.value}" ${listType.value eq typeSetting ? 'selected' : ''} >${listType.key}</option>
+                                                    <option value="${listType.key}" ${listType.key eq typeSetting ? 'selected' : ''} >${listType.value}</option>
                                                 </c:forEach>
+                                            </select>
+                                            <select class="no" name="status"
+                                                    style="margin-right: 10px; height: 36px;"
+                                                    onchange="return this.closest('form').submit()" >
+                                                <option value="1" ${status eq '1' ? 'selected':''}>Active</option>
+                                                <option value="0" ${status eq '0' ? 'selected':''}>Inactive</option>
                                             </select>
                                         </div>
                                         <input type="submit" value="Search" >
@@ -231,35 +272,34 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:set var="idSetting" value="1"/>
+
                                             <c:forEach var="listSetting" items="${listSetting}">
                                                 <tr>
-                                                    <td>${idSetting}</td>
+                                                    <td>${listSetting.idSetting}</td>
                                                     <td>${listSetting.nameSetting}</td>                                                    
                                                     <td>${listSetting.typeSetting}</td>
                                                     <c:if test="${listSetting.status != 1}">
-                                                        <td>Unactive</td>
+                                                        <td>Inactive</td>
                                                     </c:if>
 
                                                     <c:if test="${listSetting.status == 1}">
                                                         <td>Active</td>
                                                     </c:if>
                                                     <td>       
-
-                                                        <a href="editSetting?idSetting=${listSetting.idSetting}"
-                                                           style="margin-right: 5px"><i class="fa fa-edit">Edit</i></a>
-
+                                                        <button type="button" onclick="editSetting(${listSetting.idSetting})" style="border: none;"><i class="fa fa-edit">Edit</i></button>
                                                         <c:if test="${listSetting.status == 1}">
-                                                            <a href="updateSetting?idSetting=${listSetting.idSetting}&status=0"
-                                                               style="margin-right: 5px"><i class="fa fa-trash-o"> Unactive</i></a>
+                                                            <button id="confirmButton" type="button" onclick="showConfirmationModal(${listSetting.idSetting},${listSetting.status})" style="border: none;">
+                                                                <i class="fa fa-edit">Inactive</i>
+                                                            </button>
                                                         </c:if>
 
                                                         <c:if test="${listSetting.status != 1}">
-                                                            <a href="updateSetting?idSetting=${listSetting.idSetting}&status=1"
-                                                               style="margin-right: 5px"><i class="fa fa-trash-o"> Active</i></a>
+                                                            <button id="confirmButton" type="button" onclick="showConfirmationModal(${listSetting.idSetting},${listSetting.status})" style="border: none;">
+                                                                <i class="fa fa-edit">Active</i>
+                                                            </button>
                                                         </c:if>
                                                     </td>
-                                                    <c:set var="idSetting" value="${idSetting + 1}"/>
+
                                                 </c:forEach>
 
                                             </tr>
@@ -272,40 +312,48 @@
                                                 <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
                                                     <c:if test="${pageCurrent>1}">
                                                         <li class="page-item"><a class="page-link" 
-                                                                                 href="managerClub?page=${pageCurrent - 1}&nameSearch=${nameSearch}&option=${option}"
+                                                                                 href="settingList?page=${pageCurrent - 1}&search=${search}&status=${status}&idType=${typeSetting}"
                                                                                  aria-label="Previous">Prev</a></li>
                                                         </c:if>
                                                         <c:if test="${numberPage-pageCurrent>=1}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&option=${status}">
+                                                                                 href="settingList?page=${pageCurrent + 1}&search=${search}&status=${status}&idType=${typeSetting}">
                                                                 ${pageCurrent+1}</a></li>
                                                             </c:if>
                                                             <c:if test="${numberPage - pageCurrent>=2}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 2}&nameSearch=${nameSearch}&option=${status}">
+                                                                                 href="settingList?page=${pageCurrent + 2}&search=${search}&status=${status}&idType=${typeSetting}">
                                                                 ${pageCurrent+2}</a></li>
                                                             </c:if>
                                                             <c:if test="${pageCurrent < numberPage}">
                                                         <li class="page-item"><a class="page-link"
-                                                                                 href="managerClub?page=${pageCurrent + 1}&nameSearch=${nameSearch}&option=${option}"
+                                                                                 href="settingList?page=${pageCurrent + 1}&search=${search}&status=${status}&idType=${typeSetting}"
                                                                                  aria-label="Next">Next</a></li>
                                                         </c:if>
-
-
                                                 </ul>
                                             </div>
                                         </div><!--end col
                                         <!-- PAGINATION END -->
                                     </div><!--end row-->        
-
+                                    <div id="confirmationModal" class="modalForm" >
+                                        <div class="modal-content">
+                                            <span class="close" onclick="closeModal()">&times;</span>
+                                            <p>Are you sure you want to perform this action?</p>
+                                            <button type="button" onclick="confirmAction()">Yes</button>
+                                            <button type="button" onclick="closeModal()">Cancel</button>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </form>
 
                         </div>
 
                     </div>
                 </div>
+
             </div>
+
         </main>
 
         <div class="overlay"></div>
@@ -332,57 +380,55 @@
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
         <script>
-                                                        function openFormEdit(idClub) {
-                                                            var popUpForm = document.getElementsByClassName("popUp")[0];
-                                                            var overLay = document.getElementsByClassName("overlay")[0];
-                                                            var optionsClub = document.getElementById("typeClubForm");
-                                                            var optionClubValue = optionsClub.options;
+                                                var confirmButton = document.getElementById("confirmButton");
+                                                function editSetting(idSetting) {
 
-                                                            console.log(idClub);
-                                                            popUpForm.style.display = "block";
-                                                            overLay.style.display = "block";
+                                                    var hrefEdit = "http://localhost:9999/SWP391/editSetting?idSetting=" + idSetting;
+                                                    window.location.href = hrefEdit;
+                                                }
+                                                function showConfirmationModal(idSetting, status) {
+                                                    console.log(idSetting);
+                                                    console.log(status)
+                                                    var modal = document.getElementById("confirmationModal");
+                                                    confirmButton.setAttribute("data-idSetting", idSetting);
+                                                    confirmButton.setAttribute("data-status", status);
+                                                    modal.style.display = "block";
+                                                }
+                                                function closeModal() {
+                                                    var modal = document.getElementById("confirmationModal");
+                                                    modal.style.display = "none";
+                                                }
+                                                function confirmAction() {
+                                                    var idsetting = confirmButton.getAttribute("data-idSetting");
+                                                    var statusRaw = confirmButton.getAttribute("data-status");
+                                                    changeStatus(idsetting, statusRaw);
+                                                    closeModal();
+                                                }
 
-                                                            $.ajax({
-                                                                url: "/SWP391/getClub",
-                                                                type: "get", //send it through get method
-                                                                data: {
-                                                                    idClub: idClub
-                                                                },
-                                                                success: function (response) {
-                                                                    console.log(response);
-                                                                    var lines = response.split("\n");
-                                                                    var nameClub = lines[0];
-                                                                    var points = lines[1];
-                                                                    var typeClub = lines[2];
-                                                                    var dateCreate = lines[3];
-                                                                    var dateModify = lines[4];
-                                                                    $('#idClubForm').val(idClub);
-                                                                    $('#nameClub').val(nameClub);
-                                                                    $('#pointsClub').val(points);
-                                                                    $('#dateCreateClub').val(dateCreate);
-                                                                    $('#dateModifyClub').val(dateModify);
-                                                                    console.log(typeClub);
-                                                                    for (var i = 0; i < optionClubValue.length; i++) {
-                                                                        console.log(optionClubValue[i].value);
-                                                                        var testSelected = optionClubValue[i].value + "\r";
-                                                                        if (testSelected == typeClub) {
-                                                                            console.log("selected");
-                                                                            optionClubValue[i].selected = true;
-                                                                        }
+                                                function changeStatus(idsetting, status) {
+                                                    var statusUpdate;
 
-                                                                    }
-                                                                },
-                                                                error: function (xhr) {
-                                                                    //Do Something to handle error
-                                                                }
-                                                            });
+                                                    if (status == 1) {
+                                                        statusUpdate = 0;
+                                                    } else {
+                                                        statusUpdate = 1;
+                                                    }
+
+                                                    $.ajax({
+                                                        url: "/SWP391/updateSetting",
+                                                        type: "get", //send it through get method
+                                                        data: {
+                                                            idSetting: idsetting,
+                                                            status: statusUpdate
+                                                        },
+                                                        success: function (response) {
+                                                            location.reload();
+                                                        },
+                                                        error: function (xhr) {
+                                                            //Do Something to handle error
                                                         }
-                                                        function closeFormEdit() {
-                                                            var popUpForm = document.getElementsByClassName("popUp")[0];
-                                                            var overLay = document.getElementsByClassName("overlay")[0];
-                                                            popUpForm.style.display = "none";
-                                                            overLay.style.display = "none";
-                                                        }
+                                                    });
+                                                }
 
 
         </script>

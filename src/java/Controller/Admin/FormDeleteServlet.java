@@ -62,11 +62,18 @@ public class FormDeleteServlet extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession();
         Accounts acc = (Accounts) session.getAttribute("curruser");
-        String idAcc = String.valueOf(acc.getId());
-       
+        String idAcc = String.valueOf(acc.getId());   
+        String pageRaw = request.getParameter("page");
+        int page = 0;
+        if(pageRaw == null){
+            page = 1;
+        }else{
+            page = Integer.parseInt(pageRaw);
+        }
         FormDao dao = new FormDao();
-        List<Form> getFormDelete = dao.getAllFormByAcc(idAcc, 0);
-          int noRead = dao.countFormNoRead(idAcc);
+        String categoryId = dao.getCategoryFormDong(idAcc);
+        List<Form> getFormDelete = dao.getListFormDong(page,categoryId, "", "0");
+        int noRead = dao.countFormNoReadDong(categoryId);
         request.setAttribute("noRead", noRead);
         request.setAttribute("listFormDelete", getFormDelete);
         request.getRequestDispatcher("View/ViewAdmin/MailDelete.jsp").forward(request, response);

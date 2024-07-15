@@ -142,6 +142,7 @@
                         <li><a href="Home.jsp">Home</a></li>
                         <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
+                        <li><a href="<%= request.getContextPath() %>/contactus">ContactUs</a></li>
                         <li><a href="PublicClubs">Clubs</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>

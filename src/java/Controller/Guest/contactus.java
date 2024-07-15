@@ -5,10 +5,14 @@
 
 package Controller.Guest;
 
+import DAO.AccountDao;
 import DAO.ClubDao;
 import DAO.FormDao;
+import DAO.SettingDaoClass;
 import Model.Accounts;
 import Model.Clubs;
+import Model.SettingSystem;
+import Services.SendMail;
 import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +30,7 @@ import java.util.List;
  * @author 84358
  */
 @WebServlet(name="contactus", urlPatterns={"/contactus"})
-public class Contactus extends HttpServlet {
+public class contactus extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -64,9 +68,9 @@ public class Contactus extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
          FormDao dao = new FormDao();
-        HashMap<String, String> typeForm = dao.typeForm();
+        HashMap<String, String> typeForm = dao.getCategoryFormCDong();
         request.setAttribute("listType", typeForm);
-        request.getRequestDispatcher("View/ViewStudent/ContactUs.jsp").forward(request, response);       
+        request.getRequestDispatcher("View/ViewStudent/ContactUs.jsp").forward(request, response);
     } 
 
     /** 
@@ -79,9 +83,12 @@ public class Contactus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-         FormDao dao = new FormDao();
+         SettingDaoClass settingDao = new SettingDaoClass();      
+        AccountDao accountDao = new AccountDao();
+        FormDao dao = new FormDao();
+        SendMail sendMail = new SendMail();
         HttpSession session = request.getSession();
-        HashMap<String, String> listtypeForm = dao.typeForm();
+        HashMap<String, String> listtypeForm = dao.getCategoryFormCDong();
         request.setAttribute("listType", listtypeForm);
         Validation validationInput = new Validation();
         String fullName = request.getParameter("name");
@@ -89,19 +96,16 @@ public class Contactus extends HttpServlet {
         String phone = request.getParameter("phone");
         String typeForm = request.getParameter("typeForm");
         String tittle = request.getParameter("tittle");
-        String content = request.getParameter("content");
-        Accounts acc = (Accounts) session.getAttribute("acc");
+        String content = request.getParameter("content");       
         int countError = 0;
-        String checkFullName = validationInput.checkLength(fullName, 32);
+        String checkFullName = validationInput.checkNameDong(fullName, 32);
         String checkEmail = validationInput.checkGmail2(email);
 
         if (!checkFullName.equals(fullName)) {
-
             request.setAttribute("errorName", checkFullName);
             countError++;
         }
         if (!checkEmail.equals(email)) {
-
             request.setAttribute("errorEmail", checkEmail);
             countError++;
         }
@@ -122,10 +126,8 @@ public class Contactus extends HttpServlet {
         String checkContent = validationInput.checkLength(content, 1000);
         if (!checkContent.equals(content)) {
             request.setAttribute("errorContent", checkContent);
-
             countError++;
         }
-
         if (countError > 0) {
             request.setAttribute("fullname", fullName);
             request.setAttribute("email", email);
@@ -133,18 +135,20 @@ public class Contactus extends HttpServlet {
             request.setAttribute("tittle", tittle);
             request.setAttribute("content", content);
             request.getRequestDispatcher("View/ViewStudent/ContactUs.jsp").forward(request, response);
-        } else {
-            dao.insertForm(fullName, tittle, content, email, phone);
-            String idStudent = null;
-            if (acc != null) {
-                try {
-                    idStudent = String.valueOf(acc.getId());
-                } catch (Exception e) {
-                }
-            }
-            String nameForm = listtypeForm.get(typeForm);
-            dao.insertSettingForm(nameForm, idStudent);
-            response.sendRedirect("Home.jsp");
+        } else {    
+            SettingSystem settingSystem = settingDao.getSettingByIdDong(typeForm);
+            String idAccount = String.valueOf(settingSystem.getIdStudent());
+            Accounts getAccount = accountDao.getAccountByIdDong(idAccount);
+            System.out.println(typeForm);
+            System.out.println(settingSystem.getIdStudent());
+            System.out.println(idAccount);
+            System.out.println(getAccount);
+            String contentAll = content + "\nContact other: " + phone;
+            String emailSend = "huytestnguyen@gmail.com";
+            String tokenEmailSend = "rcjmvvsweiaeuwdt";
+            sendMail.replyMailForm("Feedback from user", "You have a feed with tittle: " + tittle, getAccount.getEmail(), emailSend, tokenEmailSend);
+            dao.insertFormDong(fullName, tittle, content, email, phone, typeForm);
+            response.sendRedirect("contactus?" + "&contact=success");
         }
     }
 

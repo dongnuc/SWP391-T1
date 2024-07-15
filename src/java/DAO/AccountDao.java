@@ -17,6 +17,108 @@ import java.util.List;
  * @author 84358
  */
 public class AccountDao extends DBContext{
+    
+     public int countStudentDong(){
+        String query = "select count(*) from student where status = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 1;
+    }
+    
+    public List<Accounts> get5AccountDong(){
+        List<Accounts> listAcc = new ArrayList<>();
+        String query = "select * from student where status = 1 order by DateCreate DESC limit 5 offset 0";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                listAcc.add(new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getString("Email"), rs.getString("password"),
+                        rs.getString("Phone"), rs.getInt("status"), rs.getInt("Role"),
+                        rs.getString("TokenEmail")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listAcc;
+    }
+
+    public List<String> getListManagerClubDong(String role) {
+        List<String> listManger = new ArrayList<>();
+        String query = "select distinct sc.IdStudent from studentclub sc join settings ss"
+                + " on sc.Role = ss.idSetting where ss.valueSetting = '" + role + "' and sc.status = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listManger.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listManger;
+    }
+
+    public Accounts getAccountManagerByIdClubDong(String idClub) {
+        String query = "select distinct sc.IdStudent from studentclub sc join settings ss\n"
+                + " on sc.Role = ss.idSetting where ss.valueSetting = 'Manager' and sc.IdClub = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return getAccountByIdDong(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Accounts getAccountByIdDong(String idAccount) {
+        String query = "select * from student where status = 1 and  IdStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idAccount);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getString("Email"), rs.getString("password"),
+                        rs.getString("Phone"), rs.getInt("status"), rs.getInt("Role"),
+                        rs.getString("TokenEmail"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public List<Accounts> getAccManagerFormDong() {
+        List<Accounts> listAccounts = new ArrayList<>();
+        String query = "select * from student where status = 1 and Role = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listAccounts.add(new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getString("Email"), rs.getString("password"),
+                        rs.getString("Phone"), rs.getInt("Status"),
+                        rs.getInt("Role"), rs.getString("TokenEmail")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listAccounts;
+    }
+    
+    
     public  Accounts getAccount(String email) {
         Accounts c=new Accounts();
         String sql = "select *from Student where email = '"+email+"'";
