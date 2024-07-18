@@ -241,17 +241,17 @@
     </header>
     <!-- header end -->
     <!-- Left sidebar menu start -->
-    <jsp:include page="LeftSideBar.jsp"/>
+    <jsp:include page="Sidebar.jsp"/>
     <!-- Left sidebar menu end -->
 
     <!--Main container start -->
     <main class="ttr-wrapper">
         <div class="container-fluid">
             <div class="db-breadcrumb">
-                <h4 class="breadcrumb-title">Student In Club</h4>
+                <h4 class="breadcrumb-title">Club Student Registration </h4>
                 <ul class="db-breadcrumb-list">
                     <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="ClubStudentRegistrationAdminServlet?id=${param.id}"><i class="fa fa-home"></i>Student In Club</a></li>
+                    <li><a href="ClubStudentRegistrationAdminServlet?id=${param.id}"><i class="fa fa-home"></i>Club Student Registration</a></li>
                 </ul>
             </div>	
             <div class="row">

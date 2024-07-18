@@ -75,173 +75,10 @@
 <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
     <!-- header start -->
-    <header class="ttr-header">
-        <div class="ttr-header-wrapper">
-            <!--sidebar menu toggler start -->
-            <div class="ttr-toggle-sidebar ttr-material-button">
-                <i class="ti-close ttr-open-icon"></i>
-                <i class="ti-menu ttr-close-icon"></i>
-            </div>
-            <!--sidebar menu toggler end -->
-            <!--logo start -->
-            <div class="ttr-logo-box">
-                <div>
-                    <a href="index.html" class="ttr-logo">
-                        <img alt="" class="ttr-logo-mobile" src="assets/images/logo-mobile.png" width="30" height="30">
-                        <img alt="" class="ttr-logo-desktop" src="assets/images/logo-white.png" width="160" height="27">
-                    </a>
-                </div>
-            </div>
-            <!--logo end -->
-            <div class="ttr-header-menu">
-                <!-- header left menu start -->
-                <ul class="ttr-header-navigation">
-                    <li>
-                        <a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
-                    </li>
-                    <li>
-                        <a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
-                        <div class="ttr-header-submenu">
-                            <ul>
-                                <li><a href="../courses.html">Our Courses</a></li>
-                                <li><a href="../event.html">New Event</a></li>
-                                <li><a href="../membership.html">Membership</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-                <!-- header left menu end -->
-            </div>
-            <div class="ttr-header-right ttr-with-seperator">
-                <!-- header right menu start -->
-                <ul class="ttr-header-navigation">
-                    <li>
-                        <a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-                    </li>
-                    <li>
-                        <a href="#" class="ttr-material-button ttr-submenu-toggle"><i class="fa fa-bell"></i></a>
-                        <div class="ttr-header-submenu noti-menu">
-                            <div class="ttr-notify-header">
-                                <span class="ttr-notify-text-top">9 New</span>
-                                <span class="ttr-notify-text">User Notifications</span>
-                            </div>
-                            <div class="noti-box-list">
-                                <ul>
-                                    <li>
-                                        <span class="notification-icon dashbg-gray">
-                                            <i class="fa fa-check"></i>
-                                        </span>
-                                        <span class="notification-text">
-                                            <span>Sneha Jogi</span> sent you a message.
-                                        </span>
-                                        <span class="notification-time">
-                                            <a href="#" class="fa fa-close"></a>
-                                            <span> 02:14</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="notification-icon dashbg-yellow">
-                                            <i class="fa fa-shopping-cart"></i>
-                                        </span>
-                                        <span class="notification-text">
-                                            <a href="#">Your order is placed</a> sent you a message.
-                                        </span>
-                                        <span class="notification-time">
-                                            <a href="#" class="fa fa-close"></a>
-                                            <span> 7 Min</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="notification-icon dashbg-red">
-                                            <i class="fa fa-bullhorn"></i>
-                                        </span>
-                                        <span class="notification-text">
-                                            <span>Your item is shipped</span> sent you a message.
-                                        </span>
-                                        <span class="notification-time">
-                                            <a href="#" class="fa fa-close"></a>
-                                            <span> 2 May</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="notification-icon dashbg-green">
-                                            <i class="fa fa-comments-o"></i>
-                                        </span>
-                                        <span class="notification-text">
-                                            <a href="#">Sneha Jogi</a> sent you a message.
-                                        </span>
-                                        <span class="notification-time">
-                                            <a href="#" class="fa fa-close"></a>
-                                            <span> 14 July</span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="notification-icon dashbg-primary">
-                                            <i class="fa fa-file-word-o"></i>
-                                        </span>
-                                        <span class="notification-text">
-                                            <span>Sneha Jogi</span> sent you a message.
-                                        </span>
-                                        <span class="notification-time">
-                                            <a href="#" class="fa fa-close"></a>
-                                            <span> 15 Min</span>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
-                        <div class="ttr-header-submenu">
-                            <ul>
-                                <li><a href="user-profile.html">My profile</a></li>
-                                <li><a href="list-view-calendar.html">Activity</a></li>
-                                <li><a href="mailbox.html">Messages</a></li>
-                                <li><a href="../login.html">Logout</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="ttr-hide-on-mobile">
-                        <a href="#" class="ttr-material-button"><i class="ti-layout-grid3-alt"></i></a>
-                        <div class="ttr-header-submenu ttr-extra-menu">
-                            <a href="#">
-                                <i class="fa fa-music"></i>
-                                <span>Musics</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-youtube-play"></i>
-                                <span>Videos</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-envelope"></i>
-                                <span>Emails</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-book"></i>
-                                <span>Reports</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-smile-o"></i>
-                                <span>Persons</span>
-                            </a>
-                            <a href="#">
-                                <i class="fa fa-picture-o"></i>
-                                <span>Pictures</span>
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                <!-- header right menu end -->
-            </div>
-            <!--header search panel start -->
-
-            <!--header search panel end -->
-        </div>
-    </header>
+  <jsp:include page="Navigation.jsp"/>
     <!-- header end -->
     <!-- Left sidebar menu start -->
-    <jsp:include page="LeftSideBar.jsp"/>
+    <jsp:include page="Sidebar.jsp"/>
     <!-- Left sidebar menu end -->
 
     <!--Main container start -->
@@ -338,23 +175,23 @@
                                     <tr>
                                         <td>${club.getNamebyId()}</td>
                                         <td>${club.getPoint()}</td>
-                                        <td>${club. getRolebyID()}</td>
+                                        <td>${club.getRolebyID()}</td>
                                         <td>${club.getPosition()}</td>
                                         <td>${club.getDatecreate()}</td>
                                         <td>
                                             <c:if test="${club.getStatus()==1}">
-                                                <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdclub()}&&idstudent=${club.getIdstudent()}')" style="margin-right: 5px">
+                                                <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdClub()}&&idstudent=${club.getIdStudent()}')" style="margin-right: 5px">
                                                     <i class="fa fa-check"></i> Action
                                                 </a>
                                             </c:if>
                                             <c:if test="${club.getStatus()==0}">
-                                                <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdclub()}&&idstudent=${club.getIdstudent()}')" style="margin-right: 5px">
+                                                <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdClub()}&&idstudent=${club.getIdStudent()}')" style="margin-right: 5px">
                                                     <i class="fa fa-times"></i> Inaction
                                                 </a>
                                             </c:if>
                                         </td>
                                         <td>
-                                            <a href="javascript:void(0)" onclick="openPopup('UpdateStudentClubServlet?idclub=${club.getIdclub()}&&idstudent=${club.getIdstudent()}')">
+                                            <a href="javascript:void(0)" onclick="openPopup('UpdateStudentClubServlet?idclub=${club.getIdClub()}&&idstudent=${club.getIdStudent()}')">
                                                 <i class="fa fa-pencil"></i> Edit
                                             </a>
                                         </td>
@@ -366,7 +203,7 @@
                         <div class="col-lg-12 m-b20">
                             <div class="pagination-bx rounded-sm gray clearfix">
                                 <ul class="pagination">
-                                    <c:if test="${requestScope.role!=null}">
+                                    <c:if test="${requestScope.role!=0}">
                                         <li class="previous"><a href="SelectStudentbyRoleServlet?id=${param.id}&&role=${role}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
 
                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
@@ -396,7 +233,7 @@
                                         <li class="next"><a href="SelectStudentbyPositionServlet?id=${param.id}&&leader=${leader}&&page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
                                             </c:if>
                                         
-                                <c:if test="${requestScope.leader==null&&requestScope.role==null&&requestScope.leader==null&&requestScope.leader==null&&requestScope.search==null}">
+                                <c:if test="${requestScope.leader==null&&requestScope.role==0&&requestScope.leader==null&&requestScope.leader==null&&requestScope.search==null}">
                                         <li class="previous"><a href="StudentClubServlet?id=${param.id}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
 
                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
@@ -480,13 +317,11 @@
             background-color: white;
             border: 1px solid #ccc;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
-            z-index: 1001; /* Higher than the overlay */
+            z-index: 1001;
         }
-
         .popup-container.show {
             display: block;
         }
-
         .popup-close-btn {
             position: absolute;
             top: 10px;
@@ -501,13 +336,11 @@
             line-height: 25px;
             cursor: pointer;
         }
-
         .popup-content {
             width: 100%;
             height: 100%;
             border: none;
         }
-
         .overlay {
             display: none;
             position: fixed;
@@ -515,13 +348,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* Gray background with 50% opacity */
-            z-index: 1000; /* Lower than the popup */
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
         }
-
         .overlay.show {
             display: block;
         }
+        
 
         /* Existing styles */
     </style>
@@ -530,13 +363,13 @@
         function openPopup(url) {
             document.getElementById('popupContent').src = url;
             document.getElementById('popup').classList.add('show');
-            document.getElementById('overlay').classList.add('show'); // Add this line
+            document.getElementById('overlay').classList.add('show');
         }
 
         function closePopup() {
             document.getElementById('popup').classList.remove('show');
             document.getElementById('popupContent').src = '';
-            document.getElementById('overlay').classList.remove('show'); // Add this line
+            document.getElementById('overlay').classList.remove('show');
         }
     </script>
     <script>
@@ -548,6 +381,9 @@
 
     <!--      
     <!-- External JavaScripts -->
+    
+    <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/bootstrap.min.js"></script>
+
     <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap/js/popper.min.js"></script>
     <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/bootstrap/js/bootstrap.min.js"></script>

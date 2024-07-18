@@ -4,11 +4,9 @@
  */
 package Controller.Manager;
 
-import DAO.ClubDao;
 import DAO.StudentClubDao;
 import Model.Accounts;
 import Model.StudentClub;
-import com.google.gson.Gson;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,32 +26,44 @@ public class Manager_DashBoardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        List<StudentClub> StudentClubList = null;
+        boolean restricted = true;
+        int id = 0;
         HttpSession session = request.getSession();
-        Accounts acc = (Accounts) session.getAttribute("curruser");
-        if (acc == null) {
-            response.sendRedirect("loginf");
+        if (session.getAttribute("id") != null) {
+            id = (int) session.getAttribute("id");
         } else {
-            ClubDao daoClub = new ClubDao();
-            int idClubInt = daoClub.getClubManagerByIdAccDong(String.valueOf(acc.getId()));
-            String idClub = String.valueOf(idClubInt);
-            System.out.println(idClub);
-            int numberMemeber = daoClub.countStudentInClubDong(idClub);
-            int numberBlog = daoClub.countBlogInClubDong(idClub);
-            int numberEvent = daoClub.countEventInClubDong(idClub);
-            HashMap<String, String> listRoleNumber = daoClub.numberRoleInClubDong(idClub);
-            List<Accounts> listNewAcc = daoClub.getAccountsNewInClub(idClub);
-            System.out.println(listRoleNumber);
-            Gson gson = new Gson();
-            String jsonData = gson.toJson(listRoleNumber);
-            request.setAttribute("listAcc", listNewAcc);
-            System.out.println(listNewAcc.size());
-            request.setAttribute("chartData", jsonData);
-            request.setAttribute("numberEvent", numberEvent);
-            request.setAttribute("numberBlog", numberBlog);
-            request.setAttribute("numberMemeber", numberMemeber);
-            request.getRequestDispatcher("/View/ViewManager/Manager_DashBoard.jsp").forward(request, response);
-
+            response.sendRedirect("loginf");
+            return;
         }
+        StudentClubDao studentClubDAO = new StudentClubDao();
+        StudentClubList = studentClubDAO.getStudentClubs(id);
+        int idclub = 0;
+        
+        for (StudentClub studentClub : StudentClubList) {
+            if (studentClub.getStatus() == 1 && studentClub.getLeader()== 1) {
+                idclub =studentClub.getIdClub();
+            }
+        }
+        if (acc != null) {
+            StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
+
+            for (StudentClub studentClub : StudentClubList) {
+                if (studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
+                    restricted = false;
+                    break;
+                }
+            }
+        }
+
+        if (restricted) {
+            response.sendRedirect(request.getContextPath() + "/View/ViewManager/404.html");
+            return;
+        }
+
+        request.setAttribute("id", idclub);
+        request.getRequestDispatcher("/View/ViewManager/Manager_DashBoard.jsp").forward(request, response);
     }
 
     @Override

@@ -72,7 +72,7 @@
 
             <div class="col-xl-8">
                 
-                        <form action="UpdateStudentClubServlet?idclub=${student.getIdclub()}&&idstudent=${student.getIdstudent()}" method="post">
+                        <form action="UpdateStudentClubServlet?idclub=${student.getIdClub()}&&idstudent=${student.getIdStudent()}" method="post">
                             <input type="hidden" value="${club.getClub()}" name="id"/>
                             <!-- Form Group (username)-->
 

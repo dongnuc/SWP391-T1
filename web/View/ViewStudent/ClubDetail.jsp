@@ -130,7 +130,7 @@
                             <li><a href="#">Home</a></li>
                             <li>Club Details</li>
                             <li><c:if test="${sessionScope.id eq acc.id}">
-                                    <a href="EventUploadServlet">Student Recruitment Event</a>
+                                    <a href="EventClubStudentRegistrationServlet?id=${param.id}">Student Recruitment Event</a>
                                 </c:if></li>
                         </ul>
                     </div>
@@ -210,10 +210,10 @@
                                                 <div class="cours-bx">
                                                     <div class="action-box">
                                                         <img src="${event.getImage()}" style="width: 350px;height: 350px">
-                                                        <a href=# class="btn">Read More</a>
+                                                        <a href="EventDetailServlet?idEvent=${event.getIdEvent()}" class="btn">Read More</a>
                                                     </div>
                                                     <div class="info-bx text-center" style="text-align: right;height: 90px;">
-                                                        <h5><a href="#">${event.getNameEvent()}</a></h5>
+                                                        <h5><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
                                                         <span style="text-align: left;"> </span>
                                                     </div>
 
@@ -235,7 +235,7 @@
                                                     <div class="blog-container">
                                                         <img src="${blog.getImage()}"  class="blog-image">
                                                         <div class="blog-details">
-                                                            <h6 class="blog-title"><a href="#">${blog.getTitleBlog()}</a></h6>
+                                                            <h6 class="blog-title"><a href="UploadContentBlog?idBlog=${blog.getIdBlog()}">${blog.getTitleBlog()}</a></h6>
                                                             <p class="blog-date">Date Created: ${blog.getDateCreate()}</p>
                                                             <p class="blog-description">${blog.getDescription()}</p>
                                                         </div>

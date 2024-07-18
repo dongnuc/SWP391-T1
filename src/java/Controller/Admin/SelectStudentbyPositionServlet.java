@@ -71,6 +71,7 @@ public class SelectStudentbyPositionServlet extends HttpServlet {
             request.setAttribute("list", list);
             request.setAttribute("search", null);
             request.setAttribute("leader", leader);
+            request.setAttribute("role", 0);
             request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getCountStudentClubbyLeader(id, leader) * 1.0 / 10));
         request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
        }

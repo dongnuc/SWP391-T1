@@ -76,6 +76,7 @@ public class SearchStudentClubNameServlet extends HttpServlet {
         }
           request.setAttribute("search", searchQuery);
            request.setAttribute("list", list);
+           request.setAttribute("role", 0);
             request.setAttribute("numberOfPage", (int) Math.ceil(stdao.countSearchStudentName(id, searchQuery, pageNumber) * 1.0 / 10));
         request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
          }

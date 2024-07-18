@@ -67,7 +67,139 @@
         <jsp:include page="HeaderAdmin.jsp"/>
         <!-- header end -->
         <!-- Left sidebar menu start -->
-        <jsp:include page="Sidebar.jsp"/>
+  	<div class="ttr-sidebar">
+    <div class="ttr-sidebar">
+    <div class="ttr-sidebar-wrapper content-scroll">
+        <!-- side menu logo start -->
+        <div class="ttr-sidebar-logo">
+            <a href="#"><img alt="" src="${pageContext.request.contextPath}/assets_admin/images/logo.png" width="122" height="27"></a>
+            <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
+                    <i class="material-icons ttr-fixed-icon">gps_fixed</i>
+                    <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
+            </div> -->
+            <div class="ttr-sidebar-toggle-button">
+                <i class="ti-arrow-left"></i>
+            </div>
+        </div>
+        <!-- side menu logo end -->
+        <!-- sidebar menu start -->
+        <nav class="ttr-sidebar-navi">
+            <ul>
+                <li>
+                    <a href="<c:url value='/ManagerDashBoardServlet' />"" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-home"></i></span>
+                        <span class="ttr-label">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">Blog</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<c:url value='/UploadServlet' />" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                <span class="ttr-label">Blog Upload</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<c:url value='/BlogPostListServlet' />" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                <span class="ttr-label">Post List</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">Event</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                <span class="ttr-label">Event Upload</span>
+                            </a>
+                        </li>
+                        <!--					<li>
+                                                                        <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                                                                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                                                <span class="ttr-label">Event Upload</span>
+                                                        </a>
+                                                    </li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="bookmark.html" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-bookmark-alt"></i></span>
+                        <span class="ttr-label">Bookmarks</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="review.html" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-comments"></i></span>
+                        <span class="ttr-label">Review</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-listing.html" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
+                        <span class="ttr-label">Add listing</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-book"></i></span>
+                        <span class="ttr-label">Event</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                <span class="ttr-label">Event Upload</span>
+                            </a>
+                        </li>
+                        
+                        <!--
+                        <li>
+                                                                        <a href="<c:url value='/EventUploadServlet' />" class="ttr-material-button">
+                                                                                <span class="ttr-icon"><i class="ti-book"></i></span>
+                                                                <span class="ttr-label">Event Upload</span>
+                                                        </a>
+                                                    </li>-->
+                    </ul>
+                </li>
+                <li>
+                    <a href="#" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-calendar"></i></span>
+                        <span class="ttr-label">Clubs</span>
+                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                        
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="StudentClubServlet?id=${id}" class="ttr-material-button"><span class="ttr-label">Student in Club</span></a>
+                        </li>
+                        <li>
+                            <a href="ClubStudentRegistrationAdminServlet?id=${id}" class="ttr-material-button"><span class="ttr-label">Club Student Registration</span></a>
+                        </li>
+                
+                    </ul>
+                </li>
+                
+                <li class="ttr-seperate"></li>
+            </ul>
+            <!-- sidebar menu end -->
+        </nav>
+        <!-- sidebar menu end -->
+    </div>
+</div>
+</div>
         <!-- Left sidebar menu end -->
 
         <!--Main container start -->
@@ -86,17 +218,25 @@
                         <div class="widget-card widget-bg1">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    Memeber
+                                    Total Frofit
                                 </h4>
                                 <span class="wc-des">
                                     All Customs Value
                                 </span>
                                 <span class="wc-stats">
-                                    <span class="counter">${numberMemeber}</span>
+                                    $<span class="counter">18</span>M 
                                 </span>		
-                                <div class="wc-item">
-                                    <a class="" href="listaccount" style="color: #F0F0F0;">View All</a>
+                                <div class="progress wc-progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 78%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                <span class="wc-progress-bx">
+                                    <span class="wc-change">
+                                        Change
+                                    </span>
+                                    <span class="wc-number ml-auto">
+                                        78%
+                                    </span>
+                                </span>
                             </div>				      
                         </div>
                     </div>
@@ -104,17 +244,25 @@
                         <div class="widget-card widget-bg2">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    Blogs
+                                    New Feedbacks
                                 </h4>
                                 <span class="wc-des">
-                                    All Customs Value
+                                    Customer Review
                                 </span>
-                                <span class="wc-stats">
-                                    <span class="counter">${numberBlog}</span>
+                                <span class="wc-stats counter">
+                                    120 
                                 </span>		
-                                <div class="wc-item">
-                                    <a class="" href="BlogPostListServlet" style="color: #F0F0F0;">View All</a>
+                                <div class="progress wc-progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 88%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                <span class="wc-progress-bx">
+                                    <span class="wc-change">
+                                        Change
+                                    </span>
+                                    <span class="wc-number ml-auto">
+                                        88%
+                                    </span>
+                                </span>
                             </div>				      
                         </div>
                     </div>
@@ -122,17 +270,25 @@
                         <div class="widget-card widget-bg3">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    Event
+                                    New Orders 
                                 </h4>
                                 <span class="wc-des">
-                                    All Customs Value
+                                    Fresh Order Amount 
                                 </span>
-                                <span class="wc-stats">
-                                    <span class="counter">${numberEvent}</span>
+                                <span class="wc-stats counter">
+                                    772 
                                 </span>		
-                                <div class="wc-item">
-                                    <a class="" href="EventPostListServlet" style="color: #F0F0F0;">View All</a>
+                                <div class="progress wc-progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
+                                <span class="wc-progress-bx">
+                                    <span class="wc-change">
+                                        Change
+                                    </span>
+                                    <span class="wc-number ml-auto">
+                                        65%
+                                    </span>
+                                </span>
                             </div>				      
                         </div>
                     </div>
@@ -140,18 +296,26 @@
                         <div class="widget-card widget-bg4">					 
                             <div class="wc-item">
                                 <h4 class="wc-title">
-                                    Form Feedback
+                                    New Users 
                                 </h4>
                                 <span class="wc-des">
-                                    All Customs Value
+                                    Joined New User
                                 </span>
-                                <span class="wc-stats">
-                                    <span class="counter">${numberForm}</span>
+                                <span class="wc-stats counter">
+                                    350 
                                 </span>		
-                                <div class="wc-item">
-                                    <a class="" href="loadForm" style="color: #F0F0F0;">View All</a>
+                                <div class="progress wc-progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
-                            </div>			      
+                                <span class="wc-progress-bx">
+                                    <span class="wc-change">
+                                        Change
+                                    </span>
+                                    <span class="wc-number ml-auto">
+                                        90%
+                                    </span>
+                                </span>
+                            </div>				      
                         </div>
                     </div>
                 </div>
@@ -161,16 +325,88 @@
                     <div class="col-lg-8 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Role Member</h4>
+                                <h4>Your Profile Views</h4>
                             </div>
                             <div class="widget-inner">
-                                <canvas id="myPieChart" width="100" height="45"></canvas>
+                                <canvas id="chart" width="100" height="45"></canvas>
                             </div>
                         </div>
                     </div>
                     <!-- Your Profile Views Chart END-->
-
                     <div class="col-lg-4 m-b30">
+                        <div class="widget-box">
+                            <div class="wc-title">
+                                <h4>Notifications</h4>
+                            </div>
+                            <div class="widget-inner">
+                                <div class="noti-box-list">
+                                    <ul>
+                                        <li>
+                                            <span class="notification-icon dashbg-gray">
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                            <span class="notification-text">
+                                                <span>Sneha Jogi</span> sent you a message.
+                                            </span>
+                                            <span class="notification-time">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <span> 02:14</span>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="notification-icon dashbg-yellow">
+                                                <i class="fa fa-shopping-cart"></i>
+                                            </span>
+                                            <span class="notification-text">
+                                                <a href="#">Your order is placed</a> sent you a message.
+                                            </span>
+                                            <span class="notification-time">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <span> 7 Min</span>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="notification-icon dashbg-red">
+                                                <i class="fa fa-bullhorn"></i>
+                                            </span>
+                                            <span class="notification-text">
+                                                <span>Your item is shipped</span> sent you a message.
+                                            </span>
+                                            <span class="notification-time">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <span> 2 May</span>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="notification-icon dashbg-green">
+                                                <i class="fa fa-comments-o"></i>
+                                            </span>
+                                            <span class="notification-text">
+                                                <a href="#">Sneha Jogi</a> sent you a message.
+                                            </span>
+                                            <span class="notification-time">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <span> 14 July</span>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="notification-icon dashbg-primary">
+                                                <i class="fa fa-file-word-o"></i>
+                                            </span>
+                                            <span class="notification-text">
+                                                <span>Sneha Jogi</span> sent you a message.
+                                            </span>
+                                            <span class="notification-time">
+                                                <a href="#" class="fa fa-close"></a>
+                                                <span> 15 Min</span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
                                 <h4>New Users</h4>
@@ -178,29 +414,139 @@
                             <div class="widget-inner">
                                 <div class="new-user-list">
                                     <ul>
-                                        <c:forEach var="listAcc" items="${listAcc}">
-                                            <li>
-                                                <span class="new-users-pic">
-                                                    <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic1.jpg" alt=""/>
-                                                </span>
-                                                <span class="new-users-text">
-                                                    <a href="#" class="new-users-name">${listAcc.name}</a>
-                                                    <span class="new-users-info">${listAcc.roleClub}</span>
-                                                </span>
-                                                <span class="new-users-btn">
-                                                    <a href="#" class="btn button-sm outline">Follow</a>
-                                                </span>
-                                            </li>
-                                        </c:forEach>
-
-
+                                        <li>
+                                            <span class="new-users-pic">
+                                                <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic1.jpg" alt=""/>
+                                            </span>
+                                            <span class="new-users-text">
+                                                <a href="#" class="new-users-name">Anna Strong </a>
+                                                <span class="new-users-info">Visual Designer,Google Inc </span>
+                                            </span>
+                                            <span class="new-users-btn">
+                                                <a href="#" class="btn button-sm outline">Follow</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="new-users-pic">
+                                                <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic2.jpg" alt=""/>
+                                            </span>
+                                            <span class="new-users-text">
+                                                <a href="#" class="new-users-name"> Milano Esco </a>
+                                                <span class="new-users-info">Product Designer, Apple Inc </span>
+                                            </span>
+                                            <span class="new-users-btn">
+                                                <a href="#" class="btn button-sm outline">Follow</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="new-users-pic">
+                                                <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic1.jpg" alt=""/>
+                                            </span>
+                                            <span class="new-users-text">
+                                                <a href="#" class="new-users-name">Nick Bold  </a>
+                                                <span class="new-users-info">Web Developer, Facebook Inc </span>
+                                            </span>
+                                            <span class="new-users-btn">
+                                                <a href="#" class="btn button-sm outline">Follow</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="new-users-pic">
+                                                <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic2.jpg" alt=""/>
+                                            </span>
+                                            <span class="new-users-text">
+                                                <a href="#" class="new-users-name">Wiltor Delton </a>
+                                                <span class="new-users-info">Project Manager, Amazon Inc </span>
+                                            </span>
+                                            <span class="new-users-btn">
+                                                <a href="#" class="btn button-sm outline">Follow</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="new-users-pic">
+                                                <img src="${pageContext.request.contextPath}/assets_admin/images/testimonials/pic3.jpg" alt=""/>
+                                            </span>
+                                            <span class="new-users-text">
+                                                <a href="#" class="new-users-name">Nick Stone </a>
+                                                <span class="new-users-info">Project Manager, Amazon Inc  </span>
+                                            </span>
+                                            <span class="new-users-btn">
+                                                <a href="#" class="btn button-sm outline">Follow</a>
+                                            </span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
-
+                    <div class="col-lg-6 m-b30">
+                        <div class="widget-box">
+                            <div class="wc-title">
+                                <h4>Orders</h4>
+                            </div>
+                            <div class="widget-inner">
+                                <div class="orders-list">
+                                    <ul>
+                                        <li>
+                                            <span class="orders-title">
+                                                <a href="#" class="orders-title-name">Anna Strong </a>
+                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
+                                            </span>
+                                            <span class="orders-btn">
+                                                <a href="#" class="btn button-sm red">Unpaid</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="orders-title">
+                                                <a href="#" class="orders-title-name">Revenue</a>
+                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
+                                            </span>
+                                            <span class="orders-btn">
+                                                <a href="#" class="btn button-sm red">Unpaid</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="orders-title">
+                                                <a href="#" class="orders-title-name">Anna Strong </a>
+                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
+                                            </span>
+                                            <span class="orders-btn">
+                                                <a href="#" class="btn button-sm green">Paid</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="orders-title">
+                                                <a href="#" class="orders-title-name">Revenue</a>
+                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
+                                            </span>
+                                            <span class="orders-btn">
+                                                <a href="#" class="btn button-sm green">Paid</a>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="orders-title">
+                                                <a href="#" class="orders-title-name">Anna Strong </a>
+                                                <span class="orders-info">Order #02357 | Date 12/08/2019</span>
+                                            </span>
+                                            <span class="orders-btn">
+                                                <a href="#" class="btn button-sm green">Paid</a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 m-b30">
+                        <div class="widget-box">
+                            <div class="wc-title">
+                                <h4>Basic Calendar</h4>
+                            </div>
+                            <div class="widget-inner">
+                                <div id="calendar"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -213,8 +559,8 @@
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-select/bootstrap-select.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/magnific-popup/magnific-popup.js"></script>
-        <!--<script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/waypoints-min.js"></script>-->
-        <!--<script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/counterup.min.js"></script>-->
+        <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/waypoints-min.js"></script>
+        <script src="${pageContext.request.contextPath}/assets_admin/vendors/counter/counterup.min.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/imagesloaded/imagesloaded.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/masonry.js"></script>
         <script src="${pageContext.request.contextPath}/assets_admin/vendors/masonry/filter.js"></script>
@@ -226,56 +572,87 @@
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/assets_admin/vendors/switcher/switcher.js'></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-            var chartDataJson = '${chartData}';
-            var chartData = JSON.parse(chartDataJson);
+            $(document).ready(function () {
 
-            // Tạo nhãn và dữ liệu cho biểu đồ
-            var labels = [];
-            var data = [];
+                $('#calendar').fullCalendar({
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    defaultDate: '2019-03-12',
+                    navLinks: true, // can click day/week names to navigate views
 
-            for (var key in chartData) {
-                if (chartData.hasOwnProperty(key)) {
-                    labels.push(key);
-                    data.push(chartData[key]);
-                }
-            }
-            console.log(data)
-            // Vẽ biểu đồ tròn
-            var ctx = document.getElementById('myPieChart').getContext('2d');
+                    weekNumbers: true,
+                    weekNumbersWithinDays: true,
+                    weekNumberCalculation: 'ISO',
 
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                            data: data,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                },
-                options: {
-                    responsive: true
-                }
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: '2019-03-01'
+                        },
+                        {
+                            title: 'Long Event',
+                            start: '2019-03-07',
+                            end: '2019-03-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-09T16:00:00'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: '2019-03-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: '2019-03-11',
+                            end: '2019-03-13'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T10:30:00',
+                            end: '2019-03-12T12:30:00'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: '2019-03-12T12:00:00'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: '2019-03-12T14:30:00'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: '2019-03-12T17:30:00'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: '2019-03-12T20:00:00'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: '2019-03-13T07:00:00'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: '2019-03-28'
+                        }
+                    ]
+                });
+
             });
+
         </script>
     </body>
 
     <!-- Mirrored from educhamp.themetrades.com/demo/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 22 Feb 2019 13:09:05 GMT -->
 </html>
+
