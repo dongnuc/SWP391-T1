@@ -1,9 +1,8 @@
 <%-- 
-    Document   : EditClub
-    Created on : Jul 15, 2024, 1:06:00 AM
+    Document   : MemberClubAdminDetail
+    Created on : Jul 17, 2024, 10:17:59 PM
     Author     : Admin
 --%>
-
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -98,51 +97,66 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Mailbox</h4>
+                    <h4 class="breadcrumb-title">Member Club</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Inbox</li>
+                        <li>Member</li>
                     </ul>
                 </div>	
                 <div class="row">
-                    <div>
-                        <button id="confirmButton" type="button" onclick="" style="border: none;">
-                            <i class="fa fa-edit">General</i>
-                        </button>
-                        <button id="confirmButton" type="button" onclick="showStudent(${idClub})" style="border: none;">
-                            <i class="fa fa-edit">Students</i>
-                        </button>
-                    </div>
                     <!-- Your Profile Views Chart -->
                     <div class="popUp" style="width: 500px;margin: 0px auto; border: solid 1px black">
-                        <form action="updateClub" method="post" class="edit-profile m-b30">
+                        <form action="updateMember" method="post" class="edit-profile m-b30">
                             <div class="row">
                                 <div class="form-group col-6">
-                                    <label class="col-form-label">Name Club</label>
+                                    <label class="col-form-label">Name Student</label>
                                     <div>
-                                        <input name="nameClub" id="nameClub" class="form-control" type="text" value="${nameClub}">
+                                        <input name="name" id="nameClub" class="form-control" type="text" value="${accMember.name}">
                                         <p class="error-message">${errorName}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
                                     <label class="col-form-label">Points</label>
                                     <div>
-                                        <input name="points" id="pointsClub" class="form-control" type="number" value="${points}">
+                                        <input name="points" id="pointsClub" class="form-control" type="number" value="${accMember.points}">
                                         <p class="error-message">${errorPoint}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
                                     <label class="col-form-label">Date Create</label>
                                     <div>
-                                        <input id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${dateCreate}">
+                                        <input id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${accMember.datecreate}">
                                         <p class="error-message">${errorDate}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
                                     <label class="col-form-label">Date Modify</label>
                                     <div>
-                                        <input id="dateCreateClub" name="dateModify" class="form-control" type="date" value="${dateModify}">
+                                        <input id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${accMember.datemodify}">
                                         <p class="error-message">${errorDate}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Role</label>
+                                    <div >
+                                        <select id="typeClubForm" class="form-control" name="role"
+                                                style="margin-right: 10px; height: 36px;">
+                                            <c:forEach var="listRole" items="${listRole}">
+                                                <option value="${listRole.key}" ${listRole.value eq role?'selected':''}>${listRole.value}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <p class="error-message">${errorRole}</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label class="col-form-label"> Is Leader</label>
+                                    <div >
+                                        <select id="typeClubForm" class="form-control" name="leader"
+                                                style="margin-right: 10px; height: 36px;">
+                                            <option value="1" ${leader eq '1'?'selected':''}>Yes</option>
+                                            <option value="0"${leader eq '0'?'selected':''}>No</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-6" >
@@ -155,29 +169,9 @@
                                         <p class="error-message">${errorStatus}</p>
                                     </div>
                                 </div>
-                                <div class="form-group col-6">
-                                    <label class="col-form-label">Manager</label>
-                                    <div >
-                                        <select id="typeClubForm" class="form-control" name="idAccount"
-                                                style="margin-right: 10px; height: 36px;">
-                                            <c:forEach var="listAccount" items="${listAccount}">
-                                                <option value="${listAccount.id}" ${listAccount.id eq accManager.id ? 'selected':''} >${listAccount.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group col-12">
-                                    <label class="col-form-label">Category Club</label>
-                                    <div >
-                                        <select id="typeClubForm" class="form-control" name="typeClub"
-                                                style="margin-right: 10px; height: 36px;">
-                                            <c:forEach var="listType" items="${listType}">
-                                                <option value="${listType.key}" ${listType.value eq typeClub ? 'selected':''} >${listType.value}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="idClubForm" name="idClub" value="${idClub}">
+                                    <input type="hidden" name="idClub" value="${idClub}">
+                                    <input type="hidden" name="idStudent" value="${idStudent}">
+
                                 <div class="seperator"></div>
                                 <div class="col-12">
                                     <button type="submit" class="btn">Submit</button>
@@ -213,33 +207,30 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
-                            $(document).ready(function () {
-                                $('[data-toggle="tooltip"]').tooltip();
-                            });
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
 
-                            function showStudent(idClub) {
-                                var hrefEdit = "http://localhost:9999/SWP391/memberClubAdmin?idClub="+idClub;
-                                window.location.href = hrefEdit;
-                            }
+            function showNotification() {
+                const notification = document.getElementById('success-message');
+                notification.style.display = 'block'; // Hiển thị thông báo
+                // Ẩn thông báo sau 2 giây (2000ms)
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            }
 
-                            function showNotification() {
-                                const notification = document.getElementById('success-message');
-                                notification.style.display = 'block'; // Hiển thị thông báo
-                                // Ẩn thông báo sau 2 giây (2000ms)
-                                setTimeout(() => {
-                                    notification.style.display = 'none';
-                                }, 2000);
-                            }
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('statusUpdate') && urlParams.get('statusUpdate') === 'success') {
+                // Hiển thị thông báo
+                showNotification();
+                urlParams.delete('statusUpdate');
+                const newUrl = window.location.pathname + '?' + urlParams.toString();
+                // Cập nhật URL mà không tải lại trang
+                window.history.replaceState({}, document.title, newUrl);
+            }
 
-                            const urlParams = new URLSearchParams(window.location.search);
-                            if (urlParams.has('statusUpdate') && urlParams.get('statusUpdate') === 'success') {
-                                // Hiển thị thông báo
-                                showNotification();
-                                urlParams.delete('statusUpdate');
-                                const newUrl = window.location.pathname + '?' + urlParams.toString();
-                                // Cập nhật URL mà không tải lại trang
-                                window.history.replaceState({}, document.title, newUrl);
-                            }
+
 
 
         </script>

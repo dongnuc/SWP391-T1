@@ -82,10 +82,6 @@ public class UpdateClubServlet extends HttpServlet {
         if (typeClub == null) {
             typeClub = "";
         }
-        out.println(idClub);
-        out.println(nameClub);
-        out.println(pointClub);
-        out.println(typeClub);
 
 //        out.println(status);
         dao.updateClubDong(idClub, nameClub, pointClub, typeClub, status);

@@ -38,7 +38,7 @@ public class Blog_DetailServlet extends HttpServlet {
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         List<StudentClub> studentClubList = null;
         if (acc != null) {
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             studentClubList = studentClubDAO.getStudentClubs(acc.getId());
         }
         

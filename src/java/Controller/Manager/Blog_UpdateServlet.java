@@ -49,7 +49,7 @@ public class Blog_UpdateServlet extends HttpServlet {
         List<Settings> blogTypeList = settingDAO.getSettingsBlog();
 
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
             boolean restricted = true;
@@ -187,7 +187,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             
             Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
             
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
             
             SettingDAO settingDAo = new SettingDAO();

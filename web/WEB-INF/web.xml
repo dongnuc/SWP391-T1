@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <filter>
+        <filter-name>JSPFilter</filter-name>
+        <filter-class>Filter.JSPFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>Filter.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>Filter.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/profile</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>JSPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/dashboardAdmin</url-pattern>
+        <url-pattern>/settingList</url-pattern>
+        <url-pattern>/addSetting</url-pattern>
+        <url-pattern>/editSetting</url-pattern>
+        <url-pattern>/loadForm</url-pattern>
+        <url-pattern>/formSent</url-pattern>
+        <url-pattern>/formdelete</url-pattern>
+        <url-pattern>/formdetail</url-pattern>
+        <url-pattern>/managerClub</url-pattern>
+        <url-pattern>/getClub</url-pattern>
+        <url-pattern>/addClub</url-pattern>
+        <url-pattern>/RegisterclubAdmin</url-pattern>
+        <url-pattern>/listaccount</url-pattern>
+        <url-pattern>/adduser</url-pattern>
+        <url-pattern>/userdetail</url-pattern>
+        <url-pattern>/memberClubAdmin</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/profile</url-pattern>
+        <url-pattern>/changepassword</url-pattern>
+        <url-pattern>/MyRegistration</url-pattern>
+        <url-pattern>/registerclub</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>HomeControl</servlet-name>
         <servlet-class>Controller.HomeControl</servlet-class>
@@ -8,10 +54,7 @@
         <servlet-name>HomeControl</servlet-name>
         <url-pattern>/HomeControl</url-pattern>
     </servlet-mapping>
-    
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
-      
-    
 </web-app>

@@ -29,7 +29,7 @@ public class Event_PostListServlet extends HttpServlet {
         List<Event> EventByIDList = (List<Event>) request.getAttribute("EventByIDList");
         
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        StudentClubDao studentClubDAO = new StudentClubDao();
         List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
         
         if (EventByIDList == null) {

@@ -42,7 +42,7 @@ public class Event_ListSerlet extends HttpServlet {
         
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         if (acc != null) {
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(acc.getId());
             request.setAttribute("StudentClubList", studentClubList);
         }

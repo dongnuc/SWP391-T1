@@ -4,8 +4,8 @@
  */
 package Controller.Admin;
 
+import DAO.ClubDao;
 import DAO.StudentClubDao;
-import Model.ClubStudentRegistration;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
- * @author Nguyen Hau
+ * @author Admin
  */
-@WebServlet(name = "SelectDateClubStudentRegistrationServlet", urlPatterns = {"/SelectDateClubStudentRegistrationServlet"})
-public class SelectDateClubStudentRegistrationServlet extends HttpServlet {
+@WebServlet(name = "UpdateMemberAdminServlet", urlPatterns = {"/updateMember"})
+public class UpdateMemberAdminServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +38,10 @@ public class SelectDateClubStudentRegistrationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SelectDateClubStudentRegistrationServlet</title>");
+            out.println("<title>Servlet UpdateMemberAdminServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SelectDateClubStudentRegistrationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateMemberAdminServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,32 +59,17 @@ public class SelectDateClubStudentRegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String page = request.getParameter("page");
-        int pageNumber = 1;
-        String nu = null;
-        if (page != null) {
-            pageNumber = Integer.parseInt(page);
+        StudentClubDao daoMember = new StudentClubDao();
+        String idClub = request.getParameter("idClub");
+        String idStudent = request.getParameter("idStudent");
+        String status = request.getParameter("status");
+        if (status.equals("1")) {
+            status = "0";
+        } else {
+            status = "1";
         }
-        StudentClubDao stdao = new StudentClubDao();
-        if (request.getParameter("id") != null && request.getParameter("leader") != null) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            int leader = Integer.parseInt(request.getParameter("leader"));
-            if (leader == 1) {
-                List<ClubStudentRegistration> list = stdao.getTenClubStudentRegistrationbyASC(id, pageNumber);
-                request.setAttribute("list", list);
-                request.setAttribute("search", null);
-                request.setAttribute("leader", leader);
-                request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getNumberOfClubStudentRegistration(id) * 1.0 / 10));
-                request.getRequestDispatcher("View/ViewAdmin/clubStudenRegistrationAdmin.jsp").forward(request, response);
-            } else {
-                List<ClubStudentRegistration> list = stdao.getTenClubStudentRegistrationbyDESC(id, pageNumber);
-                request.setAttribute("list", list);
-                request.setAttribute("search", null);
-                request.setAttribute("leader", leader);
-                request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getNumberOfClubStudentRegistration(id) * 1.0 / 10));
-                request.getRequestDispatcher("View/ViewAdmin/clubStudenRegistrationAdmin.jsp").forward(request, response);
-            }
-        }
+        daoMember.updateMemberClubDong(idStudent, idClub, "", "", "", status);
+        response.sendRedirect("memberClubAdmin?idClub=" + idClub + "&statusUpdate=success");
     }
 
     /**
@@ -99,7 +83,44 @@ public class SelectDateClubStudentRegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        StudentClubDao dao = new StudentClubDao();
+        String idClub = request.getParameter("idClub");
+        String name = request.getParameter("name");
+        String idStudent = request.getParameter("idStudent");
+        String role = request.getParameter("role");
+        String leader = request.getParameter("leader");
+        String status = request.getParameter("status");
+        String pointsRaw = request.getParameter("points");
+        int count = 0;
+        if (role == null) {
+            count++;
+            request.setAttribute("errorRole", "You must be choose 1 option");
+        }
+        int points = 0;
+        if (pointsRaw == null) {
+            count++;
+            request.setAttribute("errorPoint", "Points is not empty");
+        } else {
+            try {
+                points = Integer.parseInt(pointsRaw);
+                if (points > 0 || points < 1000) {
+                    count++;
+                    request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
+                }
+            } catch (Exception e) {
+                
+                request.setAttribute("errorPoint", "Points is not empty");
+            }
+        }
+        System.out.println(count);
+        if (count > 0) {
+            request.setAttribute("name", name);
+            request.getRequestDispatcher("View/ViewAdmin/MemberClubAdminDetail.jsp").forward(request, response);
+        } else {
+            System.out.println("1");
+            dao.updateMemberClubDong(idStudent, idClub, pointsRaw, role, leader, status);
+            response.sendRedirect("memberClubAdmin?idClub=" + idClub + "&statusUpdate=success");
+        }
     }
 
     /**

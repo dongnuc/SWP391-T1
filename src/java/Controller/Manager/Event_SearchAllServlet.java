@@ -66,7 +66,7 @@ public class Event_SearchAllServlet extends HttpServlet {
         else if ("Event_ListManager.jsp".equals(from)) {
             
             Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
             
             List<Event> EventByIDList = new ArrayList<>();

@@ -30,7 +30,7 @@ public class Event_GiveTaskListServlet extends HttpServlet {
         List<EventTask> EventTaskByIDList = (List<EventTask>) request.getAttribute("EventTaskByIDList");
         
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        StudentClubDao studentClubDAO = new StudentClubDao();
         List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
         
         if (EventTaskByIDList == null) {

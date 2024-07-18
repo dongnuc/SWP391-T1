@@ -18,6 +18,8 @@ import java.util.List;
  */
 public class AccountDao extends DBContext{
     
+   
+    
      public int countStudentDong(){
         String query = "select count(*) from student where status = 1";
         try {

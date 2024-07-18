@@ -160,7 +160,7 @@
                     <div class="col-lg-6 m-b30">
                         <div class="widget-box">
                             <div class="wc-title">
-                                <h4>Your Profile Views</h4>
+                                <h4>Students</h4>
                             </div>
                             <div class="widget-inner">
                                 <canvas id="myPieChart" width="100%" height="45"></canvas>

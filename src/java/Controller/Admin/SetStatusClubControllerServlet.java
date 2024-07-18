@@ -7,7 +7,7 @@ package Controller.Admin;
 import Algorithm.SendMail;
 import DAO.AccountDao;
 import DAO.ClubDao;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.Accounts;
 import Model.Clubs;
 import Model.RegisterClub;
@@ -83,7 +83,7 @@ public class SetStatusClubControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ClubDao dao = new ClubDao();
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         AccountDao db = new AccountDao();
         if (request.getParameter("id")!= null) {
             int id = Integer.parseInt(request.getParameter("id"));

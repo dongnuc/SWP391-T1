@@ -5,7 +5,7 @@
 
 package Controller.Admin;
 
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.ClubStudentRegistration;
 import Model.StudentClub;
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class ClubStudentRegistrationAdminServlet extends HttpServlet {
         if (page != null) {
             pageNumber = Integer.parseInt(page);
         }
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
          if(request.getParameter("id")!=null){
              int id = Integer.parseInt(request.getParameter("id"));
              List<ClubStudentRegistration> list = stdao.getTenStudentClubRegistration(id, pageNumber);

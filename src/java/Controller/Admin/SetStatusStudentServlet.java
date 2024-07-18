@@ -4,7 +4,7 @@
  */
 package Controller.Admin;
 
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -60,7 +60,7 @@ public class SetStatusStudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         String page = request.getParameter("page");
         int pageNumber = 1;
         if (page != null) {

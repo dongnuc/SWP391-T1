@@ -41,7 +41,7 @@ public class Event_UpdateServlet extends HttpServlet {
         int ID = Integer.parseInt(xID);
 
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        StudentClubDao studentClubDAO = new StudentClubDao();
         List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
         boolean restricted = true;
@@ -199,7 +199,7 @@ public class Event_UpdateServlet extends HttpServlet {
             ClubDao clubDAO = new ClubDao();
             SettingDAO settingDao = new SettingDAO();
             List<Settings> eventTypeList = settingDao.getSettingsEvent();
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 

@@ -9,7 +9,7 @@ import DAO.AccountDao;
 import DAO.BlogDAO;
 import DAO.ClubDao;
 import DAO.EventDAO;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.Blog;
 import Model.Clubs;
 import Model.StudentClub;
@@ -64,7 +64,7 @@ public class ClubDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        StudentClubDAO scdao = new StudentClubDAO();
+        StudentClubDao scdao = new StudentClubDao();
         ClubDao clubdao = new ClubDao();
         BlogDAO bdao = new BlogDAO();
         EventDAO edao = new EventDAO();

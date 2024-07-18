@@ -19,18 +19,240 @@ import java.util.List;
  * @author 84358
  */
 public class ClubDao extends DBContext {
-    
-     public HashMap<String, String> countStudentInClubDong() {
-        HashMap<String,String> listStudent = new HashMap<>();
+
+    public List<Accounts> getAccountsNewInClub(String idClub) {
+        List<Accounts> listAcc = new ArrayList<>();
+        String query = " select s.IdStudent, s.NameStudent, sc.Role from studentclub sc join student s ON sc.IdStudent = s.IdStudent where idClub = ? \n"
+                + " order by sc.DateCreate desc limit 5 offset 0";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String idRole = rs.getString("Role");
+                String nameRole = getRoleClubDong(idRole);
+                Accounts acc = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        0, nameRole, 1);
+                listAcc.add(acc);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listAcc;
+    }
+
+    public HashMap<String, String> numberRoleInClubDong(String idClub) {
+        HashMap<String, String> listRoleNumber = new HashMap<>();
+        String query = " select s.valueSetting, count(sc.IdStudent) as number \n"
+                + " from studentclub sc join settings s On sc.Role = s.idSetting \n"
+                + " where sc.IdClub = ? group by s.valueSetting";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listRoleNumber.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listRoleNumber;
+    }
+
+    public int countStudentInClubDong(String idClub) {
+        String query = " select count(*) from studentclub where status = 1 and IdClub = " + idClub;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 1;
+    }
+
+    public int countBlogInClubDong(String idClub) {
+        String query = "select count(*) from blog where status = 1 and IdClub = " + idClub;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 1;
+    }
+
+    public int countEventInClubDong(String idClub) {
+        String query = "select count(*) from event where status = 1 and IdClub = " + idClub;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 1;
+    }
+
+    public int getClubManagerByIdAccDong(String idAcc) {
+        String query = " select IdClub from studentclub sc where Role = 1 and IdStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idAcc);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 1;
+    }
+
+    public int isLeaderInClubDong(String idClub, String idStudent) {
+        String query = " select leader from studentclub where IdStudent = ? and IdClub = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(2, idClub);
+            ps.setString(1, idStudent);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public Accounts getMemberInClubDong(String idClub, String idStudent) {
+        String query = "select s.IdStudent, s.NameStudent, sc.Point, sc.Role, sc.DateCreate, sc.DateModify,sc.Status from student s join studentclub sc ON s.IdStudent = sc.IdStudent\n"
+                + " where sc.IdStudent = " + idClub + " and sc.IdClub = " + idStudent;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String idRole = rs.getString("Role");
+                String nameRole = getRoleClubDong(idRole);
+                return new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getInt("Point"), nameRole, rs.getInt("Status"),
+                        rs.getDate("DateCreate"), rs.getDate("DateModify"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public HashMap<String, String> getAllRoleDong(String status) {
+        HashMap<String, String> listRole = new HashMap<>();
+        String query = "select idSetting, valueSetting from settings where status = ? and typeSetting = 1";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                listRole.put(rs.getString("idSetting"), rs.getString("valueSetting"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listRole;
+    }
+
+    public String getRoleClubDong(String idSetting) {
+        String query = "select valueSetting from settings where idSetting = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idSetting);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public int pagetMemberInClubDong(String idClub, String search, String role, String status) {
+        String query = " select count(*) from studentclub sc join student s on sc.IdStudent = s.IdStudent\n"
+                + " where sc.IdClub = ? and sc.Status = ?";
+        if (!role.equals("All")) {
+            query += " and sc.Role = " + role + " ";
+        }
+        if (!search.isBlank()) {
+            query += " and c.NameStudent like '%" + search + "%' ";
+        }
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ps.setString(2, status);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int numberPage = rs.getInt(1);
+                if (numberPage % 5 == 0) {
+                    return numberPage / 5;
+                } else {
+                    numberPage = numberPage / 5 + 1;
+                    return numberPage;
+                }
+
+            }
+        } catch (Exception e) {
+        }
+        return 1;
+    }
+
+    public List<Accounts> getMemberInClubDong(String idClub, String search, String role, String status, int page) {
+        List<Accounts> listMember = new ArrayList<>();
+        String query = "select s.IdStudent,s.NameStudent,sc.Point, sc.Role,sc.Status from studentclub sc join student s on sc.IdStudent = s.IdStudent\n"
+                + " where sc.IdClub = ? and sc.Status = ?";
+        if (!role.equals("All")) {
+            query += " and sc.Role = " + role + " ";
+        }
+        if (!search.isBlank()) {
+            query += " and s.NameStudent like '%" + search + "%' ";
+        }
+        query += " order by s.IdStudent limit 5 offset ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ps.setString(2, status);
+            ps.setInt(3, page * 5 - 5);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String idRole = rs.getString("Role");
+                String nameRole = getRoleClubDong(idRole);
+                Accounts getAcc = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        rs.getInt("Point"), nameRole, rs.getInt("Status"));
+                listMember.add(getAcc);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listMember;
+    }
+
+    public HashMap<String, String> countStudentInClubDong() {
+        HashMap<String, String> listStudent = new HashMap<>();
         String query = "  SELECT c.NameClub, COUNT(sc.IdStudent) AS NumberOfStudents\n"
                 + "FROM Club c LEFT JOIN StudentClub sc ON c.IdClub = sc.IdClub\n"
                 + "where sc.Status = 1 GROUP BY c.NameClub HAVING COUNT(sc.IdStudent) > 0;";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 listStudent.put(rs.getString(1), rs.getString(2));
-                
+
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -212,7 +434,7 @@ public class ClubDao extends DBContext {
             query += " `Status` = '" + status + "' ";
         }
         query += " where `IdClub` = " + idClub + ";";
-        System.out.println(query);
+
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
@@ -240,23 +462,22 @@ public class ClubDao extends DBContext {
         }
     }
 
-
-     public String getClubNameByID(int IdClub){
-          String NameClub = null;
-          String sql = "SELECT NameClub FROM club WHERE IdClub = ?";
-          try (Connection con = DBContext.getConnection(); 
-                PreparedStatement st = con.prepareStatement(sql)){
-                st.setInt(1, IdClub);
-                try (ResultSet rs = st.executeQuery()) {
+    public String getClubNameByID(int IdClub) {
+        String NameClub = null;
+        String sql = "SELECT NameClub FROM club WHERE IdClub = ?";
+        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+            st.setInt(1, IdClub);
+            try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     NameClub = rs.getString("NameClub");
                 }
             }
-          }catch (Exception e) {
-             System.out.println(e);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-          return  NameClub;
-      }
+        return NameClub;
+    }
+
     public List<String> getAllClub() {
         List<String> list = new ArrayList<>();
         String sql = "select * from Club ";
@@ -279,8 +500,8 @@ public class ClubDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                 listClub.add(club);
+                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                listClub.add(club);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -299,7 +520,7 @@ public class ClubDao extends DBContext {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
-                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
                 listClub.add(club);
             }
         } catch (Exception e) {
@@ -327,13 +548,13 @@ public class ClubDao extends DBContext {
 
     public List<String> gettypeclubAll() {
         List<String> listTypeClub = new ArrayList<>();
-        String query = "SELECT valueSetting FROM settings where typeSetting = 3" ;
+        String query = "SELECT valueSetting FROM settings where typeSetting = 3";
         try {
-            
+
             PreparedStatement st = connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                
+
                 String typeclub = rs.getString("valueSetting");
                 listTypeClub.add(typeclub);
             }
@@ -342,6 +563,7 @@ public class ClubDao extends DBContext {
         }
         return listTypeClub;
     }
+
     public boolean isNameClubDuplicate(String nameclub) {
         List<Clubs> listclub = getClubAll();
         for (Clubs club : listclub) {
@@ -377,8 +599,8 @@ public class ClubDao extends DBContext {
             st.setString(1, idClub);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                }
+                return new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -403,10 +625,6 @@ public class ClubDao extends DBContext {
 //        }
 //        return listRole;
 //    }
-
-  
-    
-
     public String getNameById(int idClub) {
         String query = "SELECT * FROM club WHERE IdClub = ?";
         Clubs club = null;
@@ -417,7 +635,7 @@ public class ClubDao extends DBContext {
 
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
-                    club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                    club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
                 }
             }
         } catch (Exception e) {
@@ -450,20 +668,20 @@ public class ClubDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             st.setInt(1, offset);
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
-                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                 listClub.add(club);
+                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                listClub.add(club);
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
         return listClub;
     }
 
-     public void insertClub(Clubs club) {
-        
+    public void insertClub(Clubs club) {
+
         String query = "INSERT INTO Club (NameClub, Point,CategoryClub, DateCreate, DateModify, Status,Image,title,Description) VALUES (?, ?,?,?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(query);
@@ -482,6 +700,7 @@ public class ClubDao extends DBContext {
             System.out.println(e);
         }
     }
+
     public Clubs getClubbyId(int id) {
         Clubs club = null;
         String query = " select * from club where IdClub = ?";
@@ -490,8 +709,8 @@ public class ClubDao extends DBContext {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                }
+                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -512,6 +731,7 @@ public class ClubDao extends DBContext {
 //        }
 //        return club.getNameclub();
 //    }
+
     public Clubs getClubbyname(String nameclub) {
         Clubs club = null;
         String query = " select * from club where NameClub = ?";
@@ -520,8 +740,8 @@ public class ClubDao extends DBContext {
             st.setString(1, nameclub);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                }
+                club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -530,29 +750,29 @@ public class ClubDao extends DBContext {
 
     public boolean updateClub(Clubs club) {
         String query = "UPDATE club SET Point = ?, DateCreate = ?, DateModify = ?, Status = ?, description = ?, Title = ?,CategoryClub = ? WHERE IdClub = ?";
-        
+
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setInt(1, club.getPoint());
-            
+
             if (club.getDatecreate() != null) {
                 st.setTimestamp(2, new java.sql.Timestamp(club.getDatecreate().getTime()));
             } else {
                 st.setNull(2, java.sql.Types.TIMESTAMP);
             }
-            
+
             if (club.getModify() != null) {
                 st.setTimestamp(3, new java.sql.Timestamp(club.getModify().getTime()));
             } else {
                 st.setNull(3, java.sql.Types.TIMESTAMP);
             }
-            
+
             st.setInt(4, club.getStatus());
             st.setString(5, club.getDescription());
             st.setString(6, club.getTitle());
             st.setInt(7, club.getCategoryclub());
             st.setInt(8, club.getClub());
-            
+
             int rowsUpdated = st.executeUpdate();
             return rowsUpdated > 0;
         } catch (Exception e) {
@@ -585,10 +805,10 @@ public class ClubDao extends DBContext {
         }
     }
 
-  public void insertRegisterClub(String nameclub, String reason, int member, int idstudent,int category, String target, String plan) {
+    public void insertRegisterClub(String nameclub, String reason, int member, int idstudent, int category, String target, String plan) {
         String query = "insert into registerclub (NameClub, Reason,Member, IdStudent,Category,target,plan) VALUES (?, ?,? ,?,?,?,? );";
         try {
-            
+
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, nameclub);
             st.setString(2, reason);
@@ -598,12 +818,13 @@ public class ClubDao extends DBContext {
             st.setString(6, target);
             st.setString(7, plan);
             st.executeUpdate();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-   public List<RegisterClub> printAllRegisterClub() {
+
+    public List<RegisterClub> printAllRegisterClub() {
         List<RegisterClub> list = new ArrayList();
         String query = "SELECT * FROM registerclub";
         try {
@@ -617,8 +838,6 @@ public class ClubDao extends DBContext {
         }
         return list;
     }
-
-   
 
     public RegisterClub getRegisterClubbyId(int id) {
         RegisterClub registerclub = null;
@@ -780,8 +999,8 @@ public class ClubDao extends DBContext {
         }
         return listClubs;
     }
-    
-     public Clubs getClubByIdSetting(String idClub) {
+
+    public Clubs getClubByIdSetting(String idClub) {
         String query = "select c.IdClub, c.NameClub, c.Description, c.Image, c.Point,\n"
                 + " st.Name,c.DateCreate,c.DateModify,c.Status\n"
                 + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
@@ -801,23 +1020,25 @@ public class ClubDao extends DBContext {
         }
         return null;
     }
-     public boolean checkNameClub(String nameClub){
-         String query = "select c.NameClub " 
+
+    public boolean checkNameClub(String nameClub) {
+        String query = "select c.NameClub "
                 + " from club c JOIN setting st ON c.IdClub = st.IdClub\n"
                 + " where st.IdClub is not null and st.IdType = 3 and c.status = 1 and c.NameClub = ?";
-         try {
-             PreparedStatement st = connection.prepareStatement(query);
+        try {
+            PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, nameClub);
             ResultSet rs = st.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
-         } catch (Exception e) {
-             System.out.println(e);
-         }
-         return false;
-     }
-      public List<Clubs> searchClubs(String searchQuery, int page) {
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public List<Clubs> searchClubs(String searchQuery, int page) {
         List<Clubs> listClub = new ArrayList<>();
         int offset = 9 * (page - 1);
         String query = "SELECT * FROM club WHERE NameClub LIKE ? LIMIT 9 OFFSET ?";
@@ -826,9 +1047,9 @@ public class ClubDao extends DBContext {
             st.setString(1, "%" + searchQuery + "%");
             st.setInt(2, offset);
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
-                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
                 listClub.add(club);
             }
         } catch (Exception e) {
@@ -837,7 +1058,8 @@ public class ClubDao extends DBContext {
         return listClub;
     }
 //     update setting 
-      public void updateClub(String idClub, String nameClub, String point, String typeClub, String status) {
+
+    public void updateClub(String idClub, String nameClub, String point, String typeClub, String status) {
         String query = "UPDATE `swp392`.`club`\n"
                 + "SET\n ";
         int count = 0;
@@ -868,9 +1090,9 @@ public class ClubDao extends DBContext {
         }
     }
 
-public String getRolebyId(int id) {
+    public String getRolebyId(int id) {
         String query = "SELECT valueSetting  FROM settings where typeSetting=1  and idSetting=? ";
-        String role=null;
+        String role = null;
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setInt(1, id);
             try (ResultSet rs = st.executeQuery()) {
@@ -883,9 +1105,10 @@ public String getRolebyId(int id) {
         }
         return role;
     }
-public int getSettingbyValue (String value) {
+
+    public int getSettingbyValue(String value) {
         String query = "select idSetting from settings where valueSetting = ?";
-        int role=0;
+        int role = 0;
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setString(1, value);
             try (ResultSet rs = st.executeQuery()) {
@@ -898,9 +1121,10 @@ public int getSettingbyValue (String value) {
         }
         return role;
     }
-public String getValuebySetting (int id) {
+
+    public String getValuebySetting(int id) {
         String query = "select valueSetting from settings where idSetting  = ?";
-        String role=null;
+        String role = null;
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setInt(1, id);
             try (ResultSet rs = st.executeQuery()) {
@@ -913,16 +1137,17 @@ public String getValuebySetting (int id) {
         }
         return role;
     }
-public int searchClubSize(String searchQuery) {
+
+    public int searchClubSize(String searchQuery) {
         List<Clubs> listClub = new ArrayList<>();
         String query = "SELECT * FROM club WHERE NameClub LIKE ?";
         try {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, "%" + searchQuery + "%");
             ResultSet rs = st.executeQuery();
-            
+
             while (rs.next()) {
-                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
                 listClub.add(club);
             }
         } catch (Exception e) {
@@ -930,29 +1155,31 @@ public int searchClubSize(String searchQuery) {
         }
         return listClub.size();
     }
-public List<Clubs> getNineClubsByType(int page, int category) {
+
+    public List<Clubs> getNineClubsByType(int page, int category) {
         List<Clubs> listClub = new ArrayList<>();
         int offset = 9 * (page - 1);
-        
+
         String clubQuery = "SELECT * FROM club WHERE  Status=1 and CategoryClub = ? LIMIT 9 OFFSET ?";
-        
+
         try (PreparedStatement st = connection.prepareStatement(clubQuery)) {
             st.setInt(1, category);
             st.setInt(2, offset);
-            
+
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                listClub.add(club);
+                    Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                    listClub.add(club);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return listClub;
     }
-public int getIdStudentByRole(int idclub) {
+
+    public int getIdStudentByRole(int idclub) {
         int idStudent = 0;
 
         String query = "select IdStudent from studentclub where Role = 1 and IdClub =?  ";
@@ -970,55 +1197,58 @@ public int getIdStudentByRole(int idclub) {
 
         return idStudent;
     }
-public List<Clubs> getOtherClub(int category,int id) {
+
+    public List<Clubs> getOtherClub(int category, int id) {
         List<Clubs> listClub = new ArrayList<>();
-        
+
         String clubQuery = "select * from club where Status =1 and CategoryClub = ? and IdClub!=? limit 3 ";
-        
+
         try (PreparedStatement st = connection.prepareStatement(clubQuery)) {
             st.setInt(1, category);
             st.setInt(2, id);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"),rs.getInt("CategoryClub"),rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                listClub.add(club);
+                    Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
+                    listClub.add(club);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return listClub;
     }
-public List<Clubs> getRandomClub() {
-    List<Clubs> listClub = new ArrayList<>();
-    
-    String clubQuery = "SELECT * FROM club WHERE Status = 1 ORDER BY RAND() LIMIT 3";
-    
-    try (PreparedStatement st = connection.prepareStatement(clubQuery)) {
-        try (ResultSet rs = st.executeQuery()) {
-            while (rs.next()) {
-                Clubs club = new Clubs(
-                    rs.getInt("IdClub"), 
-                    rs.getString("NameClub"), 
-                    rs.getInt("Point"),
-                    rs.getInt("CategoryClub"),
-                    rs.getDate("DateCreate"),
-                    rs.getDate("DateModify"),
-                    rs.getInt("Status"),
-                    rs.getString("Image"),
-                    rs.getString("Title"),
-                    rs.getString("Description")
-                );
-                listClub.add(club);
+
+    public List<Clubs> getRandomClub() {
+        List<Clubs> listClub = new ArrayList<>();
+
+        String clubQuery = "SELECT * FROM club WHERE Status = 1 ORDER BY RAND() LIMIT 3";
+
+        try (PreparedStatement st = connection.prepareStatement(clubQuery)) {
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Clubs club = new Clubs(
+                            rs.getInt("IdClub"),
+                            rs.getString("NameClub"),
+                            rs.getInt("Point"),
+                            rs.getInt("CategoryClub"),
+                            rs.getDate("DateCreate"),
+                            rs.getDate("DateModify"),
+                            rs.getInt("Status"),
+                            rs.getString("Image"),
+                            rs.getString("Title"),
+                            rs.getString("Description")
+                    );
+                    listClub.add(club);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        return listClub;
     }
-    
-    return listClub;
-}
+
     public static void main(String[] args) {
         ClubDao dao = new ClubDao();
 //        List<Clubs> list = dao.getRandomClub();
@@ -1028,8 +1258,11 @@ public List<Clubs> getRandomClub() {
 //        System.out.println(dao.getClubbyId(34).getType());
 //        dao.updateClubImage(34, "images/" + "11.png");
 //        List<Clubs> getClub = dao.getClubByPage(1, "", "");
-        System.out.println(dao.getNameById(10));
-        
-
+//        System.out.println(dao.getNameById(10));
+//        List<Accounts> listAcc = dao.getMemberInClubDong("1", "", "All", "1", 1);
+//        System.out.println(listAcc.size());
+//        System.out.println(dao.pagetMemberInClubDong("1", "", "All", "1"));
+        Accounts acc = dao.getMemberInClubDong("9", "2");
+        System.out.println(acc);
     }
 }

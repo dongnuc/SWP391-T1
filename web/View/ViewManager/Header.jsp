@@ -118,7 +118,7 @@
 <%
 Accounts acc1 = (Accounts) session.getAttribute("curruser");
 if (acc1 != null) {
-StudentClubDAO studentClubDAO = new StudentClubDAO();
+StudentClubDao studentClubDAO = new StudentClubDao();
 List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(acc1.getId());
 
 boolean dashboardPrinted = false;

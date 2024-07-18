@@ -25,9 +25,9 @@ public class Accounts {
     private int status;
     private int role;
     private String image;
-    List<Clubs> myClubs;
     private String tokenEmail;
     private String note;
+    private String roleClub;
 
     public Accounts() {
     }
@@ -101,15 +101,25 @@ public class Accounts {
         this.role = role;
     }
 
-    public Accounts(int id, String name, int gender, Date date, int points, int status, List<Clubs> myClubs) {
+    public Accounts(int id, String name, int points, String roleClub, int status) {
         this.id = id;
         this.name = name;
-        this.gender = gender;
-        this.date = date;
         this.points = points;
         this.status = status;
-        this.myClubs = myClubs;
+        this.roleClub = roleClub;
     }
+    
+      public Accounts(int id, String name, int points, String roleClub, int status,Date datecreate, Date datemodify) {
+        this.id = id;
+        this.name = name;
+        this.points = points;
+        this.status = status;
+        this.roleClub = roleClub;
+        this.datecreate = datecreate;
+        this.datemodify = datemodify;
+    }
+    
+
 
     public String getNote() {
         return note;
@@ -146,15 +156,6 @@ public class Accounts {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public List<Clubs> getMyClubs() {
-        return myClubs;
-    }
-
-    public void setMyClubs(List<Clubs> myClubs) {
-        this.myClubs = myClubs;
-    }
-   
 
     public int getRole() {
         return role;
@@ -246,6 +247,15 @@ public class Accounts {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public String getRoleClub() {
+        return roleClub;
+    }
+
+    public void setRoleClub(String roleClub) {
+        this.roleClub = roleClub;
+    }
+    
     
     
     

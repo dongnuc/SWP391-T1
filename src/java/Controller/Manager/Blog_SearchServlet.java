@@ -1,7 +1,7 @@
 package Controller.Manager;
 
 import DAO.BlogDAO;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.Accounts;
 import Model.Blog;
 import Model.StudentClub;
@@ -34,7 +34,7 @@ public class Blog_SearchServlet extends HttpServlet {
 
         if ("Blog_PostList.jsp".equals(from)) {
             Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
             
             List<Blog> BlogByIDList = new ArrayList<>();

@@ -73,7 +73,7 @@ public class SettingDaoClass extends DBContext {
         return listSetting;
     }
        public void updateSettingDong(String idSetting, String valueSetting,String typeSetting,String idStudent, String status){
-        String query = "UPDATE `newsetting`.`settings` SET ";
+        String query = "UPDATE `settings` SET ";
         int count = 0;
         if (!valueSetting.isBlank()) {
             query += " `valueSetting` = '" + valueSetting + "' ";

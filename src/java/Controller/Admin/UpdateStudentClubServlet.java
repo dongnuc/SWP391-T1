@@ -4,7 +4,7 @@
  */
 package Controller.Admin;
 
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.StudentClub;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,7 +62,7 @@ public class UpdateStudentClubServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         if (request.getParameter("idclub") != null && request.getParameter("idstudent") != null) {
             int idclub = Integer.parseInt(request.getParameter("idclub"));
             int idstudent = Integer.parseInt(request.getParameter("idstudent"));
@@ -113,7 +113,7 @@ public class UpdateStudentClubServlet extends HttpServlet {
             error2 = "Invalid date format: " + e.getMessage();
         }
 
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         if (request.getParameter("idclub") != null && request.getParameter("idstudent") != null) {
             int idclub = Integer.parseInt(request.getParameter("idclub"));
             int idstudent = Integer.parseInt(request.getParameter("idstudent"));

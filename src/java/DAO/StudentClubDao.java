@@ -18,7 +18,33 @@ import java.util.List;
  *
  * @author 84358
  */
-public class StudentClubDAO extends DBContext {
+public class StudentClubDao extends DBContext {
+    
+
+    public void updateMemberClubDong(String idStudent, String idClub,String points, String role,String leader, String status){
+        String query = "UPDATE `studentclub` SET status = ?";
+        int count = 1;
+        if(!points.isBlank()){
+            query += " , `Point` = '" + points + "' ";
+        }
+        if(!role.isBlank()){
+            query += " `Role` = '" + role + "' ";
+        }
+        if(!leader.isBlank()){
+            query += " `leader` = '" + leader + "' ";
+        }
+        query += " WHERE `IdStudent` = ? AND `IdClub` = ?; ";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setString(2, idStudent);
+            ps.setString(3, idClub);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
 
     public List<String> getclubbtid(int id) {
         String sql = "select *from Student_Club join Club on Student_Club.IdClub=Club.IDClub where"
@@ -630,8 +656,9 @@ public class StudentClubDAO extends DBContext {
 
 //-----------------------
     public static void main(String[] args) {
-        StudentClubDAO dao = new StudentClubDAO();
-        System.out.println(dao.getStudentClubbyId(34).get(1));
+        StudentClubDao dao = new StudentClubDao();
+//        System.out.println(dao.getStudentClubbyId(34).get(1));
+            dao.updateMemberClubDong("4", "8", "", "", "", "0");
     }
 
 

@@ -37,7 +37,7 @@ public class Task_SearchServlet extends HttpServlet {
         EventTaskDAO eventTaskDAO = new EventTaskDAO();
 
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        StudentClubDao studentClubDAO = new StudentClubDao();
         List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
 
         List<EventTask> eventTaskByIDList = new ArrayList<>();

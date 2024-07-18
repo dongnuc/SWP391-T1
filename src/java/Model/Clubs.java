@@ -5,7 +5,7 @@
 package Model;
 
 import DAO.ClubDao;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import java.util.Date;
 import java.util.List;
 
@@ -197,7 +197,7 @@ public class Clubs {
         this.listRole = listRole;
     }
 
-    StudentClubDAO stdao = new StudentClubDAO();
+    StudentClubDao stdao = new StudentClubDao();
 
     public int getSizeClub() {
         return stdao.getSizeClub(getClub());

@@ -97,10 +97,10 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Mailbox</h4>
+                    <h4 class="breadcrumb-title">Add Club</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Inbox</li>
+                        <li>Add Club</li>
                     </ul>
                 </div>	
                 <div class="row">

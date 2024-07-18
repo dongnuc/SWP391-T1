@@ -27,7 +27,7 @@ public class Blog_PostListServlet extends HttpServlet {
         List<Blog> BlogByIDList = (List<Blog>) request.getAttribute("BlogByIDList");
 
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
-        StudentClubDAO studentClubDAO = new StudentClubDAO();
+        StudentClubDao studentClubDAO = new StudentClubDao();
         List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
 
         if (BlogByIDList == null) {

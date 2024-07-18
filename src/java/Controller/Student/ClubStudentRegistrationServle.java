@@ -7,7 +7,7 @@ package Controller.Student;
 import Algorithm.SendMail;
 import DAO.AccountDao;
 import DAO.ClubDao;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.ClubStudentRegistration;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,7 +82,7 @@ public class ClubStudentRegistrationServle extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         String error = null;
         String error1 = null;
         String error2 = null;

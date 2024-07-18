@@ -6,7 +6,7 @@ package Controller.Admin;
 
 import Algorithm.SendMail;
 import DAO.AccountDao;
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.Accounts;
 import Model.ClubStudentRegistration;
 import Model.StudentClub;
@@ -82,7 +82,7 @@ public class ReplyClubStudentRegistrationServlet extends HttpServlet {
         String error2 = null;
 
         AccountDao db = new AccountDao();
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         int a = Integer.parseInt(request.getParameter("a"));
         if (request.getParameter("idclub") != null && request.getParameter("idstudent") != null) {
             if (a == 1) {

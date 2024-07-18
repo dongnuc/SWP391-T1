@@ -37,7 +37,7 @@ public class Event_UploadServlet extends HttpServlet {
         boolean restricted = true;
 
         if (acc != null) {
-            StudentClubDAO studentClubDAO = new StudentClubDAO();
+            StudentClubDao studentClubDAO = new StudentClubDao();
             StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
             for (StudentClub studentClub : StudentClubList) {
@@ -188,7 +188,7 @@ public class Event_UploadServlet extends HttpServlet {
                 ClubDao clubDAO = new ClubDao();
 
                 Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
-                StudentClubDAO studentClubDAO = new StudentClubDAO();
+                StudentClubDao studentClubDAO = new StudentClubDao();
                 List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
 
                 request.setAttribute("clubDAO", clubDAO);

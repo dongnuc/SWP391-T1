@@ -5,7 +5,7 @@
 
 package Controller.Admin;
 
-import DAO.StudentClubDAO;
+import DAO.StudentClubDao;
 import Model.ClubStudentRegistration;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,7 +57,7 @@ public class ClubStudentRegistrationDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        StudentClubDAO stdao = new StudentClubDAO();
+        StudentClubDao stdao = new StudentClubDao();
         if(request.getParameter("idclub")!=null&&request.getParameter("idstudent")!=null){
             int idclub = Integer.parseInt(request.getParameter("idclub"));
             int idstudent = Integer.parseInt(request.getParameter("idstudent"));
