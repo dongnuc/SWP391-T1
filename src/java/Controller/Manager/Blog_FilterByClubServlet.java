@@ -34,6 +34,8 @@ public class Blog_FilterByClubServlet extends HttpServlet {
         BlogByIDList.sort((Blog b1, Blog b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
         
         request.setAttribute("BlogByIDList", BlogByIDList);
+        request.setAttribute("idClub", xId);
+        
         request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
     } 
 

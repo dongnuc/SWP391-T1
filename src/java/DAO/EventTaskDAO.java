@@ -19,7 +19,7 @@ import java.util.List;
  * @author 10t1q
  */
 public class EventTaskDAO extends DBContext {
-
+//-------------Hoang
     public void insertEventTask(EventTask evenTask) {
         String sql = "INSERT INTO task (NameTask, Description, Content, IdEvent, IdClub, Deadline, Department, Budget, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
@@ -40,7 +40,7 @@ public class EventTaskDAO extends DBContext {
             e.printStackTrace();
         }
     }
-
+//-------------Hoang
     public boolean deleteEventTaskById(int IdTask) {
     String sql = "DELETE FROM task WHERE IdTask = ?";
 
@@ -53,7 +53,7 @@ public class EventTaskDAO extends DBContext {
     }
     return false;
 }
-
+//-------------Hoang
     public List<EventTask> getEventTaskByIdClub(int IdClub) {
         List<EventTask> eventTaskList = new ArrayList<>();
         String sql = "SELECT * FROM task WHERE IdClub = ? ORDER BY DateCreate DESC";
@@ -83,7 +83,7 @@ public class EventTaskDAO extends DBContext {
         }
         return eventTaskList;
     }
-
+//-------------Hoang
     public EventTask getEventTaskByIdTask(int IdTask) {
     EventTask eventTask = null;
     String sql = "SELECT * FROM task WHERE IdTask = ?";
@@ -112,7 +112,7 @@ public class EventTaskDAO extends DBContext {
     }
     return eventTask;
 }
-
+//-------------Hoang
     public boolean updateEventTask(EventTask eventTask) {
     String sql = "UPDATE task SET NameTask = ?, Description = ?, " +
                  "Content = ?, Deadline = ?, Department = ?, Budget = ?, Status = ? " +

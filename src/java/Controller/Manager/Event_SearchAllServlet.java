@@ -27,14 +27,6 @@ public class Event_SearchAllServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        doPost(request, response);
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pr = response.getWriter();
 
@@ -60,6 +52,8 @@ public class Event_SearchAllServlet extends HttpServlet {
 
             request.setAttribute("eventTypeList", eventTypeList);
             request.setAttribute("eventList", searchResults);
+            request.setAttribute("name", nameEvent);
+            request.setAttribute("from", from);
             
             request.getRequestDispatcher("/EventSerlet").forward(request, response);
         }
@@ -100,7 +94,17 @@ public class Event_SearchAllServlet extends HttpServlet {
                 }
             }
             request.setAttribute("EventByIDList", searchResults);
+            request.setAttribute("name", nameEvent);
+            request.setAttribute("from", from);
+            
             request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+            doGet(request, response);
     }
 }

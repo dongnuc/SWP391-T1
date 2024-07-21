@@ -8,7 +8,6 @@ package Controller.Manager;
 import DAO.EventDAO;
 import Model.Event;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,8 +34,9 @@ public class Event_FilterByCLBServlet extends HttpServlet {
         
         EventByIDList.sort((Event b1, Event b2) -> b2.getDatecreate().compareTo(b1.getDatecreate()));
         
-         request.setAttribute("EventByIDList", EventByIDList);
-         request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+        request.setAttribute("EventByIDList", EventByIDList);
+        request.setAttribute("idClub", ID);
+        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
     } 
 
 

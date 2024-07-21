@@ -90,6 +90,7 @@ public class Event_UploadServlet extends HttpServlet {
 
         if (fileName != null) {
             String fromPage = request.getParameter("from");
+            request.setAttribute("from", fromPage);
             String nameEvent = request.getParameter("nameevent");
             String description = request.getParameter("description");
             String content = request.getParameter("content");
@@ -123,7 +124,7 @@ public class Event_UploadServlet extends HttpServlet {
             if (description == null || description.isEmpty()) {
                 errorDescription.append("Description cannot be empty.<br>");
                 hasError = true;
-            } else if (description.length() > 256) {
+            } else if (description.length() > 128) {
                 errorDescription.append("Description cannot exceed 128 characters.<br>");
                 hasError = true;
             }
@@ -156,11 +157,16 @@ public class Event_UploadServlet extends HttpServlet {
                 hasError = true;
             }
             if (address == null || address.isEmpty()) {
-                errorAddress.append("Address cannot be empty.<br>");
+                errorAddress.append("address cannot be empty.<br>");
+                hasError = true;
+            }else if (address.length() > 128) {
+                errorAddress.append("address cannot exceed 128 characters.<br>");
                 hasError = true;
             }
 
             if (hasError) {
+                request.setAttribute("from", fromPage);
+
                 request.setAttribute("errorNameEvent", errorNameEvent.toString());
                 request.setAttribute("errorDescription", errorDescription.toString());
                 request.setAttribute("errorContent", errorContent.toString());
@@ -220,10 +226,10 @@ public class Event_UploadServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            if ("Event_List.jsp".equals(fromPage)) {
-                request.getRequestDispatcher("/EventSerlet").forward(request, response);
-            } else {
+            if ("Event_ListManager.jsp".equals(fromPage)) {
                 request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/EventSerlet").forward(request, response);
             }
         } else {
             response.getWriter().println("Error: File upload failed.");

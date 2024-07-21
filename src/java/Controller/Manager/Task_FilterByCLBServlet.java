@@ -33,7 +33,10 @@ public class Task_FilterByCLBServlet extends HttpServlet {
         List<EventTask> EventTaskByIDList = eventTaskDAO.getEventTaskByIdClub(idClub);
         
         EventTaskByIDList.sort((EventTask b1, EventTask b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
+        
         request.setAttribute("EventTaskByIDList", EventTaskByIDList);
+        request.setAttribute("idClub", idClub);
+        
         request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
     } 
 

@@ -27,6 +27,9 @@ public class Event_PostListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         List<Event> EventByIDList = (List<Event>) request.getAttribute("EventByIDList");
+        String idClub = request.getParameter("idClub");
+        String name = request.getParameter("name");
+        String from = request.getParameter("from");
         
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
         StudentClubDao studentClubDAO = new StudentClubDao();
@@ -72,6 +75,9 @@ public class Event_PostListServlet extends HttpServlet {
         request.setAttribute("EventByIDList", paginatedList);
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("currentPage", page);
+        request.setAttribute("idClub", idClub);
+        request.setAttribute("name", name);
+        request.setAttribute("from", from);
         
         request.getRequestDispatcher("/View/ViewManager/Event_ListManager.jsp").forward(request, response);
     } 

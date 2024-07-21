@@ -26,12 +26,6 @@ public class Task_SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Có thể thêm logic cho phương thức GET nếu cần
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String searchKeyword = request.getParameter("searchKeyword");
 
         EventTaskDAO eventTaskDAO = new EventTaskDAO();
@@ -73,7 +67,12 @@ public class Task_SearchServlet extends HttpServlet {
         } else {
             request.setAttribute("EventTaskByIDList", searchResults);
         }
-
+        request.setAttribute("searchKeyword", searchKeyword);
         request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
     }
 }

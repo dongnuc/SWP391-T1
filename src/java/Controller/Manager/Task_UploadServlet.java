@@ -23,7 +23,7 @@ import java.util.List;
  * @author 10t1q
  */
 @WebServlet(name = "Event_GiveTaskServlet", urlPatterns = {"/EventGiveTaskServlet"})
-public class Event_GiveTaskServlet extends HttpServlet {
+public class Task_UploadServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

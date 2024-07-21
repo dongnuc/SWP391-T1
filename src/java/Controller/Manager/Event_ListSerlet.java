@@ -29,6 +29,9 @@ public class Event_ListSerlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         List<Event> eventList =(List<Event>) request.getAttribute("eventList");
+        String idEventType = request.getParameter("idEventType");
+        String name = request.getParameter("name");
+        String from = request.getParameter("from");
         
         EventDAO eventDAO = new EventDAO();
         if(eventList == null){
@@ -47,9 +50,28 @@ public class Event_ListSerlet extends HttpServlet {
             request.setAttribute("StudentClubList", studentClubList);
         }
         
+        int page = 1;
+        int recordsPerPage = 10;
+        if (request.getParameter("page") != null) {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
+        
+        int start = (page - 1) * recordsPerPage;
+        int end = Math.min(start + recordsPerPage, eventList.size());
+        List<Event> paginatedList = eventList.subList(start, end);
+        
+        int noOfRecords = eventList.size();
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        
         request.setAttribute("clubDao", clubDao);
-        request.setAttribute("eventList", eventList);
+        request.setAttribute("eventList", paginatedList);
         request.setAttribute("eventTypeList", eventTypeList);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("noOfPages", noOfPages);
+        request.setAttribute("idEventType", idEventType);
+        request.setAttribute("name", name);
+        request.setAttribute("from", from);
+        
         request.getRequestDispatcher("/View/ViewManager/Event_List.jsp").forward(request, response);
     }
 

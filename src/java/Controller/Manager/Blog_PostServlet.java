@@ -154,6 +154,7 @@ public class Blog_PostServlet extends HttpServlet {
             }
 
             if (hasError) {
+                request.setAttribute("from", from);
                 request.setAttribute("messTitle", messTitle);
                 request.setAttribute("messDescription", messDescription);
                 request.setAttribute("messContent", messContent);

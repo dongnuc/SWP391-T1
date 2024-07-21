@@ -56,7 +56,63 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
+        <script>
+            // JavaScript functions
+            var isProfileVisible = false;
 
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+        // Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+        //            document.addEventListener("DOMContentLoaded", function () {
+        //                var paginationLinks = document.querySelectorAll('.pagination a');
+        //                paginationLinks.forEach(function (link) {
+        //                    link.addEventListener('click', function (event) {
+        //                        event.preventDefault();
+        //                        var currentPage = parseInt(this.textContent);
+        //                        setActivePage(currentPage);
+        //                    });
+        //                });
+        //
+        //                function setActivePage(pageNumber) {
+        //                    var paginationLinks = document.querySelectorAll('.pagination a');
+        //                    paginationLinks.forEach(function (link) {
+        //                        link.classList.remove('active');
+        //                    });
+        //                    paginationLinks[pageNumber - 1].classList.add('active');
+        //
+        //                    // Do something here to load data for the selected page
+        //                }
+        //            });
+        </script>
     </head>
     <body id="bg">
         <div class="page-wraper">
@@ -142,13 +198,13 @@
                                         <div class="pagination-bx rounded-sm gray clearfix">
                                             <ul class="pagination">
                                                 <c:if test="${currentPage > 1}">
-                                                    <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                    <li class="previous"><a href="?page=${currentPage - 1}&idBlogType=${idBlogType}&from=${from}&searchKeyword=${searchKeyword}"><i class="ti-arrow-left"></i> Prev</a></li>
                                                     </c:if>
                                                     <c:forEach begin="1" end="${noOfPages}" var="i">
-                                                    <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
+                                                    <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}&idBlogType=${idBlogType}&from=${from}&searchKeyword=${searchKeyword}">${i}</a></li>
                                                     </c:forEach>
                                                     <c:if test="${currentPage < noOfPages}">
-                                                    <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                    <li class="next"><a href="?page=${currentPage + 1}&idBlogType=${idBlogType}&from=${from}&searchKeyword=${searchKeyword}">Next <i class="ti-arrow-right"></i></a></li>
                                                         </c:if>
                                             </ul>
                                         </div>

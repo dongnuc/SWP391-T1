@@ -1,10 +1,7 @@
 package Controller.Manager;
 
-import DAO.BlogDAO;
-import DAO.StudentClubDao;
-import Model.Accounts;
-import Model.Blog;
-import Model.StudentClub;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,12 +17,6 @@ public class Blog_SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
         String searchKeyword = request.getParameter("searchKeyword");
         String from = request.getParameter("from");
@@ -36,7 +27,7 @@ public class Blog_SearchServlet extends HttpServlet {
             Accounts account = (Accounts) request.getSession().getAttribute("curruser");
             StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> studentClubList = studentClubDAO.getStudentClubs(account.getId());
-            
+
             List<Blog> BlogByIDList = new ArrayList<>();
 
             if (studentClubList != null) {
@@ -48,9 +39,9 @@ public class Blog_SearchServlet extends HttpServlet {
                 }
             }
             BlogByIDList.sort((Blog b1, Blog b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
-            
+
             List<Blog> searchResults = new ArrayList<>();
-            
+
             if (searchKeyword == null || searchKeyword.trim().isEmpty()) {
                 searchResults = BlogByIDList;
                 request.setAttribute("errorMessage", "Search information cant not empty");
@@ -64,7 +55,9 @@ public class Blog_SearchServlet extends HttpServlet {
                     request.setAttribute("errorMessage", "Cant finf title: " + searchKeyword);
                 }
             }
+            request.setAttribute("from", from);
             request.setAttribute("BlogByIDList", searchResults);
+            request.setAttribute("searchKeyword", searchKeyword);
             request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
         } else if ("Blog_List.jsp".equals(from)) {
             List<Blog> searchResults = blogDAO.searchBlogsByTitle(searchKeyword);
@@ -73,8 +66,18 @@ public class Blog_SearchServlet extends HttpServlet {
             } else if (searchResults.isEmpty()) {
                 request.setAttribute("errorMessage", "Cant finf title: " + searchKeyword);
             }
+            searchResults.sort((Blog b1, Blog b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
             request.setAttribute("BlogByIDList", searchResults);
+            request.setAttribute("searchKeyword", searchKeyword);
+            request.setAttribute("from", from);
             request.getRequestDispatcher("/BlogListServlet").forward(request, response);
         }
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
     }
 }

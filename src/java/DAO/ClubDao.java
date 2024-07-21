@@ -461,7 +461,7 @@ public class ClubDao extends DBContext {
             System.out.println(e);
         }
     }
-
+//------------------ Hoang
     public String getClubNameByID(int IdClub) {
         String NameClub = null;
         String sql = "SELECT NameClub FROM club WHERE IdClub = ?";

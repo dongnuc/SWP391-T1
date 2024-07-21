@@ -19,7 +19,7 @@ import java.sql.Timestamp;
  * @author 10t1q
  */
 public class EventDAO extends DBContext {
-//-----------------------------
+//--------------Hoang
 
     public String getEventNameById(int idEvent) {
         String eventName = null;
@@ -37,7 +37,7 @@ public class EventDAO extends DBContext {
         }
         return eventName;
     }
-
+//------------------ Hoang
     public List<Event> getEventsByClubId(int clubId) {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event WHERE IdClub = ? ORDER BY DateCreate DESC , IdEvent DESC";
@@ -69,7 +69,7 @@ public class EventDAO extends DBContext {
         }
         return eventList;
     }
-
+//------------------ Hoang
     public List<Event> getAllEvent() {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event ORDER BY DateCreate DESC , IdEvent DESC";
@@ -98,7 +98,7 @@ public class EventDAO extends DBContext {
         }
         return eventList;
     }
-//-------------------------------
+//-------------Hoang
 
     public void addEvent(Event event) {
         String sql = "INSERT INTO event (NameEvent, DateCreate, DateModify, DateEnd, IdClub, DateStart, Image, Content, CategoryEvent, Status, Addreess, Description) "
@@ -158,7 +158,7 @@ public class EventDAO extends DBContext {
         }
         return event;
     }
-//---------------------------------------------------------
+//------------------ Hoang
 
     public void updateEvent(Event event) {
         String sql = "UPDATE event SET NameEvent = ?, DateModify = ?, DateEnd = ?, IdClub = ?, DateStart = ?, Image = ?, content = ?, CategoryEvent = ?, Status = ?, Addreess = ?, description = ? WHERE IdEvent = ?";
@@ -187,7 +187,7 @@ public class EventDAO extends DBContext {
             e.printStackTrace();
         }
     }
-//---------------------------------------------------------------
+//------------------ Hoang
 
     public void deleteEvent(int idEvent) {
         String deleteTasksSql = "DELETE FROM task WHERE IdEvent = ?";
@@ -222,7 +222,7 @@ public class EventDAO extends DBContext {
         }
     }
 
-//--------------------------------------------------------
+//------------------ Hoang
     public List<Event> getEventsByType(int idEventType) {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event WHERE CategoryEvent = ? ORDER BY DateCreate DESC, IdEvent DESC";
@@ -254,7 +254,7 @@ public class EventDAO extends DBContext {
         }
         return eventList;
     }
-//-----------------------------------------
+//------------------ Hoang
 
     public List<Event> getEventsByName(String eventName) {
         List<Event> eventList = new ArrayList<>();

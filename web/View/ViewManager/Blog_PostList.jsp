@@ -95,11 +95,18 @@
         <!-- Left sidebar menu end -->
         <!--Main container start -->
         <main class="ttr-wrapper">
-            <form action="BlogSearchServlet" method="POST" style="width: 300px ; margin-bottom: 30px">
+
+            <form action="BlogSearchServlet" method="GET" class="form-inline mb-3" >
                 <input type="hidden" name="from" value="Blog_PostList.jsp">
-                <input type="text" name="searchKeyword" placeholder="Search by title">
-                <button type="submit">Search</button>
+                <div class="input-group">
+                    <input type="text" name="searchKeyword" class="form-control" placeholder="Search by title" style="width: 400px;">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
             </form>
+
+
             <div class="widget recent-posts-entry">
                 <h6 class="widget-title">Blog From My Club</h6>
                 <div class="widget-post-bx">
@@ -121,12 +128,11 @@
             <c:if test="${not empty errorMessage}">
                 <div class="alert alert-danger">${errorMessage}</div>
             </c:if>
-            <table>
+            <c:if test="${empty errorMessage}">
 
-                <c:if test="${empty errorMessage}">
-                    <thead>
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
                         <tr>
-                            <th>ID Blog</th>
                             <th>Image</th>
                             <th>Title</th>
                             <th>Show</th>
@@ -134,50 +140,62 @@
                             <th>Category Blog</th>
                             <th>Date Modify</th>
                             <th>Status</th>
-                            <th colspan="2"><a href="#" onclick="openModal('${pageContext.request.contextPath}/UploadServlet?from=Blog_PostList.jsp', 'insert')">Insert</a></th>
-
+                            <th colspan="2"> Action </th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="Blog" items="${BlogByIDList}">
-
                             <tr>
-                                <td>${Blog.idBlog}</td>
-                                <td><img src="${pageContext.request.contextPath}/${Blog.image}" alt="Uploaded Image" width="200" ></td>
+                                <td><img src="${pageContext.request.contextPath}/${Blog.image}" alt="Uploaded Image" class="img-fluid" width="200"></td>
                                 <td>${Blog.titleBlog}</td>
-                                <td>${Blog.show}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${Blog.show == 0}">
+                                            <span class="badge badge-secondary">Hide</span>
+                                        </c:when>
+                                        <c:when test="${Blog.show == 1}">
+                                            <span class="badge badge-success">Show</span>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
                                 <td>${clubDAO.getClubNameByID(Blog.idClub)}</td>
                                 <td>${settingsDAO.getValueSettingById(Blog.idBlogType)}</td>
                                 <td>${Blog.dateModify}</td>
                                 <td>
-                                <c:choose>
-                                    <c:when test="${Blog.status == 0}">
-                                        Inactive
-                                    </c:when>
-                                    <c:when test="${Blog.status == 1}">
-                                        Active
-                                    </c:when>
-                                </c:choose>
-                                        </td>
-                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'update')">Update</a></td>
-                                <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'delete')">Delete</a></td>
-                        </tr>
-                    </c:forEach>
+                                    <c:choose>
+                                        <c:when test="${Blog.status == 0}">
+                                            <span class="badge badge-danger">Inactive</span>
+                                        </c:when>
+                                        <c:when test="${Blog.status == 1}">
+                                            <span class="badge badge-success">Active</span>
+                                        </c:when>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm" onclick="openModal('${pageContext.request.contextPath}/BlogUpdateServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'update')">Update</a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm" onclick="openModal('${pageContext.request.contextPath}/BlogDeleteServlet?idBlog=${Blog.idBlog}&from=Blog_PostList.jsp', 'delete')">Delete</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
+
                 <div class="pagination-bx rounded-sm gray clearfix">
                     <ul class="pagination">
                         <c:if test="${currentPage > 1}">
-                            <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                            <li class="previous"><a href="?page=${currentPage - 1}&idClub=${idClub}&searchKeyword=${searchKeyword}&from=Blog_PostList.jsp"><i class="ti-arrow-left"></i> Prev</a></li>
                             </c:if>
                             <c:forEach begin="1" end="${noOfPages}" var="i">
-                            <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
+                            <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}&idClub=${idClub}&searchKeyword=${searchKeyword}&from=Blog_PostList.jsp">${i}</a></li>
                             </c:forEach>
                             <c:if test="${currentPage < noOfPages}">
-                            <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
+                            <li class="next"><a href="?page=${currentPage + 1}&idClub=${idClub}&searchKeyword=${searchKeyword}&from=Blog_PostList.jsp">Next <i class="ti-arrow-right"></i></a></li>
                                 </c:if>
                     </ul>
                 </div>
+
             </c:if>
         </main>
 

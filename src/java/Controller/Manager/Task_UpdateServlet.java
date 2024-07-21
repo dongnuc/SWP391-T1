@@ -23,7 +23,7 @@ import java.util.List;
  * @author 10t1q
  */
 @WebServlet(name = "GiveTask_Update", urlPatterns = {"/GiveTaskUpdate"})
-public class GiveTask_UpdateServlet extends HttpServlet {
+public class Task_UpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,6 +62,7 @@ public class GiveTask_UpdateServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String xidEventTask = request.getParameter("idEventTask");
+        int idEventTasK = Integer.parseInt(xidEventTask);
         String nameTask = request.getParameter("nameTask");
         String description = request.getParameter("description");
         String content = request.getParameter("content");
@@ -83,10 +84,16 @@ public class GiveTask_UpdateServlet extends HttpServlet {
         if (nameTask == null || nameTask.trim().isEmpty()) {
             hasError = true;
             errornameTask.append("Name Task cannot be empty.<br>");
+        } else if (nameTask.length() > 128) {
+            hasError = true;
+            errornameTask.append("Name task cant greater than 128");
         }
         if (description == null || description.trim().isEmpty()) {
             hasError = true;
             errordescription.append("Description cannot be empty.<br>");
+        } else if (description.length() > 128) {
+            hasError = true;
+            errordescription.append("Description must smaller than 128");
         }
         if (content == null || content.trim().isEmpty()) {
             hasError = true;
@@ -99,6 +106,18 @@ public class GiveTask_UpdateServlet extends HttpServlet {
         if (xbudget == null || xbudget.trim().isEmpty()) {
             hasError = true;
             errorxbudget.append("Budget cannot be empty.<br>");
+        } 
+        else {
+            try {
+                float budget = Float.parseFloat(xbudget);
+                if (budget < 0) {
+                    errorxbudget.append("Budget cannot be negative.<br>");
+                    hasError = true;
+                }
+            } catch (NumberFormatException e) {
+                errorxbudget.append("Budget must be a valid number.<br>");
+                hasError = true;
+            }
         }
         if (xstatus == null || xstatus.trim().isEmpty()) {
             hasError = true;
@@ -109,44 +128,28 @@ public class GiveTask_UpdateServlet extends HttpServlet {
             errorxdeadline.append("Deadline cannot be empty.<br>");
         }
 
-        float budget = 0;
-        int department = 0;
-        int status = 0;
-        Timestamp deadline = null;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
-        if (!hasError) {
-            try {
-                budget = Float.parseFloat(xbudget);
-            } catch (NumberFormatException e) {
-                hasError = true;
-                errorxbudget.append("Budget must be a valid float number.<br>");
-            }
-
-            try {
-                department = Integer.parseInt(xdepartment);
-            } catch (NumberFormatException e) {
-                hasError = true;
-                errorxdepartment.append("Department must be a valid integer.<br>");
-            }
-
-            try {
-                status = Integer.parseInt(xstatus);
-            } catch (NumberFormatException e) {
-                hasError = true;
-                errorxstatus.append("Status must be a valid integer.<br>");
-            }
-
-            try {
-                Date parsedDeadline = dateFormat.parse(xdeadline);
-                deadline = new Timestamp(parsedDeadline.getTime());
-            } catch (Exception e) {
-                hasError = true;
-                errorxdeadline.append("Deadline must be a valid date and time.<br>");
-            }
-        }
-
         if (hasError) {
+            SettingDAO settingDAO = new SettingDAO();
+            List<Settings> settingList = settingDAO.getSettingsClub();
+
+            Iterator<Settings> iterator = settingList.iterator();
+            while (iterator.hasNext()) {
+                Settings setting = iterator.next();
+                if (setting.getValueSetting().equals("Manager")) {
+                    iterator.remove();
+                }
+            }
+
+            EventDAO eventDAO = new EventDAO();
+            ClubDao clubDao = new ClubDao();
+            EventTaskDAO eventTaskDAO = new EventTaskDAO();
+            EventTask EventTask = eventTaskDAO.getEventTaskByIdTask(idEventTasK);
+
+            request.setAttribute("EventTask", EventTask);
+            request.setAttribute("eventDAO", eventDAO);
+            request.setAttribute("clubDao", clubDao);
+            request.setAttribute("settingList", settingList);
+
             request.setAttribute("errornameTask", errornameTask.toString());
             request.setAttribute("errordescription", errordescription.toString());
             request.setAttribute("errorcontent", errorcontent.toString());
@@ -154,13 +157,21 @@ public class GiveTask_UpdateServlet extends HttpServlet {
             request.setAttribute("errorxbudget", errorxbudget.toString());
             request.setAttribute("errorxstatus", errorxstatus.toString());
             request.setAttribute("errorxdeadline", errorxdeadline.toString());
-            
-            doGet(request, response);
+
+            request.getRequestDispatcher("/View/ViewManager/Task_Update.jsp").forward(request, response);
             return;
         }
+        float budget = Float.parseFloat(xbudget);
+        int department = Integer.parseInt(xdepartment);
+        int status = Integer.parseInt(xstatus);
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
         try {
             int idEventTask = Integer.parseInt(xidEventTask);
+            Date parsedDeadline = dateFormat.parse(xdeadline);
+            Timestamp deadline = new Timestamp(parsedDeadline.getTime());
+            
             EventTask eventTask = new EventTask(idEventTask, nameTask, description, content, deadline, department, budget, status);
             EventTaskDAO eventTaskDAO = new EventTaskDAO();
             eventTaskDAO.updateEventTask(eventTask);

@@ -89,6 +89,15 @@
                                      <input type="hidden" name="from" value="${from}">
                                     <input type="hidden" name="from" value="Event_List.jsp">
                                     <div class="row">
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">ID Event: ${event.idEvent}</label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Create: ${event.datecreate}</label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Modify : ${event.dateModify}</label>
+                                        </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name event</label>
                                             <div>

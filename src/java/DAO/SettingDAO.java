@@ -43,6 +43,7 @@ public class SettingDAO extends DBContext{
         }
         return settingsList;
     }
+    //----------------------Hoang
     public List<Settings> getSettingsBlog() {
         List<Settings> settingsList = new ArrayList<>();
         String sql = "SELECT * FROM settings WHERE typeSetting ='4'";
@@ -68,7 +69,7 @@ public class SettingDAO extends DBContext{
 
         return settingsList;
     }
-    
+  //-------------Hoang  
     public List<Settings> getSettingsClub() {
         List<Settings> settingsList = new ArrayList<>();
         String sql = "SELECT * FROM settings WHERE typeSetting ='1'";
@@ -94,7 +95,7 @@ public class SettingDAO extends DBContext{
 
         return settingsList;
     }
-    
+    //------------------ Hoang
      public List<Settings> getSettingsEvent() {
         List<Settings> settingsList = new ArrayList<>();
         String sql = "SELECT * FROM settings WHERE typeSetting ='5'";
@@ -121,6 +122,7 @@ public class SettingDAO extends DBContext{
         return settingsList;
     }
     
+     //------------------ Hoang
     public Settings getSettingById(int idSetting) {
         String sql = "SELECT * FROM settings WHERE idSetting = ?";
         Settings settings = null;
@@ -147,7 +149,7 @@ public class SettingDAO extends DBContext{
 
         return settings;
     }
-    
+    //---Hoang
     public String getValueSettingById(int idSetting) {
     String valueSetting = null;
     String sql = "SELECT valueSetting FROM settings WHERE idSetting = ?";

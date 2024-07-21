@@ -85,11 +85,20 @@
                                 <form class="edit-profile m-b30" action="${pageContext.request.contextPath}/GiveTaskUpdate" method="post">
                                     <input type="hidden" name="idEventTask" value="${EventTask.idEventTask}">
                                     <div class="row">
-                                        <div class="form-group col-6">
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">ID Task: ${EventTask.idEventTask}</label>
+                                        </div>
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Event name: ${eventDAO.getEventNameById(EventTask.idEvent)}</label>
                                         </div>
-                                        <div class="form-group col-6">
+                                        <div class="form-group col-4">
                                             <label class="col-form-label">Club: ${clubDao.getClubNameByID(EventTask.idClub)}</label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Create: ${EventTask.dateCreate}</label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Modify ${EventTask.dateModify}</label>
                                         </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Name Task</label>

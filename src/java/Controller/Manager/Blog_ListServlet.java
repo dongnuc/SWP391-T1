@@ -29,6 +29,9 @@ public class Blog_ListServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         List<Blog> postList = (List<Blog>) request.getAttribute("BlogByIDList");
+        String idBlogType = request.getParameter("idBlogType");
+        String searchKeyword = request.getParameter("searchKeyword");
+        String from = request.getParameter("from");
 
         BlogDAO postDAO = new BlogDAO();
         if(postList == null ){
@@ -65,6 +68,10 @@ public class Blog_ListServlet extends HttpServlet {
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("curruser", acc);
         request.setAttribute("clubDAO", clubDAO);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("idBlogType", idBlogType);
+        request.setAttribute("searchKeyword", searchKeyword);
+        request.setAttribute("from", from);
 
         request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
     } 

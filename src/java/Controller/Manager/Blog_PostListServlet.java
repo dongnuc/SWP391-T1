@@ -25,6 +25,9 @@ public class Blog_PostListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Blog> BlogByIDList = (List<Blog>) request.getAttribute("BlogByIDList");
+        String idClub = request.getParameter("idClub");
+        String searchKeyword = request.getParameter("searchKeyword");
+        String from = request.getParameter("from");
 
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
         StudentClubDao studentClubDAO = new StudentClubDao();
@@ -70,6 +73,9 @@ public class Blog_PostListServlet extends HttpServlet {
         request.setAttribute("BlogByIDList", paginatedList);
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("currentPage", page);
+        request.setAttribute("idClub", idClub);
+        request.setAttribute("searchKeyword", searchKeyword);
+        request.setAttribute("from", from);
         request.getRequestDispatcher("/View/ViewManager/Blog_PostList.jsp").forward(request, response);
     }
 

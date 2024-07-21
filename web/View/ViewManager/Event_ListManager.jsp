@@ -95,10 +95,15 @@
         <!-- Left sidebar menu end -->
         <!--Main container start -->
         <main class="ttr-wrapper">
-            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px ;width: 300px">
+            
+            <form action="EventSearchAllServlet" method="GET" class="mb-3" >
                 <input type="hidden" name="from" value="Event_ListManager.jsp">
-                <input type="text" name="name" class="form-control" />
-                <input type="submit" value="Search" class="btn btn-primary" />
+                <div class="input-group">
+                    <input type="text" name="name" class="form-control" placeholder="Search by name" style="max-width: 400px;">
+                    <div class="input-group-append">
+                        <input type="submit" value="Search" class="btn btn-primary">
+                    </div>
+                </div>
             </form>
             
             <div class="widget recent-posts-entry">
@@ -122,30 +127,28 @@
             <c:if test="${not empty errorMessage}">
                 <div class="alert alert-danger">${errorMessage}</div>
             </c:if>
-            <table>
-                <thead>
+                
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
                     <tr>
-                        <th>ID Event</th>
                         <th>Image</th>
                         <th>Name Event</th>
-                        <th>Description</th>
                         <th>Address</th>
                         <th>Time</th>
                         <th>Club</th>
                         <th>Type Event</th>
                         <th>Date Modify</th>
                         <th>Status</th>
-                        <th colspan="3"><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUploadServlet?from=Event_ListManager.jsp', 'insert')">Insert</a></th>
+                        <th colspan="3">
+                            <a>Action</a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-
                     <c:forEach var="Event" items="${EventByIDList}">
                         <tr>
-                            <td>${Event.idEvent}</td>
-                            <td><img src="${pageContext.request.contextPath}/${Event.image}" alt="Uploaded Image"  ></td>
+                            <td><img src="${pageContext.request.contextPath}/${Event.image}" alt="Uploaded Image" class="img-thumbnail" style="max-width: 100px;"></td>
                             <td>${Event.nameEvent}</td>
-                            <td>${Event.description}</td>
                             <td>${Event.address}</td>
                             <td>${Event.dateStart} to ${Event.enddate}</td>
                             <td>${clubDAO.getClubNameByID(Event.idClub)}</td>
@@ -164,23 +167,30 @@
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'update')">Update</a></td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'delete')">Delete</a></td>
-                            <td><a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&idClub=${Event.idClub}&from=Event_GiveTaskList.jsp', 'give task')">Give Task</a></td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'update')">Update</a>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-danger btn-sm" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${Event.idEvent}&from=Event_ListManager.jsp', 'delete')">Delete</a>
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-warning btn-sm" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${Event.idEvent}&idClub=${Event.idClub}&from=Event_GiveTaskList.jsp', 'give task')">Give Task</a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+                
             <div class="pagination-bx rounded-sm gray clearfix">
                 <ul class="pagination">
                     <c:if test="${currentPage > 1}">
-                        <li class="previous"><a href="?page=${currentPage - 1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                        <li class="previous"><a href="?page=${currentPage - 1}&idClub=${idClub}&from=${from}&name=${name}"><i class="ti-arrow-left"></i> Prev</a></li>
                         </c:if>
                         <c:forEach begin="1" end="${noOfPages}" var="i">
-                        <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}">${i}</a></li>
+                        <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}&idClub=${idClub}&from=${from}&name=${name}">${i}</a></li>
                         </c:forEach>
                         <c:if test="${currentPage < noOfPages}">
-                        <li class="next"><a href="?page=${currentPage + 1}">Next <i class="ti-arrow-right"></i></a></li>
+                        <li class="next"><a href="?page=${currentPage + 1}&idClub=${idClub}&from=${from}&name=${name}">Next <i class="ti-arrow-right"></i></a></li>
                             </c:if>
                 </ul>
             </div>

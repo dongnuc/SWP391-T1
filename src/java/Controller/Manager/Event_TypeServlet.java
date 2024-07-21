@@ -31,7 +31,7 @@ public class Event_TypeServlet extends HttpServlet {
         
         String ID = request.getParameter("idEventType");
         int xId = Integer.parseInt(ID);
-   
+        request.setAttribute("idEventType", ID);
         
         SettingDAO settingDAO = new SettingDAO();
         Settings settings = settingDAO.getSettingById(xId);
@@ -45,9 +45,7 @@ public class Event_TypeServlet extends HttpServlet {
         List<Settings> eventTypeList = settingDAO.getSettingsEvent();
         request.setAttribute("eventTypeList", eventTypeList);
         
-        if ("Event_List.jsp".equals(from)) {
         request.getRequestDispatcher("/EventSerlet").forward(request, response);
-        }
     }
 
     @Override

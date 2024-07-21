@@ -70,6 +70,15 @@
                                     <input type="hidden" name="from" value="${fromPage}">
                                     <div class="row">
                                         <input type="hidden" name="idblog" value="${x.idBlog}">
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">ID : ${x.idBlog}</label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Create : ${x.dateCreate} </label>
+                                        </div>
+                                        <div class="form-group col-4">
+                                            <label class="col-form-label">Date Modify : ${x.dateModify} </label>
+                                        </div>
                                         <div class="form-group col-6">
                                             <label class="col-form-label">Title</label>
                                             <div>

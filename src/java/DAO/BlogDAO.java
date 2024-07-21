@@ -11,7 +11,7 @@ import Model.Blog;
 import java.sql.Timestamp;
 
 public class BlogDAO extends DBContext {
-//--------------------------------------------------------
+//-----------------------------Hoang
 
     public void insertPost(Blog blog) {
         String sql = "INSERT INTO blog(IdBlog, TittleBlog, Image, Description, Content, DateCreate, DateModify, categoryBlog, `Show`, Status, IdClub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -40,7 +40,7 @@ public class BlogDAO extends DBContext {
         }
     }
 
-//------------------------------------
+//------------------ Hoang
     public List<Blog> searchBlogsByTitle(String title) {
         List<Blog> posts = new ArrayList<>();
         String sql = "SELECT * FROM blog WHERE TittleBlog LIKE ?";
@@ -69,7 +69,7 @@ public class BlogDAO extends DBContext {
         }
         return posts;
     }
-    
+//------------------ Hoang
     public List<Blog> getAllPosts() {
         List<Blog> posts = new ArrayList<>();
         String sql = "SELECT * FROM blog ORDER BY DateCreate DESC";
@@ -98,7 +98,7 @@ public class BlogDAO extends DBContext {
         }
         return posts;
     }
-    
+    //--------------------Hoang
     public List<Blog> getLatestPosts(int limit) {
     List<Blog> posts = new ArrayList<>();
     String sql = "SELECT * FROM blog ORDER BY DateCreate DESC LIMIT ?";
@@ -130,7 +130,7 @@ public class BlogDAO extends DBContext {
     return posts;
 }
 
-    
+//---------- Hoang
     public List<Blog> getPostsByClubId(int clubId) {
     List<Blog> posts = new ArrayList<>();
     String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
@@ -162,7 +162,7 @@ public class BlogDAO extends DBContext {
     return posts;
 }
 
-    //-------------------------------------------------
+    //----------------------------Hoang
     public List<Blog> getBlogByIdClub(int IdClub) {
     List<Blog> posts = new ArrayList<>();
     String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
@@ -192,7 +192,7 @@ public class BlogDAO extends DBContext {
     return posts;
 }
 
-//-------------------------------------------------------
+//--------------------Hoang
 
     public Blog getPost(int idBlog) {
         String sql = "SELECT * FROM blog WHERE IdBlog = ?";
@@ -222,7 +222,7 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
-//------------
+//------------------ Hoang
 
     public List<Blog> getBlogListByType(int idBlogType) {
         List<Blog> blogList = new ArrayList<>();
@@ -253,7 +253,7 @@ public class BlogDAO extends DBContext {
         }
         return blogList;
     }
-//------------------------------------------------------------------
+//------------------ Hoang
     public void updatePost(Blog post) {
         String sql = "UPDATE blog SET TittleBlog = ?, Image = ?, Description = ?, Content = ?, DateModify = ?, categoryBlog = ?, `Show` = ?, Status = ?, IdClub = ? WHERE IdBlog = ?";
 
@@ -275,7 +275,7 @@ public class BlogDAO extends DBContext {
             e.printStackTrace();
         }
     }
-//-----------------------------------------------------
+//---------------------- Hoang
 
     public void deletePost(int idBlog) {
         String sql = "DELETE FROM blog WHERE IdBlog = ?";

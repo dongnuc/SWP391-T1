@@ -51,7 +51,7 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <style>
             .event-type-list {
@@ -63,61 +63,97 @@
                 margin-bottom: 5px;
                 text-decoration: none; /* Optional: to remove underline from links */
             }
-        </style>
-        <style>
-        .toast {
-            display: flex !important;
-            align-items: center !important;
-            background-color: #fff !important;
-            border-radius: 2px !important;
-            padding: 20px 0 !important;
-            min-width: 400px !important;
-            max-width: 450px !important;
-            border-left: 4px solid !important;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08) !important;
-            transition: all linear 0.3s !important;
-            background: greenyellow !important;
-            z-index: 1001 !important;
-            animation: slideInLeft 0.3s ease forwards, fadeOut 0.3s ease forwards 3s; 
-        }
-        .toast_icon {
-            font-size: 24px;
-            padding: 0 16px;
-        }
-        .toast_body {
-            color: white !important;
-            
-        }
-        #toast {
-            position: fixed;
-            top: 124px;
-            right: 32px;
-            z-index: 1001 !important;
+            .toast {
+                display: flex !important;
+                align-items: center !important;
+                background-color: #fff !important;
+                border-radius: 2px !important;
+                padding: 20px 0 !important;
+                min-width: 400px !important;
+                max-width: 450px !important;
+                border-left: 4px solid !important;
+                box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08) !important;
+                transition: all linear 0.3s !important;
+                background: greenyellow !important;
+                z-index: 1001 !important;
+                animation: slideInLeft 0.3s ease forwards, fadeOut 0.3s ease forwards 3s;
+            }
+            .toast_icon {
+                font-size: 24px;
+                padding: 0 16px;
+            }
+            .toast_body {
+                color: white !important;
 
-        }
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(calc(100% + 32px));
             }
-            to {
-                opacity: 1;
-                transform: translateX(0);
+            #toast {
+                position: fixed;
+                top: 124px;
+                right: 32px;
+                z-index: 1001 !important;
+
             }
-        }
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
+            @keyframes slideInLeft {
+                from {
+                    opacity: 0;
+                    transform: translateX(calc(100% + 32px));
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
             }
-        }
-    </style>
-    <%
-    String check = (String) request.getAttribute("showtoast");
-    %>
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                }
+            }
+        </style>
+        <script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+            // Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            
+        </script>
+        <%
+        String check = (String) request.getAttribute("showtoast");
+        %>
     </head>
     <body id="bg">
         <div id="toast">
-            
+
 
         </div>
         <div class="page-wraper">
@@ -140,7 +176,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
-                            <form action="EventSearchAllServlet" method="post" style="margin-bottom: 20px">
+                            <form action="EventSearchAllServlet" method="GET" style="margin-bottom: 20px">
                                 <input type="hidden" name="from" value="Event_List.jsp">
                                 <input type="text" name="name" class="form-control" />
                                 <input type="submit" value="Search" class="btn btn-primary" style="margin-left:-162px "/>
@@ -155,23 +191,23 @@
                         </div>
                         <div class="content-block col-md-9">
                             <div style="margin-top: 75px ; margin-bottom: -45px; margin-left: 15px;">
-                            <c:forEach var="studentClub" items="${StudentClubList}">
-                                <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
-                                    <div class="widget_tag_cloud">
-                                        <div class="tagcloud">
-                                            <a href="<c:url value='/EventUploadServlet?from=Event_List.jsp' />"> Upload New Event</a>
+                                <c:forEach var="studentClub" items="${StudentClubList}">
+                                    <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
+                                        <div class="widget_tag_cloud">
+                                            <div class="tagcloud">
+                                                <a href="<c:url value='/EventUploadServlet?from=Event_List.jsp' />"> Upload New Event</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <c:set var="printed" value="true" />
-                                </c:if>
-                            </c:forEach>
+                                        <c:set var="printed" value="true" />
+                                    </c:if>
+                                </c:forEach>
                             </div>
                             <div class="section-area section-sp1 gallery-bx">
                                 <div class="container">
                                     <div class="clearfix">
                                         <c:if test="${not empty errorMessage}">
-                                                    <div class="alert alert-danger">${errorMessage}</div>
-                                                </c:if>
+                                            <div class="alert alert-danger">${errorMessage}</div>
+                                        </c:if>
                                         <ul id="masonry" class="ttr-gallery-listing magnific-image row">
                                             <c:forEach var="event" items="${eventList}">
                                                 <c:if test="${event.status != 0}">
@@ -181,7 +217,7 @@
                                                         <div class="event-bx m-b30">
                                                             <div class="action-box">
                                                                 <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                    <img src="<c:url value='/${event.image}' />" alt="">
+                                                                    <img src="<c:url value='/${event.image}' />" alt="Img">
                                                                 </a>
                                                             </div>
                                                             <div class="info-bx d-flex">
@@ -190,15 +226,15 @@
                                                                         <div class="event-date"><fmt:formatDate value="${dateStart}" pattern="dd" /></div>
                                                                         <div class="event-month"><fmt:formatDate value="${dateStart}" pattern="MMMM yyyy" /></div>
                                                                         <div class="event-month"><fmt:formatDate value="${dateStart}" pattern="HH:mm" /> to 
-                                                                        <fmt:formatDate value="${dateEnd}" pattern="HH:mm" />
+                                                                            <fmt:formatDate value="${dateEnd}" pattern="HH:mm" />
                                                                         </div> 
                                                                     </div>
                                                                     <div style="margin-top: 10px">
-                                                                    <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
-                                                                                <i class="fa fa-map-marker"></i>
-                                                                                <c:out value="${event.address}" />
-                                                                            </a>
-                                                                            </div>
+                                                                        <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
+                                                                            <i class="fa fa-map-marker"></i>
+                                                                            <c:out value="${event.address}" />
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="event-info">
                                                                     <h4 class="event-title">
@@ -216,14 +252,14 @@
                                                                     </ul>
                                                                     <a href="<c:url value='/EventDetailServlet?idEvent=${event.idEvent}' />">
                                                                         <c:out value="${event.description}" />
-                                                                        
-                                                                    </a>
-                                                                       
 
-<c:if test="${event.dateStart.time > currentDate.time}">
-    <a href="<c:url value='/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}' /> " style="color: red">Register Here</a>
-</c:if>  
-                                                                     
+                                                                    </a>
+
+
+                                                                    <c:if test="${event.dateStart.time > currentDate.time}">
+                                                                        <a href="<c:url value='/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}' /> " style="color: red">Register Here</a>
+                                                                    </c:if>  
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -231,6 +267,21 @@
                                                 </c:if>
                                             </c:forEach>
                                         </ul>
+
+                                        <div class="pagination-bx rounded-sm gray clearfix">
+                                            <ul class="pagination">
+                                                <c:if test="${currentPage > 1}">
+                                                    <li class="previous"><a href="?page=${currentPage - 1}&idEventType=${idEventType}&from=${from}&name=${name}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                    </c:if>
+                                                    <c:forEach begin="1" end="${noOfPages}" var="i">
+                                                    <li class="${currentPage == i ? 'active' : ''}"><a href="?page=${i}&idEventType=${idEventType}&from=${from}&name=${name}">${i}</a></li>
+                                                    </c:forEach>
+                                                    <c:if test="${currentPage < noOfPages}">
+                                                    <li class="next"><a href="?page=${currentPage + 1}&idEventType=${idEventType}&from=${from}&name=${name}">Next <i class="ti-arrow-right"></i></a></li>
+                                                        </c:if>
+                                            </ul>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -365,11 +416,11 @@
         <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
         <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>
         <script>
-            window.onload = function () {
-                var check = '<%= check %>';
-                if (check === 'true') {
-                    const toast = document.getElementById('toast');
-                    toast.innerHTML = `
+        window.onload = function () {
+            var check = '<%= check %>';
+            if (check === 'true') {
+                const toast = document.getElementById('toast');
+                toast.innerHTML = `
                     <div class="toast">
                         <div class="toast_icon">
                             <i class="fa-solid fa-check"></i>
@@ -380,12 +431,12 @@
                     </div>
                 `;
 
-                    setTimeout(() => {
-                        const toastElement = document.querySelector('.toast');
-                        toastElement.classList.add('show');
-                    }, 100);
-                }
+                setTimeout(() => {
+                    const toastElement = document.querySelector('.toast');
+                    toastElement.classList.add('show');
+                }, 100);
             }
+        }
 
         </script>
     </body>

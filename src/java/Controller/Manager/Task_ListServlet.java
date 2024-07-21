@@ -21,13 +21,16 @@ import java.util.List;
  * @author 10t1q
  */
 @WebServlet(name="Event_GiveTaskListServlet", urlPatterns={"/EventGiveTaskListServlet"})
-public class Event_GiveTaskListServlet extends HttpServlet {
+public class Task_ListServlet extends HttpServlet {
    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        
         List<EventTask> EventTaskByIDList = (List<EventTask>) request.getAttribute("EventTaskByIDList");
+        String idClub = request.getParameter("idClub");
+        String searchKeyword = request.getParameter("searchKeyword");
         
         Accounts account = (Accounts) request.getSession().getAttribute("curruser");
         StudentClubDao studentClubDAO = new StudentClubDao();
@@ -74,6 +77,9 @@ public class Event_GiveTaskListServlet extends HttpServlet {
         request.setAttribute("EventTaskByIDList", paginatedList);
         request.setAttribute("noOfPages", noOfPages);
         request.setAttribute("currentPage", page);
+        request.setAttribute("idClub", idClub);
+        request.setAttribute("searchKeyword", searchKeyword);
+        
         request.getRequestDispatcher("/View/ViewManager/Event_GiveTaskList.jsp").forward(request, response);
     } 
 
