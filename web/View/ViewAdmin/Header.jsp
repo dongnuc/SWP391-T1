@@ -99,7 +99,7 @@
 
                         <c:if test="${sessionScope.account!=null}">
                             <div class="profile-picture" onmouseover="showProfileInfo()" onmouseout="hideProfileInfo()" onclick="toggleProfileInfo()" >
-                                <img src="${sessionScope.account.image != null ? sessionScope.account.image : 'images/avatar.png'}" alt="">
+                                <img src="${sessionScope.image!= null? sessionScope.image : 'images/avatar.png'}" alt="">
                                 <div class="profile-info" id="profile-info">
                                     <h6>${sessionScope.account}</h6>
                                     <a href="<%= request.getContextPath() %>/profile" id="edit-profile-link">Edit Profile</a><br>
@@ -143,7 +143,7 @@
                         <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogServlet">Blog</a></li>
                         <li><a href="<%= request.getContextPath() %>/contactus">ContactUs</a></li>
-                        <li><a href="PublicClubs">Clubs</a></li>
+                        <li><a href="PublicClubs?page=1">Clubs</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>
                         </c:if> 

@@ -92,7 +92,7 @@
                         <span class="ttr-icon"><i class="ti-calendar"></i></span>
                         <span class="ttr-label">Clubs</span>
                         <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        
+
                     </a>
                     <ul>
                         <li>
@@ -101,7 +101,9 @@
                         <li>
                             <a href="ClubStudentRegistrationAdminServlet?id=${param.id}" class="ttr-material-button"><span class="ttr-label">Club Student Registration</span></a>
                         </li>
-                
+                        <li>
+                            <a href="EventClubStudentRegistrationServlet?id=${param.id}">Student Recruitment Event</a>
+                        </li>
                     </ul>
                 </li>
 

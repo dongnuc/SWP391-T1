@@ -90,7 +90,8 @@
                                 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                                     <div class="widget courses-search-bx placeani">
                                         <div class="form-group">
-                                            <form action="SearchClubServlet" method="get" style="margin-bottom: 20px;">
+                                            <form action="SearchClubServlet?page=1" method="get" style="margin-bottom: 20px;">
+                                                <input name="page" type="hidden" value="1">
                                                 <label>Search Club</label>
                                                 <div class="input-group" style="display: flex; align-items: center;">
                                                     <input name="search" type="text" value="${searchQuery}" required class="form-control" style="flex: 1; margin-right: -1px;">
@@ -104,9 +105,9 @@
                                     <div class="widget widget_archive">
                                         <h5 class="widget-title style-1">TYPE CLUB</h5>
                                         <ul>
-                                            <li class="active"><a href="PublicClubs">General</a></li>
+                                            <li class="active"><a href="PublicClubs?page=1">General</a></li>
                                                 <c:forEach var="typeclub" items="${requestScope.listtypeclub}">
-                                                <li><a href="ClubTypeController?id=${typeclub}">${typeclub}</a></li>
+                                                <li><a href="ClubTypeController?id=${typeclub}&&page=1">${typeclub}</a></li>
                                                 </c:forEach>
 
                                         </ul>
@@ -151,28 +152,38 @@
                                         <div class="pagination-bx rounded-sm gray clearfix">
                                             <ul class="pagination">
                                                 <c:if test="${requestScope.i==null}">
+                                                    <c:if test="${param.page!=1}">
                                                     <li class="previous"><a href="PublicClubs?page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                        <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
+                                                    </c:if>    
+                                                    <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
                                                         <li><a href="PublicClubs?page=${i}">${i}</a></li>
                                                         </c:forEach>
-                                                    <li class="next"><a href="PublicClubs?page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
-
+                                                        <c:if test="${param.page!=requestScope.numberOfPage}">
+                                                        <li class="next"><a href="PublicClubs?page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                        </c:if>
                                                 </c:if>
                                                 <c:if test="${requestScope.ty==null}">
-                                                    <li class="previous"><a href="ClubTypeController?id=${requestScope.id}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                    <c:if test="${param.page!=1}">
+                                                        <li class="previous"><a href="ClubTypeController?id=${requestScope.category}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                        </c:if>  
                                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
-                                                        <li><a href="ClubTypeController?id=${requestScope.id}&&page=${i}">${i}</a></li>
+                                                        <li><a href="ClubTypeController?id=${requestScope.category}&&page=${i}">${i}</a></li>
                                                         </c:forEach>
-                                                    <li class="next"><a href="ClubTypeController?id=${requestScope.id}&&page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                        <c:if test="${param.page!=requestScope.numberOfPage}">
+                                                        <li class="next"><a href="ClubTypeController?id=${requestScope.category}&&page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                            </c:if>
                                                         </c:if>
                                                         <c:if test="${requestScope.se==null}">
-                                                    <li class="previous"><a href="SearchClubServlet?search=${searchQuery}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                            <c:if test="${param.page!=1}">
+                                                        <li class="previous"><a href="SearchClubServlet?search=${searchQuery}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                        </c:if>
                                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
                                                         <li><a href="SearchClubServlet?search=${searchQuery}&&page=${i}">${i}</a></li>
                                                         </c:forEach>
-                                                    <li class="next"><a href="SearchClubServlet?search=${searchQuery}&&page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
-
-                                                </c:if>
+                                                        <c:if test="${param.page!=requestScope.numberOfPage}">
+                                                        <li class="next"><a href="SearchClubServlet?search=${searchQuery}&&page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                            </c:if>
+                                                        </c:if>
                                             </ul>
                                         </div>
                                     </div>
