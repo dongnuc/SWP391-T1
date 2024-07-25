@@ -88,7 +88,8 @@
                 <h4 class="breadcrumb-title">Student In Club</h4>
                 <ul class="db-breadcrumb-list">
                     <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="StudentClubServlet?id=${param.id}"><i class="fa fa-home"></i>Student In Club</a></li>
+                    <c:set var="name" value="${requestScope.name}"/>
+                    <li><a href="StudentClubServlet?id=${param.id}"><i class="fa fa-home"></i>Student In ${name}</a></li>
                 </ul>
             </div>	
             <div class="row">
@@ -181,12 +182,12 @@
                                         <td>
                                             <c:if test="${club.getStatus()==1}">
                                                 <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdClub()}&&idstudent=${club.getIdStudent()}')" style="margin-right: 5px">
-                                                    <i class="fa fa-check"></i> Action
+                                                    <i class="fa fa-check"></i> Active
                                                 </a>
                                             </c:if>
                                             <c:if test="${club.getStatus()==0}">
                                                 <a href="javascript:void(0)" onclick="openConfirmModal('SetStatusStudentServlet?id=${club.getIdClub()}&&idstudent=${club.getIdStudent()}')" style="margin-right: 5px">
-                                                    <i class="fa fa-times"></i> Inaction
+                                                    <i class="fa fa-times"></i> Inactive
                                                 </a>
                                             </c:if>
                                         </td>

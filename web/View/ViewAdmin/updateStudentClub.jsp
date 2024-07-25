@@ -106,7 +106,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="small mb-1" for="inputFirstName" >Role</label>
+                                        <label class="small mb-1" for="inputFirstName" >Position</label>
                                         <select name="position" class="form-control">
                                         <option value="1" <c:if test="${student.getLeader() == 1}">selected</c:if>>Leader</option>
                                         <option value="0" <c:if test="${student.getLeader() == 0}">selected</c:if>>Member</option>

@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-         <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="keywords" content="" />
         <meta name="author" content="" />
@@ -102,10 +102,14 @@
             .form{
                 padding-top: 20px;
             }
+            .error-message {
+                font-size: 14px;
+                margin: 5px 0;
+            }
         </style>
     </head>
     <body>
-        <body id="bg">
+    <body id="bg">
         <div class="page-wraper">
             <div id="loading-icon-bx"></div>
 
@@ -123,92 +127,95 @@
                     </div>
                 </div>
                 <!-- Breadcrumb row -->
-               <form method="post" action="/SWP391/registerclub" style="padding-top: 20px;padding-bottom: 20px;" > 
-           
+                <form method="post" action="/SWP391/registerclub" style="padding-top: 20px;padding-bottom: 20px;" > 
 
-                   <div class="form-container" >
 
-                <div class="form-group" >
-                    <label for="NameClub">Club Name</label>
-                    <input type="text" id="NameClub" name="NameClub" value="${nameClub}"/>
-                    <h6 style="color: red;">${error1}</h6>
-                </div>
-                <div class="form-group">
-                    <label for="clubId">Type of Club</label>
-                    <select id="clubId" name="idClub" class="input-field" >
-                        <option value="">Select Type Club</option>
-                        <c:forEach items="${requestScope.listtypeclub}" var="getTypeClub"> 
-                            <option value="${getTypeClub}">${getTypeClub}</option>
-                        </c:forEach>
-                    </select>
-                    <h6 style="color: red;">${error6}</h6>
-                </div>
-                       <div class="form-group" >
-                    <label for="NameClub">Desired Number Of Members</label>
-                    <input type="text" id="NameClub" name="Member" value="${member}"/>
-                    <h6 style="color: red;">${error2}</h6>
-                </div>
-                <div class="form-group">
-                    <label for="Reason">Reason</label>
-                    <textarea id="Reason" name="Reason" rows="10" cols="50" >
-                        ${reason}
-                    </textarea>
-                    <br>
-                    <h6 style="color: red;">${error3}</h6>
-                </div>
-                 <div class="form-group">
-                    <label for="Reason">Target</label>
-                    <textarea  name="Target" rows="10" cols="50" >
-                        ${target}
-                    </textarea>
-                    <br>
-                    <h6 style="color: red;">${error4}</h6>
-                </div>
-                <div class="form-group" >
-                    <label for="Reason">Plan</label>
-                    <textarea  name="Plan" rows="10" cols="50" >
-                        ${plan}
-                    </textarea>
-                    <br>
-                    <h6 style="color: red;">${error5}</h6>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Register Club"/>
-                </div>    
-                <h6 style="color: green;">${error}</h6>
-                
-                <h6 style="color: red;">${errorr}</h6>
-            </div>    
-        </form>
+                    <div class="form-container" >
+
+                        <div class="form-group" >
+                            <label for="NameClub">Club Name</label>
+                            <input type="text" id="NameClub" name="NameClub" value="${nameClub}"/>
+                            <h6 class="error-message" style="color: red;">${error1}</h6>
+                        </div>
+                        <div class="form-group">
+                            <label for="clubId">Type of Club</label>
+                            <select id="clubId" name="idClub" class="input-field" >
+                                <option value="">Select Type Club</option>
+                                <c:forEach items="${requestScope.listtypeclub}" var="getTypeClub"> 
+                                    <option value="${getTypeClub}"
+                                            <c:if test="${getTypeClub == requestScope.typeclub}">selected</c:if>
+                                            >${getTypeClub}</option>
+                                </c:forEach>
+                            </select>
+                            <h6 class="error-message" style="color: red;">${error6}</h6>
+                        </div>
+                        <div class="form-group" >
+                            <label for="NameClub">Desired Number Of Members</label>
+                            <input type="text" id="NameClub" name="Member" value="${member}"/>
+                            <h6 style="color: red;">${error2}</h6>
+                        </div>
+                        <div class="form-group">
+                            <label for="Reason">Reason</label>
+                            <textarea id="Reason" name="Reason" rows="10" cols="50" >
+                                ${reason}
+                            </textarea>
+                            <br>
+                            <h6 class="error-message" style="color: red;">${error3}</h6>
+                        </div>
+                        <div class="form-group">
+                            <label for="Reason">Target</label>
+                            <textarea  name="Target" rows="10" cols="50" >
+                                ${target}
+                            </textarea>
+                            <br>
+                            <h6 class="error-message" style="color: red;">${error4}</h6>
+                        </div>
+                        <div class="form-group" >
+                            <label for="Reason">Plan</label>
+                            <textarea  name="Plan" rows="10" cols="50" >
+                                ${plan}
+                            </textarea>
+                            <br>
+                            <h6 class="error-message" style="color: red;">${error5}</h6>
+                        </div>
+                        <h6 class="error-message" style="color: green;">${error}</h6>
+
+                        <h6 class="error-message" style="color: red;">${errorr}</h6>
+                        <div class="form-group">
+                            <input type="submit" value="Register Club"/>
+                        </div>    
+                        
+                    </div>    
+                </form>
                 <!-- Breadcrumb row END -->
                 <!-- inner page banner END -->
-               
-            <!-- contact area END -->
 
+                <!-- contact area END -->
+
+            </div>
+            <!-- Content END-->
+            <!-- Footer ==== -->
+            <%@ include file="Footer.jsp" %>
+            <!-- Footer END ==== -->
+            <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
-        <!-- Content END-->
-        <!-- Footer ==== -->
-        <%@ include file="Footer.jsp" %>
-        <!-- Footer END ==== -->
-        <button class="back-to-top fa fa-chevron-up" ></button>
-    </div>
-    <!-- External JavaScripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-    <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-    <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-    <script src="assets/vendors/counter/waypoints-min.js"></script>
-    <script src="assets/vendors/counter/counterup.min.js"></script>
-    <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-    <script src="assets/vendors/masonry/masonry.js"></script>
-    <script src="assets/vendors/masonry/filter.js"></script>
-    <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-    <script src="assets/js/functions.js"></script>
-    <script src="assets/js/contact.js"></script>
-    <script src='assets/vendors/switcher/switcher.js'></script>
-        
+        <!-- External JavaScripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="assets/vendors/counter/waypoints-min.js"></script>
+        <script src="assets/vendors/counter/counterup.min.js"></script>
+        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="assets/vendors/masonry/masonry.js"></script>
+        <script src="assets/vendors/masonry/filter.js"></script>
+        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src="assets/js/functions.js"></script>
+        <script src="assets/js/contact.js"></script>
+        <script src='assets/vendors/switcher/switcher.js'></script>
+
 
 
         <script>
@@ -290,7 +297,7 @@
                 }
             });
         </script>
-<script>
+        <script>
 
             // Function thay đổi trang
             function changePage(page) {
@@ -362,6 +369,6 @@
                 }
             });
         </script>
-        
+
     </body>
 </html>

@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package Controller.Admin;
 
+import DAO.ClubDao;
 import DAO.StudentClubDao;
 import Model.StudentClub;
 import java.io.IOException;
@@ -20,36 +20,39 @@ import java.util.List;
  *
  * @author Nguyen Hau
  */
-@WebServlet(name="StudentClubServlet", urlPatterns={"/StudentClubServlet"})
+@WebServlet(name = "StudentClubServlet", urlPatterns = {"/StudentClubServlet"})
 public class StudentClubServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StudentClubServlet</title>");  
+            out.println("<title>Servlet StudentClubServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StudentClubServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet StudentClubServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -57,7 +60,7 @@ public class StudentClubServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String page = request.getParameter("page");
         int pageNumber = 1;
         String nu = null;
@@ -65,22 +68,26 @@ public class StudentClubServlet extends HttpServlet {
             pageNumber = Integer.parseInt(page);
         }
         StudentClubDao stdao = new StudentClubDao();
-         if(request.getParameter("id")!=null){
-             int id = Integer.parseInt(request.getParameter("id"));
-             List<StudentClub> list = stdao.getTenStudentClub(id, pageNumber);
+        ClubDao dao = new ClubDao();
+        if (request.getParameter("id") != null) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            List<StudentClub> list = stdao.getTenStudentClub(id, pageNumber);
+            String name = dao.getClubNameByID(id);
+            request.setAttribute("name", name);
             request.setAttribute("list", list);
             request.setAttribute("search", nu);
             request.setAttribute("role", 0);
             request.setAttribute("leader", nu);
             request.setAttribute("numberOfPage", (int) Math.ceil(stdao.getNumberOfStudentClub(id) * 1.0 / 10));
-            
-        request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
-       }
 
-    } 
+            request.getRequestDispatcher("View/ViewAdmin/studentClubAdmin.jsp").forward(request, response);
+        }
 
-    /** 
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -88,12 +95,13 @@ public class StudentClubServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

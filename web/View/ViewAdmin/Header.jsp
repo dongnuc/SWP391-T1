@@ -150,7 +150,7 @@
                         <%
 Accounts accc = (Accounts) session.getAttribute("curruser");
 if (accc != null) {
-StudentClubDAO studentClubDAO = new StudentClubDAO();
+StudentClubDao studentClubDAO = new StudentClubDao();
 List<StudentClub> StudentClubListt = studentClubDAO.getStudentClubs(accc.getId());
 
 boolean dashboardPrinted = false;

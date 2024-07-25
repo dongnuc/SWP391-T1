@@ -76,7 +76,9 @@ public class SearchClubServlet extends HttpServlet {
         }
 
         List<String> listtypeclub = dao.gettypeclubAll();
-        request.setAttribute("id", null);
+        request.setAttribute("i", "s");
+        request.setAttribute("se", null);
+        request.setAttribute("ty", "s");
         request.setAttribute("listtypeclub", listtypeclub);
         request.setAttribute("listclub", listclub);
         request.setAttribute("numberOfPage", (int) Math.ceil(dao.searchClubSize(searchQuery) * 1.0 / 9));

@@ -106,6 +106,7 @@ public class RegisterclubServlet extends HttpServlet {
             request.setAttribute("nameClub", nameClub);
             request.setAttribute("member", member);
             request.setAttribute("reason", reason);
+            request.setAttribute("typeclub", typeclub);
             request.setAttribute("target", target);
             request.setAttribute("plan", plan);
             List<String> getTypeClub = dao.gettypeclubAll();

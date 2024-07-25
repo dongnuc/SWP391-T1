@@ -129,9 +129,7 @@
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
                             <li>Club Details</li>
-                            <li><c:if test="${sessionScope.id eq acc.id}">
-                                    <a href="EventClubStudentRegistrationServlet?id=${param.id}">Student Recruitment Event</a>
-                                </c:if></li>
+                           
                         </ul>
                     </div>
                 </div>

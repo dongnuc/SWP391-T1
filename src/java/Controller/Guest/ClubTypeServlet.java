@@ -71,7 +71,10 @@ public class ClubTypeServlet extends HttpServlet {
        
         List<Clubs> listclub = dao.getNineClubsByType(pageNumber, category);
         List<String> listtypeclub = dao.gettypeclubAll();
-        request.setAttribute("id", id);
+        request.setAttribute("i", id);
+        request.setAttribute("se", "s");
+        request.setAttribute("ty", null);
+        request.setAttribute("category", category);
         request.setAttribute("listtypeclub", listtypeclub);
         request.setAttribute("listclub", listclub);
         request.setAttribute("numberOfPage", (int) Math.ceil(dao.getNumberOfClubbyID(category) * 1.0 / 9));
