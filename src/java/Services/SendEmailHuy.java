@@ -75,7 +75,7 @@ public class SendEmailHuy {
             msg.setSubject("Thong bao Dang Ki Tham Gia Event");
             msg.setSentDate(new Date());
             
-            msg.setText("Xin loi ban da ki Thanh cong: ");      
+            msg.setText("Ban Da Dang ki thanh cong: ");      
             
             javax.mail.Transport.send(msg);
         } catch (Exception e) {

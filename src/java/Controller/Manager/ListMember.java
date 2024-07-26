@@ -92,7 +92,7 @@ try {
     
     if ("1".equals(action)) {
         send.sendemailfail(gmail, reason);
-        System.out.println("Huy123");
+        System.out.println("Huy123"+"idregister:"+idregister+"action:"+action+"reason:"+reason);
     } else {
         send.sendemailsuccess(gmail);
     }
