@@ -49,8 +49,8 @@ public class EventRegistrationDao extends DBContext {
         }
     }
    public boolean CheckregisterEvent(String idevent, String gmail) {
-    String sql = "SELECT COUNT(*) FROM swp391huy.eventregister WHERE IdEvent = ? AND gmail = ?;";
-    try {
+    String sql = "SELECT COUNT(*) FROM eventregister WHERE IdEvent = ? AND gmail = ?;";
+    try { 
         PreparedStatement st = connection.prepareStatement(sql);
         st.setString(1, idevent);
         st.setString(2, gmail);
@@ -302,6 +302,23 @@ public class EventRegistrationDao extends DBContext {
         }
         return list;
     }
+    public String getNameEvent(int idevent){
+        String x="";
+        String sql = "select *from Event where IdEvent=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, idevent);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                x=rs.getString("NameEvent");
+            }
+            
+            
+        } catch (Exception e) {
+        }
+        return x;
+        
+    }
 
     public static void main(String[] args) {
         EventRegistrationDao d = new EventRegistrationDao();
@@ -309,7 +326,10 @@ public class EventRegistrationDao extends DBContext {
 //        System.out.println(list.size());
         List<String> lisss=d.GetClubofManager(17);
         EventRegistration my=d.getEventRegistration(1);
-        System.out.println(my.getEventregisterid());
+
+        String abc=d.getNameEvent(6);
+        System.out.println(abc);
+                
     }
 
 }

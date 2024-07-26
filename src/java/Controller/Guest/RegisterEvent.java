@@ -64,8 +64,12 @@ public class RegisterEvent extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session=request.getSession();
-        String nameevent=request.getParameter("name");
+        EventRegistrationDao d=new EventRegistrationDao();
+        String nameevent="";
+        
         String idEvent=request.getParameter("idEvent");
+        int ideventraw=Integer.parseInt(idEvent);
+        nameevent=d.getNameEvent(ideventraw);
         session.setAttribute("idEvents", idEvent);
         request.setAttribute("nameevent", nameevent);
         request.getRequestDispatcher("View/ViewStudent/RegisterEvent.jsp").forward(request, response);

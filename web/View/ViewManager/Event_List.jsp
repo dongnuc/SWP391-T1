@@ -257,7 +257,7 @@
 
 
                                                                     <c:if test="${event.dateStart.time > currentDate.time}">
-                                                                        <a href="<c:url value='/RegisterEvent?idEvent=${event.idEvent}&name=${event.nameEvent}' /> " style="color: red">Register Here</a>
+                                                                        <a href="<c:url value='/RegisterEvent?idEvent=${event.idEvent}' /> " style="color: red">Register Here</a>
                                                                     </c:if>  
 
                                                                 </div>

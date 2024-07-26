@@ -214,9 +214,7 @@
                                                                 accept
                                                             </c:otherwise>
                                                         </c:choose></td>
-                                                    <td class="p-3">
-                                                        <a href="Reventdetail?idregister=${x.eventregisterid}&nameevent=${x.nameevent}"><i class="fas fa-eye"></i> </a>
-                                                    </td>
+
 
 
                                                 </c:forEach>
