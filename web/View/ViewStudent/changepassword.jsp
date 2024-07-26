@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
     .mainDiv {
     display: flex;
@@ -76,26 +78,25 @@ button[disabled] {
   color: #666666;
 }
 
-#loader {
-  position: absolute;
-  z-index: 1;
-  margin: -2px 0 0 10px;
-  border: 4px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 4px solid #666666;
-  width: 14px;
-  height: 14px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
+
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-</style>
 
-<div class="mainDiv">
+</style>
+<body>
+     <%@ include file="Header.jsp"%>
+        <div class="page-banner ovbl-dark" style="background-image:url(${pageContext.request.contextPath}/images_t/banner/banner2.jpg);
+             height: 150px;">
+                <div class="container">
+                    <div class="page-banner-entry">
+                        
+                    </div>
+                </div>
+            </div>
+   <div class="mainDiv">
   <div class="cardStyle">
     <form action="<%= request.getContextPath() %>/changepassword" method="post" name="signupForm" id="signupForm">
       
@@ -132,3 +133,62 @@ button[disabled] {
   </form>
   </div>
 </div>
+</body>
+
+<script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+            document.addEventListener("DOMContentLoaded", function () {
+                var paginationLinks = document.querySelectorAll('.pagination a');
+                paginationLinks.forEach(function (link) {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        var currentPage = parseInt(this.textContent);
+                        setActivePage(currentPage);
+                    });
+                });
+
+                function setActivePage(pageNumber) {
+                    var paginationLinks = document.querySelectorAll('.pagination a');
+                    paginationLinks.forEach(function (link) {
+                        link.classList.remove('active');
+                    });
+                    paginationLinks[pageNumber - 1].classList.add('active');
+
+                    // Do something here to load data for the selected page
+                }
+            });
+        </script>

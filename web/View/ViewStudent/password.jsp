@@ -58,6 +58,7 @@
     </style>
 </head>
 <body>
+    
     <div class="container">
         <h2>Enter Password</h2>
         <form action="<%= request.getContextPath() %>/password" method="post">
