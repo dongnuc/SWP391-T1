@@ -7,7 +7,6 @@ package DAO;
 import Context.DBContext;
 import Model.*;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -35,6 +34,8 @@ public class ClubDao extends DBContext {
                         0, nameRole, 1);
                 listAcc.add(acc);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -52,6 +53,8 @@ public class ClubDao extends DBContext {
             while (rs.next()) {
                 listClubManager.put(rs.getString(1), rs.getString(2));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -68,6 +71,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return true;
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -141,6 +146,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -155,6 +162,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -170,6 +179,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -186,6 +197,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -206,6 +219,8 @@ public class ClubDao extends DBContext {
                         rs.getInt("Point"), nameRole, rs.getInt("Status"),
                         rs.getDate("DateCreate"), rs.getDate("DateModify"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -239,6 +254,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getString(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -269,6 +286,8 @@ public class ClubDao extends DBContext {
                 }
 
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
         }
         return 1;
@@ -334,6 +353,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -348,6 +369,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -362,6 +385,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -399,6 +424,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return true;
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -426,6 +453,8 @@ public class ClubDao extends DBContext {
                 }
                 return numberPage;
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -476,6 +505,8 @@ public class ClubDao extends DBContext {
                         rs.getDate("DateCreate"), rs.getDate("DateModify"),
                         rs.getInt("Status"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -508,6 +539,8 @@ public class ClubDao extends DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -620,6 +653,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt("numberOfClub");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -685,6 +720,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -738,6 +775,8 @@ public class ClubDao extends DBContext {
             while (rs.next()) {
                 return rs.getInt("numberOfClub");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -830,6 +869,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -878,6 +919,7 @@ public class ClubDao extends DBContext {
             st.setInt(1, clubId);
             st.executeUpdate();
             st.close();
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1155,7 +1197,8 @@ public class ClubDao extends DBContext {
                         rs.getInt("Point"), rs.getString("Name"), rs.getDate("DateCreate"),
                         rs.getDate("DateModify"), rs.getInt("Status"));
             }
-
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1173,6 +1216,8 @@ public class ClubDao extends DBContext {
             if (rs.next()) {
                 return true;
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1193,6 +1238,8 @@ public class ClubDao extends DBContext {
                 Clubs club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
                 listClub.add(club);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1232,7 +1279,7 @@ public class ClubDao extends DBContext {
             System.out.println(e);
         }
     }
-
+    
     public String getRolebyId(int id) {
         String query = "SELECT valueSetting  FROM settings where typeSetting=1  and idSetting=? ";
         String role = null;

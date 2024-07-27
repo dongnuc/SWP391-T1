@@ -81,6 +81,16 @@ public class Task_UpdateServlet extends HttpServlet {
         StringBuilder errorxstatus = new StringBuilder();
         StringBuilder errorxdeadline = new StringBuilder();
 
+        EventTaskDAO eventTaskDAO = new EventTaskDAO();
+        EventTask curEventTask = eventTaskDAO.getEventTaskByIdTask(idEventTasK);
+        List<EventTask> eventTaskList = eventTaskDAO.getAllEventTasks();
+        for (EventTask eventTask : eventTaskList) {
+            if(eventTask.getNameTask().equals(nameTask) && !eventTask.getNameTask().equals(curEventTask.getNameTask())){
+                hasError = true;
+                errornameTask.append("Name Task is exist.<br>");
+            }
+        }
+        
         if (nameTask == null || nameTask.trim().isEmpty()) {
             hasError = true;
             errornameTask.append("Name Task cannot be empty.<br>");
@@ -106,8 +116,7 @@ public class Task_UpdateServlet extends HttpServlet {
         if (xbudget == null || xbudget.trim().isEmpty()) {
             hasError = true;
             errorxbudget.append("Budget cannot be empty.<br>");
-        } 
-        else {
+        }else {
             try {
                 float budget = Float.parseFloat(xbudget);
                 if (budget < 0) {
@@ -142,7 +151,6 @@ public class Task_UpdateServlet extends HttpServlet {
 
             EventDAO eventDAO = new EventDAO();
             ClubDao clubDao = new ClubDao();
-            EventTaskDAO eventTaskDAO = new EventTaskDAO();
             EventTask EventTask = eventTaskDAO.getEventTaskByIdTask(idEventTasK);
 
             request.setAttribute("EventTask", EventTask);
@@ -173,13 +181,12 @@ public class Task_UpdateServlet extends HttpServlet {
             Timestamp deadline = new Timestamp(parsedDeadline.getTime());
             
             EventTask eventTask = new EventTask(idEventTask, nameTask, description, content, deadline, department, budget, status);
-            EventTaskDAO eventTaskDAO = new EventTaskDAO();
             eventTaskDAO.updateEventTask(eventTask);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/EventGiveTaskListServlet");
     }
 
 }

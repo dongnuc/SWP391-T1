@@ -164,6 +164,7 @@ if (!dashboardPrinted) {
                         <li><a href="Home.jsp">Home</a></li>
                         <li><a href="<%= request.getContextPath() %>/EventSerlet">Events</a></li>
                         <li><a href="<%= request.getContextPath() %>/BlogListServlet">Blog</a></li>
+                        <li><a href="<%= request.getContextPath() %>/contactus">ContactUs</a></li>
                         <li><a href="PublicClubs?page=1">Clubs</a></li>
                         <c:if test="${sessionScope.account!=null}"> 
                             <li><a href="registerclub">REGISTER CLUB</a></li>

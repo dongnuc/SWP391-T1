@@ -84,7 +84,7 @@
                 }
             }
 
-        // Ẩn thông tin người dùng khi click ra ngoài
+            // Ẩn thông tin người dùng khi click ra ngoài
             document.addEventListener("click", function (event) {
                 var profileInfo = document.getElementById("profile-info");
                 if (!event.target.closest(".profile-picture") && isProfileVisible) {
@@ -92,26 +92,26 @@
                     isProfileVisible = false;
                 }
             });
-        //            document.addEventListener("DOMContentLoaded", function () {
-        //                var paginationLinks = document.querySelectorAll('.pagination a');
-        //                paginationLinks.forEach(function (link) {
-        //                    link.addEventListener('click', function (event) {
-        //                        event.preventDefault();
-        //                        var currentPage = parseInt(this.textContent);
-        //                        setActivePage(currentPage);
-        //                    });
-        //                });
-        //
-        //                function setActivePage(pageNumber) {
-        //                    var paginationLinks = document.querySelectorAll('.pagination a');
-        //                    paginationLinks.forEach(function (link) {
-        //                        link.classList.remove('active');
-        //                    });
-        //                    paginationLinks[pageNumber - 1].classList.add('active');
-        //
-        //                    // Do something here to load data for the selected page
-        //                }
-        //            });
+            //            document.addEventListener("DOMContentLoaded", function () {
+            //                var paginationLinks = document.querySelectorAll('.pagination a');
+            //                paginationLinks.forEach(function (link) {
+            //                    link.addEventListener('click', function (event) {
+            //                        event.preventDefault();
+            //                        var currentPage = parseInt(this.textContent);
+            //                        setActivePage(currentPage);
+            //                    });
+            //                });
+            //
+            //                function setActivePage(pageNumber) {
+            //                    var paginationLinks = document.querySelectorAll('.pagination a');
+            //                    paginationLinks.forEach(function (link) {
+            //                        link.classList.remove('active');
+            //                    });
+            //                    paginationLinks[pageNumber - 1].classList.add('active');
+            //
+            //                    // Do something here to load data for the selected page
+            //                }
+            //            });
         </script>
     </head>
     <body id="bg">
@@ -122,9 +122,9 @@
             <%@ include file="Header.jsp" %>
             <!-- header END ==== -->
             <!-- Content -->
-            <div class="page-content bg-white">
+            <div class="page-content bg-white" >
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(${pageContext.request.contextPath}/images_t/banner/banner2.jpg);">
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner5.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
                             <h1 class="text-white">Blog List </h1>
@@ -133,21 +133,10 @@
                 </div>
 
                 <!-- contact area -->
-                <div class="content-block">
+                <div class="content-block" style="margin-top: -50px;">
                     <div class="section-area section-sp1">
                         <div class="container">
-                            <c:set var="printed" value="false" />
 
-                            <c:forEach var="studentClub" items="${StudentClubList}">
-                                <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
-                                    <div class="widget_tag_cloud">
-                                        <div class="tagcloud">
-                                            <a href="<c:url value='/UploadServlet?from=Blog_List.jsp' />"> Upload New Blog</a>
-                                        </div>
-                                    </div>
-                                    <c:set var="printed" value="true" />
-                                </c:if>
-                            </c:forEach>
                             <div class="row">
                                 <!-- Left part start -->
                                 <div class="col-lg-8">
@@ -215,6 +204,17 @@
                                 <!-- Side bar start -->
                                 <div class="col-lg-4 sticky-top">
                                     <aside class="side-bar sticky-top">
+                                        <c:set var="printed" value="false" />
+                                        <c:forEach var="studentClub" items="${StudentClubList}">
+                                            <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
+                                                <div class="widget_tag_cloud">
+                                                    <div class="tagcloud">
+                                                        <a href="<c:url value='/UploadServlet?from=Blog_List.jsp' />"> Upload New Blog</a>
+                                                    </div>
+                                                </div>
+                                                <c:set var="printed" value="true" />
+                                            </c:if>
+                                        </c:forEach>
                                         <div class="widget">
                                             <h6 class="widget-title">Search</h6>
                                             <div class="search-bx style-1">

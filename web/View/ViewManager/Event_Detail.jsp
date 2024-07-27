@@ -9,7 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
-   
+
     <head>
 
         <!-- META ============================================= -->
@@ -86,74 +86,95 @@
                     <!-- About Us -->
                     <div class="section-area section-sp1">
                         <div class="container">
-                            
-                             <c:choose>
-                            <c:when test="${not empty curruser}">
-                                <c:set var="showTagCloud" value="false"/>
-                                <c:forEach var="studentClub" items="${studentClubList}">
-                                    <c:if test="${event.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.leader == 1}">
-                                        <c:set var="showTagCloud" value="true"/>
-                                    </c:if>
-                                </c:forEach>
-                                <c:if test="${showTagCloud}">
-                                    <script>
-                                                        function openModal(url, action) {
-                                                            document.getElementById('modalAction').textContent = action;
-                                                            var confirmBtn = document.getElementById('modalConfirmBtn');
-                                                            confirmBtn.onclick = function () {
-                                                                window.location.href = url;
-                                                            };
-                                                            $('#confirmModal').modal('show');
-                                                        }
-                                                    </script>
-                                    <div class="widget_tag_cloud">
-                                        <div class="tagcloud">
-                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'update')">Update</a>
-                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'delete')">Delete</a>
-                                            <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'give task')">Give Task</a>
+
+                            <c:choose>
+                                <c:when test="${not empty curruser}">
+                                    <c:set var="showTagCloud" value="false"/>
+                                    <c:forEach var="studentClub" items="${studentClubList}">
+                                        <c:if test="${event.idClub == studentClub.idClub && studentClub.status == 1 && studentClub.leader == 1}">
+                                            <c:set var="showTagCloud" value="true"/>
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:if test="${showTagCloud}">
+                                        <script>
+                                            function openModal(url, action) {
+                                                document.getElementById('modalAction').textContent = action;
+                                                var confirmBtn = document.getElementById('modalConfirmBtn');
+                                                confirmBtn.onclick = function () {
+                                                    window.location.href = url;
+                                                };
+                                                $('#confirmModal').modal('show');
+                                            }
+                                        </script>
+                                        <div class="widget_tag_cloud">
+                                            <div class="tagcloud">
+                                                <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventUpdateServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'update')">Update</a>
+                                                <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventDeleteServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'delete')">Delete</a>
+                                                <a href="#" onclick="openModal('${pageContext.request.contextPath}/EventGiveTaskServlet?idEvent=${event.idEvent}&from=Event_List.jsp', 'give task')">Give Task</a>
+                                            </div>
                                         </div>
+                                    </c:if>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${event.status == 0}">
+                                    <p>Event was stopped</p>
+                                </c:when>
+                                <c:when test="${event.status == 2}">
+                                    <p>Event coming soon</p>
+                                </c:when>
+                            </c:choose>
+                            <div class="row">
+                                <c:if test="${not empty event}">
+                                    <div class="col-lg-8 col-md-7 col-sm-12">
+                                        <div class="courses-post">
+                                            <div class="ttr-post-media media-effect">
+                                                <a href="#"><img src="${pageContext.request.contextPath}/${event.image}" alt=""></a>
+                                            </div>
+                                            <div class="ttr-post-info">
+                                                <div class="ttr-post-title ">
+                                                    <h2 class="post-title">${event.nameEvent}</h2>
+                                                </div>
+                                                <div class="ttr-post-text">
+                                                    <p>${event.content}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-5 col-sm-12 m-b30">
+                                        <aside class="side-bar sticky-top">
+                                            <div class="bg-primary text-white contact-info-bx m-b30">
+                                                <span>Information</span></h2>
+                                                <div class="widget widget_getintuch">
+                                                    <ul>
+                                                        <li><i class="ti-location-pin"></i>${event.address}</li>
+                                                        <li><i class="ti-calendar"></i>${event.dateStart} to ${event.enddate} </li>
+                                                        <li><i class="fa fa-user"></i>${clubName}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                                    <div class="widget recent-posts-entry">
+                                            <h6 class="widget-title">Recent Event</h6>
+                                            <div class="widget-post-bx">
+                                                <c:forEach var="Event" items="${recentEvents}">
+                                                    <div class="widget-post clearfix">
+                                                        <div class="ttr-post-media"> <img src="${pageContext.request.contextPath}/${Event.image}" alt="Uploaded Image" width="200" height="143" alt=""> </div>
+                                                        <div class="ttr-post-info">
+                                                            <div class="ttr-post-header">
+                                                                <h6 class="post-title"><a href="${pageContext.request.contextPath}/EventDetailServlet?idEvent=${Event.idEvent}">${Event.nameEvent}</a></h6>
+                                                            </div>
+                                                            <ul class="media-post">
+                                                                <li><a href="${pageContext.request.contextPath}/EventDetailServlet?idEvent=${Event.idEvent}"><i class="fa fa-calendar"></i>${Event.datecreate}</a></li><br>
+                                                                <li><a href="${pageContext.request.contextPath}/EventDetailServlet?idEvent=${Event.idEvent}"><i class="fa fa-user"></i>${clubDao.getClubNameByID(Event.idClub)}</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                        </aside>
                                     </div>
                                 </c:if>
-                            </c:when>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${event.status == 0}">
-                                <p>Event was stopped</p>
-                            </c:when>
-                            <c:when test="${event.status == 2}">
-                                <p>Event coming soon</p>
-                            </c:when>
-                        </c:choose>
-                        <div class="row">
-                            <c:if test="${not empty event}">
-                                <div class="col-lg-8 col-md-7 col-sm-12">
-                                    <div class="courses-post">
-                                        <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="${pageContext.request.contextPath}/${event.image}" alt=""></a>
-                                        </div>
-                                        <div class="ttr-post-info">
-                                            <div class="ttr-post-title ">
-                                                <h2 class="post-title">${event.nameEvent}</h2>
-                                            </div>
-                                            <div class="ttr-post-text">
-                                                <p>${event.content}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-5 col-sm-12 m-b30">
-                                    <div class="bg-primary text-white contact-info-bx m-b30">
-                                            <span>Information</span></h2>
-                                        <div class="widget widget_getintuch">
-                                            <ul>
-                                                <li><i class="ti-location-pin"></i>${event.address}</li>
-                                                <li><i class="ti-calendar"></i>${event.dateStart} to ${event.enddate} </li>
-                                                <li><i class="fa fa-user"></i>${clubName}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:if>
                             </div>
                         </div>
                     </div>

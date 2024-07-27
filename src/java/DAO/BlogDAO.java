@@ -299,6 +299,8 @@ public class BlogDAO extends DBContext {
                 String getType = rs.getString(1);
                 listTypeBlog.add(getType);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -328,6 +330,8 @@ public class BlogDAO extends DBContext {
                         rs.getTimestamp("DateModify"));
                 listBlog.add(getBlog);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -350,6 +354,8 @@ public class BlogDAO extends DBContext {
                         rs.getTimestamp("DateModify"));
                 return getBlog;
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -33,7 +33,7 @@ public class Blog_PostServlet extends HttpServlet {
             throws ServletException, IOException {
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
         
-        String from =  request.getParameter("from");
+        String from = request.getParameter("from");
         request.setAttribute("from", from);
         
         List<StudentClub> StudentClubList = null;
@@ -112,6 +112,15 @@ public class Blog_PostServlet extends HttpServlet {
             StringBuilder messxIDClub = new StringBuilder();
             StringBuilder messfileName = new StringBuilder();
             boolean hasError = false;
+            
+            BlogDAO blogDAO = new BlogDAO();
+            List<Blog> blogList = blogDAO.getAllPosts();
+            for (Blog blog : blogList) {
+                if (blog.getTitleBlog().equals(Title)) {
+                    messTitle.append("Title is exist.<br>");
+                    hasError = true;
+                }
+            }
 
             if (Title == null || Title.isEmpty()) {
                 messTitle.append("Title cannot be empty.<br>");
@@ -198,10 +207,10 @@ public class Blog_PostServlet extends HttpServlet {
             postDAO.insertPost(post);
 
             if ("Blog_PostList.jsp".equals(from)) {
-                request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/BlogPostListServlet");
             }
             if ("Blog_List.jsp".equals(from)) {
-                request.getRequestDispatcher("/BlogListServlet").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/BlogListServlet");
             }
         } else {
             response.getWriter().println("Error: File upload failed.");

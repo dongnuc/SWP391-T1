@@ -19,6 +19,34 @@ import java.util.List;
  * @author 10t1q
  */
 public class EventTaskDAO extends DBContext {
+    //----------------Hoang
+    public List<EventTask> getAllEventTasks() {
+    List<EventTask> eventTasks = new ArrayList<>();
+    String sql = "SELECT * FROM task";
+
+    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        while (rs.next()) {
+            EventTask eventTask = new EventTask();
+            eventTask.setIdEventTask(rs.getInt("IdTask"));
+            eventTask.setNameTask(rs.getString("NameTask"));
+            eventTask.setDescription(rs.getString("Description"));
+            eventTask.setIdEvent(rs.getInt("IdEvent"));
+            eventTask.setIdClub(rs.getInt("IdClub"));
+            eventTask.setDateCreate(rs.getTimestamp("DateCreate"));
+            eventTask.setDateModify(rs.getTimestamp("DateModify"));
+            eventTask.setStatus(rs.getInt("Status"));
+            eventTask.setContent(rs.getString("Content"));
+            eventTask.setDeadline(rs.getTimestamp("Deadline"));
+            eventTask.setDepartment(rs.getInt("Department"));
+            eventTask.setBudget(rs.getFloat("Budget"));
+            eventTasks.add(eventTask);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventTasks;
+}
+    
 //-------------Hoang
     public void insertEventTask(EventTask evenTask) {
         String sql = "INSERT INTO task (NameTask, Description, Content, IdEvent, IdClub, Deadline, Department, Budget, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";

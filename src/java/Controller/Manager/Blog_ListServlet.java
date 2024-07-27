@@ -32,7 +32,8 @@ public class Blog_ListServlet extends HttpServlet {
         String idBlogType = request.getParameter("idBlogType");
         String searchKeyword = request.getParameter("searchKeyword");
         String from = request.getParameter("from");
-
+        String idblog = request.getParameter("idBlog");
+        
         BlogDAO postDAO = new BlogDAO();
         if(postList == null ){
           postList = postDAO.getAllPosts();
@@ -72,6 +73,7 @@ public class Blog_ListServlet extends HttpServlet {
         request.setAttribute("idBlogType", idBlogType);
         request.setAttribute("searchKeyword", searchKeyword);
         request.setAttribute("from", from);
+        request.setAttribute("idBlog", idblog);
 
         request.getRequestDispatcher("/View/ViewManager/Blog_List.jsp").forward(request, response);
     } 

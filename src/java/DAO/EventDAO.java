@@ -100,6 +100,40 @@ public class EventDAO extends DBContext {
         }
         return eventList;
     }
+    
+    //-----Hoàng
+    public List<Event> getRecentEvents(int limit) {
+    List<Event> eventList = new ArrayList<>();
+    String sql = "SELECT * FROM event ORDER BY DateCreate DESC, IdEvent DESC LIMIT ?";
+
+    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        st.setInt(1, limit); // Đặt giá trị của LIMIT
+
+        try (ResultSet rs = st.executeQuery()) {
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));
+                event.setNameEvent(rs.getString("NameEvent"));
+                event.setDatecreate(rs.getTimestamp("DateCreate"));
+                event.setDateModify(rs.getTimestamp("DateModify"));
+                event.setEnddate(rs.getTimestamp("DateEnd"));
+                event.setIdClub(rs.getInt("IdClub"));
+                event.setDateStart(rs.getTimestamp("DateStart"));
+                event.setImage(rs.getString("Image"));
+                event.setContent(rs.getString("Content"));
+                event.setIdEventType(rs.getInt("CategoryEvent"));
+                event.setStatus(rs.getInt("Status"));
+                event.setAddress(rs.getString("Addreess"));
+                event.setDescription(rs.getString("Description"));
+                eventList.add(event);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return eventList;
+}
+
 //------------------ Hoang
     public List<Event> getAllEvent() {
         List<Event> eventList = new ArrayList<>();

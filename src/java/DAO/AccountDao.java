@@ -69,6 +69,8 @@ public class AccountDao extends DBContext{
             while (rs.next()) {
                 listManger.add(rs.getString(1));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -185,6 +187,8 @@ public class AccountDao extends DBContext{
             if (rs.next()) {
                 x = rs.getInt(1);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return x;
@@ -542,6 +546,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
                         rs.getString("Phone"),rs.getInt("Status"),
                         rs.getInt("Role"), rs.getString("TokenEmail"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }

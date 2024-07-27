@@ -68,6 +68,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             request.setAttribute("studentClubList", StudentClubList);
             request.setAttribute("blogTypeList", blogTypeList);
             request.setAttribute("x", blog);
+            request.setAttribute("idBlog", xID);
             request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
     }
 
@@ -98,8 +99,10 @@ public class Blog_UpdateServlet extends HttpServlet {
             }
         }
         String fromPage = request.getParameter("from");
-        String xID = request.getParameter("idblog");
+        String xID = request.getParameter("idBlog");
         int ID = Integer.parseInt(xID);
+        BlogDAO blogDAO = new BlogDAO();
+        Blog curBlog = blogDAO.getPost(ID);
         String Title = request.getParameter("tittle");
         String Description = request.getParameter("description");
         String Content = request.getParameter("content");
@@ -132,6 +135,14 @@ public class Blog_UpdateServlet extends HttpServlet {
             StringBuilder messfileName = new StringBuilder();
         boolean hasError = false;
 
+        List<Blog> blogList = blogDAO.getAllPosts();
+        for(Blog blog : blogList){
+            if(blog.getTitleBlog().equals(Title) && !blog.getTitleBlog().equals(curBlog.getTitleBlog())){
+                messTitle.append("Title is exist.<br>");
+                hasError = true;
+            }
+        }
+        
         if (Title == null || Title.isEmpty()) {
                 messTitle.append("Title cannot be empty.<br>");
                 hasError = true;
@@ -181,7 +192,6 @@ public class Blog_UpdateServlet extends HttpServlet {
                 request.setAttribute("messxIDClub", messxIDClub);
                 request.setAttribute("messfileName", messfileName);
                 
-            BlogDAO blogDAO = new BlogDAO();
             Blog blog = blogDAO.getPost(ID);
             request.setAttribute("x", blog);
             
@@ -199,6 +209,7 @@ public class Blog_UpdateServlet extends HttpServlet {
             request.setAttribute("blogTypeList", blogTypeList);
             request.setAttribute("clubDAO", clubDAO);
             request.setAttribute("fromPage", fromPage);
+            request.setAttribute("idBlog", xID);
             request.getRequestDispatcher("/View/ViewManager/Blog_Update.jsp").forward(request, response);
             return;
         }
@@ -208,9 +219,9 @@ public class Blog_UpdateServlet extends HttpServlet {
         postDAO.updatePost(post);
 
         if ("Blog_PostList.jsp".equals(fromPage)) {
-        request.getRequestDispatcher("/BlogPostListServlet").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/BlogPostListServlet");
     } if ("Blog_List.jsp".equals(fromPage)) {
-        request.getRequestDispatcher("/BlogListServlet").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/BlogListServlet");
     }
     }
 

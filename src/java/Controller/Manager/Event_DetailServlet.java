@@ -27,6 +27,7 @@ public class Event_DetailServlet extends HttpServlet {
 
         EventDAO eventDAO = new EventDAO();
         Event event = eventDAO.getEventById(xId);
+        List<Event> recentEvents = eventDAO.getRecentEvents(5);
         request.setAttribute("event", event);
         
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
@@ -40,6 +41,9 @@ public class Event_DetailServlet extends HttpServlet {
         String clubName = clubDao.getClubNameByID(event.getIdClub());
         request.setAttribute("clubName", clubName);
         
+        request.setAttribute("recentEvents", recentEvents);
+        request.setAttribute("clubDao", clubDao);
+       
         request.getRequestDispatcher("/View/ViewManager/Event_Detail.jsp").forward(request, response);
     } 
    

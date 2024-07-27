@@ -83,6 +83,16 @@ public class Task_UploadServlet extends HttpServlet {
         boolean hasError = false;
         
         String nameTask = request.getParameter("nametask");
+        
+        EventTaskDAO eventTaskDAO = new EventTaskDAO();
+        List<EventTask> eventTaskList = eventTaskDAO.getAllEventTasks();
+        for (EventTask eventTask : eventTaskList) {
+            if(eventTask.getNameTask().equals(nameTask)){
+                hasError = true;
+                messnameTask.append("Name Task is exist.<br>");
+            }
+        }
+        
          if (nameTask == null || nameTask.isEmpty()) {
                 messnameTask.append("Name task cannot be empty.<br>");
                 hasError = true;
@@ -171,7 +181,6 @@ public class Task_UploadServlet extends HttpServlet {
         Timestamp deadline = new Timestamp(parsedDeadline.getTime());
         
         EventTask eventTask = new EventTask(nameTask,description,content,nameEvent,club,deadline,department,budget,1);
-        EventTaskDAO eventTaskDAO = new EventTaskDAO();
         eventTaskDAO.insertEventTask(eventTask);
         
         }
@@ -179,7 +188,7 @@ public class Task_UploadServlet extends HttpServlet {
             e.printStackTrace();
         }
         if ("Event_GiveTaskList.jsp".equals(from)) {
-                request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/EventGiveTaskListServlet");
             }
         
     }

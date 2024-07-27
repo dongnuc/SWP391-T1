@@ -38,6 +38,8 @@ public class SettingDaoClass extends DBContext {
                 }
                 return numberPage;
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -67,6 +69,8 @@ public class SettingDaoClass extends DBContext {
                         rs.getDate("DateCreate"), rs.getDate("DateModify"));
                 listSetting.add(setting);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -101,6 +105,8 @@ public class SettingDaoClass extends DBContext {
          try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
              System.out.println(e);
         }
@@ -118,6 +124,8 @@ public class SettingDaoClass extends DBContext {
                         rs.getString("NameType"), rs.getInt("idStudent"),
                         rs.getInt("status"), rs.getDate("DateCreate"), rs.getDate("DateModify"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -145,6 +153,8 @@ public class SettingDaoClass extends DBContext {
             ps.setString(3, idStudent);
             ps.setString(4, status);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -161,6 +171,8 @@ public class SettingDaoClass extends DBContext {
                 String idType = rs.getString("IdType");
                 listTypeSetting.put(idType,nameType );
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -179,6 +191,8 @@ public class SettingDaoClass extends DBContext {
                 String idType = rs.getString("IdType");
                 listTypeSetting.put(nameType, idType);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -230,6 +244,8 @@ public class SettingDaoClass extends DBContext {
                         rs.getInt("Status"), rs.getDate("DateCreate"), rs.getDate("DateModify"));
                 listSetting.add(setting);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -251,6 +267,8 @@ public class SettingDaoClass extends DBContext {
                         rs.getInt("Status"), rs.getDate("DateCreate"), rs.getDate("DateModify"));
 
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -321,6 +339,8 @@ public class SettingDaoClass extends DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -369,6 +389,8 @@ public class SettingDaoClass extends DBContext {
             ps.setString(7, idEvent);
             ps.setString(8, status);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -143,7 +143,7 @@
                                                             </div>
                                                             <ul class="media-post">
                                                                 <li><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}"><i class="fa fa-calendar"></i>${Blog.dateCreate}</a></li><br>
-                                                                <li><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}"><i class="fa fa-comments-o"></i>${clubDAO.getClubNameByID(Blog.idClub)}</a></li>
+                                                                <li><a href="${pageContext.request.contextPath}/UploadContentBlog?idBlog=${Blog.idBlog}"><i class="fa fa-user"></i>${clubDAO.getClubNameByID(Blog.idClub)}</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>

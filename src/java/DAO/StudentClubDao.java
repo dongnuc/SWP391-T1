@@ -40,6 +40,8 @@ public class StudentClubDao extends DBContext {
             ps.setString(2, idStudent);
             ps.setString(3, idClub);
             ps.executeUpdate();
+            
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -58,6 +60,8 @@ public class StudentClubDao extends DBContext {
                 x = rs.getString("NameClub");
                 listclub.add(x);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return listclub;
@@ -74,6 +78,8 @@ public class StudentClubDao extends DBContext {
             while (rs.next()) {
                 list.add(rs.getInt("numberOfMember"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -129,6 +135,8 @@ public class StudentClubDao extends DBContext {
             if (rs.next()) {
                 role = rs.getString("Role");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return role;
@@ -196,6 +204,7 @@ public class StudentClubDao extends DBContext {
                 StudentClub studentclub = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdClub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
                 list.add(studentclub);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -215,6 +224,8 @@ public class StudentClubDao extends DBContext {
             } else {
                 System.out.println("No records found with the given IdClub and IdStudent.");
             }
+            
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -230,7 +241,9 @@ public class StudentClubDao extends DBContext {
             while (rs.next()) {
                 return rs.getInt("numberOfstudentclub");
             }
+            rs.close();
             st.close();
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -269,6 +282,7 @@ public class StudentClubDao extends DBContext {
                 student = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdCLub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
 
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -295,6 +309,7 @@ public class StudentClubDao extends DBContext {
 
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -318,6 +333,7 @@ public class StudentClubDao extends DBContext {
 
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -339,6 +355,7 @@ public class StudentClubDao extends DBContext {
                 StudentClub studentclub = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdClub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
                 list.add(studentclub);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -358,6 +375,7 @@ public class StudentClubDao extends DBContext {
                 StudentClub studentclub = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdClub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
                 list.add(studentclub);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -379,6 +397,7 @@ public class StudentClubDao extends DBContext {
                 StudentClub studentclub = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdClub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
                 list.add(studentclub);
             }
+           rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -398,6 +417,7 @@ public class StudentClubDao extends DBContext {
                 StudentClub studentclub = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdClub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
                 list.add(studentclub);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -417,6 +437,7 @@ public class StudentClubDao extends DBContext {
             st.setString(6, student.getExperience());
             st.setString(7, student.getTalent());
             st.executeUpdate();
+            
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -434,6 +455,7 @@ public class StudentClubDao extends DBContext {
                 student = new StudentClub(rs.getInt("IdStudent"), rs.getInt("IdCLub"), rs.getInt("Point"), rs.getInt("Role"), rs.getInt("leader"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"));
 
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -454,6 +476,7 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -471,6 +494,7 @@ public class StudentClubDao extends DBContext {
             while (rs.next()) {
                 return rs.getInt("numberOfclubstudentregistration");
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -492,6 +516,8 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -510,6 +536,8 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -530,6 +558,7 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -548,6 +577,7 @@ public class StudentClubDao extends DBContext {
             while (rs.next()) {
                 return rs.getInt("numberOfclubstudentregistration");
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -568,6 +598,7 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -588,6 +619,7 @@ public class StudentClubDao extends DBContext {
                 ClubStudentRegistration student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
                 list.add(student);
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -605,6 +637,7 @@ public class StudentClubDao extends DBContext {
             if (rs.next()) {
                  student = new ClubStudentRegistration(rs.getInt("Idclubstudentregistration"), rs.getInt("Idstudent"), rs.getInt("IdClub"), rs.getInt("Role"), rs.getDate("DateCreate"), rs.getString("fullname"), rs.getString("talent"), rs.getString("experience"), rs.getString("target"), rs.getString("reason"));
             }
+            rs.close();
             st.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -618,7 +651,8 @@ public class StudentClubDao extends DBContext {
         st.setInt(1, idclub);
         st.setInt(2, idstudent);
         st.executeUpdate();
-        st.close();
+        
+            st.close();
     } catch (SQLException e) {
         System.out.println(e);
     }

@@ -113,6 +113,14 @@ public class Event_UploadServlet extends HttpServlet {
             StringBuilder errorAddress = new StringBuilder();
 
             boolean hasError = false;
+            
+            List<Event> eventList = eventDAO.getAllEvent();
+            for (Event event : eventList) {
+                if (event.getNameEvent().equals(nameEvent)) {
+                    errorNameEvent.append("Name event is exist.<br>");
+                    hasError = true;
+                }
+            }
 
             if (nameEvent == null || nameEvent.isEmpty()) {
                 errorNameEvent.append("Name event cannot be empty.<br>");
@@ -159,7 +167,7 @@ public class Event_UploadServlet extends HttpServlet {
             if (address == null || address.isEmpty()) {
                 errorAddress.append("address cannot be empty.<br>");
                 hasError = true;
-            }else if (address.length() > 128) {
+            } else if (address.length() > 128) {
                 errorAddress.append("address cannot exceed 128 characters.<br>");
                 hasError = true;
             }
@@ -227,9 +235,9 @@ public class Event_UploadServlet extends HttpServlet {
             }
 
             if ("Event_ListManager.jsp".equals(fromPage)) {
-                request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/EventPostListServlet");
             } else {
-                request.getRequestDispatcher("/EventSerlet").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/EventSerlet");
             }
         } else {
             response.getWriter().println("Error: File upload failed.");

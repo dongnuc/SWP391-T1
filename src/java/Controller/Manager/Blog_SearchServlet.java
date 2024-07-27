@@ -52,7 +52,7 @@ public class Blog_SearchServlet extends HttpServlet {
                     }
                 }
                 if (searchResults.isEmpty()) {
-                    request.setAttribute("errorMessage", "Cant finf title: " + searchKeyword);
+                    request.setAttribute("errorMessage", "Cant find title: " + searchKeyword);
                 }
             }
             request.setAttribute("from", from);
@@ -64,7 +64,7 @@ public class Blog_SearchServlet extends HttpServlet {
             if (searchKeyword == null || searchKeyword.trim().isEmpty()) {
                 request.setAttribute("errorMessage", "Search ìnormation cant not empty.");
             } else if (searchResults.isEmpty()) {
-                request.setAttribute("errorMessage", "Cant finf title: " + searchKeyword);
+                request.setAttribute("errorMessage", "Cant find title: " + searchKeyword);
             }
             searchResults.sort((Blog b1, Blog b2) -> b2.getDateCreate().compareTo(b1.getDateCreate()));
             request.setAttribute("BlogByIDList", searchResults);

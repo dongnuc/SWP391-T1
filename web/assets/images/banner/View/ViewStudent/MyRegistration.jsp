@@ -1,0 +1,480 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import = "Model.*" %>
+<%@ page import = "DAO.*" %>
+<%@ page import = "java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+
+<html lang="en">
+    <%
+        EventDAO eventDAO = new EventDAO();
+        List<Event> eventList = eventDAO.getAllEventSetting("","");
+    %>
+    <c:if test="${requestScope.huy == 1}">
+        <c:set var="phoneValue" value="${phone}" />
+        <c:set var="names" value="${name}" />
+        <c:set var="emails" value="${email}" />
+    </c:if>
+    <c:if test="${requestScope.huy != 1}">
+        <c:set var="phoneValue" value="${accountprofile.sdt}" />
+        <c:set var="names" value="${accountprofile.name}" />
+        <c:set var="emails" value="${accountprofile.email}" />
+    </c:if>
+    <head>
+
+        <!-- META ============================================= -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="robots" content="" />
+
+        <!-- DESCRIPTION -->
+        <meta name="description" content="EduChamp : Education HTML Template" />
+
+        <!-- OG -->
+        <meta property="og:title" content="EduChamp : Education HTML Template" />
+        <meta property="og:description" content="EduChamp : Education HTML Template" />
+        <meta property="og:image" content="" />
+        <meta name="format-detection" content="telephone=no">
+
+        <!-- FAVICONS ICON ============================================= -->
+        <link rel="icon" href="${pageContext.request.contextPath}/images_t/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images_t/favicon.png" />
+
+        <!-- PAGE TITLE HERE ============================================= -->
+        <title>Event </title>
+
+        <!-- MOBILE SPECIFIC ============================================= -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--[if lt IE 9]>
+        <script src="${pageContext.request.contextPath}/js_t/html5shiv.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js_t/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- All PLUGINS CSS ============================================= -->
+<!--        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/assets.css">-->
+
+        <!-- TYPOGRAPHY ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/typography.css">
+
+        <!-- SHORTCODES ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/shortcodes/shortcodes.css">
+
+        <!-- STYLESHEETS ============================================= -->
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
+        <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/color/color-1.css">
+
+    </head>
+    <style>
+        
+        .sort{
+            font-size: 16px;
+            display: flex;
+        }
+
+
+    </style>
+    <style>
+        .toast {
+            display: flex !important;
+            align-items: center !important;
+            background-color: #fff !important;
+            border-radius: 2px !important;
+            padding: 20px 0 !important;
+            min-width: 400px !important;
+            max-width: 450px !important;
+            border-left: 4px solid !important;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08) !important;
+            transition: all linear 0.3s !important;
+            background: greenyellow !important;
+            z-index: 1001 !important;
+            animation: slideInLeft 0.3s ease forwards, fadeOut 0.3s ease forwards 3s; 
+        }
+        .toast_icon {
+            font-size: 24px;
+            padding: 0 16px;
+        }
+        .toast_body {
+            color: white !important;
+            
+        }
+        #toast {
+            position: fixed;
+            top: 124px;
+            right: 32px;
+            z-index: 1001 !important;
+
+        }
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(calc(100% + 32px));
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+    <%
+    String check = (String) request.getAttribute("showtoast");
+    %>
+    <body id="bg">
+        <div id="toast"></div>
+        <div class="page-wraper">
+             
+            <!-- Header Top ==== -->
+            <%@ include file="Header.jsp" %>
+            <!-- header END ==== -->
+            <!-- Content -->
+            <div class="page-content bg-white">
+                <!-- inner page banner -->
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                    <div class="container">
+                        <div class="page-banner-entry">
+                            <h1 class="text-white">My Registration</h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- contact area -->
+                <div class="row">
+                    <div class="col-5"></div>
+                    <div class="col-7 sort">
+                        <form action="MyRegistration" method="get" id="myForm" class="d-flex">
+            <div class="mr-2">
+                Sort by
+                <select name="sort" class="custom-select" onchange="submitForm()" style="width: 150px;">
+                    <option value="present" <c:if test="${requestScope.sort=='present'}">selected</c:if>>Present</option>
+                    <option value="past" <c:if test="${requestScope.sort=='past'}">selected</c:if>>Past</option>
+                    <option value="future" <c:if test="${requestScope.sort=='future'}">selected</c:if>>Future</option>
+                </select>
+            </div>
+            <div class="d-flex">
+                <input type="text" name="search" class="form-control mr-2" style="width: 200px; height: 40px;" value="${requestScope.search}" >
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+                    </div>
+                                
+
+
+
+                </div>
+                <c:if test="${requestScope.pagemax!=0}">
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-9 xyz">
+                        <div class="row">
+
+                            <div class="col-12 mt-4">
+
+                                <div class="table-responsive shadow rounded">
+                                    <table class="table table-center bg-white mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-bottom p-3" style="min-width: 50px;">Name Event</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Date Start</th>
+                                                <th class="border-bottom p-3" style="min-width: 180px;">Date End</th>
+                                                <th class="border-bottom p-3">Address</th>
+                                                <th class="border-bottom p-3">Status</th>
+                                                <th class="border-bottom p-3" style="min-width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${requestScope.listevent}" var="x">
+                                                <tr>
+
+                                                    <th class="p-3">${x.nameevent}</th>
+                                                    <td class="py-3">
+                                                        <a href="#" class="text-dark">
+                                                            <div class="d-flex align-items-center">
+                                                                <span class="ms-2">${x.datestart}</span>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+                                                    <td class="p-3">${x.dateend}</td>
+                                                    <td class="p-3">${x.address}</td>
+                                                    <td class="p-3"><c:choose>
+                                                            <c:when test="${x.status == '0'}">
+                                                                Pending
+                                                            </c:when>
+                                                            <c:when test="${x.status == '1'}">
+                                                                Reject
+                                                            </c:when>  
+                                                            <c:otherwise>
+                                                                accept
+                                                            </c:otherwise>
+                                                        </c:choose></td>
+                                                    <td class="p-3">
+                                                        <a href="Reventdetail?idregister=${x.eventregisterid}&nameevent=${x.nameevent}"><i class="fas fa-eye"></i> </a>
+                                                    </td>
+
+
+                                                </c:forEach>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!--end row-->
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row text-center">
+                    <!-- PAGINATION START -->
+                    <div class="col-12 mt-4">
+                        <div class="d-md-flex align-items-center text-center justify-content-between">
+
+                            <ul class="pagination justify-content-center mb-0 mt-3 mt-sm-0">
+                                <c:if test="${requestScope.page>1}">
+                                    <li class="page-item"><a class="page-link" href="MyRegistration?page=${requestScope.page -1}&sort=${requestScope.sort}&search=${requestScope.search}" aria-label="Previous">Prev</a></li>
+                                    </c:if>
+                                <!--<li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>-->
+                                <li class="page-item active"><a class="page-link" href="MyRegistration?page=${requestScope.page}&sort=${requestScope.sort}&search=${requestScope.search}">${requestScope.page}</a></li>
+                                    <c:if test="${requestScope.pagemax-requestScope.page>=1}">
+                                    <li class="page-item"><a class="page-link" href="MyRegistration?page=${requestScope.page + 1}&sort=${requestScope.sort}&search=${requestScope.search}">${requestScope.page+1}</a></li>
+                                    </c:if>
+                                    <c:if test="${requestScope.pagemax-requestScope.page>=2}">
+                                    <li class="page-item"><a class="page-link" href="MyRegistration?page=${requestScope.page + 2}&sort=${requestScope.sort}&search=${requestScope.search}">${requestScope.page+2}</a></li>
+                                    </c:if>
+                                    <c:if test="${requestScope.page<requestScope.pagemax}">
+                                    <li class="page-item"><a class="page-link" href="MyRegistration?page=${requestScope.page + 1}&sort=${requestScope.sort}&search=${requestScope.search}" aria-label="Next">Next</a></li>
+                                    </c:if>
+
+
+
+                            </ul>
+                        </div>
+                    </div><!--end col
+                    <!-- PAGINATION END -->
+                </div>
+                                    </c:if>
+                <c:if test="${requestScope.pagemax==0}">
+                    Not Found
+                </c:if>
+                
+
+                <!-- Content END-->
+                <!-- Footer ==== -->
+                <footer>
+                    <div class="footer-top">
+                        <div class="pt-exebar">
+                            <div class="container">
+                                <div class="d-flex align-items-stretch">
+                                    <div class="pt-logo mr-auto">
+                                        <a href="index.html"><img src="${pageContext.request.contextPath}/images_t/logo-white.png" alt=""/></a>
+                                    </div>
+                                    <div class="pt-social-link">
+                                        <ul class="list-inline m-a0">
+                                            <li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
+                                            <li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="pt-btn-join">
+                                        <a href="#" class="btn ">Join Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
+                                    <div class="widget">
+                                        <h5 class="footer-title">Sign Up For A Newsletter</h5>
+                                        <p class="text-capitalize m-b20">Weekly Breaking news analysis and cutting edge advices on job searching.</p>
+                                        <div class="subscribe-form m-b20">
+                                            <form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
+                                                <div class="ajax-message"></div>
+                                                <div class="input-group">
+                                                    <input name="email" required="required"  class="form-control" placeholder="Your Email Address" type="email">
+                                                    <span class="input-group-btn">
+                                                        <button name="submit" value="Submit" type="submit" class="btn"><i class="fa fa-arrow-right"></i></button>
+                                                    </span> 
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-5 col-md-7 col-sm-12">
+                                    <div class="row">
+                                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                            <div class="widget footer_widget">
+                                                <h5 class="footer-title">Company</h5>
+                                                <ul>
+                                                    <li><a href="index.html">Home</a></li>
+                                                    <li><a href="about-1.html">About</a></li>
+                                                    <li><a href="faq-1.html">FAQs</a></li>
+                                                    <li><a href="contact-1.html">Contact</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                            <div class="widget footer_widget">
+                                                <h5 class="footer-title">Get In Touch</h5>
+                                                <ul>
+                                                    <li><a href="http://educhamp.themetrades.com/admin/index.html">Dashboard</a></li>
+                                                    <li><a href="blog-classic-grid.html">Blog</a></li>
+                                                    <li><a href="portfolio.html">Portfolio</a></li>
+                                                    <li><a href="event.html">Event</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                                            <div class="widget footer_widget">
+                                                <h5 class="footer-title">Courses</h5>
+                                                <ul>
+                                                    <li><a href="courses.html">Courses</a></li>
+                                                    <li><a href="courses-details.html">Details</a></li>
+                                                    <li><a href="membership.html">Membership</a></li>
+                                                    <li><a href="profile.html">Profile</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
+                                    <div class="widget widget_gallery gallery-grid-4">
+                                        <h5 class="footer-title">Our Gallery</h5>
+                                        <ul class="magnific-image">
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic1.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic1.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic2.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic2.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic3.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic3.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic4.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic4.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic5.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic5.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic6.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic6.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic7.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic7.jpg" alt=""></a></li>
+                                            <li><a href="${pageContext.request.contextPath}/images_t/gallery/pic8.jpg" class="magnific-anchor"><img src="${pageContext.request.contextPath}/images_t/gallery/pic8.jpg" alt=""></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center"> <a target="_blank" href="https://www.templateshub.net">Templates Hub</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+                <!-- Footer END ==== -->
+                <button class="back-to-top fa fa-chevron-up" ></button>
+            </div>
+            <!-- External JavaScripts -->
+    <!--        <script src="${pageContext.request.contextPath}/js_t/jquery.min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/popper.min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/bootstrap.min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/magnific-popup/magnific-popup.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/counter/waypoints-min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/counter/counterup.min.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/imagesloaded/imagesloaded.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/masonry/masonry.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/masonry/filter.js"></script>
+            <script src="${pageContext.request.contextPath}/vendors/owl-carousel/owl.carousel.js"></script>
+            <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
+            <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>-->
+            <script>
+                function submitForm() {
+                    document.forms["myForm"].submit();
+                }
+            </script>
+            <script>
+            window.onload = function () {
+                var check = '<%= check %>';
+                if (check === 'true') {
+                    const toast = document.getElementById('toast');
+                    toast.innerHTML = `
+                    <div class="toast">
+                        <div class="toast_icon">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <div class="toast_body">
+                            <h3> Save Success </h3>
+                        </div>
+                    </div>
+                `;
+
+                    setTimeout(() => {
+                        const toastElement = document.querySelector('.toast');
+                        toastElement.classList.add('show');
+                    }, 100);
+                }
+            }
+
+        </script>
+        <script>
+    // JavaScript functions
+    var isProfileVisible = false;
+
+    function showProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+        }
+    }
+
+    function hideProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "none";
+        }
+    }
+
+    function toggleProfileInfo() {
+        var profileInfo = document.getElementById("profile-info");
+        if (!isProfileVisible) {
+            profileInfo.style.display = "block";
+            isProfileVisible = true;
+        } else {
+            isProfileVisible = false;
+        }
+    }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+    document.addEventListener("click", function (event) {
+        var profileInfo = document.getElementById("profile-info");
+        if (!event.target.closest(".profile-picture") && isProfileVisible) {
+            profileInfo.style.display = "none";
+            isProfileVisible = false;
+        }
+    });
+//            document.addEventListener("DOMContentLoaded", function () {
+//                var paginationLinks = document.querySelectorAll('.pagination a');
+//                paginationLinks.forEach(function (link) {
+//                    link.addEventListener('click', function (event) {
+//                        event.preventDefault();
+//                        var currentPage = parseInt(this.textContent);
+//                        setActivePage(currentPage);
+//                    });
+//                });
+//
+//                function setActivePage(pageNumber) {
+//                    var paginationLinks = document.querySelectorAll('.pagination a');
+//                    paginationLinks.forEach(function (link) {
+//                        link.classList.remove('active');
+//                    });
+//                    paginationLinks[pageNumber - 1].classList.add('active');
+//
+//                    // Do something here to load data for the selected page
+//                }
+//            });
+//<!--</script>-->
+    </body>
+
+</html>

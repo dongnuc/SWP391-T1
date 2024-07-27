@@ -135,17 +135,26 @@ public class Event_UpdateServlet extends HttpServlet {
         StringBuilder errorAddress = new StringBuilder();
         boolean hasError = false;
 
+        Event curEvent = eventDAO.getEventById(ID);
+        List<Event> eventList = eventDAO.getAllEvent();
+        for (Event event : eventList) {
+            if (event.getNameEvent().equals(nameEvent) && !event.getNameEvent().equals(curEvent.getNameEvent())) {
+                errorNameEvent.append("Name event is exist.<br>");
+                hasError = true;
+            }
+        }
+
         if (nameEvent == null || nameEvent.isEmpty()) {
             errorNameEvent.append("Name Event cannot be empty.<br>");
             hasError = true;
-        }else if (nameEvent.length() > 128) {
+        } else if (nameEvent.length() > 128) {
                 errorNameEvent.append("Name event cannot exceed 128 characters.<br>");
                 hasError = true;
             }
         if (description == null || description.isEmpty()) {
             errorDescription.append("Description cannot be empty.<br>");
             hasError = true;
-        }else if (description.length() > 256) {
+        } else if (description.length() > 256) {
                 errorDescription.append("Description cannot exceed 128 characters.<br>");
                 hasError = true;
             }
@@ -235,10 +244,9 @@ public class Event_UpdateServlet extends HttpServlet {
         }
 
         if ("Event_ListManager.jsp".equals(frompage)) {
-        request.getRequestDispatcher("/EventPostListServlet").forward(request, response);
-        }
-        else {
-        request.getRequestDispatcher("/EventSerlet").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/EventPostListServlet");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/EventSerlet");
         }
     }
 

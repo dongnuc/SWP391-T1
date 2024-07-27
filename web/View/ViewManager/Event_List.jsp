@@ -56,7 +56,7 @@
         <style>
             .event-type-list {
                 text-align: left;
-                color: red;
+                font-weight: bold;
             }
             .event-type-list a {
                 display: block;
@@ -145,7 +145,7 @@
                     isProfileVisible = false;
                 }
             });
-            
+
         </script>
         <%
         String check = (String) request.getAttribute("showtoast");
@@ -164,7 +164,7 @@
             <!-- Content -->
             <div class="page-content bg-white">
                 <!-- inner page banner -->
-                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner2.jpg);">
+                <div class="page-banner ovbl-dark" style="background-image:url(assets/images/banner/banner4.jpg);">
                     <div class="container">
                         <div class="page-banner-entry">
                             <h1 class="text-white">Events</h1>
@@ -173,35 +173,37 @@
                 </div>
 
                 <!-- contact area -->
-                <div class="container">
+                <div class="container"style="margin-top:-50px">
+                    <div style="margin-top: 75px ; margin-bottom: -45px; ">
+                        <c:forEach var="studentClub" items="${StudentClubList}">
+                            <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
+                                <div class="widget_tag_cloud">
+                                    <div class="tagcloud">
+                                        <a href="<c:url value='/EventUploadServlet?from=Event_List.jsp' />"> Upload New Event</a>
+                                    </div>
+                                </div>
+                                <c:set var="printed" value="true" />
+                            </c:if>
+                        </c:forEach>
+                    </div>
                     <div class="row">
                         <div class="feature-filters clearfix center m-b40 col-md-3 " style="margin-top:75px">
-                            <form action="EventSearchAllServlet" method="GET" style="margin-bottom: 20px">
-                                <input type="hidden" name="from" value="Event_List.jsp">
-                                <input type="text" name="name" class="form-control" />
-                                <input type="submit" value="Search" class="btn btn-primary" style="margin-left:-162px "/>
-                            </form>
-                            <div class="event-type-list">
-                                <p style="color: red">Event Type</p>
-                                <a href="<c:url value='/EventSerlet?from=Event_List.jsp' />"><span>All</span></a><br>
-                                <c:forEach var="eventType" items="${eventTypeList}">
-                                    <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}&from=Event_List.jsp"><span>${eventType.valueSetting}</span></a><br>
-                                        </c:forEach>
-                            </div>
+                            <aside class="side-bar sticky-top">
+                                <form action="EventSearchAllServlet" method="GET" style="margin-bottom: 20px">
+                                    <input type="hidden" name="from" value="Event_List.jsp">
+                                    <input type="text" name="name" class="form-control" />
+                                    <input type="submit" value="Search" class="btn btn-primary" style="margin-left:-162px ; margin-top: 10px;"/>
+                                </form>
+                                <div class="event-type-list">
+                                    <p>Event Type</p>
+                                    <a href="<c:url value='/EventSerlet?from=Event_List.jsp' />" class="d-block mb-1">All</a>
+                                    <c:forEach var="eventType" items="${eventTypeList}">
+                                        <a href="${pageContext.request.contextPath}/EventTypeServlet?idEventType=${eventType.idSetting}&from=Event_List.jsp" class="d-block mb-1">${eventType.valueSetting}</a>
+                                    </c:forEach>
+                                </div>
+                            </aside>
                         </div>
-                        <div class="content-block col-md-9">
-                            <div style="margin-top: 75px ; margin-bottom: -45px; margin-left: 15px;">
-                                <c:forEach var="studentClub" items="${StudentClubList}">
-                                    <c:if test="${studentClub.leader == 1 and studentClub.status == 1 and not printed}">
-                                        <div class="widget_tag_cloud">
-                                            <div class="tagcloud">
-                                                <a href="<c:url value='/EventUploadServlet?from=Event_List.jsp' />"> Upload New Event</a>
-                                            </div>
-                                        </div>
-                                        <c:set var="printed" value="true" />
-                                    </c:if>
-                                </c:forEach>
-                            </div>
+                        <div class="content-block col-md-9" style="margin-top: -50px;">
                             <div class="section-area section-sp1 gallery-bx">
                                 <div class="container">
                                     <div class="clearfix">
@@ -416,11 +418,11 @@
         <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
         <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>
         <script>
-        window.onload = function () {
-            var check = '<%= check %>';
-            if (check === 'true') {
-                const toast = document.getElementById('toast');
-                toast.innerHTML = `
+            window.onload = function () {
+                var check = '<%= check %>';
+                if (check === 'true') {
+                    const toast = document.getElementById('toast');
+                    toast.innerHTML = `
                     <div class="toast">
                         <div class="toast_icon">
                             <i class="fa-solid fa-check"></i>
@@ -431,12 +433,12 @@
                     </div>
                 `;
 
-                setTimeout(() => {
-                    const toastElement = document.querySelector('.toast');
-                    toastElement.classList.add('show');
-                }, 100);
+                    setTimeout(() => {
+                        const toastElement = document.querySelector('.toast');
+                        toastElement.classList.add('show');
+                    }, 100);
+                }
             }
-        }
 
         </script>
     </body>

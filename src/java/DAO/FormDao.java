@@ -27,6 +27,8 @@ public class FormDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+                        rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -47,6 +49,8 @@ public class FormDao extends DBContext {
             ps.setString(5, phone);
             ps.setString(6, category);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -62,6 +66,8 @@ public class FormDao extends DBContext {
                 String valueForm = rs.getString("valueSetting");
                 categoryForm.put(keyForm, valueForm);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -77,6 +83,8 @@ public class FormDao extends DBContext {
             if (rs.next()) {
                 return rs.getString(1);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -92,6 +100,8 @@ public class FormDao extends DBContext {
             while (rs.next()) {
                 listFormType.add(rs.getString(1));
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -119,6 +129,8 @@ public class FormDao extends DBContext {
                         rs.getString("Phone"));
                 listForm.add(getForm);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -141,7 +153,8 @@ public class FormDao extends DBContext {
             } else {
                 numberPage = (numberPage / 4) + 1;
             }
-
+rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -157,6 +170,8 @@ public class FormDao extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -170,7 +185,9 @@ public class FormDao extends DBContext {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
-            }
+            }rs.close();
+                        ps.close();
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -191,6 +208,8 @@ public class FormDao extends DBContext {
                         rs.getString("Phone"));
                 return getForm;
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -209,6 +228,8 @@ public class FormDao extends DBContext {
                         rs.getDate("DateSend"), rs.getInt("Status"));
                 listFormReply.add(formReply);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -266,6 +287,8 @@ public class FormDao extends DBContext {
                 String idStudent = rs.getString("IdStudent");
                 listType.put(idStudent, nameType);
             }
+            rs.close();
+                        
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -277,6 +300,8 @@ public class FormDao extends DBContext {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, idForm);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -296,6 +321,8 @@ public class FormDao extends DBContext {
                 }
                 return numberPage;
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -307,6 +334,8 @@ public class FormDao extends DBContext {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, idForm);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -321,6 +350,8 @@ public class FormDao extends DBContext {
             ps.setString(1, content);
             ps.setString(2, idForm);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -337,6 +368,8 @@ public class FormDao extends DBContext {
             if (rs.next()) {
                 nameForm = rs.getString("Name");
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -361,6 +394,8 @@ public class FormDao extends DBContext {
                         rs.getString("Email"), rs.getInt("Status"), rs.getInt("isRead"));
                 listForm.add(form);
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -379,6 +414,8 @@ public class FormDao extends DBContext {
                         rs.getDate("DateSend"), rs.getInt("Status"));
                 listFormReply.add(formReply);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -399,6 +436,8 @@ public class FormDao extends DBContext {
                         rs.getString("Email"), rs.getInt("Status"), rs.getInt("isRead"));
                 listForm.add(form);
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -418,6 +457,8 @@ public class FormDao extends DBContext {
                         rs.getInt("Status"), rs.getInt("isRead"),
                         rs.getString("Phone"));
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -437,6 +478,8 @@ public class FormDao extends DBContext {
                         rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -463,6 +506,8 @@ public class FormDao extends DBContext {
                         rs.getString("Email"), rs.getInt("Status"), rs.getInt("isRead"));
                 listForm.add(form);
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -485,6 +530,8 @@ public class FormDao extends DBContext {
                         rs.getInt(7), rs.getInt(8));
                 listForm.add(form);
             }
+            rs.close();
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -505,6 +552,8 @@ public class FormDao extends DBContext {
                 number = rs.getInt(1);
                 return number;
             }
+            rs.close();
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -519,6 +568,8 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, idForm);
             st.executeUpdate();
+            
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -532,6 +583,8 @@ public class FormDao extends DBContext {
             PreparedStatement st = connection.prepareStatement(query);
             st.setString(1, idForm);
             st.executeUpdate();
+            
+                        st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -549,6 +602,8 @@ public class FormDao extends DBContext {
             ps.setString(4, email);
             ps.setString(5, phone);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -564,6 +619,8 @@ public class FormDao extends DBContext {
             ps.setString(1, content);
             ps.setString(2, idForm);
             ps.executeUpdate();
+            
+                        ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -594,6 +651,9 @@ public class FormDao extends DBContext {
             psInsert.setString(3, idForm);
             psInsert.setString(4, idStudent);
             psInsert.executeUpdate();
+            rs.close();
+                        ps1.close();
+                        psInsert.close();
         } catch (Exception e) {
             System.out.println(e);
         }
