@@ -89,11 +89,13 @@ public class MemberClubAdminServlet extends HttpServlet {
         }
         HashMap<String, String> listRole = daoClub.getAllRoleDong("1");
         int numberPage = daoClub.pagetMemberInClubDong(idClub, search, role, status);
+        String nameClub = daoClub.getClubByIdDong(idClub).getNameclub();
         List<Accounts> listAccount = daoClub.getMemberInClubDong(idClub, search, role, status, pageCurrent);
         request.setAttribute("listMember", listAccount);
         request.setAttribute("pagerCurrent", pageCurrent);
         request.setAttribute("numberPage", numberPage);
         request.setAttribute("listRole", listRole);
+        request.setAttribute("nameClub", nameClub);
 //        System.out.println(listAccount.size());
 //        System.out.println(numberPage);
 //        System.out.println(pageCurrent);

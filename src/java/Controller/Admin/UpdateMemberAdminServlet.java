@@ -4,8 +4,10 @@
  */
 package Controller.Admin;
 
+import DAO.AccountDao;
 import DAO.ClubDao;
 import DAO.StudentClubDao;
+import Model.Accounts;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -84,6 +88,8 @@ public class UpdateMemberAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         StudentClubDao dao = new StudentClubDao();
+        ClubDao daoClub = new ClubDao();
+        AccountDao daoAcc = new AccountDao();
         String idClub = request.getParameter("idClub");
         String name = request.getParameter("name");
         String idStudent = request.getParameter("idStudent");
@@ -91,33 +97,42 @@ public class UpdateMemberAdminServlet extends HttpServlet {
         String leader = request.getParameter("leader");
         String status = request.getParameter("status");
         String pointsRaw = request.getParameter("points");
+        HashMap<String, String> listRole = daoClub.getAllRoleDong("1");
         int count = 0;
         if (role == null) {
             count++;
             request.setAttribute("errorRole", "You must be choose 1 option");
         }
         int points = 0;
-        if (pointsRaw == null) {
+        if (pointsRaw == null || pointsRaw.isBlank()) {
             count++;
             request.setAttribute("errorPoint", "Points is not empty");
         } else {
             try {
                 points = Integer.parseInt(pointsRaw);
-                if (points > 0 || points < 1000) {
+                if (points < 0 || points > 1000) {
                     count++;
                     request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
                 }
             } catch (Exception e) {
-                
                 request.setAttribute("errorPoint", "Points is not empty");
             }
         }
-        System.out.println(count);
+        System.out.println(pointsRaw);
+        Accounts accDefault = daoAcc.getAccountByIdDong(idStudent);
+        Date datecreate = accDefault.getDatecreate();
+        Date datemodify = accDefault.getDatemodify();
+        request.setAttribute("listRole", listRole);
+        request.setAttribute("status", status);
+        request.setAttribute("idClub", idClub);
+        request.setAttribute("idStudent", idStudent);
         if (count > 0) {
+            request.setAttribute("role", role);
+            request.setAttribute("dateCreate", datecreate);
+            request.setAttribute("dateModify", datemodify);
             request.setAttribute("name", name);
             request.getRequestDispatcher("View/ViewAdmin/MemberClubAdminDetail.jsp").forward(request, response);
         } else {
-            System.out.println("1");
             dao.updateMemberClubDong(idStudent, idClub, pointsRaw, role, leader, status);
             response.sendRedirect("memberClubAdmin?idClub=" + idClub + "&statusUpdate=success");
         }

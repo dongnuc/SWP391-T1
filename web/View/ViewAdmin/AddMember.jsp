@@ -1,6 +1,6 @@
 <%-- 
-    Document   : MemberClubAdminDetail
-    Created on : Jul 17, 2024, 10:17:59 PM
+    Document   : AddMember
+    Created on : Jul 18, 2024, 6:35:15 PM
     Author     : Admin
 --%>
 
@@ -97,21 +97,21 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Member Club</h4>
+                    <h4 class="breadcrumb-title">Add Member</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Member</li>
+                        <li>Add Member Club</li>
                     </ul>
                 </div>	
                 <div class="row">
                     <!-- Your Profile Views Chart -->
                     <div class="popUp" style="width: 500px;margin: 0px auto; border: solid 1px black">
-                        <form action="updateMember" method="post" class="edit-profile m-b30">
+                        <form action="addMember" method="post" class="edit-profile m-b30">
                             <div class="row">
                                 <div class="form-group col-6">
-                                    <label class="col-form-label">Name Student</label>
+                                    <label class="col-form-label">Name Club</label>
                                     <div>
-                                        <input name="name" id="nameClub" class="form-control" type="text" value="${name}">
+                                        <input name="nameClub" id="nameClub" class="form-control" type="text" value="${nameClub}">
                                         <p class="error-message">${errorName}</p>
                                     </div>
                                 </div>
@@ -130,33 +130,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
-                                    <label class="col-form-label">Date Modify</label>
-                                    <div>
-                                        <input id="dateCreateClub" name="dateCreate" class="form-control" type="date" value="${dateModify}">
-                                        <p class="error-message">${errorDate}</p>
-                                    </div>
-                                </div>
-                                <div class="form-group col-6">
-                                    <label class="col-form-label">Role</label>
+                                    <label class="col-form-label">Manager</label>
                                     <div >
-                                        <select id="typeClubForm" class="form-control" name="role"
+                                        <select id="typeClubForm" class="form-control" name="accManager"
                                                 style="margin-right: 10px; height: 36px;">
-                                            <c:forEach var="listRole" items="${listRole}">
-                                                <option value="${listRole.key}" ${listRole.value eq role?'selected':''}>${listRole.value}</option>
+                                            <c:forEach var="listAccount" items="${listAccount}">
+                                                <option value="${listAccount.id}" ${listAccount.id eq accManager ? 'selected':''} >${listAccount.name}</option>
                                             </c:forEach>
                                         </select>
-                                        <p class="error-message">${errorRole}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-6">
-                                    <label class="col-form-label"> Is Leader</label>
-                                    <div >
-                                        <select id="typeClubForm" class="form-control" name="leader"
-                                                style="margin-right: 10px; height: 36px;">
-                                            <option value="1" ${leader eq '1'?'selected':''}>Yes</option>
-                                            <option value="0"${leader eq '0'?'selected':''}>No</option>
-                                        </select>
+                                        <p class="error-message">${errorAccount}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-6" >
@@ -169,9 +151,19 @@
                                         <p class="error-message">${errorStatus}</p>
                                     </div>
                                 </div>
-                                    <input type="hidden" name="idClub" value="${idClub}">
-                                    <input type="hidden" name="idStudent" value="${idStudent}">
 
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Category Club</label>
+                                    <div >
+                                        <select id="typeClubForm" class="form-control" name="typeClub"
+                                                style="margin-right: 10px; height: 36px;">
+                                            <c:forEach var="listType" items="${listType}">
+                                                <option value="${listType.key}" ${listType.key eq typeClub ? 'selected':''} >${listType.value}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="idClubForm" name="idClub">
                                 <div class="seperator"></div>
                                 <div class="col-12">
                                     <button type="submit" class="btn">Submit</button>
@@ -183,7 +175,7 @@
                 </div>
             </div>
             <div id="success-message" class="success-message hidden">
-                Update successfully!
+                Add successfully!
             </div>
         </main>
         <div class="ttr-overlay"></div>
@@ -221,10 +213,10 @@
             }
 
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('statusUpdate') && urlParams.get('statusUpdate') === 'success') {
+            if (urlParams.has('statusAdd') && urlParams.get('statusAdd') === 'success') {
                 // Hiển thị thông báo
                 showNotification();
-                urlParams.delete('statusUpdate');
+                urlParams.delete('statusAdd');
                 const newUrl = window.location.pathname + '?' + urlParams.toString();
                 // Cập nhật URL mà không tải lại trang
                 window.history.replaceState({}, document.title, newUrl);

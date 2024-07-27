@@ -10,9 +10,13 @@
 <div class="ttr-sidebar">
     <div class="ttr-sidebar-wrapper content-scroll">
         <!-- side menu logo start -->
-        
+
         <div class="ttr-sidebar-logo">
-            <a href="#"><img alt="" src="assets/images/logo.png" width="122" height="27"></a>
+            <a href="dashboardAdmin">
+                <img alt="" src="images/logo3.png" width="122" height="27" style=" position: absolute;
+                     top: 10px;
+                     left: 10px;">
+            </a>
             <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                     <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                     <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
@@ -23,9 +27,9 @@
         </div>
         <!-- side menu logo end -->
         <!-- sidebar menu start -->
-        
+
         <!-- sidebar menu end -->
-        <h5 style="margin: 5px 5px;">Admin</h5>
+        <!--<h5 style="margin: 5px 5px;">Admin</h5>-->
         <nav class="ttr-sidebar-navi">
             <ul>
                 <li>
@@ -35,8 +39,8 @@
                     </a>
                 </li>          
                 <li>
-                   
-                     <a href="#" class="ttr-material-button">
+
+                    <a href="#" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-list"></i></span>
                         <span class="ttr-label">List Setting</span>
                         <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
@@ -72,7 +76,7 @@
                         <span class="ttr-icon"><i class="ti-calendar"></i></span>
                         <span class="ttr-label">Clubs</span>
                         <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        
+
                     </a>
                     <ul>
                         <li>
@@ -81,7 +85,7 @@
                         <li>
                             <a href="managerClub" class="ttr-material-button"><span class="ttr-label">List Clubs</span></a>
                         </li>
-                
+
                     </ul>
                 </li>
                 <li>
@@ -99,7 +103,7 @@
                         </li>
 
                     </ul>
-                    
+
                 </li>
                 <li class="ttr-seperate"></li>
             </ul>

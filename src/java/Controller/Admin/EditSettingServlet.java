@@ -70,7 +70,7 @@ public class EditSettingServlet extends HttpServlet {
         SettingSystem getGetting = daoSet.getSettingByIdDong(idSetting);
         HashMap hashTypeSetting = daoSet.getAllTypeSettingDong("1");
         String typeForm = getGetting.getTypeSetting();
-        System.out.println(typeForm);
+        
         if (typeForm.equals("Type Form")) {
             // get All account has role = 1
             List<Accounts> getAllAcc = daoAcc.getAccManagerFormDong();                       

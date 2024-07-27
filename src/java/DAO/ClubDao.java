@@ -19,7 +19,60 @@ import java.util.List;
  * @author 84358
  */
 public class ClubDao extends DBContext {
-
+    
+     public List<Accounts> getAccountsNewInClubDong(String idClub) {
+        List<Accounts> listAcc = new ArrayList<>();
+        String query = " select s.IdStudent, s.NameStudent, sc.Role from studentclub sc join student s ON sc.IdStudent = s.IdStudent where idClub = ? \n"
+                + " order by sc.DateCreate desc limit 5 offset 0";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String idRole = rs.getString("Role");
+                String nameRole = getRoleClubDong(idRole);
+                Accounts acc = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"),
+                        0, nameRole, 1);
+                listAcc.add(acc);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listAcc;
+    }
+    
+    public HashMap<String, String> getListClubManagerByIdAccDong(String idAcc) {
+        HashMap<String, String> listClubManager = new HashMap<>();
+        String query = "select c.IdClub, c.NameClub  from studentclub sc left join club c On sc.IdClub = c.IdClub\n"
+                + " where sc.Role = 1 and sc.Status = 1 and sc.IdStudent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idAcc);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                listClubManager.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listClubManager;
+    }
+    public boolean checkManagerClub(String idAcc,String idClub){
+        String query = " select * from StudentClub where Role = 1 and IdStudent = ? and IdClub = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idAcc);
+            ps.setString(2, idClub);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
     public List<Accounts> getAccountsNewInClub(String idClub) {
         List<Accounts> listAcc = new ArrayList<>();
         String query = " select s.IdStudent, s.NameStudent, sc.Role from studentclub sc join student s ON sc.IdStudent = s.IdStudent where idClub = ? \n"

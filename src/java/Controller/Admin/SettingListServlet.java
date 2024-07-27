@@ -82,10 +82,10 @@ public class SettingListServlet extends HttpServlet {
         HashMap hashTypeSetting = daoSet.getAllTypeSettingDong("1");
         SettingDaoClass daoSetting = new SettingDaoClass();
         int numberPage = daoSetting.namePageSetting(idType, search, status);
-        System.out.println(numberPage);
+       
         List<SettingSystem> listSetting = daoSetting.getAllSettingDong(idType, search, status, page);
         
-        System.out.println("numberPage: " + numberPage);
+       
         request.setAttribute("pageCurrent", page);
         request.setAttribute("numberPage", numberPage);
         request.setAttribute("status", status);

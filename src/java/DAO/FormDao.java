@@ -18,6 +18,21 @@ import java.util.List;
  * @author Admin
  */
 public class FormDao extends DBContext {
+    public int countFormDeleteDong(String idCategory) {
+        String query = "select count(*) from form where status = 0 and CategoryForm = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idCategory);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
          
     public void insertFormDong(String fullName, String tittleForm, String content, String email, String phone, String category) {
         String query = " INSERT INTO `newsetting`.`form`\n"

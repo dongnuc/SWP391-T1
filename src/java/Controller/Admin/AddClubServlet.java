@@ -10,6 +10,7 @@ import DAO.SettingDaoClass;
 import Model.Accounts;
 import Model.Clubs;
 import Model.SettingSystem;
+import Services.SendMail;
 import Services.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,6 +69,7 @@ public class AddClubServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountDao daoAccount = new AccountDao();
+        Validation validationInput = new Validation();
         // list Account manager
         List<Accounts> listManager = new ArrayList<>();
         ClubDao dao = new ClubDao();
@@ -98,6 +100,7 @@ public class AddClubServlet extends HttpServlet {
             throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         Validation validation = new Validation();
+        SendMail sendMail = new SendMail();
         ClubDao dao = new ClubDao();
         AccountDao daoAccount = new AccountDao();
         // list Account manager
@@ -122,7 +125,7 @@ public class AddClubServlet extends HttpServlet {
             error++;
             request.setAttribute("errorName", checkNameClub);
         }
-        boolean checkDupitName = validation.checkNameClubDuplicate(nameClub, idClub);
+        boolean checkDupitName = validation.checkNameClubDuplicate(nameClub, "");
         if (checkDupitName) {
             error++;
             request.setAttribute("errorName", "Name CLub is exist");
@@ -177,7 +180,9 @@ public class AddClubServlet extends HttpServlet {
             //        out.println(status);
 //            dao.updateClubDong(idClub, nameClub, pointClub, typeClub, status);
                 dao.insertClubDong(nameClub, pointClub, dateCreate, idAccount, typeClub, status);
-            response.sendRedirect("addClub?"+ "&statusAdd=success");
+                Accounts acc = daoAccount.getAccountByIdDong(idAccount);
+                sendMail.sendMailDefault("Club New in Website SWP391", "You have become a Manager of Club "+nameClub+" ,please go to the website to check.", status);
+                response.sendRedirect("addClub?"+ "&statusAdd=success");
         }
     }
 

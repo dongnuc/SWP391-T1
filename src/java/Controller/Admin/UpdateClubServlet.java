@@ -135,11 +135,12 @@ public class UpdateClubServlet extends HttpServlet {
             request.setAttribute("errorPoint", "Points is not empty");
         } else {
             try {
-                int points = Integer.parseInt("pointClub");
+                int points = Integer.parseInt(pointClub);
                 if (points > 1000 || points < 0) {
                     request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
                 }
             } catch (Exception e) {
+                System.out.println("hello try catch");
                 request.setAttribute("errorPoint", "Points must be a positive number and < 1000");
             }
         }
@@ -152,8 +153,8 @@ public class UpdateClubServlet extends HttpServlet {
         request.setAttribute("listType", listCategoryClub);
         request.setAttribute("listAccount", listManager);
         request.setAttribute("typeClub", typeClub);
+        System.out.println("idClub: " + idClub);
         if (error > 0) {
-            System.out.println("idClub: " + idClub);
             Clubs getClub = dao.getClubByIdDong(idClub);
             request.setAttribute("idClub", getClub.getClub());
             request.setAttribute("dateCreate", getClub.getDatecreate());

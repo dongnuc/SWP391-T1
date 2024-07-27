@@ -84,7 +84,7 @@
                         <div class="widget-box">
                             <div class="email-wrapper">
                                 <div class="email-menu-bar">
-                                    
+
                                     <div class="email-menu-bar-inner">
                                         <ul>
                                             <li><a href="loadForm"><i class="fa fa-envelope-o"></i>Inbox
@@ -100,13 +100,14 @@
                                 </div>
                                 <div class="mail-list-container">
                                     <div class="mail-toolbar">
-
-                                        
-
                                         <div class="next-prev-btn">
-                                            
-                                            <a href="#"><i class="fa fa-angle-left"></i></a>
-                                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                                            <span style="margin-right: 10px">${formInPage}/${totalForm}</span>
+                                            <c:if test="${pageCurrent > 1}">
+                                                <a href="formdelete?page=${pageCurrent - 1}"><i class="fa fa-angle-left"></i></a>
+                                                </c:if>
+                                                <c:if test="${numberPage - pageCurrent >= 1}">
+                                                <a href="formdelete?page=${pageCurrent + 1}"><i class="fa fa-angle-right"></i></a>
+                                                </c:if>
                                         </div>
                                     </div>
                                     <div class="mail-box-list">
@@ -172,9 +173,7 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
+
         </script>
     </body>
 

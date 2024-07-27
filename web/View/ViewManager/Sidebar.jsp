@@ -13,7 +13,11 @@
     <div class="ttr-sidebar-wrapper content-scroll">
         <!-- side menu logo start -->
         <div class="ttr-sidebar-logo">
-            <a href="#"><img alt="" src="${pageContext.request.contextPath}/assets_admin/images/logo.png" width="122" height="27"></a>
+            <a href="#">
+                <img alt="" src="images/logo3.png" width="122" height="27" style=" position: absolute;
+                     top: 10px;
+                     left: 10px;">
+            </a>
             <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
                     <i class="material-icons ttr-fixed-icon">gps_fixed</i>
                     <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
@@ -86,25 +90,6 @@
                         <span class="ttr-icon"><i class="ti-comments"></i></span>
                         <span class="ttr-label">List Participate Member</span>
                     </a>
-                </li>
-                <li>
-                    <a href="#" class="ttr-material-button">
-                        <span class="ttr-icon"><i class="ti-calendar"></i></span>
-                        <span class="ttr-label">Clubs</span>
-                        <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
-                        
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="StudentClubServlet?id=${param.id}" class="ttr-material-button"><span class="ttr-label">Student in Club</span></a>
-                        </li>
-                        <li>
-                            <a href="ClubStudentRegistrationAdminServlet?id=${param.id}" class="ttr-material-button"><span class="ttr-label">Club Student Registration</span></a>
-                        </li>
-                        <li>
-                            <a href="EventClubStudentRegistrationServlet?id=${param.id}">Student Recruitment Event</a>
-                        </li>
-                    </ul>
                 </li>
 
 

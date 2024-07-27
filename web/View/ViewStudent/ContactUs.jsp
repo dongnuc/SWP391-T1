@@ -62,8 +62,32 @@
                 font-style: italic;
                 margin-bottom: 0px;
             }
+            .success-message {
+                background-color: #4CAF50; /* Màu nền */
+                color: white; /* Màu chữ */
+                text-align: center; /* Căn giữa văn bản */
+                padding: 10px; /* Khoảng cách padding */
+                position: fixed; /* Vị trí cố định */
+                top: 0; /* Ở phía trên cùng */
+                left: 50%; /* Căn giữa theo chiều ngang */
+                transform: translateX(-50%); /* Dịch chuyển về trái 50% */
+                z-index: 1000; /* Độ sâu */
+                width: 300px; /* Độ rộng */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Hiệu ứng đổ bóng */
+                border-radius: 5px; /* Bo góc */
+            }
+
+            /* CSS để ẩn thông báo ban đầu */
+            .hidden {
+                display: none; /* Ẩn đi */
+            }
+            .error-message{
+                color: red;
+                font-style: italic;
+                margin-bottom: 0px;
+            }
         </style>
-        <title>JSP Page</title>
+        <title>Contact Us</title>
     </head>
     <body>
 
@@ -101,7 +125,7 @@
                                     <label class="col-form-label">Phone Number</label>                                   
                                     <div>
                                         <input class="form-control" type="text" name="phone" value="${phone}">
-                                         <p class="error-message">${errorPhone}</p>
+                                        <p class="error-message">${errorPhone}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-6">
@@ -109,10 +133,8 @@
                                     <span style="color: red">*</span>
                                     <div>
                                         <select name="typeForm" class="form-control">
-                                            <c:set var="count" value="1"/>    
                                             <c:forEach var="listType" items="${listType}">
                                                 <option value="${listType.key}">${listType.value}</option>
-                                                <c:set var="count" value="${count + 1}"/>
                                             </c:forEach>             
                                         </select>
                                     </div>
@@ -122,7 +144,7 @@
                                     <span style="color: red">*</span>
                                     <div>
                                         <input class="form-control" name="tittle" type="text" value="${tittle}">
-                                         <p class="error-message">${errorTittle}</p>
+                                        <p class="error-message">${errorTittle}</p>
                                     </div>
                                 </div>
                                 <div class="form-group col-12">
@@ -131,8 +153,8 @@
                                     <div>
                                         <textarea class="form-control" name="content">
                                             <c:if test="${content != null}">${content}</c:if>
-                                        </textarea>
-                                         <p class="error-message">${errorContent}</p>
+                                            </textarea>
+                                            <p class="error-message">${errorContent}</p>
                                     </div>
                                 </div>
                                 <div class="seperator"></div>
@@ -144,12 +166,15 @@
                         </form>
                     </div>
                 </div>
+                <div id="success-message" class="success-message hidden">
+                    Contact successfully!
+                </div>
             </div>
 
-           
+
         </section>
         <%@ include file="Footer.jsp" %>
-       
+
         <script>
 
             // Function thay đổi trang
@@ -221,6 +246,26 @@
                     // Do something here to load data for the selected page
                 }
             });
+
+            function showNotification() {
+                const notification = document.getElementById('success-message');
+                notification.style.display = 'block'; // Hiển thị thông báo
+                // Ẩn thông báo sau 2 giây (2000ms)
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 2000);
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('contact') && urlParams.get('contact') === 'success') {
+                // Hiển thị thông báo
+                showNotification();
+                urlParams.delete('contact');
+                const newUrl = window.location.pathname + '?' + urlParams.toString();
+                // Cập nhật URL mà không tải lại trang
+                window.history.replaceState({}, document.title, newUrl);
+            }
         </script>
     </body>
 </html>
+

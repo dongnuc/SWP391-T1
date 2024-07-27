@@ -64,7 +64,7 @@ public class Validation {
         if (emailInput.isEmpty()) {
             return "You must input here";
         }
-        String[] gmailDomains = {"gmail.com", "gmail.co", "googlemail.com","yahoo.com"};
+        String[] gmailDomains = {"gmail.com", "gmail.co", "googlemail.com","yahoo.com","fpt.edu.vn"};
         // Tạo biểu thức chính quy từ các đuôi email
         String domainRegex = String.join("|", gmailDomains);
         String regex = "^[a-zA-Z0-9._%+-]+@(" + domainRegex + ")$";

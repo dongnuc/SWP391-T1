@@ -13,12 +13,43 @@ import java.util.ArrayList;
 import java.util.List;
 import Model.*;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 /**
  *
  * @author 10t1q
  */
 public class EventDAO extends DBContext {
+    
+     public HashMap<String, String> eventReportDong(String idClub, String year) {
+        HashMap<String, String> listReport = new HashMap<>();
+        String query = "SELECT\n"
+                + "    CASE\n"
+                + "        WHEN MONTH(DateStart) BETWEEN 1 AND 4 THEN 'Q1'\n"
+                + "        WHEN MONTH(DateStart) BETWEEN 5 AND 8 THEN 'Q2'\n"
+                + "        WHEN MONTH(DateStart) BETWEEN 9 AND 12 THEN 'Q3'\n"
+                + "        ELSE 'Other'\n"
+                + "    END AS Quarter,\n"
+                + "    COUNT(IdEvent) AS NumberOfEvents\n"
+                + "FROM Event\n"
+                + "WHERE IdClub = ? AND YEAR(DateStart) = ? \n"
+                + "GROUP BY Quarter\n"
+                + "ORDER BY FIELD(Quarter, 'Q1', 'Q2', 'Q3');";
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, idClub);
+            ps.setString(2, year);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                listReport.put(rs.getString(1), rs.getString(2));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return listReport;
+    }
+    
+    
 //--------------Hoang
 
     public String getEventNameById(int idEvent) {

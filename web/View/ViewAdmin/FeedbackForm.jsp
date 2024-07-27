@@ -57,7 +57,32 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/style.css">
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/dashboard.css">
         <link class="skin" rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/css/color/color-1.css">
+        <style>
+            .success-message {
+                background-color: #4CAF50; /* Màu nền */
+                color: white; /* Màu chữ */
+                text-align: center; /* Căn giữa văn bản */
+                padding: 10px; /* Khoảng cách padding */
+                position: fixed; /* Vị trí cố định */
+                top: 0; /* Ở phía trên cùng */
+                left: 50%; /* Căn giữa theo chiều ngang */
+                transform: translateX(-50%); /* Dịch chuyển về trái 50% */
+                z-index: 1000; /* Độ sâu */
+                width: 300px; /* Độ rộng */
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Hiệu ứng đổ bóng */
+                border-radius: 5px; /* Bo góc */
+            }
 
+            /* CSS để ẩn thông báo ban đầu */
+            .hidden {
+                display: none; /* Ẩn đi */
+            }
+            .error-message{
+                color: red;
+                font-style: italic;
+                margin-bottom: 0px;
+            }
+        </style>
     </head>
     <body class="ttr-opened-sidebar ttr-pinned-sidebar">
 
@@ -110,15 +135,15 @@
                                                 <input type="submit" value="Search" style="margin-left: 10px;">
                                             </form>
                                         </div>
-                                                
+
                                         <div class="next-prev-btn">
                                             <span style="margin-right: 10px">${formInPage}/${totalForm}</span>
                                             <c:if test="${pageCurrent > 1}">
                                                 <a href="loadForm?pageNumber=${pageCurrent - 1}"><i class="fa fa-angle-left"></i></a>
-                                            </c:if>
-                                            <c:if test="${numberPage - pageCurrent >= 1}">
+                                                </c:if>
+                                                <c:if test="${numberPage - pageCurrent >= 1}">
                                                 <a href="loadForm?pageNumber=${pageCurrent + 1}"><i class="fa fa-angle-right"></i></a>
-                                            </c:if>
+                                                </c:if>
                                         </div>
                                     </div>
                                     <div class="mail-box-list" id="mail-box-list">
@@ -169,7 +194,9 @@
                 </div>
             </div>
         </main>
-        <div class="ttr-overlay"></div>
+        <div id="success-message" class="success-message hidden">
+            Remove successfully!
+        </div>
 
         <!-- External JavaScripts -->
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/jquery.min.js"></script>
@@ -190,6 +217,14 @@
         <script src="${pageContext.request.contextPath}/View/ViewAdmin/assets/js/admin.js"></script>
         <!--<script src='assets/vendors/switcher/switcher.js'></script>-->
         <script>
+                                                        function showNotification() {
+                                                            const notification = document.getElementById('success-message');
+                                                            notification.style.display = 'block'; // Hiển thị thông báo
+                                                            // Ẩn thông báo sau 2 giây (2000ms)
+                                                            setTimeout(() => {
+                                                                notification.style.display = 'none';
+                                                            }, 2000);
+                                                        }
 
 
                                                         function removeForm(idForm) {
@@ -201,6 +236,7 @@
                                                                     idForm: idForm
                                                                 },
                                                                 success: function (response) {
+                                                                    showNotification();
                                                                     element.remove();
                                                                 },
                                                                 error: function (xhr) {

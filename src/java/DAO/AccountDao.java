@@ -542,8 +542,6 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
                         rs.getString("Phone"),rs.getInt("Status"),
                         rs.getInt("Role"), rs.getString("TokenEmail"));
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -34,7 +34,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Edit Club</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,10 +98,10 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Mailbox</h4>
+                    <h4 class="breadcrumb-title">Edit Club</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="loadForm"><i class="fa fa-home"></i>Home</a></li>
-                        <li>Inbox</li>
+                        <li>Detail</li>
                     </ul>
                 </div>	
                 <div class="row">

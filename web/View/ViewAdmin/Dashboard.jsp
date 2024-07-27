@@ -33,7 +33,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/View/ViewAdmin/assets/images/favicon.png" />
 
         <!-- PAGE TITLE HERE ============================================= -->
-        <title>EduChamp : Education HTML Template </title>
+        <title>Dashboard Admin</title>
 
         <!-- MOBILE SPECIFIC ============================================= -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -163,43 +163,43 @@
                                 <h4>Students</h4>
                             </div>
                             <div class="widget-inner">
-                                <canvas id="myPieChart" width="100%" height="45"></canvas>
+                                <canvas id="myPieChart" width="100%" height="100%"></canvas>
                             </div>
                         </div>
                     </div>
                     <!-- Your Profile Views Chart END-->
 
-                                        
-                                        <div class="col-lg-6 m-b30">
-                                            <div class="widget-box">
-                                                <div class="wc-title">
-                                                    <h4>New Users</h4>
-                                                </div>
-                                                <div class="widget-inner">
-                                                    <div class="new-user-list">
-                                                        <ul>
-                                                            <c:forEach var="listNew" items="${listAccNew}">
-                                                                <li>
-                                                                <span class="new-users-pic">
-                                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
-                                                                </span>
-                                                                <span class="new-users-text">
-                                                                    <a href="#" class="new-users-name">${listNew.name}</a>
-                                                                    <span class="new-users-info">${listNew.email}</span>
-                                                                </span>
-                                                                <span class="new-users-btn">
-                                                                    <a href="userdetail?emails=${listNew.email}" class="btn button-sm outline">View More</a>
-                                                                </span>
-                                                            </li>
-                                                            </c:forEach>
-                                                            
-                                                            
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                    
+
+                    <div class="col-lg-6 m-b30">
+                        <div class="widget-box">
+                            <div class="wc-title">
+                                <h4>New Users</h4>
+                            </div>
+                            <div class="widget-inner">
+                                <div class="new-user-list">
+                                    <ul>
+                                        <c:forEach var="listNew" items="${listAccNew}">
+                                            <li>
+                                                <span class="new-users-pic">
+                                                    <img src="assets/images/testimonials/pic1.jpg" alt=""/>
+                                                </span>
+                                                <span class="new-users-text">
+                                                    <a href="#" class="new-users-name">${listNew.name}</a>
+                                                    <span class="new-users-info">${listNew.email}</span>
+                                                </span>
+                                                <span class="new-users-btn">
+                                                    <a href="userdetail?emails=${listNew.email}" class="btn button-sm outline">View More</a>
+                                                </span>
+                                            </li>
+                                        </c:forEach>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -226,20 +226,11 @@
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/moment.min.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/calendar/fullcalendar.js'></script>
         <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/vendors/switcher/switcher.js'></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            var ctx = document.getElementById("myPieChart");
-            var myPieChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ["Club membership", "Non-members of the club"],
-                    datasets: [{
-                            data: [${numberStudentGroup},${numberAcc - numberStudentGroup}],
-                            backgroundColor: ['#007bff', '#dc3545', '#ffc107', '#28a745', '#3333', '#ddd', '#4444'],
-                        }],
-                },
-            });
+        <script src='${pageContext.request.contextPath}/View/ViewAdmin/assets/js/ChartPie.js'></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="application/json" id="chartData">
+            ${chartData}
         </script>
     </body>
 

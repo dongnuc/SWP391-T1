@@ -61,15 +61,20 @@ public class GetMemberClubDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ClubDao daoClub = new ClubDao();
-        HashMap<String,String> listRole = daoClub.getAllRoleDong("1");
+        HashMap<String, String> listRole = daoClub.getAllRoleDong("1");
         String idClub = request.getParameter("idClub");
         String idStudent = request.getParameter("idStudent");
         int leader = daoClub.isLeaderInClubDong(idClub, idStudent);
+        
         Accounts accMember = daoClub.getMemberInClubDong(idClub, idStudent);
+        System.out.println(accMember);
         request.setAttribute("accMember", accMember);
+        request.setAttribute("name", accMember.getName());
+        request.setAttribute("points", accMember.getPoints());
+        request.setAttribute("dateCreate", accMember.getDatecreate());
+        request.setAttribute("dateModify", accMember.getDatemodify());
         request.setAttribute("leader", leader);
         request.setAttribute("role", accMember.getRoleClub());
-        System.out.println(accMember.getRoleClub());
         request.setAttribute("idClub", idClub);
         request.setAttribute("idStudent", idStudent);
         request.setAttribute("listRole", listRole);

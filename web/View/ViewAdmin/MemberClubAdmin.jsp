@@ -202,7 +202,7 @@
         <main class="ttr-wrapper">
             <div class="container-fluid">
                 <div class="db-breadcrumb">
-                    <h4 class="breadcrumb-title">Member Club</h4>
+                    <h4 class="breadcrumb-title">Member ${nameClub}</h4>
                     <ul class="db-breadcrumb-list">
                         <li><a href="dashboardAdmin"><i class="fa fa-home"></i>Home</a></li>
                         <li>Member Club</li>
@@ -240,7 +240,7 @@
                                         </div>
                                         <input type="submit" value="Search" >
                                         <div>
-                                            <button type="button" onclick="addClub()"
+                                            <button type="button" onclick="addMember(${idClub})"
                                                     style="border: solid 1px buttonborder; margin: 0px 10px; height: 28px">
                                                 <i class="fa fa-edit">Add</i>
                                             </button>
@@ -274,7 +274,7 @@
                                                         <td>Active</td>
                                                     </c:if>
                                                     <td>
-                                                        <button type="button" onclick="editClub(${listMember.id},${idClub})" style="border: none;"><i class="fa fa-edit">Edit</i></button>
+                                                        <button type="button" onclick="editClub(${idClub},${listMember.id})" style="border: none;"><i class="fa fa-edit">Edit</i></button>
                                                         <c:if test="${listMember.status == 1}">
                                                             <button id="confirmButton" type="button" onclick="showConfirmationModal(${listMember.id},${idClub},${listMember.status})" style="border: none;">
                                                                 <i class="fa fa-edit">Inactive</i>
@@ -327,9 +327,10 @@
                                     </div><!--end row-->        
                                     <div id="confirmationModal" class="modalForm" >
                                         <div class="modal-content">
-                                            <span class="close" onclick="closeModal()">&times;</span>
+                                            <span class="btn-close" onclick="closeModal()">&times;</span>
                                             <p>Are you sure you want to perform this action?</p>
                                             <button type="button" class="btn" onclick="confirmAction()">Yes</button>
+                                            <div style="margin: 5px 0px;"></div>
                                             <button type="button" class="btn" onclick="closeModal()">Cancel</button>
                                         </div>
                                     </div>
@@ -384,8 +385,8 @@
                                                     window.location.href = hrefEdit;
                                                 }
 
-                                                function addClub() {
-                                                    var hrefEdit = "http://localhost:9999/SWP391/addClub";
+                                                function addMember(idClub) {
+                                                    var hrefEdit = "http://localhost:9999/SWP391/addMember?idClub="+idClub;
                                                     window.location.href = hrefEdit;
                                                 }
                                                 function closeModal() {

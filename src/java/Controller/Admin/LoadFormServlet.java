@@ -84,8 +84,7 @@ public class LoadFormServlet extends HttpServlet {
         }else{
             formInPage = (pageCurrent - 1) * 4 + getFormAll.size();
         }
-        System.out.println(pageCurrent);
-        System.out.println(numberPage);
+
         int noRead = daoForm.countFormNoReadDong(categoryId);
         request.setAttribute("formInPage", formInPage);
         request.setAttribute("totalForm", totalForm);
