@@ -54,9 +54,9 @@ public class Manager_DashBoardServlet extends HttpServlet {
                 }
             }
             String idClub = String.valueOf(idClubInt);
-            if (!daoClub.checkManagerClub(String.valueOf(acc.getId()), idClub)) {
-                response.sendRedirect("home");
-            }
+//            if (!daoClub.checkManagerClub(String.valueOf(acc.getId()), idClub)) {
+//                response.sendRedirect("home");
+//            }
             System.out.println(idClub);
             int numberMemeber = daoClub.countStudentInClubDong(idClub);
             int numberBlog = daoClub.countBlogInClubDong(idClub);

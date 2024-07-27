@@ -126,7 +126,7 @@
                                                             <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
                                                         </div>
                                                         <div class="info-bx text-center" style="text-align: right;height: 110px;">
-                                                            <h5><a href="#">${club.getNameclub()}</a></h5>
+                                                            <h5><a href="ClubDetail?id=${club.getClub()}">${club.getNameclub()}</a></h5>
                                                             <span style="text-align: left;">The ${club.getTitle()} </span>
                                                         </div>
 
