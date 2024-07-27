@@ -92,7 +92,7 @@ public class EventDAO extends DBContext {
                 event.setContent(rs.getString("Content"));//
                 event.setIdEventType(rs.getInt("CategoryEvent"));//
                 event.setStatus(rs.getInt("Status"));//
-                event.setAddress(rs.getString("Address"));//
+                event.setAddress(rs.getString("Addreess"));//
                 event.setDescription(rs.getString("Description"));//
                 eventList.add(event);
             }
@@ -127,7 +127,7 @@ public class EventDAO extends DBContext {
                 event.setContent(rs.getString("Content"));//
                 event.setIdEventType(rs.getInt("CategoryEvent"));//
                 event.setStatus(rs.getInt("Status"));//
-                event.setAddress(rs.getString("Address"));//
+                event.setAddress(rs.getString("Addreess"));//
                 event.setDescription(rs.getString("Description"));//
                 eventList.add(event);
             }
@@ -162,7 +162,7 @@ public class EventDAO extends DBContext {
                 event.setContent(rs.getString("Content"));//
                 event.setIdEventType(rs.getInt("CategoryEvent"));//
                 event.setStatus(rs.getInt("Status"));//
-                event.setAddress(rs.getString("Address"));//
+                event.setAddress(rs.getString("Addreess"));//
                 event.setDescription(rs.getString("Description"));//
                 eventList.add(event);
             }
@@ -178,7 +178,7 @@ public class EventDAO extends DBContext {
 
 //-------------Hoang
     public void addEvent(Event event) {
-        String sql = "INSERT INTO event (NameEvent, DateCreate, DateModify, DateEnd, IdClub, DateStart, Image, Content, CategoryEvent, Status, Address, Description) "
+        String sql = "INSERT INTO event (NameEvent, DateCreate, DateModify, DateEnd, IdClub, DateStart, Image, Content, CategoryEvent, Status, Addreess, Description) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -229,7 +229,7 @@ public class EventDAO extends DBContext {
                     event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Address"));
+                    event.setAddress(rs.getString("Addreess"));
                     event.setDescription(rs.getString("Description"));
                 }
             }
@@ -244,7 +244,7 @@ public class EventDAO extends DBContext {
 
 //------------------ Hoang
     public void updateEvent(Event event) {
-        String sql = "UPDATE event SET NameEvent = ?, DateModify = ?, DateEnd = ?, IdClub = ?, DateStart = ?, Image = ?, Content = ?, CategoryEvent = ?, Status = ?, Address = ?, Description = ? WHERE IdEvent = ?";
+        String sql = "UPDATE event SET NameEvent = ?, DateModify = ?, DateEnd = ?, IdClub = ?, DateStart = ?, Image = ?, Content = ?, CategoryEvent = ?, Status = ?, Addreess = ?, Description = ? WHERE IdEvent = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -330,7 +330,7 @@ public class EventDAO extends DBContext {
                     event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Address"));
+                    event.setAddress(rs.getString("Addreess"));
                     event.setDescription(rs.getString("Description"));
                     eventList.add(event);
                 }
@@ -367,7 +367,7 @@ public class EventDAO extends DBContext {
                     event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Address"));
+                    event.setAddress(rs.getString("Addreess"));
                     event.setDescription(rs.getString("Description"));
                     eventList.add(event);
                 }
@@ -451,7 +451,7 @@ public class EventDAO extends DBContext {
                     event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Address"));
+                    event.setAddress(rs.getString("Addreess"));
                     event.setDescription(rs.getString("Description"));
                 }
             }
@@ -485,7 +485,7 @@ public class EventDAO extends DBContext {
                     event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Address"));
+                    event.setAddress(rs.getString("Addreess"));
                     event.setDescription(rs.getString("Description"));
                     events.add(event);
                 }
@@ -501,9 +501,8 @@ public class EventDAO extends DBContext {
 
     public static void main(String[] args) {
         EventDAO daoEvent = new EventDAO();
-        List<Event> listEventAll = daoEvent.getRandomFourEvents();
-        for (Event event : listEventAll) {
-            System.out.println(event.getNameEvent());
-        }
+        List<Event> listEventAll = daoEvent.getAllEvent();
+        System.out.println(listEventAll.size());
+        
     }
 }

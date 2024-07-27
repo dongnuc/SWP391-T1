@@ -95,7 +95,7 @@ public class SetStatusClubControllerServlet extends HttpServlet {
             Clubs clubold = new Clubs(0, registerclub.getNameclub(), 0,registerclub.getCategory(), registerclub.getDatecreate(), registerclub.getDatemodify(), 1 ,img,titlee,description);
             dao.insertClub(clubold);
             Clubs club = dao.getClubbyname(clubold.getNameclub());
-            stdao.insertStudentClub(new StudentClub(0, 1, registerclub.getIdstudent(), club.getClub(), date1, date1));
+            stdao.insertStudentClub(new StudentClub(registerclub.getIdstudent(), club.getClub(), 0, 1, 1, date1, date1, 1));
             
             Accounts acc = db.getAccountbyID(registerclub.getIdstudent());
             SendMail sendMail = new SendMail();

@@ -37,6 +37,7 @@ public class Event_ListSerlet extends HttpServlet {
         if(eventList == null){
          eventList = eventDAO.getAllEvent();
         }
+        System.out.println(eventList.size());
         SettingDAO settingDAO = new SettingDAO();
         
         List<Settings> eventTypeList = settingDAO.getSettingsEvent();
