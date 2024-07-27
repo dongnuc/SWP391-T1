@@ -54,7 +54,7 @@
                                         <p class="text-muted">Please enter your email address. You will receive a link to create a new password via email.</p>
                                         <div class="mb-3">
                                             <label class="form-label">Email address <span class="text-danger">*</span></label>
-                                            <input type="email" class="form-control"  name="email" value="${email}">
+                                            <input type="text" class="form-control"  name="email" value="${email}">
                                         </div>
                                     </div>
                                     <h6 style="color: red;">${requestScope.error}</h6>

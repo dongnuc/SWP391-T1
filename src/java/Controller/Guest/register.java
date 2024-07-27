@@ -132,10 +132,7 @@ public class register extends HttpServlet {
             check++;
             }
         }
-        if(!account.endsWith("@gmail.com")){
-            request.setAttribute("erroremail", "Email must end with @gmail.com");
-            check++;
-        }
+        
         if(firstname.length()>35){
             request.setAttribute("errorname", "Name not exceed 35 character");
         }

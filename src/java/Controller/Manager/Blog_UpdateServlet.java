@@ -49,12 +49,14 @@ public class Blog_UpdateServlet extends HttpServlet {
         List<Settings> blogTypeList = settingDAO.getSettingsBlog();
 
         Accounts acc = (Accounts) request.getSession().getAttribute("curruser");
+        
             StudentClubDao studentClubDAO = new StudentClubDao();
             List<StudentClub> StudentClubList = studentClubDAO.getStudentClubs(acc.getId());
-
+            
             boolean restricted = true;
             for (StudentClub studentClub : StudentClubList) {
-                if (studentClub.getStatus() == 1 && studentClub.getRole() == 1) {
+                System.out.println("Status:"+studentClub.getStatus()+"Role"+studentClub.getRole());
+                if (studentClub.getStatus() == 1 && studentClub.getLeader() == 1) {
                     restricted = false;
                     break;
                 }
