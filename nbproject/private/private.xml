@@ -3,7 +3,64 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/cloneckeckcode/SWP391-T1/web/Home.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/22.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Controller/Guest/RegisterEvent.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/RegisterEvent.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewManager/Header.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/DAO/EventRegistrationDao.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/Home.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/tien.jpg</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images_blog/1Capture.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/11.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/hero.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/1345.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/trg.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/172023-05-19.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Controller/Manager/Manager_DashBoardServlet.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/logo.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/2023-05-19(2).png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/checkotp_1.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images_blog/203Event.jpg</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/contactus.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/3Capture.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/83FPT-Services-Banner-2.jpg</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/bannercuoi.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/41.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/123456.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/162023-05-19.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/2Capture.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/MyRegistration.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/checkotp.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/logo-dark.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/logo-light.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/password.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewManager/Event_List.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/changepassword.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/91.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/31.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/8404-NguyễnHuy-8.8.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/profile.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Controller/Manager/Event_UploadServlet.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/32023-05-19(2).png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/33.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images_blog/204Event.jpg</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/1234.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewManager/ListMember.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Controller/Manager/ListMember.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/banner.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/newpassword.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/01.PNG</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/cta.jpg</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Services/SendEmailHuy.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/View/ViewStudent/Header.jsp</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/vuive.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/favicon.ico.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Context/DBContext.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/8304-NguyễnHuy-8.8.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Controller/Guest/changepassword.java</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/payment-method.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/web/images/44.png</file>
+            <file>file:/D:/SWP391_267/SWP391-T1/src/java/Filter/JSPFilter.java</file>
         </group>
     </open-files>
 </project-private>

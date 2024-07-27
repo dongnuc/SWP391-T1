@@ -28,6 +28,8 @@ public class AccountDao extends DBContext{
             if(rs.next()){
                 return rs.getInt(1);
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -46,9 +48,14 @@ public class AccountDao extends DBContext{
                         rs.getString("Phone"), rs.getInt("status"), rs.getInt("Role"),
                         rs.getString("TokenEmail")));
             }
+            rs.close();
+            ps.close();
+            
+        
         } catch (Exception e) {
             System.out.println(e);
         }
+        
         return listAcc;
     }
 
@@ -78,6 +85,8 @@ public class AccountDao extends DBContext{
             if(rs.next()){
                 return getAccountByIdDong(rs.getString(1));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -96,6 +105,8 @@ public class AccountDao extends DBContext{
                         rs.getString("Phone"), rs.getInt("status"), rs.getInt("Role"),
                         rs.getString("TokenEmail"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -114,6 +125,8 @@ public class AccountDao extends DBContext{
                         rs.getString("Phone"), rs.getInt("Status"),
                         rs.getInt("Role"), rs.getString("TokenEmail")));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -136,6 +149,8 @@ public class AccountDao extends DBContext{
                          rs.getInt("Status"), rs.getInt("role"),rs.getString("Image"),rs.getString("Note"));
                 
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return c;
@@ -155,6 +170,8 @@ public class AccountDao extends DBContext{
                          rs.getInt("Status"), rs.getInt("role"));
                 list.add(c);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return list;
@@ -182,6 +199,8 @@ public class AccountDao extends DBContext{
             if (rs.next()) {
                 account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -197,6 +216,8 @@ public class AccountDao extends DBContext{
             if (rs.next()) {
                 account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -215,9 +236,11 @@ public class AccountDao extends DBContext{
             st.setDate(5, sqlDate);
             st.setString(6, name);
             st.executeUpdate();
-
+            st.close();
+ 
         } catch (Exception e) {
         }
+        
     }
     public void insertAccountGoogle(String account,Date date,String Name) {
         String sql = "INSERT INTO Student (Email,role,DateCreate,status,NameStudent) VALUES"
@@ -231,6 +254,8 @@ public class AccountDao extends DBContext{
             st.setInt(4, 1);
             st.setString(5, Name);
             st.executeUpdate();
+            
+            st.close();
 
         } catch (Exception e) {
         }
@@ -242,6 +267,8 @@ public class AccountDao extends DBContext{
             st.setString(1, password);
             st.setString(2, account);
             st.executeUpdate();
+            
+            st.close();
 
         } catch (Exception e) {
         }
@@ -257,6 +284,8 @@ public class AccountDao extends DBContext{
             while (rs.next()) {
                 password = rs.getString("password");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return password;
@@ -272,6 +301,8 @@ public class AccountDao extends DBContext{
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return id;
@@ -287,6 +318,8 @@ public class AccountDao extends DBContext{
             while (rs.next()) {
                 id = rs.getInt("role");
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         return id;
@@ -308,6 +341,8 @@ public class AccountDao extends DBContext{
                 Accounts acc = new Accounts(rs.getInt(1), rs.getString(2), rs.getInt(6), rs.getDate(7), rs.getInt(13), rs.getInt("sc.Status"), rs.getInt(19));
                 listAccount.add(acc);
             }
+            rs.close();
+            st.close();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -331,10 +366,12 @@ public class AccountDao extends DBContext{
                 Date datemodify = rs.getDate("DateModify");
                 int status = rs.getInt("Status");
                 int role = rs.getInt("role");
-
                 Accounts acc = new Accounts(id, name, email, password, sdt, gender, date, datecreate, datemodify, status, role);
+                rs.close();
+                st.close();
                 return acc;
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -354,6 +391,8 @@ public class AccountDao extends DBContext{
             st.setString(7, gender);
             st.executeUpdate();
 
+            st.close();
+
         } catch (Exception e) {
         }
     }
@@ -368,6 +407,8 @@ public class AccountDao extends DBContext{
         st.setString(7, email);
         st.setString(6, note);
         st.executeUpdate();
+        
+            st.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -379,6 +420,8 @@ public class AccountDao extends DBContext{
         st.setString(1, image);
         st.setString(2, email);
         st.executeUpdate();
+        
+            st.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -392,6 +435,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
         st.setString(4, dob);
         st.setString(5, email);
         st.executeUpdate();
+        
+            st.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -430,9 +475,12 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
                         rs.getInt("Status"), rs.getInt("role"), rs.getString("Image"));
                 list.add(c);
             }
+            rs.close();
+            st.close();
 
         } catch (Exception e) {
         }
+        
         return list;
     }
         public int numberpage(String search,String status) {
@@ -450,6 +498,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
             if (rs.next()) {
                 number = rs.getInt(1);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
         }
         if (number % 5 == 0) {
@@ -472,6 +522,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
         st.setString(2, email);
         
         st.executeUpdate();
+        
+            st.close();
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -479,7 +531,7 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
 }
     
     public Accounts getAccountByIdSetting(String idAccout){
-        String qurery = "SELECT * FROM swp392.student where IdStudent = ?;";
+        String qurery = "SELECT * FROM student where IdStudent = ?;";
         try {
             PreparedStatement ps = connection.prepareStatement(qurery);
             ps.setString(1, idAccout);
@@ -490,6 +542,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
                         rs.getString("Phone"),rs.getInt("Status"),
                         rs.getInt("Role"), rs.getString("TokenEmail"));
             }
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -506,6 +560,8 @@ public void UpdateAccount(String email, String name, String phone, int gender, S
                 String idAcc = rs.getString(1);
                 getIdAcc.add(idAcc);
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -521,6 +577,8 @@ public String getEmailbyID(int id) {
             if (rs.next()) {
                 account = new Accounts(rs.getInt("IdStudent"), rs.getString("NameStudent"), rs.getString("Email"), rs.getString("password"), rs.getString("Phone"), rs.getInt("Gender"), rs.getDate("Dob"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getInt("Role"),rs.getString("Image"));
             }
+            rs.close();
+            st.close();
         } catch (Exception e) {
             System.out.println(e);
         }
