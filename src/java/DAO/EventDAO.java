@@ -20,8 +20,8 @@ import java.util.HashMap;
  * @author 10t1q
  */
 public class EventDAO extends DBContext {
-    
-     public HashMap<String, String> eventReportDong(String idClub, String year) {
+
+    public HashMap<String, String> eventReportDong(String idClub, String year) {
         HashMap<String, String> listReport = new HashMap<>();
         String query = "SELECT\n"
                 + "    CASE\n"
@@ -40,7 +40,7 @@ public class EventDAO extends DBContext {
             ps.setString(1, idClub);
             ps.setString(2, year);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 listReport.put(rs.getString(1), rs.getString(2));
             }
         } catch (Exception e) {
@@ -48,98 +48,36 @@ public class EventDAO extends DBContext {
         }
         return listReport;
     }
-    
-    
-//--------------Hoang
 
+//--------------Hoang
     public String getEventNameById(int idEvent) {
         String eventName = null;
         String sql = "SELECT NameEvent FROM event WHERE IdEvent = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idEvent);
+            ResultSet rs = ps.executeQuery();
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-            st.setInt(1, idEvent);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    eventName = rs.getString("NameEvent");
-                }
+            if (rs.next()) {
+                eventName = rs.getString("NameEvent");
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return eventName;
     }
+
 //------------------ Hoang
     public List<Event> getEventsByClubId(int clubId) {
         List<Event> eventList = new ArrayList<>();
-        String sql = "SELECT * FROM event WHERE IdClub = ? ORDER BY DateCreate DESC , IdEvent DESC";
-
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-            st.setInt(1, clubId);
-
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    Event event = new Event();
-                    event.setIdEvent(rs.getInt("IdEvent"));
-                    event.setNameEvent(rs.getString("NameEvent"));
-                    event.setDatecreate(rs.getTimestamp("DateCreate"));
-                    event.setDateModify(rs.getTimestamp("DateModify"));
-                    event.setEnddate(rs.getTimestamp("DateEnd"));
-                    event.setIdClub(rs.getInt("IdClub"));
-                    event.setDateStart(rs.getTimestamp("DateStart"));
-                    event.setImage(rs.getString("Image"));
-                    event.setContent(rs.getString("Content"));
-                    event.setIdEventType(rs.getInt("CategoryEvent"));
-                    event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Addreess"));
-                    event.setDescription(rs.getString("Description"));
-                    eventList.add(event);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return eventList;
-    }
-    
-    //-----Hoàng
-    public List<Event> getRecentEvents(int limit) {
-    List<Event> eventList = new ArrayList<>();
-    String sql = "SELECT * FROM event ORDER BY DateCreate DESC, IdEvent DESC LIMIT ?";
-
-    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-        st.setInt(1, limit); // Đặt giá trị của LIMIT
-
-        try (ResultSet rs = st.executeQuery()) {
-            while (rs.next()) {
-                Event event = new Event();
-                event.setIdEvent(rs.getInt("IdEvent"));
-                event.setNameEvent(rs.getString("NameEvent"));
-                event.setDatecreate(rs.getTimestamp("DateCreate"));
-                event.setDateModify(rs.getTimestamp("DateModify"));
-                event.setEnddate(rs.getTimestamp("DateEnd"));
-                event.setIdClub(rs.getInt("IdClub"));
-                event.setDateStart(rs.getTimestamp("DateStart"));
-                event.setImage(rs.getString("Image"));
-                event.setContent(rs.getString("Content"));
-                event.setIdEventType(rs.getInt("CategoryEvent"));
-                event.setStatus(rs.getInt("Status"));
-                event.setAddress(rs.getString("Addreess"));
-                event.setDescription(rs.getString("Description"));
-                eventList.add(event);
-            }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return eventList;
-}
-
-//------------------ Hoang
-    public List<Event> getAllEvent() {
-        List<Event> eventList = new ArrayList<>();
-        String sql = "SELECT * FROM event ORDER BY DateCreate DESC , IdEvent DESC";
-
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        String sql = "SELECT * FROM event WHERE IdClub = ? ORDER BY DateCreate DESC, IdEvent DESC";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, clubId);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Event event = new Event();
@@ -154,115 +92,195 @@ public class EventDAO extends DBContext {
                 event.setContent(rs.getString("Content"));//
                 event.setIdEventType(rs.getInt("CategoryEvent"));//
                 event.setStatus(rs.getInt("Status"));//
-                event.setAddress(rs.getString("Addreess"));//
+                event.setAddress(rs.getString("Address"));//
                 event.setDescription(rs.getString("Description"));//
                 eventList.add(event);
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return eventList;
     }
-//-------------Hoang
 
+    //-----Hoàng
+    public List<Event> getRecentEvents(int limit) {
+        List<Event> eventList = new ArrayList<>();
+        String sql = "SELECT * FROM event ORDER BY DateCreate DESC, IdEvent DESC LIMIT ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, limit); // Set the value for LIMIT
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));//
+                event.setNameEvent(rs.getString("NameEvent"));//
+                event.setDatecreate(rs.getTimestamp("DateCreate"));//
+                event.setDateModify(rs.getTimestamp("DateModify"));//
+                event.setEnddate(rs.getTimestamp("DateEnd"));//
+                event.setIdClub(rs.getInt("IdClub"));//
+                event.setDateStart(rs.getTimestamp("DateStart"));//
+                event.setImage(rs.getString("Image"));//
+                event.setContent(rs.getString("Content"));//
+                event.setIdEventType(rs.getInt("CategoryEvent"));//
+                event.setStatus(rs.getInt("Status"));//
+                event.setAddress(rs.getString("Address"));//
+                event.setDescription(rs.getString("Description"));//
+                eventList.add(event);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return eventList;
+    }
+
+//------------------ Hoang
+    public List<Event> getAllEvent() {
+        List<Event> eventList = new ArrayList<>();
+        String sql = "SELECT * FROM event ORDER BY DateCreate DESC, IdEvent DESC";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Event event = new Event();
+                event.setIdEvent(rs.getInt("IdEvent"));//
+                event.setNameEvent(rs.getString("NameEvent"));//
+                event.setDatecreate(rs.getTimestamp("DateCreate"));//
+                event.setDateModify(rs.getTimestamp("DateModify"));//
+                event.setEnddate(rs.getTimestamp("DateEnd"));//
+                event.setIdClub(rs.getInt("IdClub"));//
+                event.setDateStart(rs.getTimestamp("DateStart"));//
+                event.setImage(rs.getString("Image"));//
+                event.setContent(rs.getString("Content"));//
+                event.setIdEventType(rs.getInt("CategoryEvent"));//
+                event.setStatus(rs.getInt("Status"));//
+                event.setAddress(rs.getString("Address"));//
+                event.setDescription(rs.getString("Description"));//
+                eventList.add(event);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return eventList;
+    }
+
+//-------------Hoang
     public void addEvent(Event event) {
-        String sql = "INSERT INTO event (NameEvent, DateCreate, DateModify, DateEnd, IdClub, DateStart, Image, Content, CategoryEvent, Status, Addreess, Description) "
+        String sql = "INSERT INTO event (NameEvent, DateCreate, DateModify, DateEnd, IdClub, DateStart, Image, Content, CategoryEvent, Status, Address, Description) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-            st.setString(1, event.getNameEvent());
-            st.setTimestamp(2, event.getDatecreate());//
-            st.setTimestamp(3, event.getDateModify());//
-            st.setTimestamp(4, event.getEnddate());//
-            st.setInt(5, event.getIdClub());
-            st.setTimestamp(6, event.getDateStart());//
-            st.setString(7, event.getImage());
-            st.setString(8, event.getContent());
-            st.setInt(9, event.getIdEventType());
-            st.setInt(10, event.getStatus());
-            st.setString(11, event.getAddress());
-            st.setString(12, event.getDescription());
+            ps.setString(1, event.getNameEvent());
+            ps.setTimestamp(2, event.getDatecreate());// Set the DateCreate timestamp
+            ps.setTimestamp(3, event.getDateModify());// Set the DateModify timestamp
+            ps.setTimestamp(4, event.getEnddate());// Set the DateEnd timestamp
+            ps.setInt(5, event.getIdClub());// Set the IdClub
+            ps.setTimestamp(6, event.getDateStart());// Set the DateStart timestamp
+            ps.setString(7, event.getImage());// Set the Image
+            ps.setString(8, event.getContent());// Set the Content
+            ps.setInt(9, event.getIdEventType());// Set the CategoryEvent
+            ps.setInt(10, event.getStatus());// Set the Status
+            ps.setString(11, event.getAddress());// Set the Address
+            ps.setString(12, event.getDescription());// Set the Description
 
-            st.executeUpdate();
+            ps.executeUpdate();
             System.out.println("Event added successfully.");
 
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-//---------------- Hoang
 
+//---------------- Hoang
     public Event getEventById(int idEvent) {
         String sql = "SELECT * FROM event WHERE IdEvent = ?";
         Event event = null;
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idEvent);
 
-            st.setInt(1, idEvent);
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     event = new Event();
-                    event.setIdEvent(rs.getInt("IdEvent"));//
-                    event.setNameEvent(rs.getString("NameEvent"));//
-                    event.setDatecreate(rs.getTimestamp("DateCreate"));//
-                    event.setDateModify(rs.getTimestamp("DateModify"));//
-                    event.setEnddate(rs.getTimestamp("DateEnd"));//
-                    event.setIdClub(rs.getInt("IdClub"));//
-                    event.setDateStart(rs.getTimestamp("DateStart"));//
-                    event.setImage(rs.getString("Image"));//
-                    event.setContent(rs.getString("Content"));//
-                    event.setIdEventType(rs.getInt("CategoryEvent"));//
-                    event.setStatus(rs.getInt("Status"));//
-                    event.setAddress(rs.getString("Addreess"));//
-                    event.setDescription(rs.getString("Description"));//
+                    event.setIdEvent(rs.getInt("IdEvent"));
+                    event.setNameEvent(rs.getString("NameEvent"));
+                    event.setDatecreate(rs.getTimestamp("DateCreate"));
+                    event.setDateModify(rs.getTimestamp("DateModify"));
+                    event.setEnddate(rs.getTimestamp("DateEnd"));
+                    event.setIdClub(rs.getInt("IdClub"));
+                    event.setDateStart(rs.getTimestamp("DateStart"));
+                    event.setImage(rs.getString("Image"));
+                    event.setContent(rs.getString("Content"));
+                    event.setIdEventType(rs.getInt("CategoryEvent"));
+                    event.setStatus(rs.getInt("Status"));
+                    event.setAddress(rs.getString("Address"));
+                    event.setDescription(rs.getString("Description"));
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return event;
     }
+
 //------------------ Hoang
-
     public void updateEvent(Event event) {
-        String sql = "UPDATE event SET NameEvent = ?, DateModify = ?, DateEnd = ?, IdClub = ?, DateStart = ?, Image = ?, content = ?, CategoryEvent = ?, Status = ?, Addreess = ?, description = ? WHERE IdEvent = ?";
+        String sql = "UPDATE event SET NameEvent = ?, DateModify = ?, DateEnd = ?, IdClub = ?, DateStart = ?, Image = ?, Content = ?, CategoryEvent = ?, Status = ?, Address = ?, Description = ? WHERE IdEvent = ?";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-            st.setString(1, event.getNameEvent());
-            Timestamp sqlDateModify = new Timestamp(event.getDateModify().getTime());
-            st.setTimestamp(2, sqlDateModify);
-            Timestamp sqlEnddate = new Timestamp(event.getEnddate().getTime());
-            st.setTimestamp(3, sqlEnddate);
-            st.setInt(4, event.getIdClub());
-            Timestamp sqlDateStart = new Timestamp(event.getDateStart().getTime());
-            st.setTimestamp(5, sqlDateStart);
-            st.setString(6, event.getImage());
-            st.setString(7, event.getContent());
-            st.setInt(8, event.getIdEventType());
-            st.setInt(9, event.getStatus());
-            st.setString(10, event.getAddress());
-            st.setString(11, event.getDescription());
-            st.setInt(12, event.getIdEvent());
+            ps.setString(1, event.getNameEvent());
+            ps.setTimestamp(2, event.getDateModify());
+            ps.setTimestamp(3, event.getEnddate());
+            ps.setInt(4, event.getIdClub());
+            ps.setTimestamp(5, event.getDateStart());
+            ps.setString(6, event.getImage());
+            ps.setString(7, event.getContent());
+            ps.setInt(8, event.getIdEventType());
+            ps.setInt(9, event.getStatus());
+            ps.setString(10, event.getAddress());
+            ps.setString(11, event.getDescription());
+            ps.setInt(12, event.getIdEvent());
 
-            st.executeUpdate();
+            ps.executeUpdate();
+            System.out.println("Event updated successfully.");
 
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-//------------------ Hoang
 
+//------------------ Hoang
     public void deleteEvent(int idEvent) {
         String deleteTasksSql = "DELETE FROM task WHERE IdEvent = ?";
         String deleteEventSql = "DELETE FROM event WHERE IdEvent = ?";
 
-        try (Connection con = DBContext.getConnection()) {
+        try {
             // Bắt đầu giao dịch
-            con.setAutoCommit(false);
+            connection.setAutoCommit(false);
 
-            try (PreparedStatement deleteTasksStmt = con.prepareStatement(deleteTasksSql); PreparedStatement deleteEventStmt = con.prepareStatement(deleteEventSql)) {
+            try (PreparedStatement deleteTasksStmt = connection.prepareStatement(deleteTasksSql); PreparedStatement deleteEventStmt = connection.prepareStatement(deleteEventSql)) {
 
                 // Xóa các bản ghi trong bảng task
                 deleteTasksStmt.setInt(1, idEvent);
@@ -273,14 +291,16 @@ public class EventDAO extends DBContext {
                 deleteEventStmt.executeUpdate();
 
                 // Hoàn tất giao dịch
-                con.commit();
+                connection.commit();
+                System.out.println("Event and associated tasks deleted successfully.");
+
             } catch (SQLException e) {
                 // Nếu có lỗi, rollback giao dịch
-                con.rollback();
+                connection.rollback();
                 e.printStackTrace();
             } finally {
                 // Khôi phục chế độ tự động commit
-                con.setAutoCommit(true);
+                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -292,64 +312,72 @@ public class EventDAO extends DBContext {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event WHERE CategoryEvent = ? ORDER BY DateCreate DESC, IdEvent DESC";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idEventType);
 
-            st.setInt(1, idEventType);
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Event event = new Event();
-                    event.setIdEvent(rs.getInt("IdEvent"));//
-                    event.setNameEvent(rs.getString("NameEvent"));//
-                    event.setDatecreate(rs.getTimestamp("DateCreate"));//
-                    event.setDateModify(rs.getTimestamp("DateModify"));//
-                    event.setEnddate(rs.getTimestamp("DateEnd"));//
-                    event.setIdClub(rs.getInt("IdClub"));//
-                    event.setDateStart(rs.getTimestamp("DateStart"));//
-                    event.setImage(rs.getString("Image"));//
-                    event.setContent(rs.getString("Content"));//
-                    event.setIdEventType(rs.getInt("CategoryEvent"));//
-                    event.setStatus(rs.getInt("Status"));//
-                    event.setAddress(rs.getString("Addreess"));//
-                    event.setDescription(rs.getString("Description"));//
+                    event.setIdEvent(rs.getInt("IdEvent"));
+                    event.setNameEvent(rs.getString("NameEvent"));
+                    event.setDatecreate(rs.getTimestamp("DateCreate"));
+                    event.setDateModify(rs.getTimestamp("DateModify"));
+                    event.setEnddate(rs.getTimestamp("DateEnd"));
+                    event.setIdClub(rs.getInt("IdClub"));
+                    event.setDateStart(rs.getTimestamp("DateStart"));
+                    event.setImage(rs.getString("Image"));
+                    event.setContent(rs.getString("Content"));
+                    event.setIdEventType(rs.getInt("CategoryEvent"));
+                    event.setStatus(rs.getInt("Status"));
+                    event.setAddress(rs.getString("Address"));
+                    event.setDescription(rs.getString("Description"));
                     eventList.add(event);
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return eventList;
     }
-//------------------ Hoang
 
+//------------------ Hoang
     public List<Event> getEventsByName(String eventName) {
         List<Event> eventList = new ArrayList<>();
         String sql = "SELECT * FROM event WHERE NameEvent LIKE ? ORDER BY DateCreate DESC, IdEvent DESC";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + eventName + "%");
 
-            st.setString(1, "%" + eventName + "%");
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Event event = new Event();
-                    event.setIdEvent(rs.getInt("IdEvent"));//
-                    event.setNameEvent(rs.getString("NameEvent"));//
-                    event.setDatecreate(rs.getTimestamp("DateCreate"));//
-                    event.setDateModify(rs.getTimestamp("DateModify"));//
-                    event.setEnddate(rs.getTimestamp("DateEnd"));//
-                    event.setIdClub(rs.getInt("IdClub"));//
-                    event.setDateStart(rs.getTimestamp("DateStart"));//
-                    event.setImage(rs.getString("Image"));//
-                    event.setContent(rs.getString("Content"));//
-                    event.setIdEventType(rs.getInt("CategoryEvent"));//
-                    event.setStatus(rs.getInt("Status"));//
-                    event.setAddress(rs.getString("Addreess"));//
-                    event.setDescription(rs.getString("Description"));//
+                    event.setIdEvent(rs.getInt("IdEvent"));
+                    event.setNameEvent(rs.getString("NameEvent"));
+                    event.setDatecreate(rs.getTimestamp("DateCreate"));
+                    event.setDateModify(rs.getTimestamp("DateModify"));
+                    event.setEnddate(rs.getTimestamp("DateEnd"));
+                    event.setIdClub(rs.getInt("IdClub"));
+                    event.setDateStart(rs.getTimestamp("DateStart"));
+                    event.setImage(rs.getString("Image"));
+                    event.setContent(rs.getString("Content"));
+                    event.setIdEventType(rs.getInt("CategoryEvent"));
+                    event.setStatus(rs.getInt("Status"));
+                    event.setAddress(rs.getString("Address"));
+                    event.setDescription(rs.getString("Description"));
                     eventList.add(event);
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return eventList;
     }
 
@@ -405,11 +433,11 @@ public class EventDAO extends DBContext {
         Event event = null;
         String sql = "SELECT * FROM event WHERE IdClub = ? ORDER BY DateCreate DESC, IdEvent DESC LIMIT 1";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idClub); // Set the IdClub parameter
 
-            st.setInt(1, idClub); // Set the IdClub parameter
-
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     event = new Event();
                     event.setIdEvent(rs.getInt("IdEvent"));
@@ -420,27 +448,30 @@ public class EventDAO extends DBContext {
                     event.setIdClub(rs.getInt("IdClub"));
                     event.setDateStart(rs.getTimestamp("DateStart"));
                     event.setImage(rs.getString("Image"));
-                    event.setContent(rs.getString("content"));
-                    event.setIdEventType(rs.getInt("IdEventType"));
+                    event.setContent(rs.getString("Content"));
+                    event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Addreess"));
-                    event.setDescription(rs.getString("description"));
-                    event.setImage(rs.getString("Image"));
+                    event.setAddress(rs.getString("Address"));
+                    event.setDescription(rs.getString("Description"));
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return event;
     }
 
     public List<Event> getRandomFourEvents() {
         List<Event> events = new ArrayList<>();
-        String sql = "SELECT * FROM event WHERE Status = 1 ORDER BY RAND() LIMIT 3";
+        String sql = "SELECT * FROM event WHERE Status = 1 ORDER BY RAND() LIMIT 4";
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Event event = new Event();
                     event.setIdEvent(rs.getInt("IdEvent"));
@@ -451,19 +482,20 @@ public class EventDAO extends DBContext {
                     event.setIdClub(rs.getInt("IdClub"));
                     event.setDateStart(rs.getTimestamp("DateStart"));
                     event.setImage(rs.getString("Image"));
-                    event.setContent(rs.getString("content"));
+                    event.setContent(rs.getString("Content"));
                     event.setIdEventType(rs.getInt("CategoryEvent"));
                     event.setStatus(rs.getInt("Status"));
-                    event.setAddress(rs.getString("Addreess"));
-                    event.setDescription(rs.getString("description"));
-                    event.setImage(rs.getString("Image"));
-
+                    event.setAddress(rs.getString("Address"));
+                    event.setDescription(rs.getString("Description"));
                     events.add(event);
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return events;
     }
 

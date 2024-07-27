@@ -15,26 +15,32 @@ public class BlogDAO extends DBContext {
 
     public void insertPost(Blog blog) {
         String sql = "INSERT INTO blog(IdBlog, TittleBlog, Image, Description, Content, DateCreate, DateModify, categoryBlog, `Show`, Status, IdClub) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+        try {
 
-            stmt.setInt(1, blog.getIdBlog());//
-            stmt.setString(2, blog.getTitleBlog());//
-            stmt.setString(3, blog.getImage());//
-            stmt.setString(4, blog.getDescription());//
-            stmt.setString(5, blog.getContent());//
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            ps.setInt(1, blog.getIdBlog());//
+            ps.setString(2, blog.getTitleBlog());//
+            ps.setString(3, blog.getImage());//
+            ps.setString(4, blog.getDescription());//
+            ps.setString(5, blog.getContent());//
 
             // Chuyển đổi java.util.Date thành java.sql.Timestamp
             Timestamp sqlDateCreate = new Timestamp(blog.getDateCreate().getTime());
-            stmt.setTimestamp(6, sqlDateCreate);//
+            ps.setTimestamp(6, sqlDateCreate);//
             Timestamp sqlDateModify = new Timestamp(blog.getDateModify().getTime());
-            stmt.setTimestamp(7, sqlDateModify);//
+            ps.setTimestamp(7, sqlDateModify);//
 
-            stmt.setInt(8, blog.getIdBlogType());//
-            stmt.setInt(9, blog.getShow());//
-            stmt.setInt(10, blog.getStatus());//
-            stmt.setInt(11, blog.getIdClub());//
+            ps.setInt(8, blog.getIdBlogType());//
+            ps.setInt(9, blog.getShow());//
+            ps.setInt(10, blog.getStatus());//
+            ps.setInt(11, blog.getIdClub());//
 
-            stmt.executeUpdate();
+            ps.executeUpdate();
+
+            ps.close();
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,39 +50,42 @@ public class BlogDAO extends DBContext {
     public List<Blog> searchBlogsByTitle(String title) {
         List<Blog> posts = new ArrayList<>();
         String sql = "SELECT * FROM blog WHERE TittleBlog LIKE ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, "%" + title + "%");
+            ResultSet rs = ps.executeQuery();
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-            st.setString(1, "%" + title + "%");
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    Blog post = new Blog();
-                    post.setIdBlog(rs.getInt("IdBlog"));
-                    post.setTitleBlog(rs.getString("TittleBlog"));
-                    post.setImage(rs.getString("Image"));
-                    post.setDescription(rs.getString("Description"));
-                    post.setContent(rs.getString("Content"));
-                    post.setDateCreate(rs.getTimestamp("DateCreate"));
-                    post.setDateModify(rs.getTimestamp("DateModify"));
-                    post.setIdBlogType(rs.getInt("categoryBlog"));
-                    post.setShow(rs.getInt("Show"));
-                    post.setStatus(rs.getInt("Status"));
-                    post.setIdClub(rs.getInt("IdClub"));
-                    posts.add(post);
-                }
+            while (rs.next()) {
+                Blog post = new Blog();
+                post.setIdBlog(rs.getInt("IdBlog"));
+                post.setTitleBlog(rs.getString("TittleBlog"));
+                post.setImage(rs.getString("Image"));
+                post.setDescription(rs.getString("Description"));
+                post.setContent(rs.getString("Content"));
+                post.setDateCreate(rs.getTimestamp("DateCreate"));
+                post.setDateModify(rs.getTimestamp("DateModify"));
+                post.setIdBlogType(rs.getInt("categoryBlog"));
+                post.setShow(rs.getInt("Show"));
+                post.setStatus(rs.getInt("Status"));
+                post.setIdClub(rs.getInt("IdClub"));
+                posts.add(post);
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return posts;
     }
+
 //------------------ Hoang
     public List<Blog> getAllPosts() {
         List<Blog> posts = new ArrayList<>();
         String sql = "SELECT * FROM blog ORDER BY DateCreate DESC";
-
-        try (Connection con = DBContext.getConnection(); 
-                PreparedStatement st = con.prepareStatement(sql); 
-                ResultSet rs = st.executeQuery()) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Blog post = new Blog();
@@ -89,220 +98,240 @@ public class BlogDAO extends DBContext {
                 post.setDateModify(rs.getTimestamp("DateModify"));//
                 post.setIdBlogType(rs.getInt("categoryBlog"));//
                 post.setShow(rs.getInt("Show"));//
-                post.setStatus(rs.getInt("Status"));
+                post.setStatus(rs.getInt("Status"));//
                 post.setIdClub(rs.getInt("IdClub"));//
                 posts.add(post);
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return posts;
     }
+
     //--------------------Hoang
     public List<Blog> getLatestPosts(int limit) {
-    List<Blog> posts = new ArrayList<>();
-    String sql = "SELECT * FROM blog ORDER BY DateCreate DESC LIMIT ?";
+        List<Blog> posts = new ArrayList<>();
+        String sql = "SELECT * FROM blog ORDER BY DateCreate DESC LIMIT ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, limit);  // Thiết lập giá trị cho tham số LIMIT
+            ResultSet rs = ps.executeQuery();
 
-    try (Connection con = DBContext.getConnection(); 
-            PreparedStatement st = con.prepareStatement(sql)) {
-        
-        st.setInt(1, limit);  // Thiết lập giá trị cho tham số LIMIT
-        try (ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 Blog post = new Blog();
-                post.setIdBlog(rs.getInt("IdBlog"));
-                post.setTitleBlog(rs.getString("TittleBlog"));
-                post.setImage(rs.getString("Image"));
-                post.setDescription(rs.getString("Description"));
-                post.setContent(rs.getString("Content"));
-                post.setDateCreate(rs.getTimestamp("DateCreate"));
-                post.setDateModify(rs.getTimestamp("DateModify"));
-                post.setIdBlogType(rs.getInt("categoryBlog"));
-                post.setShow(rs.getInt("Show"));
-                post.setStatus(rs.getInt("Status"));
-                post.setIdClub(rs.getInt("IdClub"));
+                post.setIdBlog(rs.getInt("IdBlog"));//
+                post.setTitleBlog(rs.getString("TittleBlog"));//
+                post.setImage(rs.getString("Image"));//
+                post.setDescription(rs.getString("Description"));//
+                post.setContent(rs.getString("Content"));//
+                post.setDateCreate(rs.getTimestamp("DateCreate"));//
+                post.setDateModify(rs.getTimestamp("DateModify"));//
+                post.setIdBlogType(rs.getInt("categoryBlog"));//
+                post.setShow(rs.getInt("Show"));//
+                post.setStatus(rs.getInt("Status"));//
+                post.setIdClub(rs.getInt("IdClub"));//
                 posts.add(post);
             }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return posts;
     }
-    return posts;
-}
 
 //---------- Hoang
     public List<Blog> getPostsByClubId(int clubId) {
-    List<Blog> posts = new ArrayList<>();
-    String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
+        List<Blog> posts = new ArrayList<>();
+        String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, clubId);  // Thiết lập giá trị cho tham số IdClub
+            ResultSet rs = ps.executeQuery();
 
-    try (Connection con = DBContext.getConnection(); 
-            PreparedStatement st = con.prepareStatement(sql)) {
-        
-        st.setInt(1, clubId);  // Thiết lập giá trị cho tham số IdClub
-        try (ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 Blog post = new Blog();
-                post.setIdBlog(rs.getInt("IdBlog"));
-                post.setTitleBlog(rs.getString("TittleBlog"));
-                post.setImage(rs.getString("Image"));
-                post.setDescription(rs.getString("Description"));
-                post.setContent(rs.getString("Content"));
-                post.setDateCreate(rs.getTimestamp("DateCreate"));
-                post.setDateModify(rs.getTimestamp("DateModify"));
-                post.setIdBlogType(rs.getInt("categoryBlog"));
-                post.setShow(rs.getInt("Show"));
-                post.setStatus(rs.getInt("Status"));
-                post.setIdClub(rs.getInt("IdClub"));
+                post.setIdBlog(rs.getInt("IdBlog"));//
+                post.setTitleBlog(rs.getString("TittleBlog"));//
+                post.setImage(rs.getString("Image"));//
+                post.setDescription(rs.getString("Description"));//
+                post.setContent(rs.getString("Content"));//
+                post.setDateCreate(rs.getTimestamp("DateCreate"));//
+                post.setDateModify(rs.getTimestamp("DateModify"));//
+                post.setIdBlogType(rs.getInt("categoryBlog"));//
+                post.setShow(rs.getInt("Show"));//
+                post.setStatus(rs.getInt("Status"));//
+                post.setIdClub(rs.getInt("IdClub"));//
                 posts.add(post);
             }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return posts;
     }
-    return posts;
-}
 
     //----------------------------Hoang
     public List<Blog> getBlogByIdClub(int IdClub) {
-    List<Blog> posts = new ArrayList<>();
-    String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
+        List<Blog> posts = new ArrayList<>();
+        String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, IdClub);
+            ResultSet rs = ps.executeQuery();
 
-    try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-        st.setInt(1, IdClub);
-        try (ResultSet rs = st.executeQuery()) {
             while (rs.next()) {
                 Blog post = new Blog();
-                post.setIdBlog(rs.getInt("IdBlog"));
-                post.setTitleBlog(rs.getString("TittleBlog"));
-                post.setImage(rs.getString("Image"));
-                post.setDescription(rs.getString("Description"));
-                post.setContent(rs.getString("Content"));
-                post.setDateCreate(rs.getTimestamp("DateCreate"));
-                post.setDateModify(rs.getTimestamp("DateModify"));
-                post.setIdBlogType(rs.getInt("categoryBlog"));
-                post.setShow(rs.getInt("Show"));
-                post.setStatus(rs.getInt("Status"));
-                post.setIdClub(rs.getInt("IdClub"));
+                post.setIdBlog(rs.getInt("IdBlog"));//
+                post.setTitleBlog(rs.getString("TittleBlog"));//
+                post.setImage(rs.getString("Image"));//
+                post.setDescription(rs.getString("Description"));//
+                post.setContent(rs.getString("Content"));//
+                post.setDateCreate(rs.getTimestamp("DateCreate"));//
+                post.setDateModify(rs.getTimestamp("DateModify"));//
+                post.setIdBlogType(rs.getInt("categoryBlog"));//
+                post.setShow(rs.getInt("Show"));//
+                post.setStatus(rs.getInt("Status"));//
+                post.setIdClub(rs.getInt("IdClub"));//
                 posts.add(post);
             }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return posts;
     }
-    return posts;
-}
 
 //--------------------Hoang
-
     public Blog getPost(int idBlog) {
         String sql = "SELECT * FROM blog WHERE IdBlog = ?";
-
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, idBlog);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Blog post = new Blog();
-                    post.setIdBlog(rs.getInt("IdBlog"));//
-                    post.setTitleBlog(rs.getString("TittleBlog"));//
-                    post.setImage(rs.getString("Image"));//
-                    post.setDescription(rs.getString("Description"));//
-                    post.setContent(rs.getString("Content"));//
-                    post.setDateCreate(rs.getTimestamp("DateCreate"));//
-                    post.setDateModify(rs.getTimestamp("DateModify"));//
-                    post.setIdBlogType(rs.getInt("categoryBlog"));//
-                    post.setShow(rs.getInt("Show"));//
-                    post.setStatus(rs.getInt("Status"));//
-                    post.setIdClub(rs.getInt("IdClub"));//
-                    return post;
-                }
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Blog post = new Blog();
+                post.setIdBlog(rs.getInt("IdBlog"));//
+                post.setTitleBlog(rs.getString("TittleBlog"));//
+                post.setImage(rs.getString("Image"));//
+                post.setDescription(rs.getString("Description"));//
+                post.setContent(rs.getString("Content"));//
+                post.setDateCreate(rs.getTimestamp("DateCreate"));//
+                post.setDateModify(rs.getTimestamp("DateModify"));//
+                post.setIdBlogType(rs.getInt("categoryBlog"));//
+                post.setShow(rs.getInt("Show"));//
+                post.setStatus(rs.getInt("Status"));//
+                post.setIdClub(rs.getInt("IdClub"));//
+                return post;
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-//------------------ Hoang
 
+//------------------ Hoang
     public List<Blog> getBlogListByType(int idBlogType) {
         List<Blog> blogList = new ArrayList<>();
         String sql = "SELECT * FROM blog WHERE categoryBlog = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idBlogType);
+            ResultSet rs = ps.executeQuery();
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-
-            st.setInt(1, idBlogType);
-            try (ResultSet rs = st.executeQuery()) {
-                while (rs.next()) {
-                    Blog blog = new Blog();
-                    blog.setIdBlog(rs.getInt("IdBlog"));//
-                    blog.setTitleBlog(rs.getString("TittleBlog"));//
-                    blog.setImage(rs.getString("Image"));//
-                    blog.setDescription(rs.getString("Description"));//
-                    blog.setContent(rs.getString("Content"));//
-                    blog.setDateCreate(rs.getTimestamp("DateCreate"));//
-                    blog.setDateModify(rs.getTimestamp("DateModify"));//
-                    blog.setShow(rs.getInt("Show"));//
-                    blog.setIdBlogType(rs.getInt("categoryBlog"));//
-                    blog.setStatus(rs.getInt("Status"));//
-                    blog.setIdClub(rs.getInt("IdClub"));//
-                    blogList.add(blog);
-                }
+            while (rs.next()) {
+                Blog blog = new Blog();
+                blog.setIdBlog(rs.getInt("IdBlog"));//
+                blog.setTitleBlog(rs.getString("TittleBlog"));//
+                blog.setImage(rs.getString("Image"));//
+                blog.setDescription(rs.getString("Description"));//
+                blog.setContent(rs.getString("Content"));//
+                blog.setDateCreate(rs.getTimestamp("DateCreate"));//
+                blog.setDateModify(rs.getTimestamp("DateModify"));//
+                blog.setShow(rs.getInt("Show"));//
+                blog.setIdBlogType(rs.getInt("categoryBlog"));//
+                blog.setStatus(rs.getInt("Status"));//
+                blog.setIdClub(rs.getInt("IdClub"));//
+                blogList.add(blog);
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return blogList;
     }
+
 //------------------ Hoang
     public void updatePost(Blog post) {
         String sql = "UPDATE blog SET TittleBlog = ?, Image = ?, Description = ?, Content = ?, DateModify = ?, categoryBlog = ?, `Show` = ?, Status = ?, IdClub = ? WHERE IdBlog = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
+            ps.setString(1, post.getTitleBlog());//
+            ps.setString(2, post.getImage());//
+            ps.setString(3, post.getDescription());//
+            ps.setString(4, post.getContent());//
 
-            stmt.setString(1, post.getTitleBlog());
-            stmt.setString(2, post.getImage());
-            stmt.setString(3, post.getDescription());
-            stmt.setString(4, post.getContent());
             Timestamp sqlDateModify = new Timestamp(post.getDateModify().getTime());
-            stmt.setTimestamp(5, sqlDateModify);
-            stmt.setInt(6, post.getIdBlogType());
-            stmt.setInt(7, post.getShow());
-            stmt.setInt(8, post.getStatus());
-            stmt.setInt(9, post.getIdClub());
-            stmt.setInt(10, post.getIdBlog());
-            stmt.executeUpdate();
+            ps.setTimestamp(5, sqlDateModify);//
+
+            ps.setInt(6, post.getIdBlogType());//
+            ps.setInt(7, post.getShow());//
+            ps.setInt(8, post.getStatus());//
+            ps.setInt(9, post.getIdClub());//
+            ps.setInt(10, post.getIdBlog());//
+
+            ps.executeUpdate();
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-//---------------------- Hoang
 
+//---------------------- Hoang
     public void deletePost(int idBlog) {
         String sql = "DELETE FROM blog WHERE IdBlog = ?";
-
-        try (Connection con = DBContext.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
-
-            stmt.setInt(1, idBlog);
-            stmt.executeUpdate();
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idBlog);
+            ps.executeUpdate();
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public List<String> getTypeBlog() {
-        String query = "select Name from setting where IdType = 5 and IdEvent is null";
+        String query = "SELECT Name FROM setting WHERE IdType = 5 AND IdEvent IS NULL";
         List<String> listTypeBlog = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
-                String getType = rs.getString(1);
+                String getType = rs.getString("Name");
                 listTypeBlog.add(getType);
             }
+
             rs.close();
             ps.close();
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return listTypeBlog;
     }
@@ -361,63 +390,65 @@ public class BlogDAO extends DBContext {
         }
         return null;
     }
+
     public List<Blog> getRandomFiveBlogsByClub() {
-    List<Blog> blogs = new ArrayList<>();
-    String sql = "SELECT * FROM blog WHERE Status = 1 ORDER BY RAND() LIMIT 4";
-    
-    try (Connection con = DBContext.getConnection(); 
-         PreparedStatement st = con.prepareStatement(sql)) {
-        try (ResultSet rs = st.executeQuery()) {
+        List<Blog> blogs = new ArrayList<>();
+        String sql = "SELECT * FROM blog WHERE Status = 1 ORDER BY RAND() LIMIT 4";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 Blog blog = new Blog();
-                blog.setIdBlog(rs.getInt("IdBlog"));
-                blog.setTitleBlog(rs.getString("TittleBlog"));
-                blog.setImage(rs.getString("Image"));
-                blog.setDescription(rs.getString("Description"));
-                blog.setShow(rs.getInt("Show"));
-                blog.setStatus(rs.getInt("Status"));
-                blog.setIdClub(rs.getInt("IdClub"));
-                blog.setDateCreate(rs.getTimestamp("DateCreate"));
-                blog.setDateModify(rs.getTimestamp("DateModify"));
-               
+                blog.setIdBlog(rs.getInt("IdBlog"));//
+                blog.setTitleBlog(rs.getString("TittleBlog"));//
+                blog.setImage(rs.getString("Image"));//
+                blog.setDescription(rs.getString("Description"));//
+                blog.setShow(rs.getInt("Show"));//
+                blog.setStatus(rs.getInt("Status"));//
+                blog.setIdClub(rs.getInt("IdClub"));//
+                blog.setDateCreate(rs.getTimestamp("DateCreate"));//
+                blog.setDateModify(rs.getTimestamp("DateModify"));//
                 blogs.add(blog);
             }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return blogs;
     }
-    return blogs;
-}
+
     public List<Blog> getLatestThreeBlogsByClub(int idClub) {
-    List<Blog> blogs = new ArrayList<>();
-    String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC, IdBlog DESC LIMIT 3";
-    
-    try (Connection con = DBContext.getConnection(); 
-         PreparedStatement st = con.prepareStatement(sql)) {
-        
-        st.setInt(1, idClub); // Set the IdClub parameter
-        
-        try (ResultSet rs = st.executeQuery()) {
+        List<Blog> blogs = new ArrayList<>();
+        String sql = "SELECT * FROM blog WHERE IdClub = ? ORDER BY DateCreate DESC, IdBlog DESC LIMIT 3";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idClub); // Set the IdClub parameter
+            ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 Blog blog = new Blog();
-                blog.setIdBlog(rs.getInt("IdBlog"));
-                blog.setTitleBlog(rs.getString("TittleBlog"));
-                blog.setImage(rs.getString("Image"));
-                blog.setDescription(rs.getString("Description"));
-                blog.setShow(rs.getInt("Show"));
-                blog.setStatus(rs.getInt("Status"));
-                blog.setIdClub(rs.getInt("IdClub"));
-                blog.setDateCreate(rs.getTimestamp("DateCreate"));
-                blog.setDateModify(rs.getTimestamp("DateModify"));
-               
+                blog.setIdBlog(rs.getInt("IdBlog"));//
+                blog.setTitleBlog(rs.getString("TittleBlog"));//
+                blog.setImage(rs.getString("Image"));//
+                blog.setDescription(rs.getString("Description"));//
+                blog.setShow(rs.getInt("Show"));//
+                blog.setStatus(rs.getInt("Status"));//
+                blog.setIdClub(rs.getInt("IdClub"));//
+                blog.setDateCreate(rs.getTimestamp("DateCreate"));//
+                blog.setDateModify(rs.getTimestamp("DateModify"));//
                 blogs.add(blog);
             }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return blogs;
     }
-    return blogs;
-}
 
     public static void main(String[] args) {
         BlogDAO daoBlog = new BlogDAO();

@@ -539,7 +539,7 @@ public class ClubDao extends DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.executeUpdate();
-            
+
             ps.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -571,16 +571,19 @@ public class ClubDao extends DBContext {
     public String getClubNameByID(int IdClub) {
         String NameClub = null;
         String sql = "SELECT NameClub FROM club WHERE IdClub = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
-            st.setInt(1, IdClub);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    NameClub = rs.getString("NameClub");
-                }
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, IdClub);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                NameClub = rs.getString("NameClub");
             }
 
+            rs.close();
+            ps.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
         return NameClub;
     }
@@ -748,22 +751,22 @@ public class ClubDao extends DBContext {
 //    }
     public String getNameById(int idClub) {
         String query = "SELECT * FROM club WHERE IdClub = ?";
-        Clubs club = null;
+        String nameClub = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, idClub);
+            ResultSet rs = ps.executeQuery();
 
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(query)) {
-
-            st.setInt(1, idClub);
-
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    club = new Clubs(rs.getInt("IdClub"), rs.getString("NameClub"), rs.getInt("Point"), rs.getInt("CategoryClub"), rs.getDate("DateCreate"), rs.getDate("DateModify"), rs.getInt("Status"), rs.getString("Image"), rs.getString("Title"), rs.getString("Description"));
-                }
+            if (rs.next()) {
+                nameClub = rs.getString("NameClub");
             }
+
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return (club != null) ? club.getNameclub() : null;
+        return nameClub;
     }
 
     public int getNumberOfClub() {
@@ -919,7 +922,7 @@ public class ClubDao extends DBContext {
             st.setInt(1, clubId);
             st.executeUpdate();
             st.close();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1030,25 +1033,31 @@ public class ClubDao extends DBContext {
     }
 
     public String getTypeClubById(int idClub) {
-        String query = "SELECT valueSetting FROM settings WHERE typeSetting = 3 AND idSetting = ?";
-        String typeClub = null;
-        Clubs club = getClubbyId(idClub);
-
-        try (Connection con = DBContext.getConnection(); PreparedStatement st = con.prepareStatement(query)) {
-
-            st.setInt(1, club.getCategoryclub());
-
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    typeClub = rs.getString("valueSetting");
-                }
+    String query = "SELECT valueSetting FROM settings WHERE typeSetting = 3 AND idSetting = ?";
+    String typeClub = null;
+    
+    Clubs club = getClubbyId(idClub); // Fetch the club details
+    
+    if (club != null) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setInt(1, club.getCategoryclub());
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                typeClub = rs.getString("valueSetting");
             }
+            
+            rs.close();
+            ps.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return typeClub;
     }
+    
+    return typeClub;
+}
+
 
     public boolean updateClubImage(int clubId, String imagePath) {
         String query = "UPDATE Club SET Image = ? WHERE IdClub = ?";
@@ -1279,7 +1288,7 @@ public class ClubDao extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public String getRolebyId(int id) {
         String query = "SELECT valueSetting  FROM settings where typeSetting=1  and idSetting=? ";
         String role = null;

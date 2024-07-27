@@ -17,121 +17,141 @@ import java.sql.SQLException;
  *
  * @author 10t1q
  */
-public class SettingDAO extends DBContext{
+public class SettingDAO extends DBContext {
+
     //--------------- Hoang
     public List<Settings> getAllSettings() {
         List<Settings> settingsList = new ArrayList<>();
         String sql = "SELECT * FROM settings";
 
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql); 
-             ResultSet rs = st.executeQuery()) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
 
-            while (rs.next()) {
-                Settings settings = new Settings();
-                settings.setIdSetting(rs.getInt("idSetting"));
-                settings.setValueSetting(rs.getString("valueSetting"));
-                settings.setTypeSetting(rs.getInt("typeSetting"));
-                settings.setIdStudent(rs.getInt("idStudent"));
-                settings.setDateCreate(rs.getTimestamp("DateCreate")); 
-                settings.setDateModify(rs.getTimestamp("DateModify"));
-                settings.setStatus(rs.getInt("status"));
-                settingsList.add(settings);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Settings settings = new Settings();
+                    settings.setIdSetting(rs.getInt("idSetting"));
+                    settings.setValueSetting(rs.getString("valueSetting"));
+                    settings.setTypeSetting(rs.getInt("typeSetting"));
+                    settings.setIdStudent(rs.getInt("idStudent"));
+                    settings.setDateCreate(rs.getTimestamp("DateCreate"));
+                    settings.setDateModify(rs.getTimestamp("DateModify"));
+                    settings.setStatus(rs.getInt("status"));
+                    settingsList.add(settings);
+                }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return settingsList;
     }
+
     //----------------------Hoang
     public List<Settings> getSettingsBlog() {
         List<Settings> settingsList = new ArrayList<>();
-        String sql = "SELECT * FROM settings WHERE typeSetting ='4'";
+        String sql = "SELECT * FROM settings WHERE typeSetting = ?";
 
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql); 
-             ResultSet rs = st.executeQuery()) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, 4); // typeSetting = 4
 
-            while (rs.next()) {
-                Settings settings = new Settings();
-                settings.setIdSetting(rs.getInt("idSetting"));
-                settings.setValueSetting(rs.getString("valueSetting"));
-                settings.setTypeSetting(rs.getInt("typeSetting"));
-                settings.setIdStudent(rs.getInt("idStudent"));
-                settings.setDateCreate(rs.getTimestamp("DateCreate"));
-                settings.setDateModify(rs.getTimestamp("DateModify"));
-                settings.setStatus(rs.getInt("Status"));
-                settingsList.add(settings);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Settings settings = new Settings();
+                    settings.setIdSetting(rs.getInt("idSetting"));
+                    settings.setValueSetting(rs.getString("valueSetting"));
+                    settings.setTypeSetting(rs.getInt("typeSetting"));
+                    settings.setIdStudent(rs.getInt("idStudent"));
+                    settings.setDateCreate(rs.getTimestamp("DateCreate"));
+                    settings.setDateModify(rs.getTimestamp("DateModify"));
+                    settings.setStatus(rs.getInt("Status"));
+                    settingsList.add(settings);
+                }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return settingsList;
     }
-  //-------------Hoang  
+
+    //-------------Hoang  
     public List<Settings> getSettingsClub() {
         List<Settings> settingsList = new ArrayList<>();
-        String sql = "SELECT * FROM settings WHERE typeSetting ='1'";
+        String sql = "SELECT * FROM settings WHERE typeSetting = ?";
 
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql); 
-             ResultSet rs = st.executeQuery()) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, 1); // typeSetting = 1
 
-            while (rs.next()) {
-                Settings settings = new Settings();
-                settings.setIdSetting(rs.getInt("idSetting"));
-                settings.setValueSetting(rs.getString("valueSetting"));
-                settings.setTypeSetting(rs.getInt("typeSetting"));
-                settings.setIdStudent(rs.getInt("idStudent"));
-                settings.setDateCreate(rs.getTimestamp("DateCreate"));
-                settings.setDateModify(rs.getTimestamp("DateModify"));
-                settings.setStatus(rs.getInt("Status"));
-                settingsList.add(settings);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Settings settings = new Settings();
+                    settings.setIdSetting(rs.getInt("idSetting"));
+                    settings.setValueSetting(rs.getString("valueSetting"));
+                    settings.setTypeSetting(rs.getInt("typeSetting"));
+                    settings.setIdStudent(rs.getInt("idStudent"));
+                    settings.setDateCreate(rs.getTimestamp("DateCreate"));
+                    settings.setDateModify(rs.getTimestamp("DateModify"));
+                    settings.setStatus(rs.getInt("Status"));
+                    settingsList.add(settings);
+                }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return settingsList;
     }
+
     //------------------ Hoang
-     public List<Settings> getSettingsEvent() {
+    public List<Settings> getSettingsEvent() {
         List<Settings> settingsList = new ArrayList<>();
-        String sql = "SELECT * FROM settings WHERE typeSetting ='5'";
+        String sql = "SELECT * FROM settings WHERE typeSetting = ?";
 
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql); 
-             ResultSet rs = st.executeQuery()) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, 5); // typeSetting = 5
 
-            while (rs.next()) {
-                Settings settings = new Settings();
-                settings.setIdSetting(rs.getInt("idSetting"));
-                settings.setValueSetting(rs.getString("valueSetting"));
-                settings.setTypeSetting(rs.getInt("typeSetting"));
-                settings.setIdStudent(rs.getInt("idStudent"));
-                settings.setDateCreate(rs.getTimestamp("DateCreate"));
-                settings.setDateModify(rs.getTimestamp("DateModify"));
-                settings.setStatus(rs.getInt("Status"));
-                settingsList.add(settings);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Settings settings = new Settings();
+                    settings.setIdSetting(rs.getInt("idSetting"));
+                    settings.setValueSetting(rs.getString("valueSetting"));
+                    settings.setTypeSetting(rs.getInt("typeSetting"));
+                    settings.setIdStudent(rs.getInt("idStudent"));
+                    settings.setDateCreate(rs.getTimestamp("DateCreate"));
+                    settings.setDateModify(rs.getTimestamp("DateModify"));
+                    settings.setStatus(rs.getInt("Status"));
+                    settingsList.add(settings);
+                }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return settingsList;
     }
-    
-     //------------------ Hoang
+
+    //------------------ Hoang
     public Settings getSettingById(int idSetting) {
-        String sql = "SELECT * FROM settings WHERE idSetting = ?";
         Settings settings = null;
+        String sql = "SELECT * FROM settings WHERE idSetting = ?";
 
-        try (Connection con = DBContext.getConnection(); 
-             PreparedStatement st = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idSetting);
 
-            st.setInt(1, idSetting);
-            try (ResultSet rs = st.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     settings = new Settings();
                     settings.setIdSetting(rs.getInt("idSetting"));
@@ -143,31 +163,37 @@ public class SettingDAO extends DBContext{
                     settings.setStatus(rs.getInt("Status"));
                 }
             }
+
+            ps.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return settings;
     }
+
     //---Hoang
     public String getValueSettingById(int idSetting) {
-    String valueSetting = null;
-    String sql = "SELECT valueSetting FROM settings WHERE idSetting = ?";
+        String valueSetting = null;
+        String sql = "SELECT valueSetting FROM settings WHERE idSetting = ?";
 
-    try (Connection con = DBContext.getConnection(); 
-         PreparedStatement st = con.prepareStatement(sql)) {
-        
-        st.setInt(1, idSetting);
-        try (ResultSet rs = st.executeQuery()) {
-            if (rs.next()) {
-                valueSetting = rs.getString("valueSetting");
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, idSetting);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    valueSetting = rs.getString("valueSetting");
+                }
             }
+
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return valueSetting;
     }
-    return valueSetting;
-}
 
     //-----------------------------------------
 }

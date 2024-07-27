@@ -7,27 +7,27 @@ import java.sql.SQLException;
 public class DBContext {
 
     protected Connection connection;
-    
-    public static Connection getConnection() {
-        try {
-            String url = "jdbc:mysql://localhost:3306/preparepresention";
-            String username = "root";
-            String password = "kayboy94";
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            return DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            return null;
-        }
-    }
+//    
+//    public static Connection getConnection() {
+//        try {
+//            String url = "jdbc:mysql://localhost:3306/swp391";
+//            String username = "root";
+//            String password = "Hoang2004@";
+//            Class.forName("com.mysql.cj.jdbc.Driver");
+//            return DriverManager.getConnection(url, username, password);
+//        } catch (ClassNotFoundException | SQLException e) {
+//            return null;
+//        }
+//    }
 
     public DBContext() {
         
         try {
             // Edit URL , username, password to authenticate with your MS SQL Server
 
-            String url = "jdbc:mysql://localhost:3306/preparepresention";
+            String url = "jdbc:mysql://localhost:3306/swp391";
             String username = "root";
-            String password = "kayboy94";
+            String password = "Hoang2004@";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
