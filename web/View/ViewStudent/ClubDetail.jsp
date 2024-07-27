@@ -201,9 +201,12 @@
                                         </div>
                                     </div>
                                     <div class="courese-overview" id="overview" style="">
+<c:if test="${event.idEvent!=null}">
                                         <h4>Latest Event</h4>
                                         <c:set var="event" value="${requestScope.event}"/>
+                                        
                                         <div class="row">
+                                            
                                             <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 500px">
                                                 <div class="cours-bx">
                                                     <div class="action-box">
@@ -224,6 +227,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                                            </c:if>
 
                                             <div class="col-md-12 col-lg-8" style="width: 500px;">
                                                 <h5 class="m-b5">Club Description</h5>

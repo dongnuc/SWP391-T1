@@ -691,8 +691,8 @@ public class StudentClubDao extends DBContext {
 //-----------------------
     public static void main(String[] args) {
         StudentClubDao dao = new StudentClubDao();
-//        System.out.println(dao.getStudentClubbyId(34).get(1));
-            dao.updateMemberClubDong("4", "8", "", "", "", "0");
+      System.out.println(dao.getStudentClubbyId(1).get(1));
+        
     }
 
 

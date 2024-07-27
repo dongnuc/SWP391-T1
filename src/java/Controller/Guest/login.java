@@ -109,12 +109,17 @@ if (!account.endsWith("@gmail.com")) {
         String passwordmahoa=password.getMd5(passworde);
         session.setAttribute("role", 0);
         db.insertAccount(account, passwordmahoa, date, name);
+        Accounts curruser = ab.getAccountEmail(account);
+        session.setAttribute("curruser", curruser);
     } else {
         String password = db.getoldpassword(account);
         session.setAttribute("password", password);
         int role=ab.getrole(account);
+        Accounts curruser = ab.getAccountEmail(account);
+        session.setAttribute("curruser", curruser);
         session.setAttribute("role", role);
     }
+    
     session.setAttribute("account", account);     
     response.sendRedirect("home");
     }

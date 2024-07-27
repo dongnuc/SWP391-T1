@@ -10,7 +10,7 @@ public class DBContext {
     
     public static Connection getConnection() {
         try {
-            String url = "jdbc:mysql://localhost:3306/swp391hoangl";
+            String url = "jdbc:mysql://localhost:3306/preparepresention";
             String username = "root";
             String password = "kayboy94";
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,7 +25,7 @@ public class DBContext {
         try {
             // Edit URL , username, password to authenticate with your MS SQL Server
 
-            String url = "jdbc:mysql://localhost:3306/swp391hoangl";
+            String url = "jdbc:mysql://localhost:3306/preparepresention";
             String username = "root";
             String password = "kayboy94";
             Class.forName("com.mysql.cj.jdbc.Driver");
