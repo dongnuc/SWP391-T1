@@ -519,10 +519,10 @@
                                         </div>
                                         <div class="info-bx" style="width: 360px;">
                                             <ul class="media-post" >
-                                                <li><a href="#"><i class="fa fa-calendar"></i>Start: ${event.getDateStart()}</a></li>
-                                                <li><a href="#"><i class="fa fa-user"></i>End: ${event.getEnddate()} </a></li>
+                                                <li><a href="EventDetailServlet?idEvent=${event.getIdEvent()}"><i class="fa fa-calendar"></i>Start: ${event.getDateStart()}</a></li>
+                                                <li><a href="EventDetailServlet?idEvent=${event.getIdEvent()}"><i class="fa fa-user"></i>End: ${event.getEnddate()} </a></li>
                                             </ul>
-                                            <h5 class="post-title" style="height: 70px;"><a href="blog-details.html">${event.getNameEvent()}</a></h5>
+                                            <h5 class="post-title" style="height: 70px;"><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
                                             <p style="height: 120px;">${event.getDescription()}</p>
                                             <div class="post-extra" style="height: 30px;">
                                                 <a href="EventDetailServlet?idEvent=${event.getIdEvent()}" class="btn-link">READ MORE</a>

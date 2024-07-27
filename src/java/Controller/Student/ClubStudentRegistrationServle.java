@@ -150,6 +150,7 @@ public class ClubStudentRegistrationServle extends HttpServlet {
                 String title = "The club has a student registered in the club !";
                 String content = "The club has a student registered in the club!";
                 AccountDao acdao = new AccountDao();
+                request.setAttribute("id", id);
                 sendMail.sendMailDefault(title, content, acdao.getEmailbyID(stdao.getManagerinClub(idclub).getIdStudent()));
                 request.getRequestDispatcher("View/ViewStudent/clubStudentRegistration.jsp").forward(request, response);
             }

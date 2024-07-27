@@ -73,6 +73,7 @@ public class Manager_DashBoardServlet extends HttpServlet {
             System.out.println(idClub);
             request.setAttribute("year", year);
             request.setAttribute("idClub", idClub);
+            request.setAttribute("id", idClub);
             request.setAttribute("reportEvent", jsonEventData);
             request.setAttribute("listManager", listManagerClub);
             request.setAttribute("listAcc", listNewAcc);

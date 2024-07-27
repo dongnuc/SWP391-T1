@@ -110,11 +110,11 @@ public class ReplyClubStudentRegistrationServlet extends HttpServlet {
                     Accounts acc = db.getAccountbyID(registration.getIdstudent());
                     SendMail sendMail = new SendMail();
                     String title = "Email reply to club student registration application";
-                    String content = "You application " + registration.getNameClubbyId() + " club successfully !";
+                    String content = "You application " + registration.getNameClubbyId() + " club successfully because :"+ reply +" !";
                     String sendToEmail = acc.getEmail();
                     System.out.println(sendMail);
                     sendMail.sendMailDefault(title, content, sendToEmail);
-                    request.setAttribute("error1", "You application " + registration.getNamebyId() + " club successfully !");
+                    request.setAttribute("error1", "You application " + registration.getNamebyId() + " club successfully!");
                     stdao.removeClubStudentRegistration(idstudent, idclub);
                     request.getRequestDispatcher("View/ViewAdmin/clubStudentRegistrationDetail.jsp").forward(request, response);
                 }
@@ -141,10 +141,10 @@ public class ReplyClubStudentRegistrationServlet extends HttpServlet {
                     Accounts acc = db.getAccountbyID(registration.getIdstudent());
                     SendMail sendMail = new SendMail();
                     String title = "Email reply to club student registration application";
-                    String content = "failure! You cannot application " + registration.getNameClubbyId() + " club  !";
+                    String content = "failure! You cannot application " + registration.getNameClubbyId() + "because :"+ reply +" !";
                     String sendToEmail = acc.getEmail();
                     sendMail.sendMailDefault(title, content, sendToEmail);
-                    request.setAttribute("error2", "failure! You cannot application " + registration.getNamebyId() + " club  !");
+                    request.setAttribute("error2", " You refuse " + registration.getNamebyId() + " successfully !");
                     stdao.removeClubStudentRegistration(idstudent, idclub);
                     request.getRequestDispatcher("View/ViewAdmin/clubStudentRegistrationDetail.jsp").forward(request, response);
                 }

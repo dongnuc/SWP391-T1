@@ -230,7 +230,7 @@
                         <label for="Reason">Reply Information</label>
                         <textarea name="reply" rows="3" cols="50"></textarea>
                         <br>
-                        <h6>${error}</h6>
+                        
                     </div>
                     <div class="form-group">
                         <!-- Nút "Refuse" -->
@@ -245,7 +245,7 @@
                             </a>
                         </c:if>
                         <c:if test="${error2!=null}">
-                            <a style="color: red;">
+                            <a style="color: green;">
                                 <h7>${error2}</h7>
                             </a>
                         </c:if>

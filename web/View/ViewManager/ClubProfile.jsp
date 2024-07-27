@@ -56,7 +56,7 @@
         <!-- STYLESHEETS ============================================= -->
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css_t/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        
+
         <style>
             body {
                 margin-top: 20px;
@@ -172,7 +172,7 @@
                 </div>
                 <hr class="mt-0 mb-4">
                 <div class="row">
-                    <form action="UploadImageServlet" method="post" enctype="multipart/form-data">
+                    <form action="UploadImageServlet" method="post" enctype="multipart/form-data" onsubmit="return checkFileSelected()">
                         <input type="hidden" value="${param.id}" name="id"/>
                         <div class="col-xl-4">
                             <!-- Profile picture card-->
@@ -189,6 +189,7 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
                     </form>
                     <div class="col-xl-8">
                         <!-- Account details card-->
@@ -280,7 +281,16 @@
         <script src="${pageContext.request.contextPath}/js_t/functions.js"></script>
         <script src="${pageContext.request.contextPath}/js_t/contact.js"></script>
         <!--<script src='${pageContext.request.contextPath}/vendors/switcher/switcher.js'></script>-->
-
+<script>
+    function checkFileSelected() {
+        const fileInput = document.getElementById('file');
+        if (fileInput.files.length === 0) {
+            alert('Please select a file to upload.');
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
 
     </body>
 

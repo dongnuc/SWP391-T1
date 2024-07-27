@@ -404,7 +404,7 @@
                             <label for="Reason">Refuse Reason</label>
                             <textarea name="refuse" rows="10" cols="50">${club.getRefuse()}</textarea>
                             <br>
-                            <h6>${error}</h6>
+                            <h6 style="color: red">${error}</h6>
                         </div>
                         <div class="form-group">
                             <!-- Nút "Refuse" -->
