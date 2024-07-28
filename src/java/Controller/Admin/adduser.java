@@ -110,7 +110,7 @@ public class adduser extends HttpServlet {
             request.setAttribute("errorname", "Name must not exceed 35 characters");
             check=4;
         }
-        String regex = "^[a-zA-Z ]+$";
+        String regex = "^[a-zA-Z\\p{L}\\s]+$";
         if(!name_raw.matches(regex)){
            request.setAttribute("errorname", "Name cannot special Character ");
            check=5; 

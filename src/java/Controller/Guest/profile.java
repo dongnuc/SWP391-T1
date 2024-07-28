@@ -123,7 +123,7 @@ public class profile extends HttpServlet {
             check++;
             request.setAttribute("errorphone", "Please input Phone 10 digits");
         }
-        String regex = "^[a-zA-Z ]+$";
+        String regex = "^[a-zA-Z\\p{L}\\s]+$";
         if(!name_raw.matches(regex)){
            request.setAttribute("errorname", "Name cannot special Character and Digit");
            check++; 
