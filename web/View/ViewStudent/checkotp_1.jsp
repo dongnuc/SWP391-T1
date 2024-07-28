@@ -81,10 +81,18 @@ button.resend {
 button.resend i {
   margin-left: 5px;
 }
+.hinhanh{
+                margin-left: 1200px;
+            }
+            
 
         </style>
     </head>
     <body>
+        <div class="hinhanh">
+<a href="<%= request.getContextPath() %>/home" >
+    <img src="images/homeh.png" alt="Home Icon" width="50" height="50" style="margin-left:  20%;">
+</a>     </div>
         <form action="<%= request.getContextPath() %>/checkotp1" method="post">
         <div class="container">
             <h3 class="title">OTP Verification</h3>

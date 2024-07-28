@@ -28,7 +28,7 @@ public class Task_DeleteServlet extends HttpServlet {
         
         EventTaskDAO eventTaskDAO = new EventTaskDAO();
         eventTaskDAO.deleteEventTaskById(idEventTask);
-        request.getRequestDispatcher("/EventGiveTaskListServlet").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/EventGiveTaskListServlet");
     } 
 
     
