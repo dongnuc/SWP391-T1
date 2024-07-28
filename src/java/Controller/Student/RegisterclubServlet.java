@@ -63,7 +63,7 @@ public class RegisterclubServlet extends HttpServlet {
             error1 = "The club name already exists !";
         }
         String memberParam = request.getParameter("Member");
-        if (memberParam != null && !memberParam.trim().isEmpty()) {
+        if (memberParam != null && !memberParam.trim().isEmpty() && memberParam.matches("\\d+")) {
             member = Integer.parseInt(request.getParameter("Member"));
 
         } else {
