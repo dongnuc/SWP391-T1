@@ -37,7 +37,7 @@ public class FormDao extends DBContext {
     
          
     public void insertFormDong(String fullName, String tittleForm, String content, String email, String phone, String category) {
-        String query = " INSERT INTO `newsetting`.`form`\n"
+        String query = " INSERT INTO `form`\n"
                 + "(`FullName`,`TittleForm`,`Content`,`Email`,`Phone`,`CategoryForm`)\n"
                 + "VALUES (?,?,?,?,?,?); ";
         try {
