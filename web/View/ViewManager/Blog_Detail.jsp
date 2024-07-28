@@ -290,6 +290,44 @@
             <!-- scroll top button -->
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
+                                    <script>
+            // JavaScript functions
+            var isProfileVisible = false;
+
+            function showProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                }
+            }
+
+            function hideProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "none";
+                }
+            }
+
+            function toggleProfileInfo() {
+                var profileInfo = document.getElementById("profile-info");
+                if (!isProfileVisible) {
+                    profileInfo.style.display = "block";
+                    isProfileVisible = true;
+                } else {
+                    isProfileVisible = false;
+                }
+            }
+
+// Ẩn thông tin người dùng khi click ra ngoài
+            document.addEventListener("click", function (event) {
+                var profileInfo = document.getElementById("profile-info");
+                if (!event.target.closest(".profile-picture") && isProfileVisible) {
+                    profileInfo.style.display = "none";
+                    isProfileVisible = false;
+                }
+            });
+
+        </script>
         <!-- External JavaScripts -->
         <script src="${pageContext.request.contextPath}/js_t/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/vendors/bootstrap/js/popper.min.js"></script>

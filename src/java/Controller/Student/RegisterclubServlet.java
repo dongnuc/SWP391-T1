@@ -65,9 +65,9 @@ public class RegisterclubServlet extends HttpServlet {
         String memberParam = request.getParameter("Member");
         if (memberParam != null && !memberParam.trim().isEmpty() && memberParam.matches("\\d+")) {
             member = Integer.parseInt(request.getParameter("Member"));
-
+            
         } else {
-            error2 = "Desired Number Of Members cannot be null !";
+            error2 = "Desired Number Of Members is a number cannot be nulland must positive number !";
         }
 
         String reason = request.getParameter("Reason");

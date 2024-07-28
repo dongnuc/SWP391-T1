@@ -86,10 +86,10 @@ public class UpdateStudentClubServlet extends HttpServlet {
         String error2 = null;
         int point = 0;
 
-        if (request.getParameter("point") != null && !request.getParameter("point").trim().isEmpty()) {
+        if (request.getParameter("point") != null && !request.getParameter("point").trim().isEmpty()&&request.getParameter("point").matches("\\d+")) {
             point = Integer.parseInt(request.getParameter("point"));
         } else {
-            error1 = "Point can not be null";
+            error1 = "Point is number and can not be null";
         }
         int role = Integer.parseInt(request.getParameter("role"));
 

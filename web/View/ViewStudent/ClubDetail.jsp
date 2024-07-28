@@ -129,7 +129,7 @@
                         <ul class="list-inline">
                             <li><a href="#">Home</a></li>
                             <li>Club Details</li>
-                           
+
                         </ul>
                     </div>
                 </div>
@@ -189,7 +189,12 @@
                                 <div class="col-lg-9 col-md-8 col-sm-12">
                                     <div class="courses-post">
                                         <div class="ttr-post-media media-effect">
-                                            <a href="#"><img src="${club.getImage()}" alt="" style="width: 950px;height: 600px"></a>
+                                            <c:if test="${club.getImage()!=null&&!club.getImage().isEmpty()}">
+                                                <a href="#"><img src="${club.getImage()}" alt="" style="width: 950px;height: 600px"></a>
+                                                </c:if>
+                                                <c:if test="${club.getImage()==null||club.getImage().isEmpty()}">
+                                                <a href="#"><img src="images/avatar.png" alt="" style="width: 950px;height: 600px"></a>
+                                                </c:if>
                                         </div>
                                         <div class="ttr-post-info">
                                             <div class="ttr-post-title ">
@@ -201,33 +206,33 @@
                                         </div>
                                     </div>
                                     <div class="courese-overview" id="overview" style="">
-<c:if test="${event.idEvent!=null}">
-                                        <h4>Latest Event</h4>
-                                        <c:set var="event" value="${requestScope.event}"/>
-                                        
-                                        <div class="row">
-                                            
-                                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 500px">
-                                                <div class="cours-bx">
-                                                    <div class="action-box">
-                                                        <img src="${event.getImage()}" style="width: 350px;height: 350px">
-                                                        <a href="EventDetailServlet?idEvent=${event.getIdEvent()}" class="btn">Read More</a>
-                                                    </div>
-                                                    <div class="info-bx text-center" style="text-align: right;height: 90px;">
-                                                        <h5><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
-                                                        <span style="text-align: left;"> </span>
-                                                    </div>
+                                        <c:if test="${event.idEvent!=null}">
+                                            <h4>Latest Event</h4>
+                                            <c:set var="event" value="${requestScope.event}"/>
 
-                                                    <div class="cours-more-info">
-                                                        <div class="review" style="padding-left: 5px;width: 100%;text-align: center;">
-                                                            <h6>Datecreate : ${event.getDatecreate()}</h6>
+                                            <div class="row">
 
+                                                <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 500px">
+                                                    <div class="cours-bx">
+                                                        <div class="action-box">
+                                                            <img src="${event.getImage()}" style="width: 350px;height: 350px">
+                                                            <a href="EventDetailServlet?idEvent=${event.getIdEvent()}" class="btn">Read More</a>
+                                                        </div>
+                                                        <div class="info-bx text-center" style="text-align: right;height: 90px;">
+                                                            <h5><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
+                                                            <span style="text-align: left;"> </span>
                                                         </div>
 
+                                                        <div class="cours-more-info">
+                                                            <div class="review" style="padding-left: 5px;width: 100%;text-align: center;">
+                                                                <h6>Datecreate : ${event.getDatecreate()}</h6>
+
+                                                            </div>
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                                            </c:if>
+                                            </c:if>
 
                                             <div class="col-md-12 col-lg-8" style="width: 500px;">
                                                 <h5 class="m-b5">Club Description</h5>

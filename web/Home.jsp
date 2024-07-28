@@ -513,16 +513,16 @@
                             <div style="display: flex;">
                             <c:forEach var="event" items="${requestScope.event}">
                                 <div style="padding-right: 40px;">
-                                <div class="recent-news" style="width: 360px;">
+                                <div class="recent-news" style="width: 250px;">
                                         <div class="action-box">
-                                            <img src="${event.getImage()}" alt="" style="width: 360px;height: 250px;">
+                                            <img src="${event.getImage()}" alt="" style="width: 250px;height: 250px;">
                                         </div>
-                                        <div class="info-bx" style="width: 360px;">
+                                        <div class="info-bx" style="width: 250px;">
                                             <ul class="media-post" >
                                                 <li><a href="EventDetailServlet?idEvent=${event.getIdEvent()}"><i class="fa fa-calendar"></i>Start: ${event.getDateStart()}</a></li>
                                                 <li><a href="EventDetailServlet?idEvent=${event.getIdEvent()}"><i class="fa fa-user"></i>End: ${event.getEnddate()} </a></li>
                                             </ul>
-                                            <h5 class="post-title" style="height: 70px;"><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
+                                            <h5 class="post-title" style="height: 100px;"><a href="EventDetailServlet?idEvent=${event.getIdEvent()}">${event.getNameEvent()}</a></h5>
                                             <p style="height: 120px;">${event.getDescription()}</p>
                                             <div class="post-extra" style="height: 30px;">
                                                 <a href="EventDetailServlet?idEvent=${event.getIdEvent()}" class="btn-link">READ MORE</a>

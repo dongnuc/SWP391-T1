@@ -300,7 +300,7 @@ public class EventRegistrationDao extends DBContext {
     public List<String> GetClubofManager(int idstudent) {
         List<String> list = new ArrayList<>();
         String sql = "SELECT * \n"
-                + "FROM swp391huy.studentclub \n"
+                + "FROM studentclub \n"
                 + "WHERE IdStudent=? \n"
                 + "AND (Leader='1' OR Role='1');";
         try {

@@ -122,7 +122,12 @@
                                                 <div class="col-md-6 col-lg-4 col-sm-6 m-b30" style="height: 400px">
                                                     <div class="cours-bx">
                                                         <div class="action-box">
-                                                            <img src="${club.getImage()}" style="width: 350px;height: 200px">
+                                                            <c:if test="${club.getImage()!=null&&!club.getImage().isEmpty()}">
+                                                                <img src="${club.getImage()}" style="width: 350px;height: 200px">
+                                                            </c:if>
+                                                            <c:if test="${club.getImage() == null || club.getImage().isEmpty()}">
+                                                                <img src="images/avatar.png" style="width: 350px;height: 200px">
+                                                            </c:if>
                                                             <a href="ClubDetail?id=${club.getClub()}" class="btn">Read More</a>
                                                         </div>
                                                         <div class="info-bx text-center" style="text-align: right;height: 110px;">
@@ -153,17 +158,17 @@
                                             <ul class="pagination">
                                                 <c:if test="${requestScope.i==null}">
                                                     <c:if test="${param.page!=1}">
-                                                    <li class="previous"><a href="PublicClubs?page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
-                                                    </c:if>    
-                                                    <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
+                                                        <li class="previous"><a href="PublicClubs?page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
+                                                        </c:if>    
+                                                        <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
                                                         <li><a href="PublicClubs?page=${i}">${i}</a></li>
                                                         </c:forEach>
                                                         <c:if test="${param.page!=requestScope.numberOfPage}">
                                                         <li class="next"><a href="PublicClubs?page=${(param.page==requestScope.numberOfPage)?requestScope.numberOfPage:param.page+1}">Next <i class="ti-arrow-right"></i></a></li>
+                                                            </c:if>
                                                         </c:if>
-                                                </c:if>
-                                                <c:if test="${requestScope.ty==null}">
-                                                    <c:if test="${param.page!=1}">
+                                                        <c:if test="${requestScope.ty==null}">
+                                                            <c:if test="${param.page!=1}">
                                                         <li class="previous"><a href="ClubTypeController?id=${requestScope.category}&&page=${(param.page==null||param.page==1)?1:param.page-1}"><i class="ti-arrow-left"></i> Prev</a></li>
                                                         </c:if>  
                                                         <c:forEach begin="1" end="${requestScope.numberOfPage}" step="1" var="i">
@@ -203,21 +208,21 @@
             <button class="back-to-top fa fa-chevron-up" ></button>
         </div>
         <!-- External JavaScripts -->
-            <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-            <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-            <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-            <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-            <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-            <script src="assets/vendors/counter/waypoints-min.js"></script>
-            <script src="assets/vendors/counter/counterup.min.js"></script>
-            <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-            <script src="assets/vendors/masonry/masonry.js"></script>
-            <script src="assets/vendors/masonry/filter.js"></script>
-            <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-            <script src="assets/js/functions.js"></script>
-            <script src="assets/js/contact.js"></script>
-            <script src='assets/vendors/switcher/switcher.js'></script>
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+        <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+        <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+        <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+        <script src="assets/vendors/counter/waypoints-min.js"></script>
+        <script src="assets/vendors/counter/counterup.min.js"></script>
+        <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+        <script src="assets/vendors/masonry/masonry.js"></script>
+        <script src="assets/vendors/masonry/filter.js"></script>
+        <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+        <script src="assets/js/functions.js"></script>
+        <script src="assets/js/contact.js"></script>
+        <script src='assets/vendors/switcher/switcher.js'></script>
         <script>
 
             // Function thay đổi trang

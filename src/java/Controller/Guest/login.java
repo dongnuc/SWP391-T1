@@ -59,10 +59,7 @@ String name=acc.getName();
 System.out.println(acc.toString());
 AccountDao ab=new AccountDao();
 
-if (!account.endsWith("@gmail.com")) {
-    request.setAttribute("error", "Tài khoản không được phép đăng nhập với trang web");
-    request.getRequestDispatcher("View/ViewStudent/login.jsp").forward(request, response);
-} else {
+
     AccountDao db = new AccountDao();
     List<Accounts> listaccount = db.getAll();
     int check = 0;
@@ -122,7 +119,7 @@ if (!account.endsWith("@gmail.com")) {
     
     session.setAttribute("account", account);     
     response.sendRedirect("home");
-    }
+    
 
     }
 

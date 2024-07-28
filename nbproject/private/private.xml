@@ -3,20 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/DAO/ClubDao.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/web/View/ViewStudent/checkotp.jsp</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/web/View/ViewAdmin/LeftSideBar.jsp</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Controller/Admin/listaccount.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Context/DBContext.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Controller/Guest/register.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/web/View/ViewStudent/forgot.jsp</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/web/View/ViewStudent/login.jsp</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/web/View/ViewStudent/checkotp_1.jsp</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Controller/Manager/Task_DeleteServlet.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Controller/Manager/Task_UploadServlet.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/Controller/Admin/adduser.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/DAO/StudentClubDao.java</file>
-            <file>file:/D:/SWP391_28T7/SWP391-T1/src/java/DAO/FormDao.java</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/Home.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/View/ViewManager/Blog_Detail.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/src/java/Controller/Guest/login.java</file>
+            <file>file:/D:/tongclone/SWP391-T1/src/java/Context/DBContext.java</file>
+            <file>file:/D:/tongclone/SWP391-T1/src/java/Controller/Admin/UpdateStudentClubServlet.java</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/View/ViewManager/Event_Detail.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/View/ViewStudent/Clubs.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/View/ViewStudent/ClubDetail.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/web/View/ViewAdmin/listaccount.jsp</file>
+            <file>file:/D:/tongclone/SWP391-T1/src/java/Controller/Guest/loginf.java</file>
+            <file>file:/D:/tongclone/SWP391-T1/src/java/Controller/Student/RegisterclubServlet.java</file>
         </group>
     </open-files>
 </project-private>
