@@ -66,7 +66,7 @@
                             <a href="loadForm" class="ttr-material-button"><span class="ttr-label">Mail Box</span></a>
                         </li>
                         <li>
-                            <a href="mailbox-compose.html" class="ttr-material-button"><span class="ttr-label">Compose</span></a>
+                            <a href="home" class="ttr-material-button"><span class="ttr-label">Compose</span></a>
                         </li>
 
                     </ul>

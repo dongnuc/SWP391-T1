@@ -105,6 +105,11 @@ public class register extends HttpServlet {
             request.setAttribute("firstname", firstname);
         } catch (Exception e) {
         }
+        String regax="[^@]{2,64}@[^.]{2,253}\\.[0-9a-z-.]{2,63}";
+        if(!account.matches(regax)){
+            request.setAttribute("erroremail", "Please input Email Valid");
+            check=1;
+        }
         try {
             request.setAttribute("email", account);
         } catch (Exception e) {

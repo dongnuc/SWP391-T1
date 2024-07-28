@@ -207,7 +207,7 @@ public class ClubDao extends DBContext {
 
     public Accounts getMemberInClubDong(String idClub, String idStudent) {
         String query = "select s.IdStudent, s.NameStudent, sc.Point, sc.Role, sc.DateCreate, sc.DateModify,sc.Status from student s join studentclub sc ON s.IdStudent = sc.IdStudent\n"
-                + " where sc.IdStudent = " + idClub + " and sc.IdClub = " + idStudent;
+                + " where sc.IdStudent = " + idStudent + " and sc.IdClub = " + idClub;
         try {
             PreparedStatement ps = connection.prepareStatement(query);
 

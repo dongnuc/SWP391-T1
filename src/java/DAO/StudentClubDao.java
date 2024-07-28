@@ -27,10 +27,10 @@ public class StudentClubDao extends DBContext {
             query += " , `Point` = '" + points + "' ";
         }
         if (!role.isBlank()) {
-            query += " `Role` = '" + role + "' ";
+            query += " , `Role` = '" + role + "' ";
         }
         if (!leader.isBlank()) {
-            query += " `leader` = '" + leader + "' ";
+            query += " ,  `leader` = '" + leader + "' ";
         }
         query += " WHERE `IdStudent` = ? AND `IdClub` = ?; ";
         try {
